@@ -1,0 +1,37 @@
+class AppIcons {
+  static const String homeIcon = 'assets/icons/home.png';
+  static const String playIcon = 'assets/icons/play.png';
+  static const String pauseIcon = 'assets/icons/pause.png';
+  static const String quran2Icon = 'assets/icons/quran2.png';
+  static const String quran3Icon = 'assets/icons/quran3.png';
+  static const String discussioncon = 'assets/icons/discussion.png';
+  static const String readingIcon = 'assets/icons/reading.png';
+  static const String languageIcon = 'assets/icons/language.png';
+  static const String qualityIcon = 'assets/icons/quality.png';
+  static const String likeIcon = 'assets/icons/like.png';
+  static const String shareIcon = 'assets/icons/share.png';
+  static const String downloadIcon = 'assets/icons/download.png';
+  static const String doneIcon = 'assets/icons/done.png';
+  static const String emptyIcon = 'assets/icons/empty.png';
+  static const String tajweedIcon = 'assets/icons/tajweed.png';
+  static const String wordIcon = 'assets/icons/word.png';
+  static const String voiceIcon = 'assets/icons/voice.png';
+  static const String appIcon1 = 'assets/icons/app_icon1.png';
+  static const String appIcon4 = 'assets/images/led.png';
+  static const String logoIcon = 'assets/icons/Logo-01.png';
+  static const String flatLogoIcon = 'assets/icons/unshadow_logo.png';
+  static const String natificationIcon = 'assets/icons/natification.png';
+  static const String settingsIcon = 'assets/icons/settings.png';
+  static const String bookMarkIcon = 'assets/icons/book_mark.png';
+  static const String bookMark2Icon = 'assets/icons/bookmark.png';
+  static const String iconListIcon = 'assets/icons/icon_list.png';
+  static const String love = 'assets/icons/love.png';
+  static const String love2 = 'assets/icons/love2.png';
+  static const String mic = 'assets/icons/mic.png';
+  static const String backChatPage = 'assets/icons/back.png';
+  static const String back2ChatPage = 'assets/icons/back2.png';
+  static const String wave = 'assets/icons/wave.png';
+  static const String dangerIcon = 'assets/svg/danger_alert_icon.svg';
+  static const String waningIcon = 'assets/svg/warning_icon.svg';
+  static const String sucessIcon = 'assets/svg/success_icon.svg';
+}

@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:otloha_sah_flutter/core/utils/constant/utils.dart';
+import 'package:otloha_sah_flutter/core/utils/themes/color.dart';
+import 'package:otloha_sah_flutter/core/widgets/cached_image.dart';
+import 'package:otloha_sah_flutter/core/widgets/loading.dart';
+import 'package:otloha_sah_flutter/data_source/models/user/listing_models/student.dart';
+import 'package:otloha_sah_flutter/modules/invitations/presentation/widgets/student_to_student_btn.dart';
+import 'package:otloha_sah_flutter/modules/users/cubit/profile_cubit/profile_cubit.dart';
+import 'package:otloha_sah_flutter/modules/users/cubit/profile_cubit/profile_state.dart';
+
+class UserProfile extends StatefulWidget {
+  const UserProfile({
+    super.key,
+    required this.student,
+  });
+  final Student student;
+
+  @override
+  State<UserProfile> createState() => _UserProfileState();
+}
+
+class _UserProfileState extends State<UserProfile> {
+  @override
+  void initState() {
+    BlocProvider.of<ProfileCubit>(context).fetchProfile(widget.student.id);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          if (state is ProfileLoading) {
+            return const Center(
+              child: LoadingWidget(),
+            );
+          }
+          if (state is ProfileLoaded) {
+            return SafeArea(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CachedImage(url: state.userProfile.image, raduis: 45),
+                      statistics(state.userProfile.recitation, 'Recitations'),
+                      statistics(state.userProfile.khatma, 'Khatma'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        state.userProfile.username,
+                        style: TextStyle(
+                          color: AppColor.headTextColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          Text(
+                            state.userProfile.rate,
+                            style:
+                                const TextStyle(color: AppColor.txtGrayColor),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  if (state.userProfile.bio != null)
+                    Text(
+                      state.userProfile.bio!,
+                      style: const TextStyle(color: AppColor.txtGrayColor),
+                    ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.person,
+                        color: AppColor.txtGrey,
+                      ),
+                      Text(
+                        state.userProfile.favoriteTeacher.toString(),
+                        style: const TextStyle(color: AppColor.txtGrayColor),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        state.userProfile.language.toString(),
+                        style: const TextStyle(color: AppColor.txtGrayColor),
+                      ),
+                      Text(
+                        state.userProfile.level.toString(),
+                        style: const TextStyle(color: AppColor.txtGrayColor),
+                      ),
+                      Text(
+                        state.userProfile.narration.toString(),
+                        style: const TextStyle(color: AppColor.txtGrayColor),
+                      )
+                    ],
+                  ),
+                  StudentToStudentBtn(
+                    student: widget.student.copyWith(
+                      invitations: state.userProfile.invitations,
+                      relationships: state.userProfile.relationships,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
+    );
+  }
+
+  statistics(int amount, String title) => Column(
+        children: [
+          Text(
+            amount.toString(),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: AppColor.headTextColor),
+          ),
+          Text(
+            translate(title),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: AppColor.headTextColor),
+          ),
+        ],
+      );
+}

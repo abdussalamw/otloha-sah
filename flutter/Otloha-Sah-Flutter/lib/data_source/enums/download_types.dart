@@ -1,0 +1,1 @@
+enum DownloadTypes { chapter, page }

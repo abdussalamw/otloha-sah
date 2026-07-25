@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="facebook_app_id">5650691265012740</string>
+    <string name="fb_login_protocol_scheme">fb5650691265012740</string>
+    <string name="facebook_client_token">fcd3fc622fbcfb4e53bea00b27f24e04</string>
+    <string name="appName">Otloha sah</string>
+</resources>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1035676159323",
+    "project_id": "otloha-sah-1b6d5",
+    "storage_bucket": "otloha-sah-1b6d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035676159323:android:7795f95168da3012031e7e",
+        "android_client_info": {
+          "package_name": "com.otloha_sah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244791172888-pguue37p4nai4mvjssenvc0no52mp9j5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.otloha_sah",
+            "certificate_hash": "212ed32bbb305e8f51444436e908f8fccccd5afd"
+          }
+        },
+        {
+          "client_id": "1035676159323-fn7o8t4rrul1p1niqdu316gkr9e8i7p6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5UBT2vox3Z7iZ0cCEb2PuJO6BjJ4CNi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035676159323-fn7o8t4rrul1p1niqdu316gkr9e8i7p6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1035676159323-c0orrso0cd05i7ktah7v5uiupl1ej1ul.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.otloha.otlohaSah",
+                "app_store_id": "6443568371"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

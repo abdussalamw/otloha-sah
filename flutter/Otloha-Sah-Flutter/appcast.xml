@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+    <channel>
+        <title>Debt Now App - Appcast</title>
+        <item>
+            <title>Version 1.15.0</title>
+            <description>Android update</description>
+            <pubDate>Sun, 30 Dec 2018 12:00:00 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.otloha_sah" sparkle:version="1.15.0" sparkle:os="android" />
+        </item>
+      
+        <item>
+            <title>Version 2.5</title>
+            <description>IOS Update</description>
+            <pubDate>Sun, 30 Dec 2018 12:00:00 +0000</pubDate>
+            <enclosure url="https://apps.apple.com/us/app/otloha-sah/id6443568371" sparkle:version="2.5" sparkle:os="ios" />
+        </item>
+    </channel>
+</rss>

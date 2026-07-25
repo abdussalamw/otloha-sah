@@ -1,0 +1,11 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  
+  rules:
+    avoid_print: false
+    prefer_single_quotes: true
+    always_use_package_imports: false
+    hash_and_equals: true
+    use_key_in_widget_constructors: false
+

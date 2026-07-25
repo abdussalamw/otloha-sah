@@ -1,0 +1,126 @@
+workflows:
+  android-workflow:
+    name: Android Workflow
+    instance_type: mac_mini_m1
+    max_build_duration: 120
+    environment:
+      android_signing:
+        - otloha_key_store
+      groups:
+        - google_play_credentials
+        - module_credentials
+        - other
+      vars:
+        PACKAGE_NAME: "com.otloha_sah"
+        GOOGLE_PLAY_TRACK: "production"
+      flutter: 3.19.4
+    scripts:
+      - name: Script that uses an alternative SSH key
+        script: |
+          echo "${MODULE_SSH_KEY}" > /tmp/ssh_key
+          chmod 600 /tmp/ssh_key
+          eval `ssh-agent -s`
+          ssh-add /tmp/ssh_key
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      - name: Flutter analyze
+        script: |
+          flutter analyze
+        ignore_failure: true
+      - name: Build AAB with Flutter
+        script: |
+          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1)) 
+          flutter build appbundle --release \
+            --build-number=$BUILD_NUMBER
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - youssefwilliam970@gmail.com
+          - samir.aly@outlook.com
+        notify:
+          success: true
+          failure: true
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: $GOOGLE_PLAY_TRACK
+        submit_as_draft: true
+
+  ios-workflow:
+    name: iOS Workflow
+    instance_type: mac_mini_m1
+    max_build_duration: 120
+    integrations:
+      app_store_connect: codemagic
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.otloha.otlohaSah
+      groups:
+        - module_credentials
+        - ios_config
+      vars:
+        APP_ID: 6443568371
+      flutter: 3.19.4
+      xcode: 16.4
+      cocoapods: default
+    scripts:
+      - name: Script that uses an alternative SSH key
+        script: |
+          echo "${MODULE_SSH_KEY}" > /tmp/ssh_key
+          chmod 600 /tmp/ssh_key
+          eval `ssh-agent -s`
+          ssh-add /tmp/ssh_key
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      - name: Install pods
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+      - name: Flutter analyze
+        script: |
+          flutter analyze
+        ignore_failure: true
+      - name: Update Build Number
+        script: |
+          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number $APP_STORE_APPLE_ID)
+          cd ./ios
+          agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+      - name: Flutter build ipa
+        script: |
+          flutter build ipa --release \
+            --export-options-plist ios/buildInfo.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      # See the following link for details about email publishing - https://docs.codemagic.io/publishing-yaml/distribution/#email
+      email:
+        recipients:
+          - youssefwilliam970@gmail.com
+          - samir.aly@outlook.com
+        notify:
+          success: true # To receive a notification when a build succeeds
+          failure: true # To not receive a notification when a build fails
+
+      app_store_connect:
+        auth: integration
+
+        # Configuration related to TestFlight (optional)
+        # Note: This action is performed during post-processing.
+        submit_to_testflight: false
+
+        # Configuration related to App Store (optional)
+        # Note: This action is performed during post-processing.
+        submit_to_app_store: false

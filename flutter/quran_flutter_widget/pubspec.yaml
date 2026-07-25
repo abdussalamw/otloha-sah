@@ -1,0 +1,79 @@
+name: quran_widget_flutter
+description: quran_widget_flutter.
+version: 0.0.1
+homepage: https://github.com/fritill-team/quran_flutter_wigdget_package
+
+environment:
+  sdk: ">=2.16.1 <4.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  arabic_numbers: ^1.0.0
+  auto_size_text: ^3.0.0
+  bloc: ^8.0.3
+  dio: ^5.4.1
+  dio_cache_interceptor: ^3.0.1
+  floor: ^1.2.0
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.1
+  # flutter_html: ^3.0.0-alpha.6
+  flutter_html: 
+  flutter_svg: ^2.0.7
+  internet_connection_checker: ^1.0.0+1
+  path_provider: ^2.0.9
+  shared_preferences: ^2.0.13
+  speech_to_text: ^5.4.2
+  sqflite: ^2.0.2
+  zoom_widget: ^0.2.1
+
+dev_dependencies:
+  build_runner: ^2.1.2
+  floor_generator: ^1.2.0
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  #uses-material-design: true
+  assets:
+    - assets/img/
+    - assets/img/omrans.svg
+    - assets/icon/
+    - assets/fonts/
+    - assets/1.json
+    - assets/2.json
+    - assets/7.json
+
+  fonts:
+    - family: HafsSmart
+      fonts:
+        - asset: assets/fonts/hafs_smart_08.ttf
+
+    - family: QuranKarim
+      fonts:
+        - asset: assets/fonts/quran_karim.ttf
+
+    - family: Bazzi1
+      fonts:
+        - asset: assets/fonts/uthmanic_bazzi1_ver07.ttf
+
+    - family: Doori
+      fonts:
+        - asset: assets/fonts/uthmanic_doori1ver09.ttf
+
+    - family: Hafs17
+      fonts:
+        - asset: assets/fonts/uthmanic_hafs1_ver17.ttf
+
+    - family: Hafs20
+      fonts:
+        - asset: assets/fonts/UthmanicHafs_V20.ttf
+        
+    - family: Qaloun
+      fonts:
+        - asset: assets/fonts/UthmanicQaloun_V21.ttf
+
+    - family: Warsh
+      fonts:
+        - asset: assets/fonts/UthmanicWarsh_V21.ttf

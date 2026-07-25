@@ -1,0 +1,11 @@
+<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="30.5" height="30">
+    <g data-name="Group 860" fill="none">
+        <path data-name="Rectangle 662" d="M.501 0h30v30h-30z"/>
+        <g data-name="Group 859" transform="translate(.213 .113)" stroke="#0fbaf3">
+            <rect data-name="Rectangle 663" width="29.424" height="19.541" rx="1.43" transform="translate(.288 4.887)"/>
+            <path data-name="Path 10381" d="m.684 5.369 12.453 9.59a2.881 2.881 0 0 0 3.5.015l12.684-9.6"/>
+            <path data-name="Line 74" stroke-linecap="round" stroke-linejoin="round" d="m.683 23.7 7.52-9.043"/>
+            <path data-name="Line 75" stroke-linecap="round" stroke-linejoin="round" d="m29.319 23.635-7.52-9.043"/>
+        </g>
+    </g>
+</svg>

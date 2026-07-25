@@ -1,0 +1,10 @@
+<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="31" height="31">
+    <g data-name="Group 857" fill="none">
+        <path data-name="Rectangle 660" d="M.5.5h30v30H.5z"/>
+        <g stroke="#0fbaf3">
+            <path data-name="Path 10450" d="M27.4 24.738H13.829L7.8 30.5l-.244-5.69-3.956-.072a3.145 3.145 0 0 1-3.1-3.187V3.687A3.145 3.145 0 0 1 3.6.5h23.8a3.145 3.145 0 0 1 3.1 3.187v17.864a3.145 3.145 0 0 1-3.1 3.187Z" stroke-linecap="round" stroke-linejoin="round"/>
+            <path data-name="Path 1257" d="M15.527 9.312h7.9a1.069 1.069 0 0 1 1.073 1.053 1.151 1.151 0 0 1-.073.428.993.993 0 0 1-.869.722H7.676a1.6 1.6 0 0 1-.4-.033 1.1 1.1 0 0 1-.765-1.182 1.036 1.036 0 0 1 .989-.986c.833-.01 1.664 0 2.5 0Z" stroke-linecap="round" stroke-linejoin="round"/>
+            <path data-name="Path 1258" d="M11.489 15.922H7.62a1.101 1.101 0 0 1-.1-2.2.568.568 0 0 1 .1 0h7.767a1.1 1.1 0 0 1 .071 2.2h-.071q-1.95.002-3.898 0Z"/>
+        </g>
+    </g>
+</svg>
