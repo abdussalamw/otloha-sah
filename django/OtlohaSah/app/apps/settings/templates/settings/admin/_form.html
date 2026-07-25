@@ -1,0 +1,36 @@
+{% load i18n %}
+<div class="card card-flush mb-6 mb-xl-9">
+  <form method="post">
+    {{ formset.management_form }}
+    {% csrf_token %}
+    <div class="card-body">
+      <div class="row">
+        {% for form in formset %}
+          <div class="row g-3 align-items-center">
+            <div class="col-3">
+              <div class="fs-7 fw-semibold text-muted">{{ form.instance.get_group }}</div>
+              <label for="{{ form.instance.key }}"
+                     class="col-form-label pt-1">
+                {{ form.instance.label }}
+              </label>
+            </div>
+            <div class="col-auto">
+              {% include "settings/admin/setting-field.html" with instance=form.instance field=form.value form_index=forloop.counter0 %}
+            </div>
+            <div class="col-auto">
+                  <span id="" class="form-text">
+
+                  </span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="text-end">
+        <button class="btn btn-light" type="reset">{% trans "Reset" %}</button>
+        <button class="btn btn-primary" type="submit">{% trans "Submit" %}</button>
+      </div>
+    </div>
+  </form>
+</div>

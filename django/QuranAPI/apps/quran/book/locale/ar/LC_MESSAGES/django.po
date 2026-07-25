@@ -1,0 +1,302 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-24 08:33+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: book/forms.py:31
+msgid "File not supported!"
+msgstr "ملف غير مدعوم"
+
+#: book/forms.py:53
+msgid "Line Start"
+msgstr "بداية السطر"
+
+#: book/forms.py:54
+msgid "Line End"
+msgstr "نهاية السطر"
+
+#: book/forms.py:55 book/page/verse/views_admin.py:22
+#: book/page/views_admin.py:23
+msgid "Part"
+msgstr "الجزء"
+
+#: book/forms.py:56 book/page/verse/tests/test_models.py:91
+msgid "Text"
+msgstr "النص"
+
+#: book/forms.py:57
+msgid "Uthmanic Text"
+msgstr "النص العثماني"
+
+#: book/forms.py:58 book/page/verse/views_admin.py:19
+msgid "Verse Number"
+msgstr "رقم الآية"
+
+#: book/forms.py:59 book/page/verse/views_admin.py:21
+msgid "Chapter"
+msgstr "السورة"
+
+#: book/forms.py:60 book/page/tests/test_models.py:181
+#: book/page/verse/views_admin.py:20
+msgid "Page"
+msgstr "الصفحة"
+
+#: book/images_processing/tests/test_views.py:60
+#: book/images_processing/views.py:19
+msgid "All Image Uploads"
+msgstr "جميع الصور المرفوعة"
+
+#: book/images_processing/tests/test_views.py:109
+#: book/images_processing/views.py:62
+msgid "Image Book Details"
+msgstr "جميع الصورة الخاصة بصفحات المصحف"
+
+#: book/images_processing/views.py:21
+msgid "ID"
+msgstr "المعرف"
+
+#: book/images_processing/views.py:22
+msgid "File"
+msgstr "الملف"
+
+#: book/images_processing/views.py:23
+msgid "Is Processed"
+msgstr "حالة المعالجة"
+
+#: book/images_processing/views.py:24
+msgid "Actions"
+msgstr "الإجراءات"
+
+#: book/images_processing/views.py:36
+msgid "Upload New File"
+msgstr "رفع ملف جديد"
+
+#: book/images_processing/views.py:47
+msgid "process"
+msgstr "معالجة"
+
+#: book/images_processing/views.py:49
+msgid "view"
+msgstr "معاينة"
+
+#: book/images_processing/views.py:51 book/views_admin.py:60
+msgid "delete"
+msgstr "حذف"
+
+#: book/images_processing/views.py:73 book/images_processing/views.py:89
+#: book/images_processing/views.py:100 book/images_processing/views.py:124
+msgid "Book Images Form"
+msgstr "إضافة/تعديل جديدة"
+
+#: book/images_processing/views.py:83 book/images_processing/views.py:117
+msgid "File Uploaded Successfully"
+msgstr "تم رفع الملف بنجاح"
+
+#: book/images_processing/views.py:133
+msgid "Confirm Process Images"
+msgstr "تأكيد بدء المعالجة"
+
+#: book/page/glyph/tests/test_models.py:121
+msgid "Line_Number"
+msgstr "رقم السطر"
+
+#: book/page/glyph/tests/test_models.py:132
+msgid "Position"
+msgstr "الموقع"
+
+#: book/page/glyph/tests/test_models.py:151
+msgid "Min_x"
+msgstr "اقل قيمة س"
+
+#: book/page/glyph/tests/test_models.py:162
+msgid "Max_x"
+msgstr "اكبر قيمة س"
+
+#: book/page/glyph/tests/test_models.py:173
+msgid "Min_y"
+msgstr "اقل قيمة ص"
+
+#: book/page/glyph/tests/test_models.py:184
+msgid "Max_y"
+msgstr "اكبر قيمة ص"
+
+#: book/page/tests/test_models.py:55
+msgid "Page_Number"
+msgstr "رقم الصفحة"
+
+#: book/page/tests/test_models.py:66
+msgid "Sub_Part"
+msgstr "الحزب"
+
+#: book/page/tests/test_models.py:184
+msgid "Pages"
+msgstr "الصفحات"
+
+#: book/page/tests/test_views_admin.py:147 book/page/views_admin.py:68
+msgid "Details Of Page"
+msgstr "تفاصيل الصفحة"
+
+#: book/page/verse/tests/test_models.py:54
+msgid "Line_Start"
+msgstr "بداية السطر"
+
+#: book/page/verse/tests/test_models.py:65
+msgid "Line_End"
+msgstr "نهاية السطر"
+
+#: book/page/verse/tests/test_models.py:80
+msgid "Verse_Number"
+msgstr "رقم الآية"
+
+#: book/page/verse/tests/test_models.py:110
+msgid "Uthmanic_Text"
+msgstr "النص العثماني"
+
+#: book/page/verse/tests/test_models.py:244
+msgid "Verse"
+msgstr "الآية"
+
+#: book/page/verse/tests/test_models.py:247
+msgid "Verses"
+msgstr "الآيات"
+
+#: book/page/verse/views_admin.py:14
+msgid "All Verses"
+msgstr "جميع الآيات"
+
+#: book/page/verse/views_admin.py:16 book/page/views_admin.py:17
+#: book/views_admin.py:21
+msgid "id"
+msgstr "المعرف"
+
+#: book/page/verse/views_admin.py:17
+msgid "image"
+msgstr "الصورة"
+
+#: book/page/verse/views_admin.py:18
+msgid "text"
+msgstr "النص"
+
+#: book/page/verse/views_admin.py:23
+msgid "line_start"
+msgstr "بداية السطر"
+
+#: book/page/verse/views_admin.py:24
+msgid "line_end"
+msgstr "نهاية السطر"
+
+#: book/page/verse/views_admin.py:56 book/page/views_admin.py:52
+#: book/views_admin.py:30
+msgid "Home"
+msgstr "الرئيسية"
+
+#: book/page/verse/views_admin.py:57 book/page/views_admin.py:53
+#: book/tests/test_models.py:22 book/views_admin.py:31
+msgid "Books"
+msgstr "المصاحف"
+
+#: book/page/views_admin.py:18
+msgid "Page Number"
+msgstr "رقم الصفحة"
+
+#: book/page/views_admin.py:19
+msgid "Sub Part"
+msgstr "الحزب"
+
+#: book/page/views_admin.py:20
+msgid "Narration"
+msgstr "الرواية"
+
+#: book/page/views_admin.py:21 book/tests/test_models.py:19
+msgid "Book"
+msgstr "المصحف"
+
+#: book/page/views_admin.py:22
+msgid "Chapters"
+msgstr "السور"
+
+#: book/page/views_admin.py:39
+msgid "Not Set"
+msgstr "بدون تعيين"
+
+#: book/tests/test_forms.py:55 book/tests/test_forms.py:60
+msgid "This field is required."
+msgstr "هذا الحقل مطلوب"
+
+#: book/tests/test_models.py:93 book/tests/test_models.py:96
+msgid "Book CSV Uploads"
+msgstr "جميع ملفات CSV"
+
+#: book/tests/test_models.py:175
+msgid "Book Images Upload"
+msgstr "صور المصحف المرفوعة"
+
+#: book/tests/test_models.py:178
+msgid "Book Images Uploads"
+msgstr "صور المصحف المرفوعة"
+
+#: book/tests/test_views_admin.py:87 book/views_admin.py:71
+msgid "Book Details"
+msgstr "تفاصيل المصحف"
+
+#: book/tests/test_views_admin.py:154 book/tests/test_views_admin.py:236
+#: book/views_admin.py:46 book/views_admin.py:83 book/views_admin.py:97
+msgid "Add New Book"
+msgstr "اضف مصحف جديد"
+
+#: book/tests/test_views_admin.py:193 book/tests/test_views_admin.py:299
+#: book/views_admin.py:80 book/views_admin.py:93
+msgid "Edit"
+msgstr "تعديل"
+
+#: book/tests/test_views_admin.py:259 book/views_admin.py:98
+msgid "Book Created Successfully"
+msgstr "تمت إضافة المصحف بنجاح"
+
+#: book/tests/test_views_admin.py:329 book/views_admin.py:94
+msgid "Book Updated Successfully"
+msgstr "تم تعديل المصحف بنجاح"
+
+#: book/views_admin.py:19
+msgid "All Books"
+msgstr "جميع المصاحف"
+
+#: book/views_admin.py:22
+msgid "name"
+msgstr "الاسم"
+
+#: book/views_admin.py:23
+msgid "narrations"
+msgstr "الرواية"
+
+#: book/views_admin.py:24
+msgid "Created at"
+msgstr "تاريخ الانشاء"
+
+#: book/views_admin.py:25
+msgid "actions"
+msgstr "الإجراءات"
+
+#: book/views_admin.py:56
+msgid "edit"
+msgstr "تعديل"
+
+#: book/views_admin.py:58
+msgid "translate"
+msgstr "ترجمة"

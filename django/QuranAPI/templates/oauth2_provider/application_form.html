@@ -1,0 +1,54 @@
+{% extends "profile_base.html" %}
+
+{% load i18n %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              {% block app-form-title %}
+                {% trans "Edit application" %} {{ application.name }}
+              {% endblock app-form-title %}
+            </h3>
+          </div>
+          <form method="post" action="{% block app-form-action-url %}{% url 'oauth2_provider:update' application.id %}{% endblock app-form-action-url %}">
+            <div class="card-body">
+
+              {% csrf_token %}
+
+              {% if form.non_field_errors %}
+                <div class="alert alert-danger alert-dismissible">
+                  <h5><i class="icon fas fa-ban"></i>{% translate 'Alert!' %}</h5>
+                  {% for error in form.non_field_errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+              {% endif %}
+              {% for field in form %}
+                <div class="form-group{% if field.errors %} is-invalid{% endif %}">
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div id="{{ field.id_for_label }}-feedback" class="invalid-feedback">
+                      {{ field.errors.as_ul }}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+            <div class="card-footer">
+              <div class="controls">
+                <a class="btn btn-link" href="{% block app-form-back-url %}{% url "oauth2_provider:detail" application.id %}{% endblock app-form-back-url %}">
+                  {% trans "Go Back" %}
+                </a>
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% load i18n %}
+<ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8"
+    role="tablist">
+
+  <li class="nav-item" role="presentation">
+    <a class="nav-link text-active-primary pb-4{% if page_type == 'progress' %} active text-primary{% endif %}"
+       href="{% url "admin:students:details" student.id %}">{% trans "Progress" %}</a>
+  </li>
+
+  <li class="nav-item" role="presentation">
+    <a class="nav-link pb-4{% if  page_type == 'recitations' %} active text-primary{% endif %}"
+       href="{% url "admin:students:details-inner" student.id 'recitations' %}">{% trans "Recitations" %}</a>
+  </li>
+</ul>

@@ -1,0 +1,53 @@
+{% load i18n get_lang %}
+<div class="general-wrapper general-wrapper--details">
+    <div class="general-wrapper__content">
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Id' %} :</h4>
+                <p class="description__details my-0">{{ user.id }}</p>
+            </div>
+        </div>
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Full Name' %} :</h4>
+                <p class="description__details my-0">{{ user.get_full_name }}</p>
+            </div>
+        </div>
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Email' %} :</h4>
+                <p class="description__details my-0">{{ user.email }}</p>
+            </div>
+        </div>
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Birth Date' %} :</h4>
+                <p class="description__details my-0">{{ user.birth_date }}</p>
+            </div>
+        </div>
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Phone' %} :</h4>
+                <p class="description__details my-0">{{ user.phone }}</p>
+            </div>
+        </div>
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Is Child' %} :</h4>
+                <p class="description__details my-0">{{ user.is_child }}</p>
+            </div>
+        </div>
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Gender' %} :</h4>
+                <p class="description__details my-0">{{ user.gender }}</p>
+            </div>
+        </div>
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Parent' %} :</h4>
+                <p class="description__details my-0">{{ user.parent }}</p>
+            </div>
+        </div>
+    </div>
+</div>

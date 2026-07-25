@@ -1,0 +1,38 @@
+{% extends 'old-template/base_template.html' %}
+{% load static %}
+
+{% block page_title %}
+  {% block title %}{% endblock %}
+{% endblock %}
+
+{% block styles %}{% endblock %}
+
+
+{% block layout %}
+  {% include 'old-template/partials/navbar.html' %}
+
+  {% include 'users/profile/sidebar.html' %}
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      {% block content_header %}{% endblock %}
+    </div>
+    <section class="content">
+      {% block content %}{% endblock %}
+    </section>
+  </div>
+
+  {% include 'old-template/partials/footer.html' %}
+
+  {% include 'old-template/partials/control-sidebar.html' %}
+{% endblock %}
+
+{% block scripts %}
+  <!-- AdminLTE for demo purposes -->
+  <script src="{% static 'old-assets/js/demo.js' %}"></script>
+  <script src="{% static 'old-assets/js/pages/admin-list-view.js' %}"></script>
+  <script src="{% static 'old-assets/js/pages/sidebar.js' %}"></script>
+
+  {% block inline_scripts %}{% endblock %}
+
+{% endblock %}

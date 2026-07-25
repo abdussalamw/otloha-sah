@@ -1,0 +1,8 @@
+{% load i18n %}
+<a href="{% url "admin:reports:bulk-complete-payment" %}"
+   class="btn btn-light-primary"
+   data-request-method="POST"
+   data-toggle="bulk-action"
+   data-confirm-message="{% trans "Are you sure you would like to complete payment for selected recitations!" %}">
+  {% trans "Complete payment" %}
+</a>

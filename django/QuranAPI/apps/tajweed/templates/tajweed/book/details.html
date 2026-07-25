@@ -1,0 +1,98 @@
+{% extends 'admin_base.html' %}
+{% load i18n humanize %}
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'admin:main:home' %}">{% translate 'Home' %}</a>
+            </li>
+            <li class="breadcrumb-item"><a
+                href="{% url "admin:tajweed:books:listing" %}">{% translate 'Tajweed Books' %}</a></li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-sm-3">
+        <div class="card card-outline card-primary">
+          <div class="card-header">
+            <h3 class="card-title">{{ book }}</h3>
+            <div class="card-tools">
+              <a href="{{ book.get_edit_url }}" class="btn btn-sm btn-primary"
+                 title="{% translate "Edit" %}">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a href="{{ book.get_translate_url }}" title="{% translate "Translate" %}" class="mx-1 btn btn-sm btn-info">
+                <i class="fa fa-globe"></i>
+              </a>
+              <a href="{{ book.get_delete_url }}" class="btn btn-sm btn-danger" title="{% translate "Delete" %}">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <dl class="row">
+              <dt class="col-sm-4">{% translate "ID" %}</dt>
+              <dd class="col-sm-8">{{ book.pk }}</dd>
+              <dt class="col-sm-4">{% translate "Name" %}</dt>
+              <dd class="col-sm-8">{{ book.translated_name }}</dd>
+              <dt class="col-sm-4">{% translate "Narration" %}</dt>
+              <dd class="col-sm-8">{{ book.narration }}</dd>
+              <dt class="col-sm-4">{% translate "Author" %}</dt>
+              <dd class="col-sm-8">{{ book.translated_author }}</dd>
+            </dl>
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <h5 class="mt-3">{% trans 'Tajweed Book CSV Files' %}</h5>
+                <ul>
+                  <li>
+                    <a href="{% url "admin:files:listing" "tajweed" "Book" book.id "import_characters" %}?next={{ book.get_details_url }}">
+                      {% trans "All CSV Files" %}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url "admin:files:create" "tajweed" "Book" book.id "import_characters" %}?next={{ book.get_details_url }}">
+                      {% trans "Upload New CSV" %}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+                <h5 class="mt-3">{% trans 'Book Verses' %}</h5>
+                <ul>
+                  <li>
+                    <a href="{% url 'admin:tajweed:books:verses:listing' book.pk %}">
+                      {% trans 'All Verses' %}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

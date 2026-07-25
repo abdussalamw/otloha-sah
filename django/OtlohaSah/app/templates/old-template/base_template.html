@@ -1,0 +1,29 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% translate "Otloha Sah" %} | {% block page_title %}{% endblock %}</title>
+  {% include 'old-template/partials/head-imports.html' %}
+  {% block styles %}{% endblock %}
+  <style>
+    @font-face {
+      font-family: 'KFGQPC HAFS Uthmanic Script';
+      src: url('{{ STATIC_URL }}fonts/UthmanicHafs_V20.ttf');
+    }
+
+    .uthmainc-font {
+      font-family: 'KFGQPC HAFS Uthmanic Script';
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+  {#  {% include 'old-template/partials/pre-loader.html' %}#}
+  {% block layout %}{% endblock %}
+</div>
+{% include 'old-template/partials/main-scripts.html' %}
+{% block scripts %}{% endblock %}
+</body>
+</html>

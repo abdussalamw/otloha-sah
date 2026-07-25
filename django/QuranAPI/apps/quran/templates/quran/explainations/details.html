@@ -1,0 +1,93 @@
+{% extends 'admin_base.html' %}
+{% load i18n humanize %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content_header %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{{ title }}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'admin:main:home' %}">{% translate 'Home' %}</a>
+                        </li>
+                        <li class="breadcrumb-item"><a
+                                href="{% url "admin:explanations:listing" %}">{% translate 'Explanations' %}</a></li>
+                        <li class="breadcrumb-item active">{{ title }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-3">
+                <div class="card card-outline card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ explanation.translated_name }}</h3>
+                        <div class="card-tools">
+                            <a href="{% url 'admin:explanations:update' explanation.pk %}"
+                               class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" title="احذف">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-4">{% trans 'ID' %}</dt>
+                            <dd class="col-sm-8">{{ explanation.pk }}</dd>
+                            <dt class="col-sm-4">{% trans 'NAME' %}</dt>
+                            <dd class="col-sm-8">{{ explanation.translated_name }}</dd>
+                            <dt class="col-sm-4">{% trans 'explanation NARRATION' %}</dt>
+                            <dd class="col-sm-8">{{ explanation.narration }}</dd>
+                        </dl>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="mt-3">{% trans 'Explanation CSV Files' %}</h5>
+                                <ul>
+                                    <li>
+                                        <a href="{% url "admin:files:csv:listing" "quran" "explanations" explanation.id %}?next={% url "admin:explanations:details" explanation.id %}">
+                                            {% trans 'All CSV Files' %}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url "admin:files:csv:create" "quran" "explanations" explanation.id %}?next={% url "admin:explanations:details" explanation.id %}">
+                                            {% trans 'Upload New CSV' %}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <h5 class="mt-3">{% trans 'Explanation Verses' %}</h5>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'admin:explanations:verses:listing' explanation.pk %}">
+                                            All Verses
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

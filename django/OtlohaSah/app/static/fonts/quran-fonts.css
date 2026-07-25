@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'KFGQPC HAFS Uthmanic Script';
+    src: url('UthmanicHafs_V20.ttf') format("opentype"),
+    url("UthmanicHafs_V20.woff") format("woff"),
+    url("UthmanicHafs_V20.woff2") format("woff2");
+}
+
+.HafsFont {
+    font-family: 'KFGQPC HAFS Uthmanic Script';
+}

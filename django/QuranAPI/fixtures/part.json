@@ -1,0 +1,452 @@
+[
+  {
+    "model": "parts.part",
+    "pk": 1,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.135Z",
+      "updated_at": "2022-02-22T19:45:44.135Z",
+      "part_number": 1,
+      "name": {
+        "ar": "الجزء الأول"
+      },
+      "alias": {
+        "ar": "الفاتحة"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.137Z",
+      "updated_at": "2022-02-22T19:45:44.137Z",
+      "part_number": 2,
+      "name": {
+        "ar": "الجزء الثاني"
+      },
+      "alias": {
+        "ar": "البقرة"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 3,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.138Z",
+      "updated_at": "2022-02-22T19:45:44.138Z",
+      "part_number": 3,
+      "name": {
+        "ar": "الجزء الثالث"
+      },
+      "alias": {
+        "ar": "البقرة"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 4,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.139Z",
+      "updated_at": "2022-02-22T19:45:44.139Z",
+      "part_number": 4,
+      "name": {
+        "ar": "الجزء الرابع"
+      },
+      "alias": {
+        "ar": "آل عمران"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 5,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.140Z",
+      "updated_at": "2022-02-22T19:45:44.140Z",
+      "part_number": 5,
+      "name": {
+        "ar": "الجزء الخامس"
+      },
+      "alias": {
+        "ar": "النساء"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 6,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.142Z",
+      "updated_at": "2022-02-22T19:45:44.142Z",
+      "part_number": 6,
+      "name": {
+        "ar": "الجزء السادس"
+      },
+      "alias": {
+        "ar": "النساء"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 7,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.143Z",
+      "updated_at": "2022-02-22T19:45:44.143Z",
+      "part_number": 7,
+      "name": {
+        "ar": "الجزء السابع"
+      },
+      "alias": {
+        "ar": "المائدة"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 8,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.144Z",
+      "updated_at": "2022-02-22T19:45:44.144Z",
+      "part_number": 8,
+      "name": {
+        "ar": "الجزء الثامن"
+      },
+      "alias": {
+        "ar": "الأنعام"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 9,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.145Z",
+      "updated_at": "2022-02-22T19:45:44.145Z",
+      "part_number": 9,
+      "name": {
+        "ar": "الجزء التاسع"
+      },
+      "alias": {
+        "ar": "الأعراف"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 10,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.146Z",
+      "updated_at": "2022-02-22T19:45:44.146Z",
+      "part_number": 10,
+      "name": {
+        "ar": "الجزء العاشر"
+      },
+      "alias": {
+        "ar": "الأنفال"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 11,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.148Z",
+      "updated_at": "2022-02-22T19:45:44.148Z",
+      "part_number": 11,
+      "name": {
+        "ar": "الجزء الحادي عشر"
+      },
+      "alias": {
+        "ar": "التوبة"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 12,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.149Z",
+      "updated_at": "2022-02-22T19:45:44.149Z",
+      "part_number": 12,
+      "name": {
+        "ar": "الجزء الثاني عشر"
+      },
+      "alias": {
+        "ar": "هود"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 13,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.150Z",
+      "updated_at": "2022-02-22T19:45:44.150Z",
+      "part_number": 13,
+      "name": {
+        "ar": "الجزء الثالث عشر"
+      },
+      "alias": {
+        "ar": "يوسف"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 14,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.151Z",
+      "updated_at": "2022-02-22T19:45:44.151Z",
+      "part_number": 14,
+      "name": {
+        "ar": "الجزء الرابع عشر"
+      },
+      "alias": {
+        "ar": "الحجر"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 15,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.152Z",
+      "updated_at": "2022-02-22T19:45:44.152Z",
+      "part_number": 15,
+      "name": {
+        "ar": "الجزء الخامس عشر"
+      },
+      "alias": {
+        "ar": "الإسراء"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 16,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.154Z",
+      "updated_at": "2022-02-22T19:45:44.154Z",
+      "part_number": 16,
+      "name": {
+        "ar": "الجزء السادس عشر"
+      },
+      "alias": {
+        "ar": "الكهف"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 17,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.155Z",
+      "updated_at": "2022-02-22T19:45:44.155Z",
+      "part_number": 17,
+      "name": {
+        "ar": "الجزء السابع عشر"
+      },
+      "alias": {
+        "ar": "الأنبياء"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 18,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.156Z",
+      "updated_at": "2022-02-22T19:45:44.156Z",
+      "part_number": 18,
+      "name": {
+        "ar": "الجزء الثامن عشر"
+      },
+      "alias": {
+        "ar": "المؤمنون"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 19,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.157Z",
+      "updated_at": "2022-02-22T19:45:44.157Z",
+      "part_number": 19,
+      "name": {
+        "ar": "الجزء التاسع عشر"
+      },
+      "alias": {
+        "ar": "الفرقان"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 20,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.158Z",
+      "updated_at": "2022-02-22T19:45:44.158Z",
+      "part_number": 20,
+      "name": {
+        "ar": "الجزء العشرون"
+      },
+      "alias": {
+        "ar": "النمل"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 21,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.160Z",
+      "updated_at": "2022-02-22T19:45:44.160Z",
+      "part_number": 21,
+      "name": {
+        "ar": "الجزء الحادي والعشرون"
+      },
+      "alias": {
+        "ar": "العنكبوت"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 22,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.161Z",
+      "updated_at": "2022-02-22T19:45:44.161Z",
+      "part_number": 22,
+      "name": {
+        "ar": "الجزء الثاني والعشرون"
+      },
+      "alias": {
+        "ar": "الأحزاب"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 23,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.162Z",
+      "updated_at": "2022-02-22T19:45:44.162Z",
+      "part_number": 23,
+      "name": {
+        "ar": "الجزء الثالث والعشرون"
+      },
+      "alias": {
+        "ar": "يـس"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 24,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.163Z",
+      "updated_at": "2022-02-22T19:45:44.163Z",
+      "part_number": 24,
+      "name": {
+        "ar": "الجزء الرابع والعشرون"
+      },
+      "alias": {
+        "ar": "الزمر"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 25,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.165Z",
+      "updated_at": "2022-02-22T19:45:44.165Z",
+      "part_number": 25,
+      "name": {
+        "ar": "الجزء الخامس والعشرون"
+      },
+      "alias": {
+        "ar": "فصلت"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 26,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.166Z",
+      "updated_at": "2022-02-22T19:45:44.166Z",
+      "part_number": 26,
+      "name": {
+        "ar": "الجزء السادس والعشرون"
+      },
+      "alias": {
+        "ar": "الأحقاف"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 27,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.167Z",
+      "updated_at": "2022-02-22T19:45:44.167Z",
+      "part_number": 27,
+      "name": {
+        "ar": "الجزء السابع والعشرون"
+      },
+      "alias": {
+        "ar": "الذاريات"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 28,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.168Z",
+      "updated_at": "2022-02-22T19:45:44.168Z",
+      "part_number": 28,
+      "name": {
+        "ar": "الجزء الثامن والعشرون"
+      },
+      "alias": {
+        "ar": "المجادلة"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 29,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.169Z",
+      "updated_at": "2022-02-22T19:45:44.169Z",
+      "part_number": 29,
+      "name": {
+        "ar": "الجزء التاسع والعشرون"
+      },
+      "alias": {
+        "ar": "المـلك"
+      }
+    }
+  },
+  {
+    "model": "parts.part",
+    "pk": 30,
+    "fields": {
+      "created_at": "2022-02-22T19:45:44.171Z",
+      "updated_at": "2022-02-22T19:45:44.171Z",
+      "part_number": 30,
+      "name": {
+        "ar": "الجزء الثلاثون"
+      },
+      "alias": {
+        "ar": "النبأ"
+      }
+    }
+  }
+]

@@ -1,0 +1,13 @@
+[
+{
+  "model": "recitations.recitation",
+  "pk": 1,
+  "fields": {
+    "name": {
+      "ar": "مجود"
+    },
+    "narration_id": 1,
+    "reciter_id": 1
+  }
+}
+]

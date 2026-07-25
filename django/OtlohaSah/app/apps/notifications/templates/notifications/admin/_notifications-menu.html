@@ -1,0 +1,57 @@
+<div class="menu menu-sub menu-sub-dropdown menu-column  w-350px w-lg-375px" data-app-notification="true"
+     data-kt-menu="true">
+  <div class="scroll scroll-y mh-325px my-5 px-8" data-app-noifications-menu="true"></div>
+</div>
+
+{% verbatim%}
+<script id="notification-template" type="text/template">
+  <div class="d-flex flex-stack py-2 px-2 mb-2"
+       data-id="{id}"
+       data-is-read="{is_read}"
+       data-unread-class="bg-light-primary"
+       data-app-notification-item="true">
+    <div class="d-flex align-items-center">
+      <a href="{sender.profile_url}"
+         class="symbol symbol-45px symbol-circle me-4">
+        <span class="symbol-label bg-light-primary" style="background-image: url('{sender.image}')"></span>
+      </a>
+      <div class="mb-0 me-2">
+        <a href="{target_url}" class="fs-6 text-gray-800 text-hover-primary fw-bold">
+          {text}
+        </a>
+        <div class="text-gray-400 fs-7">{created_at}</div>
+      </div>
+    </div>
+    <span class="badge badge-light fs-8"></span>
+  </div>
+</script>
+
+<script id="not-read-notification-template" type="text/template">
+  <div class="d-flex flex-stack py-2 px-2 mb-2 bg-light-primary"
+       data-app-notification-item="true"
+       data-id="{id}"
+       data-unread-class="bg-light-primary"
+       data-is-read="{is_read}">
+    <div class="d-flex align-items-center">
+      <a href="{sender.profile_url}"
+         class="symbol symbol-45px symbol-circle me-4">
+        <span class="symbol-label bg-light-primary" style="background-image: url('{sender.image}')"></span>
+      </a>
+      <div class="mb-0 me-2">
+        <a href="{target_url}" class="fs-6 text-gray-800 text-hover-primary fw-bold">
+          {text}
+        </a>
+        <div class="text-gray-400 fs-7">{created_at}</div>
+      </div>
+    </div>
+    <span class="badge badge-light fs-8"></span>
+  </div>
+</script>
+
+<script id="view-more-notification" type="text/template">
+  <div class="py-3 text-center border-top">
+    <a href="?page=pages/user-profile/activity" class="btn btn-color-gray-600 btn-active-color-primary">View All
+    </a>
+  </div>
+</script>
+{% endverbatim %}

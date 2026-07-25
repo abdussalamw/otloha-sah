@@ -1,0 +1,21 @@
+{% load dj_translation %}
+{% load i18n %}
+
+<tr>
+    <td class="text-center">{{ item.id }}</td>
+
+    <td class="text-center">
+        <a href="{% url 'admin:tajweed:levels:details' item.id %}">
+            {{ item.name|translate }}
+        </a>
+    </td>
+
+
+    <td class="text-center" style="display: flex; justify-content: center; align-items: center;">
+        <div style="width: 20px; height: 20px; background-color: {{ item.color }};"></div>
+    </td>
+
+    <td class="text-center">
+        {% include 'tajweed/levels/listing/_item_actions.html' %}
+    </td>
+</tr>

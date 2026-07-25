@@ -1,0 +1,27 @@
+{% extends 'base_template/base.html' %}
+{% load static %}
+{% load quran i18n %}
+
+{% block content %}
+  <div class="container-xxl">
+    <div class="d-flex flex-column flex-lg-row">
+      <div class="flex-column flex-lg-row-auto w-lg-250px w-xl-350px mb-10">
+        {% include "recitations/admin/details/_details.html" %}
+
+
+        {% if object.teacher %}
+          {% include "recitations/admin/details/_teacher.html" %}
+        {% endif %}
+
+      </div>
+      <div class="flex-lg-row-fluid ms-lg-15">
+        {% include "recitations/admin/details/_recitation.html" %}
+
+        {% if room %}
+          {% include "recitations/admin/details/_disccussion.html" %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

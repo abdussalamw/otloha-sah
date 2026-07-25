@@ -1,0 +1,61 @@
+{% extends 'admin_base.html' %}
+{% load i18n %}
+
+{% block page_header %}
+    <div class="page-header page-header--extension">
+        <div class="container">
+            <div class="bread-crumbs">
+                <a class="btn btn--primary btn--icon btn--outlined" href="{% url 'admin:home:index' %}">
+                    <span class="material-icons">
+                    arrow_back</span>
+                </a>
+                <a class="bread-crumbs__link text-3" href="{% url 'admin:home:index' %}">{% translate 'Home' %}</a>
+                <a class="bread-crumbs__link text-3" href="#">{{ title }}</a>
+            </div>
+            <div class="page-header__content">
+                <h1>{{ title }}</h1>
+                {% if actions %}
+                    <div class="page-header__actions">
+                        {{ actions }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="container-fluid">
+        <div class="row my-4">
+            <div class="col-sm-6">
+                <h1>{{ title }}</h1>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                {% if actions %}
+                    <div class="page-header__actions">
+                        {{ actions }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2">
+                {% if filter %}
+                    {% include 'main/admin/partials/list_view/filters.html' %}
+                {% endif %}
+            </div>
+            <div class="col-sm-10">
+                <div class="card">
+                    <div class="card-body table-responsive p-0">
+                        {% include 'main/admin/partials/list_view/listing-view-table.html' with rows=rows columns=columns object_list=object_list %}
+                    </div>
+                </div>
+                {% include 'main/admin/partials/list_view/pagination.html' %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

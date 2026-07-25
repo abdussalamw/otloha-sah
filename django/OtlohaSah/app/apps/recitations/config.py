@@ -1,0 +1,21 @@
+from django.utils.translation import gettext_lazy as _
+
+RECITATIONS_RESULT_PENDING = 0
+RECITATIONS_RESULT_ACCEPTED = 1
+RECITATIONS_RESULT_REJECTED = 2
+
+RECITATIONS_RESULT = (
+    (RECITATIONS_RESULT_PENDING, _("Pending")),
+    (RECITATIONS_RESULT_ACCEPTED, _("Accepted")),
+    (RECITATIONS_RESULT_REJECTED, _("Rejected")),
+)
+
+FAULT_TYPE_TAJWEED = 'tajweed'
+FAULT_TYPE_WORD = 'word'
+FAULT_TYPE_PRONUNCIATION = 'pronunciation'
+
+FAULT_TYPES = (
+    (FAULT_TYPE_TAJWEED, _('Tajweed')),
+    (FAULT_TYPE_WORD, _('Word')),
+    (FAULT_TYPE_PRONUNCIATION, _('Pronunciation')),
+)

@@ -1,0 +1,8 @@
+<div class="symbol symbol-100px symbol-circle mb-7">
+  <div class="symbol-label"
+      {% if object.profile_image %}
+       style="background: url('{{ object.profile_image }}')"
+      {% endif %}>
+    {% if not object.profile_image %}{{ object.first_name.0 }}{% endif %}
+  </div>
+</div>

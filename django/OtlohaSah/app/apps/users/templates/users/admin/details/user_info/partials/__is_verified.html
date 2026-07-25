@@ -1,0 +1,4 @@
+{% load i18n %}
+<div class="ribbon-label{% if object.is_verified %} bg-success{% else %} bg-danger{% endif %}">
+  {% if object.is_verified %}{% trans "Verified" %}{% else %}{% trans "Not Verified" %}{% endif %}
+</div>

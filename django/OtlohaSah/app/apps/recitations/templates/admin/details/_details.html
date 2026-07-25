@@ -1,0 +1,95 @@
+{% load i18n %}
+<div class="card mb-5 mb-xl-8">
+  <div class="card-header border-0">
+    <div class="card-title">
+      <h3 class="fw-bold m-0">{% trans "Recitation Details" %}</h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <div class="symbol symbol-45px symbol-circle me-2">
+        <div class="symbol-label"
+             style="background-image: url('{{ object.owner.profile_image }}')"></div>
+      </div>
+      <div class="d-flex flex-column">
+        <span class="fs-6 fw-semibold text-gray-600">{% trans "Owner" %}</span>
+        <a href="{{ object.owner.get_details_url }}" class="fs-6">{{ object.owner.get_full_name }}</a>
+      </div>
+    </div>
+
+    <div class="pb-5 fs-6">
+      <div class="fw-bold mt-5">{% trans "Recitation ID" %}</div>
+      <div class="text-gray-600">{{ object.id }}</div>
+
+      <div class="fw-bold mt-5">{% trans "Recitation Result" %}</div>
+      {% if object.result %}
+    <div
+
+        class="btn btn-sm btn-light-{% if object.result == 1%}success{% elif object.result == 2%}danger{% elif object.result == 0 %}{% endif %} fw-bold fs-8 py-1 px-3 me-2">
+
+      {{ object.get_results }}
+    </div>
+  {% else %}
+    <div class="btn btn-sm btn-light fw-bold fs-8 py-1 px-3 me-2">
+      {% trans "Not Evaluated Yet!" %}
+    </div>
+  {% endif %}
+
+      <div class="fw-bold mt-5">{% trans "Is Remarkable" %}</div>
+      {% if object.is_remarkable %}
+        <div class="btn btn-sm btn-light-info fw-bold fs-8 py-1 px-3 me-2">
+          <span class="svg-icon svg-icon-1 svg-icon-primary me-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
+                 viewBox="0 0 24 24">
+              <path
+                  d="M10.0813 3.7242C10.8849 2.16438 13.1151 2.16438 13.9187 3.7242V3.7242C14.4016 4.66147 15.4909 5.1127 16.4951 4.79139V4.79139C18.1663 4.25668 19.7433 5.83365 19.2086 7.50485V7.50485C18.8873 8.50905 19.3385 9.59842 20.2758 10.0813V10.0813C21.8356 10.8849 21.8356 13.1151 20.2758 13.9187V13.9187C19.3385 14.4016 18.8873 15.491 19.2086 16.4951V16.4951C19.7433 18.1663 18.1663 19.7433 16.4951 19.2086V19.2086C15.491 18.8873 14.4016 19.3385 13.9187 20.2758V20.2758C13.1151 21.8356 10.8849 21.8356 10.0813 20.2758V20.2758C9.59842 19.3385 8.50905 18.8873 7.50485 19.2086V19.2086C5.83365 19.7433 4.25668 18.1663 4.79139 16.4951V16.4951C5.1127 15.491 4.66147 14.4016 3.7242 13.9187V13.9187C2.16438 13.1151 2.16438 10.8849 3.7242 10.0813V10.0813C4.66147 9.59842 5.1127 8.50905 4.79139 7.50485V7.50485C4.25668 5.83365 5.83365 4.25668 7.50485 4.79139V4.79139C8.50905 5.1127 9.59842 4.66147 10.0813 3.7242V3.7242Z"
+                  fill="currentColor"></path>
+              <path
+                  d="M14.8563 9.1903C15.0606 8.94984 15.3771 8.9385 15.6175 9.14289C15.858 9.34728 15.8229 9.66433 15.6185 9.9048L11.863 14.6558C11.6554 14.9001 11.2876 14.9258 11.048 14.7128L8.47656 12.4271C8.24068 12.2174 8.21944 11.8563 8.42911 11.6204C8.63877 11.3845 8.99996 11.3633 9.23583 11.5729L11.3706 13.4705L14.8563 9.1903Z"
+                  fill="white"></path>
+            </svg>
+          </span>
+          {% trans "Remarkable" %}
+        </div>
+      {% else %}
+        <div class="btn btn-sm btn-light-danger fw-bold fs-8 py-1 px-3 me-2">
+          {% trans "No" %}
+        </div>
+      {% endif %}
+
+      <div class="fw-bold mt-5">{% trans "Rate" %}</div>
+      {% if object.teacher_rate %}
+        <div class="btn btn-sm btn-light-warning fw-bold me-2 fs-8 py-1 px-3">
+          <i class="fa fa-star"></i> {{ object.teacher_rate }}
+        </div>
+      {% else %}
+        <div class="btn btn-sm btn-light fw-bold me-2 fs-8 py-1 px-3">
+          {% trans "Not Rated Yet!" %}
+        </div>
+      {% endif %}
+
+      <div class="fw-bold mt-5">{% trans "Created At" %}</div>
+      <div class="text-gray-600">{{ object.created_at }}</div>
+
+      <div class="fw-bold mt-5">{% trans "Evaluated At" %}</div>
+      {% if object.evaluated_at %}
+        <div class="text-gray-600">{{ object.evaluated_at }}</div>
+      {% else %}
+        <div class="btn btn-sm btn-light fw-bold me-2 fs-8 py-1 px-3">
+          {% trans "Not Evaluated Yet!" %}
+        </div>
+      {% endif %}
+
+      <div class="fw-bold mt-5">{% trans "Closed At" %}</div>
+      {% if object.closed_at %}
+        <div class="text-gray-600">{{ object.closed_at }}</div>
+      {% else %}
+        <div class="btn btn-sm btn-light fw-bold me-2 fs-8 py-1 px-3">
+          {% trans "Not Closed Yet!" %}
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>

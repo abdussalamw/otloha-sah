@@ -1,0 +1,16 @@
+{% load i18n %}
+<div class="tab-pane fade show active" role="tabpanel">
+  {% if details_type == "corrected-recitations" %}
+    {{ corrected_recitations }}
+  {% elif details_type == 'recitations' %}
+    {{ recitations }}
+  {% elif details_type == 'teacher-recitations' %}
+    {{ teacher_recitations }}
+  {% elif details_type == 'narrations' %}
+    {{ narrations }}
+  {% elif details_type == 'accounting' %}
+    {{ accounting }}
+  {% else %}
+    {{ students }}
+  {% endif %}
+</div>

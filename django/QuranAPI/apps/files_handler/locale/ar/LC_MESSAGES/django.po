@@ -1,0 +1,354 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-24 08:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: csv_processing/forms.py:17 csv_processing/tests/test_forms.py:64
+msgid "file must be of type csv"
+msgstr ""
+
+#: csv_processing/forms.py:72 csv_processing/tests/test_forms.py:275
+#: csv_processing/tests/test_forms.py:290
+#: csv_processing/tests/test_forms.py:305
+#: csv_processing/tests/test_forms.py:320
+#: csv_processing/tests/test_forms.py:335
+#: csv_processing/tests/test_forms.py:350
+#: csv_processing/tests/test_forms.py:365
+#: csv_processing/tests/test_forms.py:380 forms.py:56
+msgid "You selected this value for another field."
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:35
+msgid "__init__() missing 1 required positional argument: 'book'"
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:56 csv_processing/tests/test_forms.py:267
+#: csv_processing/tests/test_forms.py:282
+#: csv_processing/tests/test_forms.py:297
+#: csv_processing/tests/test_forms.py:312
+#: csv_processing/tests/test_forms.py:327
+#: csv_processing/tests/test_forms.py:342
+#: csv_processing/tests/test_forms.py:357
+#: csv_processing/tests/test_forms.py:372
+msgid "This field is required."
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:135
+msgid "__init__() missing 1 required positional argument: 'book_csv'"
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:159
+msgid "Line Start"
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:171
+msgid "Line End"
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:183
+msgid "Part"
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:195
+msgid "Text"
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:207
+msgid "Uthmanic Text"
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:219
+msgid "Verse Number"
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:231
+msgid "Chapter"
+msgstr ""
+
+#: csv_processing/tests/test_forms.py:243
+msgid "Page"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:46
+msgid "Part number must be integer"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:58
+msgid "Part number must be  between 1 and 30"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:70
+msgid "Chapter number must be integer"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:82
+msgid "Chapter number must be  between 1 and 114"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:88
+#: csv_processing/tests/test_methods.py:94
+#: csv_processing/tests/test_methods.py:100
+#: csv_processing/tests/test_methods.py:106
+msgid "Sura name must be characters"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:118
+msgid "Page number must be integer"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:130
+msgid "line start number must be integer"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:142
+msgid "line start number must be  between 1 and 15"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:154
+msgid "line end number must be integer"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:166
+msgid "line end number must be  between 1 and 15"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:178
+msgid "aya number must be integer"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:190
+msgid "aya number must be  between 1 and 15"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:196
+msgid "aya text name must be characters"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:202
+msgid "aya emlaey text must be characters only"
+msgstr ""
+
+#: csv_processing/tests/test_methods.py:210
+msgid "Valid row"
+msgstr ""
+
+#: csv_processing/tests/test_views.py:97 csv_processing/tests/test_views.py:156
+#: csv_processing/views.py:109 csv_processing/views.py:129
+msgid "Upload New CSV"
+msgstr "رفع ملف CVS جديد"
+
+#: csv_processing/tests/test_views.py:183 csv_processing/views.py:123
+msgid "CSV Uploaded Successfully"
+msgstr "تم رفع الملف بنجاح"
+
+#: csv_processing/tests/test_views.py:300
+msgid "Book CSV Details"
+msgstr "تفاصيل الملف"
+
+#: csv_processing/tests/test_views.py:380
+#: csv_processing/tests/test_views.py:460 csv_processing/views.py:190
+#: csv_processing/views.py:230
+msgid "Prepare CSV for Processing"
+msgstr "اعداد الملف للمعالجة"
+
+#: csv_processing/tests/test_views.py:496 csv_processing/views.py:209
+msgid "CSV is Being Processed"
+msgstr "جاري معالجة الملف"
+
+#: csv_processing/views.py:21
+msgid "CSV Uploads"
+msgstr "ملفات الـ CSV"
+
+#: csv_processing/views.py:23
+msgid "Id"
+msgstr "المعرف"
+
+#: csv_processing/views.py:24 models.py:31
+#: templates/files_handler/csv/details.html:57 tests/test_models.py:68
+msgid "File Name"
+msgstr "اسم الملف"
+
+#: csv_processing/views.py:25
+msgid "Created at"
+msgstr "تاريخ الإنشاء"
+
+#: csv_processing/views.py:26 models.py:32
+#: templates/files_handler/csv/details.html:61
+msgid "Status"
+msgstr "الحالة"
+
+#: csv_processing/views.py:27
+msgid "actions"
+msgstr "الإجراءات"
+
+#: csv_processing/views.py:38 csv_processing/views.py:100
+#: csv_processing/views.py:115 csv_processing/views.py:137
+#: csv_processing/views.py:163 csv_processing/views.py:195
+msgid "key next must be included in request"
+msgstr ""
+
+#: csv_processing/views.py:83
+msgid "Process File"
+msgstr "معالحة الملف"
+
+#: csv_processing/views.py:85 templates/files_handler/csv/details.html:45
+msgid "Delete"
+msgstr "حذف"
+
+#: csv_processing/views.py:90 csv_processing/views.py:173
+#: csv_processing/views.py:214 templates/files_handler/confirm_process.html:16
+msgid "Home"
+msgstr "الرئيسية"
+
+#: csv_processing/views.py:148
+msgid "CSV Details"
+msgstr "تفاصيل الملف"
+
+#: csv_processing/views.py:176 csv_processing/views.py:217
+msgid "CSV Files"
+msgstr "ملفات الـ CSV"
+
+#: custom_model_fields.py:36
+msgid "Please keep filesize under $(max). Current filesize %(min)"
+msgstr ""
+
+#: custom_model_fields.py:41
+msgid "Filetype not supported."
+msgstr "نوع الملف غير مدعوم"
+
+#: models.py:21
+msgid "Pending"
+msgstr "معلق"
+
+#: models.py:22
+msgid "Processing"
+msgstr "جاري المعالجة"
+
+#: models.py:23
+msgid "Processed"
+msgstr "تم المعالجة"
+
+#: models.py:30 tests/test_models.py:47
+msgid "file"
+msgstr "الملف"
+
+#: models.py:33 templates/files_handler/csv/details.html:59
+#: tests/test_models.py:91 views.py:23
+msgid "Is Processed"
+msgstr "حالة المعالجة"
+
+#: models.py:34
+msgid "created at"
+msgstr "تاريخ الإنشاء"
+
+#: models.py:40
+msgid "columns"
+msgstr "اعمدة"
+
+#: models.py:41
+msgid "User Columns"
+msgstr "اعمدة الاختيارات"
+
+#: templates/files_handler/confirm_process.html:19
+msgid "Books"
+msgstr "المصاحف"
+
+#: templates/files_handler/confirm_process.html:33
+msgid "Are you sure that you want to process this file?"
+msgstr "هل انت متأكد من رغبتك فى معالجة هذا الملف"
+
+#: templates/files_handler/csv/details.html:36
+msgid "Details"
+msgstr "التفاصيل"
+
+#: templates/files_handler/csv/details.html:52
+msgid "ID"
+msgstr "المعرف"
+
+#: templates/files_handler/csv/details.html:60
+msgid "Yes"
+msgstr "نعم"
+
+#: templates/files_handler/csv/details.html:60
+msgid "No"
+msgstr "لا"
+
+#: templates/files_handler/csv/details.html:63
+msgid "Created At"
+msgstr "تاريخ الإنشاء"
+
+#: templates/files_handler/csv/details.html:75
+msgid "Columns"
+msgstr "اعمدة"
+
+#: templates/files_handler/csv/details.html:77
+msgid "This specifies each column in database that matches the CSV rows"
+msgstr "هنا يتم تحديد كل عمود فى قاعدة البيانات بما يناظرة فى ملف الـ CSV"
+
+#: templates/files_handler/csv/details.html:82
+msgid "Not set"
+msgstr "لم يتم التعيين"
+
+#: templates/files_handler/csv/details.html:89
+msgid "User Choice Columns"
+msgstr "اعمدة اختيارات المستخدم"
+
+#: templates/files_handler/csv/details.html:91
+msgid "This specifies the index of each column in CSV"
+msgstr "هنا يتم عرض الاختيارات التى قام بها المستخدم"
+
+#: templates/files_handler/csv/process_file.html:42
+msgid "process file"
+msgstr "معالجة الملف"
+
+#: templates/files_handler/csv/process_file.html:53
+#: templates/files_handler/csv/upload_form.html:38
+#: templates/files_handler/form.html:33
+msgid "Submit"
+msgstr "إرسال"
+
+#: templates/files_handler/csv/process_file.html:54
+#: templates/files_handler/csv/upload_form.html:40
+#: templates/files_handler/form.html:35
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: tests/test_views.py:87 tests/test_views.py:152 views.py:46 views.py:62
+msgid "upload files"
+msgstr "رفع الملفات"
+
+#: tests/test_views.py:178 views.py:57
+msgid "Files is uploaded successfully"
+msgstr "تم رفع الملف بنجاح"
+
+#: tests/test_views.py:251 views.py:68
+msgid "Confirm Process File"
+msgstr "تأكيد بدء معالجة الملف"
+
+#: views.py:19
+msgid "Files"
+msgstr "الملفات"
+
+#: views.py:21
+msgid "file_name"
+msgstr "اسم الملف"
+
+#: views.py:22
+msgid "Process"
+msgstr "معالجة"

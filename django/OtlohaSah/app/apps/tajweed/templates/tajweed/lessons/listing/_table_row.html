@@ -1,0 +1,22 @@
+{% load dj_translation %}
+{% load i18n %}
+
+<td class="text-center">
+  {{ item.id }}
+</td>
+
+<td class="text-start">
+  <a href="{% url "admin:tajweed:lessons:details" item.id %}">
+    {{ item.title|translate|safe}}
+  </a>
+</td>
+    <td class="text-center">
+        <a href="{% url 'admin:tajweed:levels:details' item.id %}">
+            {{ item.lesson_level }}
+        </a>
+    </td>
+
+<td class="text-end">
+  {% include 'tajweed/lessons/listing/_item_actions.html' %}
+</td>
+

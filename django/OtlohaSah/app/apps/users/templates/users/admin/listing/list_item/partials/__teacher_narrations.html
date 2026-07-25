@@ -1,0 +1,18 @@
+{% load i18n %}
+<div class="d-flex">
+    {% for teacher_narration in item.teachernarration_set.all %}
+        <span
+                class="badge badge-light-{% if teacher_narration.is_certified %}primary{% else %}danger{% endif %} fw-bold me-2 fs-8 py-1 px-3"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                {% if teacher_narration.is_certified %}
+                title="{% trans "Certified" %}"
+                {% else %}
+                title="{% trans "Uncertified" %}"
+                {% endif %}>
+    <i class="bi bi-{% if teacher_narration.is_certified %}check text-primary{% else %}x text-danger{% endif %} me-1 fs-5"></i>
+    <span
+            class="text-{% if teacher_narration.is_certified %}primary{% else %}danger{% endif %} mb-1 fs-8">{{ teacher_narration.narration.name }}</span>
+  </span>
+    {% endfor %}
+</div>

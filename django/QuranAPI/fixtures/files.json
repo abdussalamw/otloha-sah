@@ -1,0 +1,83 @@
+[
+{
+  "model": "files_handler.file",
+  "pk": 1,
+  "fields": {
+    "uuid": "02b98351-7ecf-4ffb-94f0-6a64fa75d303",
+    "file": "files/02b98351-7ecf-4ffb-94f0-6a64fa75d303/آيات_رواية_حفص.csv",
+    "file_name": "آيات رواية حفص.csv",
+    "status": "pending",
+    "is_processed": false,
+    "process_name": "verses",
+    "process_type": "import_csv",
+    "created_at": "2022-04-29T17:32:20.397Z",
+    "content_type_id": 18,
+    "object_id": 1,
+    "columns": {
+      "page": 3,
+      "part": 1,
+      "text": 7,
+      "chapter": 2,
+      "line_end": 5,
+      "line_start": 4,
+      "verse_number": 6
+    },
+    "user_choice_columns": {
+      "id": 0,
+      "page": 3,
+      "part": 1,
+      "chapter": 2,
+      "line_end": 5,
+      "line_start": 4,
+      "verse_text": 7,
+      "verse_number": 6
+    }
+  }
+},
+{
+  "model": "files_handler.file",
+  "pk": 2,
+  "fields": {
+    "uuid": "712e5011-5df7-4504-b2d8-ffc8f920ea1a",
+    "file": "files/712e5011-5df7-4504-b2d8-ffc8f920ea1a/كلمات_رواية_حفص.csv",
+    "file_name": "كلمات رواية حفص.csv",
+    "status": "pending",
+    "is_processed": false,
+    "process_name": "words",
+    "process_type": "import_csv",
+    "created_at": "2022-04-29T17:33:02.596Z",
+    "content_type_id": 18,
+    "object_id": 1,
+    "columns": {
+      "text": 2,
+      "number": 1,
+      "verse_number": 3,
+      "chapter_number": 0
+    },
+    "user_choice_columns": {
+      "word": 2,
+      "word_number": 1,
+      "verse_number": 3,
+      "chapter_number": 0
+    }
+  }
+},
+{
+  "model": "files_handler.file",
+  "pk": 4,
+  "fields": {
+    "uuid": "761152e9-61db-4e5c-b506-a97921d57101",
+    "file": "files/761152e9-61db-4e5c-b506-a97921d57101/عبدالباسط عبدالصمد مجود.zip",
+    "file_name": "عبدالباسط عبدالصمد مجود.zip",
+    "status": "pending",
+    "is_processed": false,
+    "process_name": "verses",
+    "process_type": "import_zip",
+    "created_at": "2022-04-29T17:39:35.076Z",
+    "content_type_id": 28,
+    "object_id": 1,
+    "columns": null,
+    "user_choice_columns": null
+  }
+}
+]

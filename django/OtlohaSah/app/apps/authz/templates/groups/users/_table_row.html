@@ -1,0 +1,33 @@
+{% load i18n %}
+<td>{{ item.id }}</td>
+<td class="d-flex align-items-center">
+  <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+    <div class="symbol-label" style="background-image: url('{{ item.profile_image }}')"></div>
+  </div>
+
+  <div class="d-flex flex-column">
+    <a href="{{ item.get_details_url }}"
+       class="text-gray-800 text-hover-primary mb-1">{{ item.get_full_name }}</a>
+    <span>{{ item.email }}</span>
+  </div>
+</td>
+<td class="text-center">
+   <span
+       class="badge badge-{% if not item.is_blocked %}primary{% else %}danger{% endif %} text-white me-2 fs-8">
+    {% if not item.is_blocked %}{% trans "Active" %}{% else %}
+      {% trans "Blocked" %}{% endif %}
+  </span>
+</td>
+<td class="text-center">
+  {{ item.date_joined|date:"M d, Y h:i A" }}
+</td>
+
+<td class="text-end">
+  <a href="{% url "admin:authorization:revoke-access" group.id item.id %}"
+     data-toggle="confirm"
+     data-request-method="POST"
+     data-confirm-message="{% trans "Are you sure you want to revoke access for this user?" %}"
+     class="btn btn-light-danger btn-sm">
+    {% trans "Revoke Access" %}
+  </a>
+</td>

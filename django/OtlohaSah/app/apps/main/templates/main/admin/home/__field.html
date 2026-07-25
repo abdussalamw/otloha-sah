@@ -1,0 +1,34 @@
+{% with widget=field.field.widget %}
+  <div class="form-floating">
+    {% if type == 'date' %}
+      <input class="form-control"
+             type="date"
+             name="{{ field.html_name }}"
+          {% if field.value %}
+             value="{{ field.value }}"
+          {% endif %}
+             id="{{ field.id_for_label }}"
+      {% for key, value in widget.attrs.items %}
+        {{ key }}="{{ value }}"
+      {% endfor %}/>
+    {% elif type == 'select' %}
+      <select class="form-control form-control-sm"
+              name="{{ field.html_name }}"
+              id="{{ field.id_for_label }}"
+      {% for key, value in widget.attrs.items %}
+        {{ key }}="{{ value }}"
+      {% endfor %}>
+      {% for value, label in widget.choices %}
+        <option value="{{ value }}"
+                {% if value == field.value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+      </select>
+    {% endif %}
+
+
+    <label for="{{ field.id_for_label }}"
+           class="fw-bold">{{ field.label }}</label>
+  </div>
+{% endwith %}
+
+

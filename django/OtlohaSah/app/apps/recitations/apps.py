@@ -1,0 +1,9 @@
+from django.apps import AppConfig
+
+
+class RecitationsConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'apps.recitations'
+
+    def ready(self):
+        from .models import signals  # noqa

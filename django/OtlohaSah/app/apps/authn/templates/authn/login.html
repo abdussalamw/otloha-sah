@@ -1,0 +1,31 @@
+{% extends 'authn/base.html' %}
+{% load i18n %}
+
+{% block content %}
+  <form class="form w-100" method="post" action="{% url 'authentication:login' %}">
+    {% csrf_token %}
+    <div class="text-center mb-11">
+      <h1 class="text-dark fw-bolder mb-3">{% trans "Sign In" %}</h1>
+    </div>
+    <div class="text-gray-700 text-center fw-semibold fs-5">
+      {% trans "Welcome" %}
+    </div>
+    <div class="text-gray-600 text-center fw-semibold fs-6 mb-5">
+      {% trans "Please log in to access your account and explore the features of our application." %}
+    </div>
+    {{ form }}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+    <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
+      <div></div>
+
+      <a href="{% url "authentication:password-reset:index" %}" class="link-primary">
+        {% trans "Forgot Password ?" %}
+      </a>
+    </div>
+    <div class="d-grid mb-10">
+      <button type="submit" class="btn btn-primary">
+        {% trans "Sign In" %}
+      </button>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'admin_base.html' %}
+{% load i18n humanize %}
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'admin:main:home' %}">{% translate 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url "admin:books:listing" %}">{% translate 'Books' %}</a></li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-sm-3">
+        <div class="card card-outline card-primary">
+          <div class="card-header">
+            <h3 class="card-title">{{ book }}</h3>
+            <div class="card-tools">
+              <a href="{% url "admin:books:update" book.id %}"
+                 class="btn btn-sm btn-primary"
+                 title="{% trans "Edit" %}">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a href="" class="btn btn-sm btn-info"
+                 title="{% trans "Translate" %}">
+                <i class="fa fa-globe"></i>
+              </a>
+              <a href="#"
+                 class="btn btn-sm btn-danger"
+                 title="{% trans "Delete" %}">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <dl class="row">
+              <dt class="col-sm-4">{% translate 'ID' %}</dt>
+              <dd class="col-sm-8">{{ book.id }}</dd>
+              <dt class="col-sm-4">{% translate 'Name' %}</dt>
+              <dd class="col-sm-8">{{ book.translated_name }}</dd>
+              <dt class="col-sm-4">{% translate 'Narration' %}</dt>
+              <dd class="col-sm-8">{{ book.narration.translated_name }}</dd>
+              <dt class="col-sm-4">{% translate 'Created At' %}</dt>
+              <dd class="col-sm-8">{{ book.created_at }}</dd>
+              <dt class="col-sm-4">{% translate 'Last Updated At' %}</dt>
+              <dd class="col-sm-8">{{ book.updated_at }}</dd>
+            </dl>
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <h5 class="mt-3">{% trans "Book Patterns And Images" %}</h5>
+                <ul>
+                  <li>
+                    <a href="{% url "admin:books:patterns:listing" book.id %}">
+                      {% trans "All Patterns" %}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url "admin:files:listing" "quran" "Book" book.id "pages" %}?next={% url "admin:books:details" book.id %}">
+                      {% trans "All ZIP Files" %}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url "admin:files:create" "quran" "Book" book.id "pages" %}?next={% url "admin:books:details" book.id %}">
+                      {% trans "Upload New ZIP File" %}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+                <h5 class="mt-3">{% trans "Book Sections" %}</h5>
+                <ul>
+                  <li>
+                    <a href="{% url "admin:books:pages:listing" book.id %}">
+                      {% trans "All Pages" %}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url "admin:books:chapters:listing" book.id %}">
+                      {% trans "All Chapters" %}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

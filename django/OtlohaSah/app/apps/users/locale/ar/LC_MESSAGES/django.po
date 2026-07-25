@@ -1,0 +1,1178 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-03 23:56+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: apps.py:14
+msgid "Manage Accounts"
+msgstr "ادارة المستخدمين"
+
+#: apps.py:27 templates/users/teachers/admin/details/_students.html:4
+#: templates/users/teachers/admin/details/_tabs.html:9
+#: templates/users/teachers/admin/details/statistics/__students_indicators.html:17
+msgid "Students"
+msgstr "الطلاب"
+
+#: apps.py:31
+msgid "Manage App Students"
+msgstr "ادارة الطلاب"
+
+#: apps.py:34
+msgid "Teachers"
+msgstr "المعلمين"
+
+#: apps.py:38
+msgid "Manage App Teacher"
+msgstr "ادارة المعلمين"
+
+#: apps.py:41 views/views_admin_teachers.py:18
+msgid "Staff"
+msgstr "طاقم العمل"
+
+#: apps.py:45
+msgid "Manage App Staff"
+msgstr "ادارة طاقم العمل"
+
+#: apps.py:48 staff/views_admin.py:20
+msgid "Roles"
+msgstr "الأدوار"
+
+#: apps.py:52
+msgid "Manage App Roles"
+msgstr "ادارة الادوار"
+
+#: forms/auth.py:11
+msgid "Required, please provide your gender"
+msgstr "مطلوب، من فضلك ادخل جنسك"
+
+#: forms/auth.py:15
+msgid "Required, please select your birthdate"
+msgstr "مطلوب، من فضلك ادخل تاريخ ميلادك"
+
+#: groups/views.py:14 templates/admin/groups/form.html:23
+msgid "All Groups"
+msgstr "جميع الأدوار"
+
+#: managers.py:41
+msgid "The given email must be set"
+msgstr "يجب تعيين البريد الإلكتروني المحدد"
+
+#: models.py:25
+msgid "Beginner"
+msgstr "مبتدئ"
+
+#: models.py:26
+msgid "Intermediate"
+msgstr "متوسط"
+
+#: models.py:27
+msgid "Advanced"
+msgstr "متقدم"
+
+#: models.py:39
+msgid "All Quran"
+msgstr "كل القرآن"
+
+#: models.py:40
+msgid "Selected Recitations"
+msgstr "تلاوات مختارة"
+
+#: models.py:46
+msgid "Male"
+msgstr "ذكر"
+
+#: models.py:47
+msgid "Female"
+msgstr "انثى"
+
+#: models.py:70 staff/views_admin.py:18
+#: templates/admin/groups/partials/taps_navigation.html:11
+msgid "User"
+msgstr "مستخدم"
+
+#: models.py:71
+msgid "Users"
+msgstr "مستخدمين"
+
+#: models.py:84
+msgid "Normal"
+msgstr "عادي"
+
+#: models.py:85
+msgid "Social"
+msgstr "من موقع تواصل اجتماعي"
+
+#: models.py:92
+msgid "email address"
+msgstr "البريد الإلكتروني"
+
+#: models.py:95 views/views_admin_teachers.py:83
+msgid "username"
+msgstr "اسم المستخدم"
+
+#: models.py:96
+msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgstr "مطلوب. 150 حرفا أو أقل. أحرف وأرقام و @/./+/-/_ فقط."
+
+#: models.py:100 templates/admin/users/partials/user_data.html:59
+#: templates/users/staff/admin/details/_user_info.html:51
+#: templates/users/students/admin/details/_user_info.html:50
+#: templates/users/teachers/admin/details/_user_info.html:62
+msgid "Birthdate"
+msgstr "تاريخ الميلاد"
+
+#: models.py:106
+msgid "A user with that phone already exists."
+msgstr "يوجد مستخدم بهذا الهاتف"
+
+#: models.py:107
+msgid "Bio"
+msgstr "السيرة الذاتية"
+
+#: models.py:108 templates/admin/users/partials/user_data.html:65
+msgid "Level"
+msgstr "المستوى"
+
+#: models.py:109 templates/admin/users/partials/user_data.html:68
+msgid "Language"
+msgstr "اللغة"
+
+#: models.py:111
+msgid "Last Login"
+msgstr "اخر تاريخ لتسجيل الدخول"
+
+#: models.py:113
+msgid "Date Joined"
+msgstr "تاريخ الانضمام"
+
+#: models.py:114
+msgid "Is Superuser"
+msgstr "مدير عام؟"
+
+#: models.py:115 models.py:330 staff/views_admin.py:21 students/filters.py:31
+#: teachers/filters.py:34
+#: templates/admin/users/partials/teacher-profile-tab.html:25
+#: templates/admin/users/partials/user_data.html:30
+#: views/views_admin_teachers.py:28
+msgid "Is Active"
+msgstr "نشط"
+
+#: models.py:116
+msgid "Is A Teacher"
+msgstr "معلم؟"
+
+#: models.py:118
+msgid "Narration"
+msgstr "الرواية"
+
+#: models.py:119 templates/admin/users/partials/user_data.html:56
+#: templates/admin/users/partials/user_data.html:71
+#: templates/users/staff/admin/details/_user_info.html:47
+#: templates/users/students/admin/details/_user_info.html:45
+#: templates/users/teachers/admin/details/_user_info.html:57
+msgid "Gender"
+msgstr "الجنس"
+
+#: models.py:122 templates/admin/users/partials/user_data.html:43
+#: templates/users/staff/admin/details/__teacher.html:3
+#: templates/users/students/admin/details/__teacher.html:3
+#: templates/users/students/admin/details/_user_info.html:33
+#: templates/users/students/admin/listing/_list_item.html:65
+msgid "Favorite Teacher"
+msgstr "المدرس المفضل"
+
+#: models.py:123
+msgid "Image"
+msgstr "الصورة"
+
+#: models.py:124
+msgid "Rate"
+msgstr "التقييم"
+
+#: models.py:183 models.py:187 models.py:339 models.py:343
+#: templates/admin/users/partials/user_data.html:49
+msgid "Not Available"
+msgstr "غير متوفر"
+
+#: models.py:256
+msgid "Teacher Has Been Suspended Successfully"
+msgstr "تم تعليق المعلم بنجاح"
+
+#: models.py:257
+msgid "Teacher Has Been Unsuspended Successfully"
+msgstr "تم إلغاء تعليق المعلم بنجاح"
+
+#: models.py:263
+msgid "User Has Been Approved as a Teacher Successfully"
+msgstr "تم تأكيد تقديم المعلم بنجاح"
+
+#: models.py:264
+msgid "User Has Been Suspended as a Teacher  Successfully"
+msgstr "تم توقيف المعلم بنجاح"
+
+#: models.py:270
+msgid "Teacher Profile Has Been Marked as a Complete Successfully"
+msgstr "تم تحديد ملف المعلم كمكتمل بنجاح"
+
+#: models.py:271
+msgid "Teacher Profile Has Been Marked as a Incomplete Successfully"
+msgstr "تم تحديد ملف المعلم كغير مكتمل بنجاح"
+
+#: models.py:277
+msgid "Teacher Can Reply on every Verse in Recitation"
+msgstr "يمكن للمعلم الرد على كل آية في التلاوة"
+
+#: models.py:278
+msgid "Teacher Can Reply on all Recitation Only"
+msgstr "يمكن للمعلم الرد على كل التلاوة فقط"
+
+#: models.py:304
+msgid "Volunteer"
+msgstr "متطوع"
+
+#: models.py:305
+#: templates/users/teachers/admin/details/accounting/_table_row.html:7
+msgid "Paid"
+msgstr "مدفوع الأجر"
+
+#: models.py:312 models.py:481 teachers/views_admin.py:97
+#: teachers/views_admin.py:112
+#: templates/users/students/admin/details/statistics/__recitations_indicators.html:20
+#: templates/users/teachers/admin/details/statistics/__normal_recitations_indicators.html:20
+#: templates/users/teachers/admin/details/statistics/__teachers_recitations_indicators.html:20
+msgid "Pending"
+msgstr "معلق"
+
+#: models.py:313
+msgid "Approved"
+msgstr "مقبول"
+
+#: models.py:314 models.py:482 teachers/views_admin.py:98
+#: teachers/views_admin.py:113
+#: templates/users/staff/admin/details/__progress.html:38
+#: templates/users/students/admin/details/statistics/__recitations_indicators.html:54
+#: templates/users/teachers/admin/details/statistics/__normal_recitations_indicators.html:53
+#: templates/users/teachers/admin/details/statistics/__teachers_recitations_indicators.html:53
+msgid "Rejected"
+msgstr "مرفوض"
+
+#: models.py:320
+msgid "Fullname"
+msgstr "الاسم الكامل"
+
+#: models.py:322 teachers/filters.py:51
+#: templates/admin/users/partials/teacher-profile-tab.html:10
+msgid "Teacher Type"
+msgstr "نوع المعلم"
+
+#: models.py:324 templates/admin/users/partials/teacher-profile-tab.html:13
+msgid "Status"
+msgstr "الحالة"
+
+#: models.py:325 templates/users/teachers/admin/details/_user_info.html:69
+msgid "C.V."
+msgstr "السيرة الذاتية"
+
+#: models.py:326 templates/admin/users/partials/teacher-profile-tab.html:16
+#: templates/users/students/admin/details/_user_info.html:52
+#: templates/users/teachers/admin/details/_user_info.html:64
+msgid "Education Degree"
+msgstr "الدرجة التعليمية"
+
+#: models.py:327 teachers/filters.py:61
+#: templates/admin/users/partials/teacher-profile-tab.html:35
+msgid "Is Profile Complete"
+msgstr "هل الملف الشخصي مكتمل"
+
+#: models.py:328
+msgid "Can Reply On Every Verse In Recitation"
+msgstr "يستطيع المعلم الرد على كل آية في التلاوة"
+
+#: models.py:331 models.py:386 teachers/views_admin.py:174
+msgid "Created At"
+msgstr "تاريخ الانشاء"
+
+#: models.py:332 models.py:387
+msgid "Updated At"
+msgstr "تاريخ التعديل"
+
+#: models.py:353 templates/admin/users/partials/teacher-profile-tab.html:19
+msgid "Is Certified"
+msgstr "معتمد"
+
+#: models.py:354
+msgid "Certified At"
+msgstr "تاريخ الاعتماد"
+
+#: models.py:355 models.py:402
+msgid "Certification"
+msgstr "الشهادة"
+
+#: models.py:377
+msgid "Teacher Recitation Pricing"
+msgstr "الحساب المالي للمعلم"
+
+#: models.py:378
+msgid "Teacher Recitations Pricing"
+msgstr "الحسابات المالية للمعلم"
+
+#: models.py:381 templates/admin/users/partials/user_data.html:16
+msgid "Teacher"
+msgstr "المعلم"
+
+#: models.py:383 teachers/views_admin.py:171
+msgid "Recitation"
+msgstr "التلاوة"
+
+#: models.py:384 teachers/views_admin.py:173
+msgid "Is Paid"
+msgstr "مدفوع الأجر؟"
+
+#: models.py:385 teachers/views_admin.py:172
+msgid "Price"
+msgstr "السعر"
+
+#: models.py:401
+msgid "CV"
+msgstr "السيرة الذاتية"
+
+#: models.py:403
+msgid "Application Recitation"
+msgstr "تلاوة التقديم"
+
+#: models.py:431
+msgid "Student Has Been Suspended Successfully"
+msgstr "تم تعليق الطالب بنجاح"
+
+#: models.py:432
+msgid "Student Has Been Unsuspended Successfully"
+msgstr "تم إلغاء تعليق الطالب بنجاح"
+
+#: models.py:471
+msgid "Request to join entity"
+msgstr "طلب لدخول الجهة"
+
+#: models.py:472
+msgid "Request supervision"
+msgstr "طلب اشراف"
+
+#: models.py:473
+msgid "Request to merge"
+msgstr "طلب اندماج"
+
+#: models.py:474
+msgid "Friend request"
+msgstr "طلب صداقة"
+
+#: models.py:483 teachers/views_admin.py:100 teachers/views_admin.py:115
+#: templates/users/staff/admin/details/__progress.html:21
+#: templates/users/students/admin/details/statistics/__recitations_indicators.html:36
+#: templates/users/teachers/admin/details/statistics/__normal_recitations_indicators.html:36
+#: templates/users/teachers/admin/details/statistics/__teachers_recitations_indicators.html:36
+msgid "Accepted"
+msgstr "مقبولة"
+
+#: models.py:487
+msgid "Invitation"
+msgstr "دعوة"
+
+#: models.py:488
+msgid "Invitations"
+msgstr "دعوات"
+
+#: notifications.py:12
+#, python-brace-format
+msgid "[{sender}] marked you as favorite teacher"
+msgstr "الطالب [{sender}] قام بجعلك معلمه المفضل"
+
+#: notifications.py:28
+#, python-brace-format
+msgid ""
+"Congratulations, you have been granted certification for {narration} "
+"narration"
+msgstr "مبروك لقد تم منحك اعتماد لرواية {narration}"
+
+#: notifications.py:44
+#, python-brace-format
+msgid "your certification for {narration} narration has been revoked"
+msgstr "لقد تم سحب اعتمادك لرواية {narration}"
+
+#: notifications.py:60
+msgid "your payment have been completed"
+msgstr "لقد تم سداد مستحقاتك المالية"
+
+#: permissions.py:11
+msgid "This profile is private due to user's gender control"
+msgstr "هذا الملف الشخصي محجوب بسبب اعدادات الخصوصية الخاصة بالمستخدم"
+
+#: profile/forms.py:30 profile/tests/test_forms.py:98
+msgid "New Email"
+msgstr "البريد الإلكتروني الجديد"
+
+#: profile/forms.py:32 profile/tests/test_forms.py:107
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: profile/forms.py:39 profile/forms.py:89
+msgid ""
+"Please enter a correct phone and password. Note that both fields may be case-"
+"sensitive."
+msgstr ""
+"يرجى إدخال رقم الهاتف وكلمة المرور بشكل صحيح. تذكر أن كلا الحقول قد يكونا "
+"حساسا للحالة."
+
+#: profile/forms.py:82 profile/tests/test_forms.py:141
+msgid "Your Password"
+msgstr "كلمة المرور الخاصة بك"
+
+#: profile/serializers.py:38
+msgid "password field is required"
+msgstr "كلمة المرور مطلوبة"
+
+#: profile/serializers.py:41
+msgid "email is required"
+msgstr "البريد الإلكتروني مطلوب"
+
+#: profile/tests/test_views_site.py:46 profile/views_site.py:20
+msgid "Update User Info"
+msgstr "تحديث معلومات المستخدم"
+
+#: profile/tests/test_views_site.py:116 profile/views_site.py:38
+#: templates/users/profile/update_email_form.html:5
+msgid "Update Email"
+msgstr "تحديث البريد الإلكتروني"
+
+#: profile/tests/test_views_site.py:182 profile/views_site.py:58
+msgid "Update Phone Number"
+msgstr "تحديث رقم الهاتف"
+
+#: staff/views_admin.py:13 staff/views_admin.py:28 staff/views_admin.py:45
+msgid "All Staff"
+msgstr "كل الموظفين"
+
+#: staff/views_admin.py:17 teachers/views_admin.py:170
+#: views/views_admin_teachers.py:24
+msgid "ID"
+msgstr "الرقم"
+
+#: staff/views_admin.py:19 templates/admin/users/partials/user_data.html:40
+#: views/views_admin_teachers.py:27
+msgid "Phone"
+msgstr "الهاتف"
+
+#: staff/views_admin.py:22 templates/users/staff/admin/details/_tabs.html:11
+#: templates/users/staff/admin/listing/_table_row.html:39
+#: templates/users/students/admin/details/_actions.html:6
+#: templates/users/students/admin/listing/_table_row.html:58
+#: templates/users/teachers/admin/details/_actions.html:6
+#: views/views_admin_teachers.py:30
+msgid "Actions"
+msgstr "الإجراءات"
+
+#: staff/views_admin.py:27 staff/views_admin.py:44 students/views_admin.py:41
+#: students/views_admin.py:81 teachers/views_admin.py:65
+#: teachers/views_admin.py:200 teachers/views_admin.py:218
+#: templates/admin/groups/form.html:22 templates/admin/users/form.html:19
+msgid "Home"
+msgstr "الرئيسية"
+
+#: staff/views_admin.py:41 students/views_admin.py:77
+#: teachers/views_admin.py:196
+#, python-brace-format
+msgid "{name} Account"
+msgstr "حساب {name}"
+
+#: students/filters.py:19
+msgid "Search Students"
+msgstr "البحث فى الطلاب"
+
+#: students/filters.py:21 teachers/filters.py:24
+msgid "Search"
+msgstr "بحث"
+
+#: students/filters.py:24 teachers/filters.py:27
+msgid "Is Verified"
+msgstr "الحساب مؤكد"
+
+#: students/views_admin.py:27 students/views_admin.py:42
+#: students/views_admin.py:82
+#: templates/users/students/admin/listing/_header_template.html:17
+msgid "All Students"
+msgstr "كل الطلاب"
+
+#: teachers/filters.py:22
+msgid "Search Teachers"
+msgstr "البحث فى المعلمين"
+
+#: teachers/filters.py:56
+msgid "Teacher Profile Status"
+msgstr "حالة ملف المعلم"
+
+#: teachers/filters.py:68
+msgid "Is Profile Active"
+msgstr "هل الملف الشخصى مفعل"
+
+#: teachers/views_admin.py:48 teachers/views_admin.py:66
+#: teachers/views_admin.py:201 teachers/views_admin.py:219
+#: templates/users/teachers/admin/listing/_header_template.html:17
+msgid "All Teachers"
+msgstr "كل المعلمين"
+
+#: teachers/views_admin.py:89
+msgid "This Year Evaluations Results"
+msgstr "نتائج تقييم هذا العام"
+
+#: teachers/views_admin.py:99 teachers/views_admin.py:114
+#: templates/users/staff/admin/details/__progress.html:52
+#: templates/users/students/admin/details/statistics/__recitations_indicators.html:71
+#: templates/users/teachers/admin/details/statistics/__normal_recitations_indicators.html:69
+#: templates/users/teachers/admin/details/statistics/__teachers_recitations_indicators.html:69
+msgid "Reported"
+msgstr "مبلغ عنها"
+
+#: teachers/views_admin.py:104
+msgid "Last Year Evaluations Results"
+msgstr "نتائج تقييم العام الماضي"
+
+#: teachers/views_admin.py:123
+msgid "Evaluations Per Month"
+msgstr "التقييمات في الشهر"
+
+#: teachers/views_admin.py:221 templates/admin/users/partials/user_data.html:92
+#: templates/users/teachers/admin/details/_actions.html:14
+#: templates/users/teachers/admin/listing/_list_item.html:66
+msgid "Edit"
+msgstr "تعديل"
+
+#: teachers/views_admin.py:223
+#, python-brace-format
+msgid "Edit Teacher: {teacher_name}"
+msgstr "تعديل المعلم: {teacher_name}"
+
+#: teachers/views_admin.py:227
+#, fuzzy
+#| msgid "Your teacher profile updated successfully!"
+msgid "Teacher: \"{}\" profile updated successfully"
+msgstr "لقد تم تحديث ملف المعلم بنجاح"
+
+#: teachers/views_admin.py:256
+msgid "Invalid action"
+msgstr "إجراء غير صالح"
+
+#: teachers/views_admin.py:284
+msgid "Certification revoked successfully"
+msgstr "تم سحب الاعتماد بنجاح"
+
+#: teachers/views_admin.py:289
+msgid "Certification Granted Successfully"
+msgstr "تم اعتماد المعلم بنجاح"
+
+#: teachers/views_admin.py:307
+msgid "Teacher Payment Completed Successfully"
+msgstr "تمت تصفية حسابات المعلم"
+
+#: templates/admin/groups/form.html:26
+msgid "Update group #"
+msgstr "تحديث المجموعة #"
+
+#: templates/admin/groups/form.html:28
+msgid "Create New Group"
+msgstr "انشاء مجموعة جديدة"
+
+#: templates/admin/groups/form.html:34
+msgid "Update Group #"
+msgstr "تحديث الدور #"
+
+#: templates/admin/groups/form.html:36
+msgid "Users Group Form"
+msgstr "نموذج مجموعة المستخدمين"
+
+#: templates/admin/groups/form.html:56 templates/admin/users/form.html:55
+#: templates/users/profile/update_email_form.html:18
+#: templates/users/profile/update_phone_number_form.html:18
+#: templates/users/profile/update_user_data_form.html:18
+#: templates/users/profile/update_user_password_form.html:15
+#: templates/users/teachers/admin/form.html:17
+msgid "Cancel"
+msgstr "الغاء"
+
+#: templates/admin/groups/form.html:57 templates/admin/users/form.html:57
+msgid "Save"
+msgstr "حفظ"
+
+#: templates/admin/groups/partials/general_details.html:6
+msgid "Id"
+msgstr "الرقم"
+
+#: templates/admin/groups/partials/general_details.html:12
+msgid "Name"
+msgstr "الاسم"
+
+#: templates/admin/groups/partials/taps_navigation.html:7
+msgid "Permissions"
+msgstr "الصلاحيات"
+
+#: templates/admin/users/details.html:63
+msgid "Teacher Profile"
+msgstr "ملف المعلم"
+
+#: templates/admin/users/form.html:21 views/views_admin_teachers.py:77
+msgid "All Users"
+msgstr "كل المستخدمين"
+
+#: templates/admin/users/form.html:24 templates/admin/users/form.html:32
+msgid "Update User #"
+msgstr "تحديث المستخدم #"
+
+#: templates/admin/users/form.html:26
+msgid "Create New User"
+msgstr "اضافة مستخدم جديد"
+
+#: templates/admin/users/form.html:34
+msgid "Users Form"
+msgstr "نموذج المستخدم"
+
+#: templates/admin/users/partials/teacher-profile-tab.html:7
+msgid "Full Name"
+msgstr "الاسم الكامل"
+
+#: templates/admin/users/partials/teacher-profile-tab.html:28
+#: templates/admin/users/partials/teacher-profile-tab.html:38
+#: templates/admin/users/partials/user_data.html:33
+#: templates/admin/users/partials/user_data.html:76
+#: templates/admin/users/partials/user_data.html:85
+#: templates/users/teachers/admin/details/_user_info.html:80
+msgid "Yes"
+msgstr "نعم"
+
+#: templates/admin/users/partials/teacher-profile-tab.html:30
+#: templates/admin/users/partials/teacher-profile-tab.html:40
+#: templates/admin/users/partials/user_data.html:35
+#: templates/admin/users/partials/user_data.html:78
+#: templates/admin/users/partials/user_data.html:87
+#: templates/users/teachers/admin/details/_user_info.html:82
+msgid "No"
+msgstr "لا"
+
+#: templates/admin/users/partials/teacher-profile-tab.html:47
+msgid "files"
+msgstr "الملفات"
+
+#: templates/admin/users/partials/teacher-profile-tab.html:54
+msgid "No Files Available"
+msgstr "الملفات غير متوفرة"
+
+#: templates/admin/users/partials/user_data.html:18
+msgid "Admin"
+msgstr "المدير"
+
+#: templates/admin/users/partials/user_data.html:20
+msgid "Student"
+msgstr "الطالب"
+
+#: templates/admin/users/partials/user_data.html:53
+msgid "Joined At"
+msgstr "تاريخ الانضمام"
+
+#: templates/admin/users/partials/user_data.html:62
+msgid "rate"
+msgstr "التقييم"
+
+#: templates/admin/users/partials/user_data.html:74
+msgid "Is Email Verified"
+msgstr "البريد الالكتروني مؤكد"
+
+#: templates/admin/users/partials/user_data.html:83
+msgid "Is Phone Verified"
+msgstr "الهاتف مؤكد"
+
+#: templates/users/groups/listing/_empty_grid_actions.html:4
+#: templates/users/groups/listing/_grid_actions.html:15
+msgid "Add New Role"
+msgstr "إضافة دور جديد"
+
+#: templates/users/groups/listing/_modals.html:6
+msgid "Add Role"
+msgstr "إضافة دور"
+
+#: templates/users/profile/sidebar.html:10
+msgid "Quran API"
+msgstr ""
+
+#: templates/users/profile/update_email_form.html:17
+#: templates/users/profile/update_phone_number_form.html:17
+#: templates/users/profile/update_user_data_form.html:17
+#: templates/users/profile/update_user_password_form.html:14
+#: templates/users/teachers/admin/form.html:15
+msgid "Submit"
+msgstr "إرسال"
+
+#: templates/users/profile/update_phone_number_form.html:5
+msgid "Update Phone number"
+msgstr "تحديث رقم الهاتف"
+
+#: templates/users/profile/update_user_data_form.html:5
+msgid "Update User Data"
+msgstr "تحديث بيانات المستخدم"
+
+#: templates/users/staff/admin/details/__progress.html:2
+msgid "Recitations Progress"
+msgstr "مستوي التقدم في التلاوات"
+
+#: templates/users/staff/admin/details/__progress.html:5
+msgid "User Progress in recitations"
+msgstr "تقدم المستخدم في التلاوات"
+
+#: templates/users/staff/admin/details/__teacher.html:22
+#: templates/users/students/admin/details/__teacher.html:22
+#: templates/users/students/admin/listing/_table_row.html:50
+msgid "No Favorite Teacher Selected"
+msgstr "لم يتم تحديد معلم مفضل"
+
+#: templates/users/staff/admin/details/_tabs.html:28
+#: templates/users/staff/admin/listing/_table_row.html:54
+#: templates/users/students/admin/details/_actions.html:21
+#: templates/users/students/admin/listing/_list_item.html:59
+#: templates/users/students/admin/listing/_table_row.html:73
+#: templates/users/teachers/admin/details/_actions.html:27
+#: templates/users/teachers/admin/listing/_list_item.html:79
+msgid "Suspend"
+msgstr "إيقاف"
+
+#: templates/users/staff/admin/details/_tabs.html:30
+#: templates/users/staff/admin/listing/_table_row.html:54
+#: templates/users/students/admin/details/_actions.html:21
+#: templates/users/students/admin/listing/_list_item.html:59
+#: templates/users/students/admin/listing/_table_row.html:73
+#: templates/users/teachers/admin/details/_actions.html:27
+#: templates/users/teachers/admin/listing/_list_item.html:79
+msgid "Unsuspend"
+msgstr "إلغاء الإيقاف"
+
+#: templates/users/staff/admin/details/_user_info.html:6
+#: templates/users/students/admin/details/_user_info.html:6
+#: templates/users/students/admin/listing/_list_item.html:12
+#: templates/users/teachers/admin/details/_user_info.html:6
+#: templates/users/teachers/admin/listing/_list_item.html:12
+msgid "Verified"
+msgstr "مؤكد"
+
+#: templates/users/staff/admin/details/_user_info.html:6
+#: templates/users/students/admin/details/_user_info.html:6
+#: templates/users/teachers/admin/details/_user_info.html:6
+msgid "Not Verified"
+msgstr "غير مؤكد"
+
+#: templates/users/staff/admin/details/_user_info.html:23
+#: templates/users/staff/admin/listing/_table_row.html:33
+#: templates/users/students/admin/listing/_table_row.html:22
+msgid "Active"
+msgstr "نشط"
+
+#: templates/users/staff/admin/details/_user_info.html:23
+#: templates/users/staff/admin/listing/_table_row.html:33
+#: templates/users/students/admin/listing/_table_row.html:22
+msgid "Inactive"
+msgstr "غير نشط"
+
+#: templates/users/staff/admin/details/_user_info.html:35
+msgid "Account ID"
+msgstr "رقم الحساب"
+
+#: templates/users/staff/admin/details/_user_info.html:37
+#: templates/users/students/admin/details/_user_info.html:39
+#: templates/users/teachers/admin/details/_user_info.html:51
+msgid "First Name"
+msgstr "الاسم الأول"
+
+#: templates/users/staff/admin/details/_user_info.html:39
+#: templates/users/students/admin/details/_user_info.html:42
+#: templates/users/teachers/admin/details/_user_info.html:54
+msgid "Last Name"
+msgstr "الاسم الأخير"
+
+#: templates/users/staff/admin/details/_user_info.html:41
+#: views/views_admin_teachers.py:25
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#: templates/users/staff/admin/details/_user_info.html:43
+#: views/views_admin_teachers.py:26
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: templates/users/staff/admin/details/_user_info.html:49
+#: templates/users/students/admin/details/_user_info.html:48
+#: templates/users/teachers/admin/details/_user_info.html:60
+msgid "Age"
+msgstr "العمر"
+
+#: templates/users/staff/admin/details/_user_info.html:50
+#: templates/users/students/admin/details/_user_info.html:49
+#: templates/users/teachers/admin/details/_user_info.html:61
+msgid "yo"
+msgstr "سنة"
+
+#: templates/users/staff/admin/details/_user_info.html:59
+msgid "User Settings"
+msgstr "إعدادات المستخدم"
+
+#: templates/users/staff/admin/listing/_table_row.html:27
+msgid "No Roles"
+msgstr "لا توجد ادوار"
+
+#: templates/users/students/admin/details/__progress.html:19
+msgid "Recitation Progress"
+msgstr "مستوي التقدم في التلاوات"
+
+#: templates/users/students/admin/details/_actions.html:16
+#: templates/users/students/admin/listing/_list_item.html:54
+msgid "Are you sure you would like to suspend this student!"
+msgstr "هل انت متأكد من حظر هذ الطالب!"
+
+#: templates/users/students/admin/details/_actions.html:18
+#: templates/users/students/admin/listing/_list_item.html:56
+msgid "Are you sure you would like to unsuspend this student!"
+msgstr "هل انت متأكد من الغاء حظر هذا الطالب!"
+
+#: templates/users/students/admin/details/_recitations.html:4
+#: templates/users/students/admin/details/_tabs.html:12
+msgid "Recitations"
+msgstr "التلاوات"
+
+#: templates/users/students/admin/details/_tabs.html:7
+msgid "Progress"
+msgstr "مستوى التقدم"
+
+#: templates/users/students/admin/details/_user_info.html:25
+#: templates/users/students/admin/listing/_list_item.html:19
+#: templates/users/teachers/admin/details/_user_info.html:42
+#: templates/users/teachers/admin/listing/_list_item.html:19
+msgid "Blocked"
+msgstr "محظور"
+
+#: templates/users/students/admin/details/_user_info.html:38
+msgid "Not Provided"
+msgstr "غير متوفر"
+
+#: templates/users/students/admin/details/_user_info.html:54
+#: templates/users/teachers/admin/details/_user_info.html:66
+#: templates/users/teachers/admin/details/_user_info.html:75
+msgid "Not Provided!"
+msgstr "غير متوفر!"
+
+#: templates/users/students/admin/details/_user_info.html:58
+msgid "Current Narration"
+msgstr "الرواية الحالية"
+
+#: templates/users/students/admin/listing/_header_template.html:33
+msgid "Active Students"
+msgstr "الطلاب المفعلين"
+
+#: templates/users/students/admin/listing/_header_template.html:50
+msgid "Blocked Students"
+msgstr "الطلاب المحظورين"
+
+#: templates/users/students/admin/listing/_list_item.html:12
+#: templates/users/teachers/admin/listing/_list_item.html:12
+msgid "Unverified"
+msgstr "غير مؤكد"
+
+#: templates/users/teachers/admin/details/_accounting.html:4
+#: templates/users/teachers/admin/details/_tabs.html:14
+msgid "Accounting"
+msgstr "الحسابات"
+
+#: templates/users/teachers/admin/details/_accounting.html:10
+msgid "Are you sure you would like to complete this teacher payments!"
+msgstr "هل انت متأكد من تصفية حسابات هذا المستخدم"
+
+#: templates/users/teachers/admin/details/_accounting.html:12
+msgid "Payment Completed"
+msgstr "تم تصفية الحساب المالي"
+
+#: templates/users/teachers/admin/details/_actions.html:22
+#: templates/users/teachers/admin/details/_actions.html:35
+#: templates/users/teachers/admin/listing/_list_item.html:74
+#: templates/users/teachers/admin/listing/_list_item.html:87
+msgid "Are you sure you would like to suspend this teacher!"
+msgstr "هل انت متأكد من ايقاف هذ المعلم!"
+
+#: templates/users/teachers/admin/details/_actions.html:24
+#: templates/users/teachers/admin/listing/_list_item.html:76
+msgid "Are you sure you would like to unsuspend this teacher!"
+msgstr "هل انت متأكد من الغاء ايقاف هض المعلم"
+
+#: templates/users/teachers/admin/details/_actions.html:37
+#: templates/users/teachers/admin/listing/_list_item.html:89
+msgid "Are you sure you would like to approve this teacher!"
+msgstr "هل انت متأكد من الموافقة على هذا المعلم!"
+
+#: templates/users/teachers/admin/details/_actions.html:40
+#: templates/users/teachers/admin/listing/_list_item.html:92
+msgid "Suspend as A Teacher"
+msgstr "إيقاف المعلم"
+
+#: templates/users/teachers/admin/details/_actions.html:41
+#: templates/users/teachers/admin/listing/_list_item.html:93
+msgid "Approve as A Teacher"
+msgstr "قبول المعلم"
+
+#: templates/users/teachers/admin/details/_actions.html:49
+#: templates/users/teachers/admin/listing/_list_item.html:102
+msgid "Are you sure you would like to mark teacher as incomplete!"
+msgstr "هل انت متأكد من الرغبة فى تحديد الملف الشخصى لهذا المعلم كغير مكتمل!"
+
+#: templates/users/teachers/admin/details/_actions.html:51
+#: templates/users/teachers/admin/listing/_list_item.html:104
+msgid "Are you sure you would like to mark teacher as complete!"
+msgstr "هل انت متأكد من رغبتك فى تحديد الملف الشخصي لهذا المعلم كمكتمل!"
+
+#: templates/users/teachers/admin/details/_actions.html:54
+#: templates/users/teachers/admin/listing/_list_item.html:107
+msgid "Mark Profile as Incomplete"
+msgstr "تحديد ملف المعلم كغير مكتمل"
+
+#: templates/users/teachers/admin/details/_actions.html:55
+#: templates/users/teachers/admin/listing/_list_item.html:108
+msgid "Mark Profile as Complete"
+msgstr "تحديد ملف المعلم كمكتمل"
+
+#: templates/users/teachers/admin/details/_actions.html:63
+#: templates/users/teachers/admin/listing/_list_item.html:116
+msgid ""
+"Are you sure you would like to revoke the ability to reply on each verse in "
+"recitation for this teacher!"
+msgstr ""
+"هل انت متأكد من رغبتك فى الغاء قدرة هذا المعلم على الرد على كل اية فى التلاوة"
+
+#: templates/users/teachers/admin/details/_actions.html:65
+#: templates/users/teachers/admin/listing/_list_item.html:118
+msgid ""
+"Are you sure you would like to grant the ability to reply on each verse in "
+"recitation for this teacher!"
+msgstr ""
+"هل انت متأكد من رغبتك فى منح هذ المعلم القدرة على الرد على كل اية فى التلاوة"
+
+#: templates/users/teachers/admin/details/_actions.html:69
+#: templates/users/teachers/admin/listing/_list_item.html:122
+msgid "Teacher Can Reply on the Entire Recitation"
+msgstr "المعلم يستطيع الرد على التلاوة كاملة"
+
+#: templates/users/teachers/admin/details/_actions.html:70
+#: templates/users/teachers/admin/listing/_list_item.html:123
+msgid "Teacher Can Reply on Each Verse in Recitation"
+msgstr "المعلم يستطيع الرد على كل آية في التلاوة"
+
+#: templates/users/teachers/admin/details/_normal_recitations.html:4
+#: templates/users/teachers/admin/details/_tabs.html:27
+msgid "Recitations As User"
+msgstr "التلاوات كطالب"
+
+#: templates/users/teachers/admin/details/_tabs.html:19
+msgid "Certifications"
+msgstr "الشهادات"
+
+#: templates/users/teachers/admin/details/_tabs.html:23
+msgid "Recitations As Teacher"
+msgstr "التلاوات كمعلم"
+
+#: templates/users/teachers/admin/details/_teacher_recitations.html:4
+msgid "Teacher Recitations"
+msgstr "تلاوات المعلم"
+
+#: templates/users/teachers/admin/details/_user_info.html:32
+#: templates/users/teachers/admin/listing/_list_item.html:137
+msgid "Profile Complete"
+msgstr "ملف المعلم مكتمل"
+
+#: templates/users/teachers/admin/details/_user_info.html:33
+#: templates/users/teachers/admin/listing/_list_item.html:138
+msgid "Profile Incomplete"
+msgstr "ملف المعلم غير مكتمل"
+
+#: templates/users/teachers/admin/details/_user_info.html:37
+#: templates/users/teachers/admin/listing/_list_item.html:146
+msgid "Profile Active"
+msgstr "المعلم نشط"
+
+#: templates/users/teachers/admin/details/_user_info.html:38
+#: templates/users/teachers/admin/listing/_list_item.html:147
+msgid "Profile Inactive"
+msgstr "المعلم غير نشط"
+
+#: templates/users/teachers/admin/details/_user_info.html:72
+msgid "View CV"
+msgstr "عرض السيرة الذاتية"
+
+#: templates/users/teachers/admin/details/_user_info.html:77
+msgid "Can Reply on Evey Verse In Recitation"
+msgstr "يستطيع المعلم الرد على كل آية في التلاوة"
+
+#: templates/users/teachers/admin/details/accounting/_table_row.html:9
+msgid "Unpaid"
+msgstr "غير مدفوع"
+
+#: templates/users/teachers/admin/details/certifications/_list_item.html:11
+msgid "Certified At: "
+msgstr "تاريخ الاعتماد:"
+
+#: templates/users/teachers/admin/details/certifications/_list_item.html:13
+msgid "Not Certified"
+msgstr "غير معتمد"
+
+#: templates/users/teachers/admin/details/certifications/_list_item.html:18
+msgid "All Application Recitations Uploaded"
+msgstr "جميع تلاوات التقديم مرفوعة"
+
+#: templates/users/teachers/admin/details/certifications/_list_item.html:20
+#, python-format
+msgid "Remaining %(remaining)s application recitations"
+msgstr "متبقى %(remaining)s من تلاوات التقديم"
+
+#: templates/users/teachers/admin/details/certifications/_list_item.html:28
+msgid "View certification"
+msgstr "عرض الشهادات"
+
+#: templates/users/teachers/admin/details/certifications/_list_item.html:52
+msgid "Are you sure you would like to suspend this teacher certification!"
+msgstr "هل انت متأكد من ايقاف اعتماد هذا المعلم"
+
+#: templates/users/teachers/admin/details/certifications/_list_item.html:54
+msgid "Are you sure you would like to unsuspend this teacher certification!"
+msgstr "هل انت متأكد من اعتماد هذا المعلم"
+
+#: templates/users/teachers/admin/details/certifications/_list_item.html:57
+msgid "Suspend Certification"
+msgstr "ايقاف الاعتماد"
+
+#: templates/users/teachers/admin/details/certifications/_list_item.html:58
+msgid "Unsuspend Certification"
+msgstr "اعتماد"
+
+#: templates/users/teachers/admin/details/statistics/__accounting_indicators.html:18
+msgid "Earnings"
+msgstr "المكاسب"
+
+#: templates/users/teachers/admin/details/statistics/__accounting_indicators.html:38
+msgid "Dues"
+msgstr "المستحقات"
+
+#: templates/users/teachers/admin/listing/_header_template.html:36
+msgid "Pending Teachers"
+msgstr "المعلمين الجدد/قيد الانتظار"
+
+#: templates/users/teachers/admin/listing/_header_template.html:52
+msgid "Approved teachers"
+msgstr "المعلمين المقبولين"
+
+#: templates/users/teachers/admin/listing/_header_template.html:69
+msgid "Rejected Teachers"
+msgstr "المعلمين المرفوضين"
+
+#: templates/users/teachers/admin/listing/_header_template.html:88
+msgid "Paid Teachers"
+msgstr "المعلمين مدفوعي الاجر"
+
+#: templates/users/teachers/admin/listing/_header_template.html:107
+msgid "volunteer Teachers"
+msgstr "المعلمين المتطوعين"
+
+#: templates/users/teachers/admin/listing/_list_item.html:29
+msgid "Certified"
+msgstr "معتمد"
+
+#: templates/users/teachers/admin/listing/_list_item.html:31
+msgid "Uncertified"
+msgstr "تم إلغاء اعتماده"
+
+#: views/views_admin_teachers.py:29 views/views_groups.py:14
+msgid "Groups"
+msgstr "الادوار"
+
+#: views/views_admin_teachers.py:49
+msgid "Add New User"
+msgstr "إضافة مستخدم جديد"
+
+#: views/views_admin_teachers.py:55 views/views_admin_teachers.py:105
+#: views/views_groups.py:35
+msgid "edit"
+msgstr "تعديل"
+
+#: views/views_admin_teachers.py:82 views/views_groups.py:18
+msgid "id"
+msgstr "الرقم"
+
+#: views/views_admin_teachers.py:84
+msgid "email"
+msgstr "البريد الالكتروني"
+
+#: views/views_admin_teachers.py:85
+msgid "phone"
+msgstr "الهاتف"
+
+#: views/views_admin_teachers.py:86
+msgid "level"
+msgstr "المستوى"
+
+#: views/views_admin_teachers.py:87
+msgid "gender"
+msgstr "الجنس"
+
+#: views/views_admin_teachers.py:88
+msgid "age"
+msgstr "السن"
+
+#: views/views_api_v1.py:94
+msgid "You are not allow to view this section"
+msgstr "ليس لديك صلاحية لعرض هذا القسم"
+
+#: views/views_api_v1.py:115
+msgid "Your teacher profile updated successfully!"
+msgstr "لقد تم تحديث ملف المعلم بنجاح"
+
+#: views/views_api_v1.py:120
+msgid "Your request to be a teacher is sent successfully!"
+msgstr "لقد تم ارسال طلبك لتصبح معلم بنجاح"
+
+#: views/views_api_v1.py:136
+msgid ""
+"this teacher is not allowing students from the opposite gender to be his/her "
+"student"
+msgstr "هذا المعلم/المعلمة لا يسمح للطلاب من الجنس الاخر ليصبحوا طلابه"
+
+#: views/views_api_v1.py:141
+msgid "You marked teacher as favorite teacher successfully"
+msgstr "لقد تم تحديد المعلم كمعلم مفضل بنجاح"
+
+#: views/views_api_v1.py:152
+msgid "Account Deleted Successfully!"
+msgstr "تم حذف الحساب بنجاح"
+
+#: views/views_groups.py:19
+msgid "name"
+msgstr "الاسم"
+
+#: views/views_groups.py:20
+msgid "actions"
+msgstr "الاجراءات"
+
+#: views/views_groups.py:29
+msgid "Add New group"
+msgstr "اضف دور جديد"

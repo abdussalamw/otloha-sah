@@ -1,0 +1,19 @@
+{% load i18n %}
+<div class="card card-flush">
+  <div class="card-header pt-7" id="kt_chat_contacts_header">
+    <div class="card-title">
+      <h2>{% trans "Settings" %}</h2>
+    </div>
+  </div>
+  <div class="card-body pt-5">
+    <div class="d-flex flex-column gap-5">
+      {% for settings_group in settings_groups %}
+        <div class="d-flex flex-stack">
+          <a href="{{ settings_group.url }}"
+             class="fs-6 fw-bold text-gray-800 text-hover-primary text-active-primary{% if settings_group.url == request.path %} active{% endif %}">
+            {{ settings_group.title }}</a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

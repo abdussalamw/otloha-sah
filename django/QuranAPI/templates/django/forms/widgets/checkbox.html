@@ -1,0 +1,9 @@
+{#{% include "django/forms/widgets/input.html" %}#}
+
+<div class="custom-control custom-checkbox">
+  <input class="custom-control-input" type="{{ widget.type }}"
+         name="{{ widget.name }}"
+      {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
+      {% include "django/forms/widgets/attrs.html" %}>
+  <label for="customCheckbox1" class="custom-control-label">Custom Checkbox</label>
+</div>

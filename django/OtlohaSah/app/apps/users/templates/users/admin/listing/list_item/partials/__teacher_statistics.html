@@ -1,0 +1,7 @@
+{% load i18n %}
+
+<div class="d-flex justify-content-between w-100">
+    {% trans "Teacher Recitations Corrections" as RECITATION_STATISTICS_TITLE %}
+    {% include "users/admin/listing/list_item/statistics/__new_recitations.html" with title=RECITATION_STATISTICS_TITLE %}
+    {% include "users/admin/listing/list_item/statistics/__teacher_accounting.html" %}
+</div>

@@ -1,0 +1,93 @@
+{% extends 'base_template/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block styles %}
+  <style>
+      .select2-selection.select2-selection--single.form-control.form-control-sm {
+          min-width: 160px;
+          height: calc(3.75rem + 2px);
+      }
+
+      .select2-selection__rendered {
+          padding-top: 1.85rem;
+          padding-bottom: 0.625rem;
+      }
+  </style>
+{% endblock %}
+
+
+{% block content %}
+  <div class="container-xxl app-container">
+    <div class="row g-5 g-xl-10">
+      <div class="col-12">
+        {% include 'main/admin/home/_filter.html' %}
+      </div>
+    </div>
+    <div class="row g-5 g-xl-10">
+      <div class="col-lg-12 col-xl-12 col-xxl-6">
+        <div class="card card-bordered card-stretch">
+          <div class="card-body">
+            <div id="map"
+                 data-chart="countries"
+                 class="h-lg-100 h-400px min-h-400px"
+                 data-items='{{ countries }}'
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3">
+        <div class="w-100 mb-5 mb-xl-10"
+             data-circle-chart-card="users"
+             data-circle-chart-data='{{ charts_data.users }}'></div>
+        <div class="w-100 mb-xl-10"
+             data-circle-chart-card="students"
+             data-circle-chart-data='{{ charts_data.students }}'></div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3">
+        <div class="w-100 mb-5 mb-xl-10"
+             data-circle-chart-card="teachers"
+             data-circle-chart-data='{{ charts_data.teachers }}'></div>
+        <div class="w-100 mb-5 mb-xl-10"
+             data-circle-chart-card="teachers_profiles"
+             data-circle-chart-data='{{ charts_data.teachers_profiles }}'></div>
+      </div>
+    </div>
+    <div class="row gy-5 g-xl-10">
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <div class="w-100"
+             data-circle-chart-card="teachers_types"
+             data-circle-chart-data='{{ charts_data.teachers_types }}'></div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <div class="w-100"
+             data-circle-chart-card="recitations_evaluations"
+             data-circle-chart-data='{{ charts_data.recitations_evaluations }}'></div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <div class="w-100"
+             data-circle-chart-card="recitations_sources"
+             data-circle-chart-data='{{ charts_data.recitations_sources }}'></div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+
+
+{% block scripts %}
+  <script src="{% static "admin_base_template/plugins/custom/amcharts5/index.js" %}"></script>
+  {#  <script src="{% static "admin_base_template/plugins/custom/amcharts5/xy.js" %}"></script>#}
+  {#  <script src="{% static "admin_base_template/plugins/custom/amcharts5/percent.js" %}"></script>#}
+  {#  <script src="{% static "admin_base_template/plugins/custom/amcharts5/radar.js" %}"></script>#}
+  <script src="{% static "admin_base_template/plugins/custom/amcharts5/map.js" %}"></script>
+  <script src="{% static "admin_base_template/plugins/custom/amcharts5/geodata/worldLow.js" %}"></script>
+  <script src="{% static "admin_base_template/plugins/custom/amcharts5/themes/Animated.js" %}"></script>
+
+  <script src="{% static "main/circle_chart.js" %}"></script>
+  <script src="{% static "main/map.js" %}"></script>
+  <script src="{% static "main/filter.js" %}"></script>
+{% endblock %}

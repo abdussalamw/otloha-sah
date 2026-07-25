@@ -1,0 +1,78 @@
+{% load i18n %}
+
+
+<div class="d-flex gap-5 gap-xl-8 mb-5 mb-xl-10">
+
+  {#  <c-indicator label="{% trans "All Students" %}"#}
+  {#               class='d-flex'#}
+  {#               color="var(--bs-text-dark)"#}
+  {#               bg-color="var(--bs-white)"#}
+  {#               border-color="var(--bs-success-text)"#}
+  {#               link="{% url "admin:users:listing" user_type %}"#}
+  {#               request-url="{% url "admin:users:statistics" user_type %}"#}
+  {#               csrfToken="{{ csrf_token }}">#}
+  {#    <i slot="icon" class="fa fa-users fs-2tx text-primary"></i>#}
+  {#  </c-indicator>#}
+  {##}
+  {#  <c-indicator label="{% trans "Active Students" %}"#}
+  {#               class='d-flex'#}
+  {#               color="var(--bs-success)"#}
+  {#               bg-color="var(--bs-success-light)"#}
+  {#               link="{% url "admin:users:listing" user_type %}?is_blocked=false"#}
+  {#               request-url="{% url "admin:users:statistics" user_type %}?is_blocked=false"#}
+  {#               csrfToken="{{ csrf_token }}">#}
+  {##}
+  {#    <i slot="icon" class="fa fa-user-check fs-2tx text-success"></i>#}
+  {#  </c-indicator>#}
+  {##}
+  {#  <c-indicator label="{% trans "Blocked Students" %}"#}
+  {#               class='d-flex'#}
+  {#               color="var(--bs-danger)"#}
+  {#               bg-color="var(--bs-danger-light)"#}
+  {#               link="{% url "admin:users:listing" user_type %}?is_blocked=true"#}
+  {#               request-url="{% url "admin:users:statistics" user_type %}?is_blocked=true"#}
+  {#               csrfToken="{{ csrf_token }}">#}
+  {#    <i slot="icon" class="fa fa-user-slash fs-2tx text-danger"></i>#}
+  {#  </c-indicator>#}
+
+
+  <c-indicator label="{% trans "All Students" %}"
+               class='d-flex'
+               color="var(--bs-text-dark)"
+               bg-color="var(--bs-white)"
+               border-color="var(--bs-success-text)"
+               link="{% url "admin:users:listing" user_type %}"
+               value="{{ students_count }}">
+    <i slot="icon" class="fa fa-users fs-2tx text-primary"></i>
+  </c-indicator>
+
+  <c-indicator label="{% trans "Active Students" %}"
+               class='d-flex'
+               color="var(--bs-success)"
+               bg-color="var(--bs-success-light)"
+               link="{% url "admin:users:listing" user_type %}?is_blocked=false"
+               value="{{ active_students_count }}">
+
+    <i slot="icon" class="fa fa-user-check fs-2tx text-success"></i>
+  </c-indicator>
+
+  <c-indicator label="{% trans "Blocked Students" %}"
+               class='d-flex'
+               color="var(--bs-danger)"
+               bg-color="var(--bs-danger-light)"
+               link="{% url "admin:users:listing" user_type %}?is_blocked=true"
+               value="{{ blocked_students_count }}">
+    <i slot="icon" class="fa fa-user-slash fs-2tx text-danger"></i>
+  </c-indicator>
+
+
+</div>
+
+<!---<c-listing
+    side-filters-enabled="true"
+    side-filters-component="c-student-side-filters"
+    request-url="{% url 'admin-api-v1:users:listing' user_type %}"
+    list-item-component="c-student-card">
+</c-listing>-->
+
+

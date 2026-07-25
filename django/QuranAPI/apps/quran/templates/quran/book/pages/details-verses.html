@@ -1,0 +1,20 @@
+{% load i18n %}
+<div class="list-group">
+  {% for verse in page.pages_verse.all %}
+    <div class="list-group-item">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">
+          <span>{{ verse.verse_number }}. </span>
+          {{ verse.text }}
+        </h5>
+      </div>
+      {% if verse.image %}
+        <img class="img-fluid pad mb-1" src="{{ verse.image.url }}" alt="">
+      {% endif %}
+      <small>
+        <strong>{% translate "Line Start" %}:</strong> {{ verse.line_start }} |
+        <strong>{% translate "Line End" %}:</strong> {{ verse.line_end }}
+      </small>
+    </div>
+  {% endfor %}
+</div>

@@ -1,0 +1,44 @@
+{% extends 'base_template/base.html' %}
+{% load i18n groups_tags %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <form method="POST" class="app-container  container-xxl ">
+    <div class="card">
+      <div class="card-body">
+        {% csrf_token %}
+        {{ form.media }}
+        {% if form.non_field_errors %}
+          <ul>
+            {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% for hidden_field in form.hidden_fields %}
+          {% if hidden_field.errors %}
+            <ul>
+              {% for error in hidden_field.errors %}
+                <li>({% trans 'Hidden field' %} {{ hidden_field.name }}) {{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          {{ hidden_field }}
+        {% endfor %}
+
+        {% include "django/forms/field.html" with field=form.name %}
+        {% permissions_field form.permissions %}
+      </div>
+      <div class="card-footer">
+        <a href="" class="btn btn-text-danger">
+          {% trans "Cancel" %}
+        </a>
+        <button class="btn btn-primary">{% trans "Submit" %}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

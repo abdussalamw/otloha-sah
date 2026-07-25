@@ -1,0 +1,11 @@
+<div class="custom-control custom-{% if widget.type == 'checkbox' %}checkbox{% elif widget.type == 'radio' %}radio{% endif %}">
+  <input class="custom-control-input{% if field.errors %} is-invalid{% endif %}"
+         type="{{ widget.type }}"
+         name="{{ widget.name }}"
+      {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
+      {% include "django/forms/widgets/attrs.html" %}>
+  {% if widget.wrap_label %}
+    <label{% if widget.attrs.id %} for="{{ widget.attrs.id }}"{% endif %}
+                                   class="custom-control-label">{{ widget.label }}</label>
+  {% endif %}
+</div>

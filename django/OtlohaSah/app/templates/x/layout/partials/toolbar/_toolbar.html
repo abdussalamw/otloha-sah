@@ -1,0 +1,11 @@
+<div class="toolbar py-2" id="kt_toolbar">
+  <div id="kt_toolbar_container" class="container-fluid d-flex align-items-center">
+    {% include "base_template/layout/partials/toolbar/_page-title.html" %}
+
+    <div class="d-flex align-items-end justify-content-end flex-wrap flex-grow-1">
+      {% if actions %}
+        {% include actions %}
+      {% endif %}
+    </div>
+  </div>
+</div>

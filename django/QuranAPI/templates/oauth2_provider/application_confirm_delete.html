@@ -1,0 +1,37 @@
+{% extends "profile_base.html" %}
+
+{% load i18n %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 offset-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title ">
+
+              {% trans "Delete Application" %} {{ application.name }}?
+            </h3>
+          </div>
+          <div class="card-body">
+            {% trans "Are you sure to delete the application" %} {{ application.name }}?
+          </div>
+          <div class="card-footer">
+            <form method="post" action="{% url 'oauth2_provider:delete' application.pk %}">
+              {% csrf_token %}
+
+              <div class="control-group">
+                <div class="controls">
+                  <a class="btn btn-large" href="{% url "oauth2_provider:list" %}">{% trans "Cancel" %}</a>
+                  <input type="submit" class="btn btn-large btn-danger" name="allow" value="{% trans 'Delete' %}"/>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="block-center">
+  </div>
+{% endblock content %}

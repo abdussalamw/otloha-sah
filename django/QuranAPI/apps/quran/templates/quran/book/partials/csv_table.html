@@ -1,0 +1,36 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>{% trans "ID" %}</th>
+    <th>{% translate 'Name' %}</th>
+    <th>{% translate 'Status' %}</th>
+    <th>{% translate 'actions' %}</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for upload in BookUploads %}
+    <tr>
+      <td>{{ upload.pk }}.</td>
+      <td>{{ upload.file.name }}</td>
+      <td>
+                    <span
+                        class="badge {% if upload.is_processed %}bg-primary{% else %}bg-warning{% endif %}">{% if upload.is_processed %}
+                      {% translate 'Processed' %}{% else %}
+                      {% translate 'Not Processed' %}{% endif %}</span>
+      </td>
+      <td>
+        <div class="row">
+          <div class="col-sm-6">
+            <i class="fas"></i>
+            <a href="{% url 'admin:books:process' upload.pk %}"><i
+                class="fa-light fa-loader"></i></a>
+          </div>
+          <div class="col-sm-6">
+            <a href="#"><a class="fas fa-trash"></a></a>
+          </div>
+        </div>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>

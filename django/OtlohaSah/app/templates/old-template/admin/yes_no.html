@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% if value %}
+  <span class="right badge badge-success">{% trans "Yes" %}</span>
+{% else %}
+  <span class="right badge badge-danger">{% trans "No" %}</span>
+{% endif %}

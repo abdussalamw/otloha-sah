@@ -1,0 +1,79 @@
+{% extends 'old-template/admin_base.html' %}
+{% load i18n %}
+
+{% block content %}
+    {#    <div class="action-wrapper">#}
+    {#        <i class="fas fa-puzzle-piece emoji"></i>#}
+    {#        <div class="container">#}
+    {#            <form class="actions-form">#}
+    {#            {% csrf_token %}#}
+    {#                <div><h3 class="title-h3">{% translate 'Are you sure ?' %}</h3>#}
+    {#                    <p class="body-1">{% trans "Are you sure you want to delete the selected admin info? All of the following objects and their related items will be deleted" %}s</p>#}
+    {#                    <h3 class="title-h3">Summary</h3>#}
+    {#                    <p class="body-1">#}
+    {#                        {% for object in content %}#}
+    {#                            {{ object }}#}
+    {#                        {% endfor %}#}
+    {#                    </p>#}
+    {#                </div>#}
+    {#                <div>#}
+    {#                    <button class="btn btn--secondary" type="submit">{% translate 'Confirm' %}</button>#}
+    {#                    <a class="btn btn--primary btn--text btn--hover-line" href="{{ back_link }}">{% translate 'cancel' %}</a>#}
+    {#                </div>#}
+    {#            </form>#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    #}
+    <div class="action-wrapper">
+        <i class="fas fa-puzzle-piece emoji"></i>
+        <div class="container">
+            <form class="actions-form" method="post">
+                {% csrf_token %}
+                <div>
+                    <h3 class="item-item">{% trans "Are you sure ?" %}</h3>
+                    <p class="card-content__card-description">{% trans "Are you sure you want to delete the selected admin info? All of the following objects and their related items will be deleted" %}</p>
+                    <h2>{% translate 'Summary' %}</h2>
+                    <p class="card-content__card-description">
+                        {% for object in content %}
+                            {{ object }}
+                        {% endfor %}
+                    </p>
+                    <div>
+                        <button class="btn btn--secondary" type="submit">{% translate 'Confirm' %}</button>
+                        <a class="cancel" href="{{ next }}">{% trans "Cancel" %}</a>
+                    </div>
+            </form>
+        </div>
+    </div>
+
+    {#    <div class="action-wrapper">#}
+    {#        <i class="fas fa-puzzle-piece emoji"></i>#}
+    {#        <div class="container">#}
+    {#            <form class="actions-form" method="post">#}
+    {#                {% csrf_token %}#}
+    {#                <div>#}
+    {#                    <h3 class="item-item">{% trans "Are you sure ?" %}</h3>#}
+    {#                    <p class="card-content__card-description">{% trans "Are you sure you want to delete the selected admin info? All of the following objects and their related items will be deleted" %}</p>#}
+    {#                    <br>#}
+    {#                    <h2>Summary</h2>#}
+    {#                    <br>#}
+    {#                    <p class="card-content__card-description">{% trans "you will delete" %} </p>#}
+    {#                    <ul>#}
+    {#                        {% for object in content %}#}
+    {#                            <li>{{ object }}</li>#}
+    {#                        {% endfor %}#}
+    {#                    </ul>#}
+    {#                <div>#}
+    {#                    <button class="btn btn--secondary" type="submit">{% translate 'Confirm' %}</button>#}
+    {#                    <a class="btn btn--primary btn--text btn--hover-line"#}
+    {#                       href="{{ back_link }}">{% translate 'cancel' %}</a>#}
+    {#                </div>#}
+    {##}
+    {#            </form>#}
+    {#        </div>#}
+    {#    </div>#}
+{% endblock %}
+
+
+
+

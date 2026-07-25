@@ -1,0 +1,22 @@
+<div class="field-wrapper field-wrapper--full">
+    <label class="field-wrapper__label" for="{{ form.gender.id_for_label }}">{{ form.gender.label }}</label>
+    <div class="field-wrapper__content">
+        <select class="field field--with-icon"
+                type="gender"
+                id="{{ form.gender.id_for_label }}"
+                name="{{ form.gender.html_name }}">
+            {% for value, label in form.fields.gender.choices %}
+                <option value="{{ value }}"{% if user_form.status.value == value %}
+                        selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <span class="material-icons field-wrapper__icon">transgender</span>
+    </div>
+    {% if form.gender.errors %}
+        <ul class="field-wrapper__messages">
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>

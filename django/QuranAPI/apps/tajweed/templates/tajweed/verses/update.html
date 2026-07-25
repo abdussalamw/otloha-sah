@@ -1,0 +1,131 @@
+{% extends 'admin_base.html' %}
+{% load i18n %}
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'admin:main:home' %}">{% translate 'Home' %}</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="">{% translate 'Tajweed' %}</a>
+            </li>
+            <li class="breadcrumb-item"><a
+                href="{% url "admin:tajweed:books:verses:details" book.pk verse.pk %}">{% translate 'Verse Details' %}</a>
+            </li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        {#        <form method="POST">#}
+        {#          {% csrf_token %}#}
+        <div class="card card-outline card-primary">
+          <div class="card-header">
+            <div class="user-block">
+              <span class="mx-0 mb-2 username">{{ verse.verse_text }}</span>
+              <span class="mx-0 description">
+                  <strong>{% trans 'ID' %}: </strong>{{ verse.pk }} |
+                  <strong>{% trans 'Verse Number' %}: </strong>{{ verse.verse_number }} |
+                  <strong>{% trans 'Chapter' %}: </strong>{{ verse.chapter.translated_name }}
+                </span>
+            </div>
+            <div class="card-tools">
+              <input type="submit" name="submit" class="btn btn-primary" value="{% translate 'Submit' %}">
+              <input type="submit" name="submit_and_finish" class="btn btn-success"
+                     value="{% translate 'Submit and Finish' %}">
+              {% if form.instance.pk %}
+                <a class="btn btn-link btn-sm text-danger"
+                   href="{% url 'admin:books:details' form.instance.pk %}">
+                  {% translate 'Cancel' %}
+                </a>
+              {% else %}
+                <a class="btn btn-link btn-sm text-danger"
+                   href="{% url 'admin:tajweed:books:verses:details' book.pk verse.pk %}">
+                  {% translate 'Cancel' %}
+                </a>
+              {% endif %}
+              {% if prev_verse_url %}
+                <a href="{{ prev_verse_url }}" class="fc-next-button btn btn-sm btn-default"><span
+                    class="fa fa-chevron-left"></span></a>
+              {% endif %}
+              {% if next_verse_url %}
+                <a href="{{ next_verse_url }}" class="fc-next-button btn btn-sm btn-default"><span
+                    class="fa fa-chevron-right"></span></a>
+              {% endif %}
+              <a href="{% url 'admin:tajweed:books:verses:update' book.pk verse.pk %}" class="btn btn-sm btn-primary"
+                 title="{% translate "Edit" %}">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a href="#" class="btn btn-sm btn-danger" title="{% translate "Delete" %}">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div id="characters-forms">
+              {% include "tajweed/verses/partials/forms-table.html" %}
+            </div>
+          </div>
+          <div class="card-footer">
+            <input type="submit" name="submit" class="btn btn-primary" value="{% translate 'Submit' %}">
+            <input type="submit" name="submit_and_finish" class="btn btn-success"
+                   value="{% translate 'Submit and Finish' %}">
+            {% if form.instance.pk %}
+              <a class="btn btn-link text-danger"
+                 href="{% url 'admin:books:details' form.instance.pk %}">
+                {% translate 'Cancel' %}
+              </a>
+            {% else %}
+              <a class="btn btn-link text-danger"
+                 href="{% url 'admin:tajweed:books:verses:details' book.pk verse.pk %}">
+                {% translate 'Cancel' %}
+              </a>
+            {% endif %}
+            <div class="float-right">
+              {% if prev_verse_url %}
+                <a href="{{ prev_verse_url }}" class=" btn btn-default"><span
+                    class="fa fa-chevron-left"></span></a>
+              {% endif %}
+              {% if next_verse_url %}
+                <a href="{{ next_verse_url }}" class=" btn btn-default"><span
+                    class="fa fa-chevron-right"></span></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {#        </form>#}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block scripts %}
+  <script>
+  $('.word-selector').on('change', function () {
+    let row = $(this).closest('.character-row'),
+      characterSelector = row.find('.character-selector'),
+      selectedOption = $(this).find('option:selected'),
+      options= $(this).val().split('')
+
+    console.log(selectedOption.text().split(''))
+
+
+  })
+
+  </script>
+{% endblock %}

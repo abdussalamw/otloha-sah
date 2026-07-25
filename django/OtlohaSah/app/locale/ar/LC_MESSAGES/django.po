@@ -1,0 +1,249 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-03 02:30+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: app/config/app_settings.py:6
+msgid "Privacy"
+msgstr "الخصوصية"
+
+#: app/config/app_settings.py:12
+msgid "Gender"
+msgstr "الجنس"
+
+#: app/config/app_settings.py:13
+msgid "Recitations"
+msgstr "تلاوات"
+
+#: app/config/base_template.py:27 templates/site/layout/_footer.html:9
+msgid "All Rights Reserved to Khairkom Association"
+msgstr "جميع الحقوق محفوظة لجمعية خيركم"
+
+#: app/config/localization.py:25
+msgid "English"
+msgstr "الانجليزية"
+
+#: app/config/localization.py:26
+msgid "Arabic"
+msgstr "العربية"
+
+#: social/models.py:10
+msgid "Facebook"
+msgstr ""
+
+#: social/models.py:11
+msgid "Google"
+msgstr ""
+
+#: social/models.py:12
+msgid "Twitter"
+msgstr ""
+
+#: social/models.py:14 social/views_admin.py:23
+msgid "Name"
+msgstr "الاسم"
+
+#: social/models.py:15
+msgid "Default Provider"
+msgstr "مزود الخدمة التلقائي"
+
+#: social/models.py:16 social/models.py:26 social/views_admin.py:24
+msgid "Provider"
+msgstr "مزود الخدمة"
+
+#: social/models.py:17
+msgid "Client Id"
+msgstr ""
+
+#: social/models.py:18
+msgid "Client Secret"
+msgstr ""
+
+#: social/models.py:28
+msgid "User"
+msgstr ""
+
+#: social/models.py:29
+msgid "Token"
+msgstr ""
+
+#: social/models.py:30
+msgid "Expires At"
+msgstr ""
+
+#: social/models.py:31
+msgid "Provider User ID"
+msgstr ""
+
+#: social/templates/social/admin/listing/_table_row.html:14
+msgid "Active"
+msgstr ""
+
+#: social/templates/social/admin/listing/_table_row.html:14
+msgid "Inactive"
+msgstr ""
+
+#: social/templates/social/admin/listing/_table_row.html:21
+#: templates/old-template/admin/yes_no.html:4
+msgid "Yes"
+msgstr "نعم"
+
+#: social/templates/social/admin/listing/_table_row.html:21
+#: templates/old-template/admin/yes_no.html:6
+msgid "No"
+msgstr "لا"
+
+#: social/templates/social/admin/listing/_table_row.html:28
+#: social/views_admin.py:28
+msgid "Actions"
+msgstr "الاجراءات"
+
+#: social/templates/social/admin/listing/_table_row.html:44
+msgid "Edit"
+msgstr "تعديل"
+
+#: social/templates/social/admin/listing/_table_row.html:48
+msgid "Delete"
+msgstr "حذف"
+
+#: social/templates/social/admin/listing/empty-listing-actions.html:6
+msgid "Add New Provider"
+msgstr ""
+
+#: social/templates/social/admin/providers.html:5
+msgid "Social"
+msgstr ""
+
+#: social/templates/social/admin/providers.html:5
+msgid "Providers"
+msgstr ""
+
+#: social/views_admin.py:16 social/views_admin.py:42
+msgid "Social Providers"
+msgstr ""
+
+#: social/views_admin.py:22
+msgid "ID"
+msgstr ""
+
+#: social/views_admin.py:25
+msgid "Client ID"
+msgstr ""
+
+#: social/views_admin.py:26
+msgid "Is Active"
+msgstr ""
+
+#: social/views_admin.py:27
+msgid "Is Default"
+msgstr ""
+
+#: social/views_admin.py:41
+msgid "Home"
+msgstr ""
+
+#: social/views_admin.py:54
+msgid "Provider Updated Successfully"
+msgstr ""
+
+#: social/views_admin.py:57
+msgid "Provider Created Successfully"
+msgstr ""
+
+#: templates/admin/base.html:5 templates/admin/base.html:14
+#: templates/base_template/base.html:7 templates/base_template/base.html:16
+#: templates/old-template/base_template.html:7 templates/site/base.html:5
+#: templates/site/base.html:14
+msgid "Otloha Sah"
+msgstr ""
+
+#: templates/admin/layout/aside/_menu.html:99
+#: templates/base_template/layout/partials/sidebar/_menu.html:98
+#, python-format
+msgid ""
+"Show %(count)s\n"
+"                          More"
+msgstr "اظهار %(count)s اخرى"
+
+#: templates/admin/layout/header/__topbar.html:41
+#: templates/site/layout/header/__topbar.html:41
+msgid "User account menu"
+msgstr "قائمة المستخدم"
+
+#: templates/admin/partials/_loader.html:7
+#: templates/site/partials/_loader.html:7
+msgid "Loading..."
+msgstr "تحميل..."
+
+#: templates/base_template/partials/menus/_user-account-menu.html:36
+msgid "Language"
+msgstr "اللغة"
+
+#: templates/base_template/partials/menus/_user-account-menu.html:48
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+#: templates/base_template/partials/theme-mode/__menu.html:40
+msgid "Light"
+msgstr "نهاري"
+
+#: templates/base_template/partials/theme-mode/__menu.html:63
+msgid "Dark"
+msgstr "ليلى"
+
+#: templates/base_template/partials/theme-mode/__menu.html:80
+msgid "System"
+msgstr "من النظام"
+
+#: templates/django/forms/form.html:17
+msgid "Hidden field"
+msgstr ""
+
+#: templates/django/forms/form.html:35
+msgid "required"
+msgstr ""
+
+#: templates/django/forms/form_modal.html:29
+msgid "Close"
+msgstr ""
+
+#: templates/django/forms/form_modal.html:30
+msgid "Save"
+msgstr ""
+
+#: templates/site/dynamic_listing/_grid.html:17
+#: templates/site/dynamic_listing/_no_data.html:6
+msgid "No items found."
+msgstr ""
+
+#: templates/site/dynamic_listing/_no_data.html:4
+msgid "No Items Available"
+msgstr ""
+
+#: templates/site/dynamic_listing/filters/side_filter.html:10
+msgid "Clear Filters"
+msgstr ""
+
+#: templates/site/partials/menus/_user-account-menu.html:19
+msgid "My Profile"
+msgstr ""
+
+#: templates/site/partials/menus/_user-account-menu.html:111
+msgid "Sign Out"
+msgstr ""

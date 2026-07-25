@@ -1,0 +1,18 @@
+{% load dj_translation %}
+{% load i18n %}
+
+<td class="text-center">{{ item.id }}</td>
+
+<td class="text-center">{{ item.user}}</td>
+
+<td class="text-center">{{ item.level }}</td>
+
+<td class="text-center">{{ item.rate }}</td>
+
+<td class="text-center">{{ item.exam_record }}</td>
+
+
+<td class="text-center">
+  {% include 'tajweed/user-level-passed/listing/_item_actions.html' %}
+</td>
+

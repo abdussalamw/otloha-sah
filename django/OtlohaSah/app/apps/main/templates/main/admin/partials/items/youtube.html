@@ -1,0 +1,17 @@
+<div class="media-card media-card--cover">
+    <div class="media-card-video">
+        <div class="iframe-parent-class" style="height: auto;">
+            <iframe class="video-player__iframe"  width="560" height="315" src="https://www.youtube.com/embed/{{ id }}"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+    <div class="media-card__image"><img src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt="">
+        {% include 'main/admin/partials/actions.html' %}
+    </div>
+    <div class="details-card"><p class="title-2 gray">{{ caption }}</p></div>
+</div>
+
+
+

@@ -1,0 +1,256 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-29 14:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: forms.py:16 models.py:88 templates/verses/details.html:48
+msgid "Line Start"
+msgstr "بداية السطر"
+
+#: forms.py:17 models.py:89 templates/verses/details.html:50
+msgid "Line End"
+msgstr "نهاية السطر"
+
+#: forms.py:18 templates/verses/details.html:58
+msgid "Part"
+msgstr "الجزء"
+
+#: forms.py:19 forms.py:40 models.py:87 models.py:119
+msgid "Text"
+msgstr "النص"
+
+#: forms.py:20 forms.py:41 models.py:90 templates/verses/details.html:52
+msgid "Verse Number"
+msgstr "رقم اﻵية"
+
+#: forms.py:21 templates/verses/details.html:56
+msgid "Chapter"
+msgstr "السورة"
+
+#: forms.py:22
+msgid "Page"
+msgstr "الصفحة"
+
+#: forms.py:42 models.py:92 models.py:121 models.py:122
+#, fuzzy
+#| msgid "Page Number"
+msgid "Chapter Number"
+msgstr "رقم الصفحة"
+
+#: forms.py:43 models.py:120
+#, fuzzy
+#| msgid "Page Number"
+msgid "Number"
+msgstr "رقم الصفحة"
+
+#: models.py:14 tests/test_models.py:23
+msgid "Narration"
+msgstr "رواية"
+
+#: models.py:15 templates/narrations/details.html:16
+#: templates/narrations/form.html:18 templates/verses/details.html:16
+#: tests/test_models.py:26 views_admin.py:31
+msgid "Narrations"
+msgstr "الروايات"
+
+#: models.py:50 templates/narrations/details.html:57 tests/test_models.py:86
+#: tests/test_views_admin.py:36 views_admin.py:21
+msgid "Name"
+msgstr "الاسم"
+
+#: models.py:51 tests/test_models.py:106
+msgid "Description"
+msgstr "الوصف"
+
+#: models.py:53 templates/narrations/details.html:59 tests/test_models.py:161
+#: tests/test_views_admin.py:37 views_admin.py:22
+msgid "Is Active"
+msgstr "حالة الظهور"
+
+#: models.py:54 templates/narrations/details.html:62
+#: tests/test_views_admin.py:38 views_admin.py:23
+msgid "Created At"
+msgstr "تاريخ اخر تعديل"
+
+#: models.py:55 tests/test_views_admin.py:39 views_admin.py:24
+msgid "Updated At"
+msgstr "تاريخ اخر تعديل"
+
+#: models.py:83
+msgid "Verse"
+msgstr "اﻵية"
+
+#: models.py:84 templates/narrations/details.html:76
+#: templates/verses/details.html:24
+msgid "Verses"
+msgstr "اﻵيات"
+
+#: models.py:91 templates/verses/details.html:54
+msgid "Page Number"
+msgstr "رقم الصفحة"
+
+#: models.py:93
+#, fuzzy
+#| msgid "Page Number"
+msgid "Part Number"
+msgstr "رقم الصفحة"
+
+#: models.py:102
+#, python-brace-format
+msgid "Verse Number {verse_number}"
+msgstr "آية رقم {verse_number}"
+
+#: models.py:115
+msgid "Word"
+msgstr "الكلمة"
+
+#: models.py:116 templates/narrations/details.html:96
+msgid "Words"
+msgstr "الكلمات"
+
+#: tasks.py:145
+#, python-brace-format
+msgid "Processing {filename} in progress"
+msgstr "جاري معالجة {filename}"
+
+#: tasks.py:200
+#, python-brace-format
+msgid "Processing {filename} finished with some errors"
+msgstr "معالجة {filename} انتهت مع وجود بعض الأخطاء"
+
+#: tasks.py:208
+#, python-brace-format
+msgid "Processing {filename} finished successfully"
+msgstr "انهت معالجة {filename} بنجاح"
+
+#: templates/narrations/details.html:15 templates/narrations/form.html:17
+#: templates/verses/details.html:15 views_admin.py:30
+msgid "Home"
+msgstr "الرئيسية"
+
+#: templates/narrations/details.html:37 templates/narrations/form.html:27
+#: tests/test_views_admin.py:171 tests/test_views_admin.py:414
+#: tests/test_views_admin.py:468 views_admin.py:58 views_admin.py:76
+#: views_admin.py:89
+msgid "Edit"
+msgstr "تعديل"
+
+#: templates/narrations/details.html:42 tests/test_views_admin.py:173
+#: views_admin.py:60
+msgid "Translate"
+msgstr "ترجمة"
+
+#: templates/narrations/details.html:47 tests/test_views_admin.py:175
+#: views_admin.py:62
+msgid "Delete"
+msgstr "حذف"
+
+#: templates/narrations/details.html:55 templates/verses/details.html:46
+#: tests/test_views_admin.py:35 views_admin.py:20
+msgid "ID"
+msgstr "المعرف"
+
+#: templates/narrations/details.html:61 views_admin.py:41
+msgid "Yes"
+msgstr "نعم"
+
+#: templates/narrations/details.html:61 views_admin.py:41
+msgid "No"
+msgstr "لا"
+
+#: templates/narrations/details.html:64
+msgid "Last Updated At"
+msgstr "جميع الروايات"
+
+#: templates/narrations/details.html:80
+msgid "All Verses"
+msgstr "كل اﻵيات"
+
+#: templates/narrations/details.html:85
+#, fuzzy
+#| msgid "All CSV Files"
+msgid "All Verses CSV Files"
+msgstr "جميع ملفات الـ CSV"
+
+#: templates/narrations/details.html:90
+#, fuzzy
+#| msgid "Upload New CSV"
+msgid "Upload New Verses CSV"
+msgstr "رفع ملف CSV جديد"
+
+#: templates/narrations/details.html:100
+#, fuzzy
+#| msgid "All CSV Files"
+msgid "All Words CSV Files"
+msgstr "جميع ملفات الـ CSV"
+
+#: templates/narrations/details.html:105
+#, fuzzy
+#| msgid "Upload New CSV"
+msgid "Upload New Words CSV"
+msgstr "رفع ملف CSV جديد"
+
+#: templates/narrations/form.html:31
+msgid "Create"
+msgstr "انشاء"
+
+#: templates/narrations/form.html:51
+msgid "Submit"
+msgstr "إرسال"
+
+#: templates/narrations/form.html:53
+msgid "Cancel"
+msgstr "الغاء"
+
+#: templates/verses/details.html:73
+#, fuzzy
+#| msgid "Verses"
+msgid "Verse Words"
+msgstr "اﻵيات"
+
+#: tests/test_forms.py:65 tests/test_forms.py:83
+msgid "This field is required."
+msgstr "هذا الحقل مطلوب"
+
+#: tests/test_views_admin.py:40 views_admin.py:25
+msgid "Actions"
+msgstr "الإجراءات"
+
+#: tests/test_views_admin.py:162 tests/test_views_admin.py:298
+#: tests/test_views_admin.py:342 views_admin.py:52 views_admin.py:79
+#: views_admin.py:93
+msgid "Add New Narration"
+msgstr "اضف رواية جديدة"
+
+#: tests/test_views_admin.py:373 views_admin.py:94
+msgid "Narration Created Successfully"
+msgstr "تم اضافة الرواية بنجاح"
+
+#: tests/test_views_admin.py:493 views_admin.py:90
+msgid "Narration Updated Successfully"
+msgstr "تم تعديل الرواية بنجاح"
+
+#: views_admin.py:17
+msgid "All Narrations"
+msgstr "جميع الروايات"
+
+#: views_admin.py:112
+#, python-brace-format
+msgid "{narration} Narration Details"
+msgstr "تفاصيل رواية {narration}"

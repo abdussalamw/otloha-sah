@@ -1,0 +1,25 @@
+{% load i18n %}
+<div class="course_tabs mb-3 mt-0">
+    <div class="nav nav-tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-courses-tab"
+           data-toggle="tab"
+           href="#nav-courses" role="tab"
+           aria-selected="true">{% translate 'Courses' %}</a>
+        <a class="nav-item nav-link" id="nav-children-tab"
+           data-toggle="tab"
+           href="#nav-children"
+           role="tab" aria-selected="false">{% translate 'Children' %}</a>
+        <a class="nav-item nav-link" id="nav-reviews-tab"
+           data-toggle="tab" role="tab"
+           href="#nav-reviews"
+           aria-selected="false">{% translate 'Reviews' %}</a>
+        <a class="nav-item nav-link" id="nav-profile-image-tab"
+           data-toggle="tab"
+           href="#nav-profile-image" role="tab"
+           aria-selected="false">{% translate 'Profile Image' %}</a>
+        <a class="nav-item nav-link" id="nav-role-permissions-tab"
+           data-toggle="tab"
+           href="#nav-role-permissions" role="tab"
+           aria-selected="false">{% translate 'Role & Permissions' %}</a>
+    </div>
+</div>

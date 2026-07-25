@@ -1,0 +1,24 @@
+{% load dj_translation %}
+{% load i18n %}
+
+<td class="text-center">{{ item.id }}</td>
+
+<td class="text-center">{{ item.title|translate }}</td>
+
+<td class="text-center">{{ item.narration }}</td>
+
+<td class="text-center">{{ item.chapter }}</td>
+
+<td class="text-center">{{ item.verse_text }}</td>
+
+<td>
+  <button type="button" class="btn btn-light-info btn-sm btn-icon me-2"
+          data-toggle="audio"
+          data-src="{{ item.record.url }}">
+    <span class="svg-icon svg-icon-2x audio-icon"></span>
+  </button>
+</td>
+
+<td class="text-center">
+  {% include 'tajweed/lessons/examples/listing/_item_actions.html' %}
+</td>

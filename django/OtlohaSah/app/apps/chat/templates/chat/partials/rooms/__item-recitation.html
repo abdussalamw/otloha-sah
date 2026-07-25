@@ -1,0 +1,25 @@
+{% with peers.first as peer %}
+  <div class="d-flex flex-stack py-4 cursor-pointer" onclick="openRoom({{ room.id }})">
+    <div class="d-flex align-items-center">
+      <div class="symbol symbol-45px symbol-circle">
+        <img alt="{{ peer.get_full_name }}" src="{{ peer.profile_image }}">
+      </div>
+      <div class="ms-5">
+        <a href="{{ peer.get_absolute_url }}"
+           class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ peer.get_full_name }}</a>
+        {% if room.last_message %}
+          <div class="fw-semibold text-muted">
+            {{ room.last_message }}
+          </div>
+        {% else %}
+          <div class="fw-bold text-primary user-select-none">
+            {{ room.content_object.name }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="d-flex flex-column align-items-end ms-2">
+      <span class="text-muted fs-7 mb-1"></span>
+    </div>
+  </div>
+{% endwith %}

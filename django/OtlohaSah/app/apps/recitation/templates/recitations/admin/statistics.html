@@ -1,0 +1,5 @@
+{% extends 'base_template/base.html' %}
+
+{% block content %}
+  <recitation-statistics base-url="{% url 'admin:recitations:statistics-ajax' %}"></recitation-statistics>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "profile_base.html" %}
+
+{% load i18n %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              {{ application.name }}
+            </h3>
+          </div>
+          <div class="card-body">
+            <dl class="row">
+              <dt class="col-sm-4">{% trans "Client id" %}</dt>
+              <dd class="col-sm-8">{{ application.client_id }}</dd>
+              <dt class="col-sm-4">{% trans "Client secret" %}</dt>
+              <dd class="col-sm-8">{{ application.client_secret }}</dd>
+              <dd class="col-sm-4">{% trans "Client type" %}</dd>
+              <dt class="col-sm-8">{{ application.client_type }}</dt>
+              <dd class="col-sm-4">{% trans "Authorization Grant Type" %}</dd>
+              <dt class="col-sm-8">{{ application.authorization_grant_type }}</dt>
+              <dd class="col-sm-4">{% trans "Redirect Uris" %}</dd>
+              <dt class="col-sm-8">{{ application.redirect_uris }}</dt>
+            </dl>
+          </div>
+          <div class="card-footer">
+            <a class="btn" href="{% url "oauth2_provider:list" %}">{% trans "Go Back" %}</a>
+            <a class="btn btn-primary" href="{% url "oauth2_provider:update" application.id %}">{% trans "Edit" %}</a>
+            <a class="btn btn-danger" href="{% url "oauth2_provider:delete" application.id %}">{% trans "Delete" %}</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+{% endblock content %}

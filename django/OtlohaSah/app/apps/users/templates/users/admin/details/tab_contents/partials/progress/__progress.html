@@ -1,0 +1,27 @@
+{% load i18n quran %}
+
+{% for narration_progress in progress %}
+  <div class="mb-5">
+    <h2 class="fs-2 fw-light text-gray-600 mb-3">
+      {% narration narration_progress.narration_id %}
+    </h2>
+    <div class="card bg-body hoverable card-xl-stretch mb-xl-8">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div class="">
+            <div class="fs-2 fw-bold"
+                 data-kt-countup="true"
+                 data-kt-countup-suffix="%"
+                 data-kt-countup-decimal-places="2"
+                 data-kt-countup-value="{{ narration_progress.recitation_percentage|stringformat:".2f" }}">0
+            </div>
+            <div class="fw-semibold text-dark">
+              {% trans "Recitation Progress" %}
+            </div>
+          </div>
+          {% include "users/students/admin/details/statistics/__recitations_indicators.html" with pending_recitations_count=narration_progress.pending_recitations accepted_recitations_count=narration_progress.accepted_recitations rejected_recitations_count=narration_progress.rejected_recitations %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}

@@ -1,0 +1,146 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-04 22:46+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: consumers.py:160
+msgid "You have exceeded the max number of replies for paid teacher"
+msgstr "لقد تجاوزت الحد المسموح به للردود المتاحة للمعلم المدفوع الاجر"
+
+#: consumers.py:180 consumers.py:188 services.py:45 services.py:53
+msgid "Message not found"
+msgstr "الرسالة غير موجودة"
+
+#: consumers.py:209
+msgid "room is already closed"
+msgstr "المحادثة منتهية"
+
+#: models.py:24
+msgid "Normal"
+msgstr "عادى"
+
+#: models.py:25
+msgid "Recitation"
+msgstr "تلاوة"
+
+#: models.py:26
+msgid "Khatma"
+msgstr "ختمة"
+
+#: models.py:30
+msgid "Room"
+msgstr "محادثة"
+
+#: models.py:31
+msgid "Rooms"
+msgstr "محادثات"
+
+#: models.py:36
+msgid "Name"
+msgstr "الاسم"
+
+#: models.py:77
+msgid "Message"
+msgstr "الرسالة"
+
+#: models.py:78
+msgid "Messages"
+msgstr "الرسائل"
+
+#: models.py:96 models.py:97
+msgid "Message Seen"
+msgstr "مقرؤة"
+
+#: notifications.py:12
+#, python-brace-format
+msgid "[{sender}] added you to new chat room"
+msgstr "اضافك [{sender}] الى غرفة محادثة جديدة"
+
+#: notifications.py:23
+#, python-brace-format
+msgid "Teacher [{sender}] is evaluating your recitation r'{recitation}'"
+msgstr "يقوم المعلم [{sender}] بتقييم تلاوتك r'{recitation}'"
+
+#: notifications.py:27
+#, python-brace-format
+msgid "Student [{sender}] sent r'{recitation}' to be evaluated"
+msgstr "ارسل الطالب [{sender}] التلاوة r'{recitation}' كى يتم تقييمها"
+
+#: serializers.py:22
+msgid "User does not exist"
+msgstr "المستخدم غير موجود"
+
+#: serializers.py:84
+msgid "Recitation does not exist"
+msgstr "التلاوة غير موجودة"
+
+#: serializers.py:102
+#, fuzzy
+#| msgid "Recitation is required"
+msgid "Recitation is required!"
+msgstr "التلاوة مطلوبة"
+
+#: serializers.py:105
+#, python-brace-format
+msgid "This room is {message}!"
+msgstr "هذه المحادثة {message}!"
+
+#: serializers.py:106
+msgid "Closed"
+msgstr "مغلقة"
+
+#: serializers.py:106
+msgid "being evaluated"
+msgstr "قيد التصحيح"
+
+#: serializers.py:110
+msgid "You can't send the recitations to yourself!"
+msgstr "لايمكنك ارسال هذه التلاوة لنفسك!"
+
+#: serializers.py:114
+msgid "You can't send the to another teacher, as you are a teacher!"
+msgstr "لا يمكنك الارسال لمعلم آخر، لانك معلم!"
+
+#: serializers.py:119
+msgid "You can't preform this action"
+msgstr "لا يمكنك القيام بهذا الاجراء"
+
+#: serializers.py:127
+msgid "You have exceeded the max number of recitations today"
+msgstr "لقد تجاوزت الحد المسموع به للتلاوات لهذ اليوم"
+
+#: serializers.py:194 serializers.py:197
+msgid "Fault type is required"
+msgstr "نوع الخطأ مطلوب"
+
+#: templates/chat/partials/room/_form.html:10
+msgid "Send"
+msgstr "ارسال"
+
+#: templates/chat/partials/rooms/_search.html:19
+msgid "Search by username or email..."
+msgstr "ابحث بالاسم او بالبريد الالكتروني"
+
+#: views_api_v1.py:89
+msgid "You can't delete this room!"
+msgstr "لا يمكنك حذف هذه المحادثة"
+
+#: views_api_v1.py:125
+msgid "You are not allowed to access this room!"
+msgstr "لا يمكنك عرض المحادثة"

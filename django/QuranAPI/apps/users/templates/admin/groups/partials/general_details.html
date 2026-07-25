@@ -1,0 +1,17 @@
+{% load i18n get_lang %}
+<div class="general-wrapper general-wrapper--details">
+    <div class="general-wrapper__content">
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Id' %} :</h4>
+                <p class="description__details my-0">{{ group.id }}</p>
+            </div>
+        </div>
+        <div class="general-details__item">
+            <div>
+                <h4 class="description__name">{% translate 'Name' %} :</h4>
+                <p class="description__details my-0">{{ group.name }}</p>
+            </div>
+        </div>
+    </div>
+</div>

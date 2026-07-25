@@ -1,0 +1,30 @@
+{% load quran %}
+{% load i18n %}
+<div class="flex-column flex-lg-row-auto w-lg-250px w-xl-350px mb-10">
+    <div class="card ribbon ribbon-top ribbon-vertical mb-5 mb-xl-8">
+        <div class="card-body">
+            <div class="d-flex flex-center flex-column py-5">
+                <div class="card-title">
+                    <h3 class="fw-bold mt-5">{% trans "Lesson Details" %}</h3>
+                </div>
+                <div class="fw-bold mt-5">{% trans "Lesson Id" %}</div>
+                <div class="text-gray-600">ID-{{ object.id }}</div>
+                <div class="fw-bold mt-5">{% trans "Lesson Title" %}</div>
+                <span class="fs-6 text-gray-600 fw-lighter mb-2">{% blocktrans %}{{ object }}{% endblocktrans %}</span>
+                <div class="fw-bold mt-5">{% trans "Lesson Level" %}</div>
+                <div class="text-gray-600">{{ object.lesson_level }}</div>
+                <div class="fw-bold mt-5">{% trans "Parent Lesson" %}</div>
+                {% if object.parent %}
+                    <a href="{{ object.parent.get_details_url }}" class="fs-6">{{ object.parent }}</a>
+                {% else %}
+                    <div class="btn btn-sm btn-light-danger fw-bold fs-8 py-1 px-3 me-2">
+                        {% trans "No Parent" %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="pb-5 fs-6">
+
+            </div>
+        </div>
+    </div>
+</div>

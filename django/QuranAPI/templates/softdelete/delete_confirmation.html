@@ -1,0 +1,32 @@
+{% extends "admin_base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            {% trans "Warning" %}!
+          </h3>
+        </div>
+          <div class="card-body">
+            <form class="actions-form" method="post">
+              {% csrf_token %}
+              <p class="bold">{% trans "Are you sure you want to delete the selected admin info? All of the following objects and their related items will be deleted" %}</p>
+              <strong>{% translate 'Summary' %}</strong>
+              <p>
+                {% for object in content %}
+                  {{ object }}
+                {% endfor %}
+              </p>
+              <button class="btn btn-primary" type="submit">{% translate 'Confirm' %}</button>
+              <a class="btn btn-danger" href="{{ next }}">{% trans "Cancel" %}</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

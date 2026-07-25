@@ -1,0 +1,105 @@
+{% extends 'admin_base.html' %}
+{% load i18n humanize %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+{#          <ol class="breadcrumb float-sm-right">#}
+{#            <li class="breadcrumb-item"><a href="{% url 'admin:main:home' %}">{% translate 'Home' %}</a></li>#}
+{#            <li class="breadcrumb-item"><a href="{% url "admin:books:listing" %}">{% translate 'Books' %}</a></li>#}
+{#            <li class="breadcrumb-item"><a href="{% url "admin:books:details" book.id %}">{{ book.translated_name }}</a>#}
+{#            </li>#}
+{#            <li class="breadcrumb-item"><a#}
+{#                href="{% url "admin:books:csv:listing" book.id %}">{% translate "CSV Files" %}</a>#}
+{#            </li>#}
+{#            <li class="breadcrumb-item active">{{ csv.id }}</li>#}
+{#          </ol>#}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-sm-3">
+        <div class="card card-outline card-primary">
+          <div class="card-header">
+            <h3 class="card-title">{% translate "Details" %}</h3>
+            <div class="card-tools">
+{#              <a href="{% url "admin:books:csv:process" book.id csv.id %}"#}
+{#                 class="btn btn-sm btn-info"#}
+{#                 title="{% trans "Process File" %}">#}
+{#                <i class="fa fa-play"></i>#}
+{#              </a>#}
+              <a href="#"
+                 class="btn btn-sm btn-danger"
+                 title="{% trans "Delete" %}">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div>
+          </div>
+          <div class="card-body">
+            <dl>
+              <dt>{% translate 'ID' %}</dt>
+              <dd>{{ csv.id }}</dd>
+              <dt>{{ model_class }}</dt>
+              <dd>{{ instance }}</dd>
+
+              <dt>{% translate "File Name" %}</dt>
+              <dd>{{ csv.file_name }}</dd>
+              <dt>{% translate 'Is Processed' %}</dt>
+              <dd>{% if csv.is_processed %}{% trans "Yes" %}{% else %}{% translate "No" %}{% endif %}</dd>
+            <dt>{% translate 'Status' %}</dt>
+              <dd>{{ csv.status }}</dd>
+              <dt>{% translate 'Created At' %}</dt>
+              <dd>{{ csv.created_at }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <h5>
+                  {% trans "Columns" %}
+                </h5>
+                <p>{% trans "This specifies each column in database that matches the CSV rows" %}</p>
+                <dl class="row">
+                  {% for key, value in csv.columns.items %}
+                    <dt class="col-sm-4">{{ key }}</dt>
+                    <dl class="col-sm-8">
+                      {% if value %}{{ value }}{% else %}{% translate "Not set" %}{% endif %}
+                    </dl>
+                  {% endfor %}
+                </dl>
+              </div>
+              <div class="col-sm-6">
+                <h5>
+                  {% trans "User Choice Columns" %}
+                </h5>
+                <p>{% trans "This specifies the index of each column in CSV" %}</p>
+                <dl class="row">
+                  {% for key, value in csv.user_choice_columns.items %}
+                    <dt class="col-sm-4">{{ key }}</dt>
+                    <dl class="col-sm-8">{{ value }}</dl>
+                  {% endfor %}
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

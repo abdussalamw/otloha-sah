@@ -1,0 +1,76 @@
+{% load teachers_tags %}
+{% load quran %}
+{% load i18n %}
+<div class="flex-column flex-lg-row-auto w-lg-250px w-xl-350px mb-10">
+  <div class="card ribbon ribbon-top ribbon-vertical mb-5 mb-xl-8">
+    {% include  "users/admin/details/user_info/partials/__is_verified.html" %}
+    <div class="card-body">
+      <div class="d-flex flex-center flex-column py-5 gap-2">
+        {% include  "users/admin/details/user_info/partials/__avatar.html" %}
+        <div class="d-flex flex-center flex-column">
+          <span class="fs-6 text-gray-600 fw-lighter mb-">{% trans "ID" %} - {{ object.id }}</span>
+          <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bold">{{ object.get_full_name }}
+            <span class="fs-6 text-gray-700 fw-lighter">({{ object.username }})</span>
+          </a>
+          <span class="fs-6 text-gray-700 fw-lighter">{{ object.email }}</span>
+          <span class="fs-6 text-gray-700 fw-lighter">{{ object.phone }}</span>
+        </div>
+        <div class="mw-100 mb-3 d-flex justify-content-center align-items-center flex-wrap">
+          {% include "users/admin/partials/__level.html" with level=object.level %}
+          <span class="badge badge-light fw-bold me-2 fs-8">
+              {{ object.teacherprofile.teacher_type|get_teacher_type }}
+          </span>
+          <span
+              class="badge badge-{% if object.teacherprofile.status == 'approved' %}primary{% elif object.teacherprofile.status == 'rejected' %}danger{% else %}dark{% endif %} text-white me-2 fs-8">
+              {{ object.teacherprofile.status|get_teacher_status }}
+          </span>
+          <span
+              class="badge badge-{% if object.teacherprofile.is_active %}primary{% else %}danger{% endif %} text-white me-2 fs-8">
+              {% if object.teacherprofile.is_active %}{% trans "Profile Active" %}{% else %}
+                {% trans "Profile Inactive" %}{% endif %}
+            </span>
+        </div>
+        {% include "users/admin/partials/__gender.html" with gender=object.gender %}
+        {% include "users/admin/details/user_info/partials/__is_blocked.html" with is_blocked=object.is_blocked %}
+        {% if object.bio %}
+          <blockquote class="text-gray-800 fw-bold mb-0">"{{ object.bio|default_if_none:'' }}"</blockquote>
+        {% endif %}
+      </div>
+      <div class="separator"></div>
+      <div class="pb-5 fs-6">
+        {% trans "Not Provided" as NOT_PROVIDED %}
+        {% trans "First Name" as F_NAME %}
+        {% trans "Last Name" as L_NAME %}
+        {% trans "Gender" as GENDER %}
+        {% trans "Age" as AGE %}{% trans "yo" as YO %} {% trans "Birthdate" as BD %}
+        {% trans "Current Narration" as CN %}
+        {% narration object.narration_id as NARRATION %}
+        {% trans "Education Degree" as ED %}
+
+        {% include "users/admin/details/user_info/partials/__info.html" with title=F_NAME value=object.first_name|default:NOT_PROVIDED %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=L_NAME value=object.last_name|default:NOT_PROVIDED %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=GENDER value=object.get_gender %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=AGE value=object.get_age|stringformat:'s'|add:' '|add:YO %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=BD value=object.birthdate|date:"M d, Y" %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=CN value=NARRATION %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=ED value=object.teacherprofile.education_degree|stringformat:"%s"|default:NOT_PROVIDED %}
+        <div class="fw-bold mt-5">{% trans "C.V." %}</div>
+        {% if object.teacherprofile.cv %}
+          <a href="{{ object.teacherprofile.cv }}" target="_blank">
+            {% trans "View CV" %}
+          </a>
+        {% else %}
+          <div class="text-gray-600">{{ NOT_PROVIDED }}</div>
+        {% endif %}
+        <div class="fw-bold mt-5">{% trans "Can Reply on Evey Verse In Recitation" %}</div>
+        <div class="text-gray-600">
+          {% if object.teacherprofile.can_reply_on_every_verse_in_recitation %}
+            <div class="badge badge-lg badge-light-success d-inline">{% trans "Yes" %}</div>
+          {% else %}
+            <div class="badge badge-lg badge-light-danger d-inline">{% trans "No" %}</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

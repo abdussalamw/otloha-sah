@@ -1,0 +1,38 @@
+.indicator {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  padding: 12px;
+  border: 1px solid var(--item-border-color, #f0f0f0);
+  border-radius: 8px;
+  background-color: var(--item-bg-color, #fff);
+  color: var(--item-color, #181C32);
+  text-decoration: none;
+  gap: 12px;
+  flex-grow: 1;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+
+  &__value, &__label {
+    margin: 0;
+  }
+
+  &__value {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  &__label {
+    font-size: 14px;
+  }
+}

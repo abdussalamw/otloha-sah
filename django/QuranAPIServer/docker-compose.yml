@@ -1,0 +1,106 @@
+services:
+  app:
+    container_name: 'app'
+    restart: always
+    image: ghcr.io/fritill-team/quranapi:latest
+    env_file:
+      - ./.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - app-dir:/app
+      - static-data:/app/staticfiles
+      - media-data:/app/media
+    # network_mode: host
+    depends_on:
+      - redis
+
+  proxy:
+    container_name: 'proxy'
+    restart: always
+    build:
+      context: ./proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - certbot-web:/vol/www
+      - proxy-dhparams:/vol/proxy
+      - certbot-certs:/etc/letsencrypt
+      - static-data:/app/staticfiles
+      - media-data:/app/media
+    env_file:
+      - ./.env
+    environment:
+      - DOMAIN=${DOMAIN}
+    # network_mode: host
+    depends_on:
+      - app
+
+  certbot:
+    container_name: 'certbot'
+    build:
+      context: ./certbot
+    command: echo "Skipping..."
+    env_file:
+      - ./.env
+    environment:
+      - EMAIL=${ACME_DEFAULT_EMAIL}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+    volumes:
+      - certbot-web:/vol/www
+      - certbot-certs:/etc/letsencrypt/
+    network_mode: host
+    depends_on:
+      - proxy
+
+  redis:
+    container_name: 'redis'
+    image: redis:alpine
+    restart: always
+    # network_mode: host
+
+  celery:
+    container_name: 'celery'
+    restart: always
+    image: ghcr.io/fritill-team/quranapi:latest
+    command: celery -A app worker -l info -c 2
+    volumes:
+      - app-dir:/app
+      - static-data:/app/staticfiles
+      - media-data:/app/media
+    env_file:
+      - ./.env
+    # network_mode: host
+    depends_on:
+      - app
+      - redis
+      - proxy
+
+  celery-beat:
+    container_name: 'celery-beat'
+    restart: always
+    image: ghcr.io/fritill-team/quranapi:latest
+    command: celery -A app worker --beat -l info -s /tmp/celerybeat-schedule
+    volumes:
+      - app-dir:/app
+    env_file:
+      - ./.env
+    # network_mode: host
+    depends_on:
+      - app
+      - redis
+      - proxy
+
+volumes:
+  certbot-web:
+  proxy-dhparams:
+  certbot-certs:
+  app-dir:
+  static-data:
+  media-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/media-data

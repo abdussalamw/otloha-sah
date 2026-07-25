@@ -1,0 +1,102 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<!DOCTYPE html>
+<html {% include "base_template/layout/_localization.html" %}>
+<head>
+  <title>{% translate "Otloha Sah" %} | {% block title %}{% endblock %}</title>
+  <meta charset="utf-8"/>
+  <meta name="description" content=""/>
+  <meta name="keywords" content=""/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta property="og:locale" content=""/>
+  <meta property="og:type" content=""/>
+  <meta property="og:title" content=""/>
+  <meta property="og:url" content=""/>
+  <meta property="og:site_name" content="{% translate "Otloha Sah" %}"/>
+  <link rel="canonical" href=""/>
+  <link rel="shortcut icon" href="{% static "images/favicon.ico" %}"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
+  <meta content="{{ csrf_token }}" name="csrf-token">
+  {% if LANGUAGE_BIDI %}
+    <link href="{% static "admin_base_template/plugins/global/plugins.bundle.rtl.css" %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static "admin_base_template/css/style.bundle.rtl.css" %}" rel="stylesheet" type="text/css"/>
+  {% else %}
+    <link href="{% static "admin_base_template/plugins/global/plugins.bundle.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "admin_base_template/css/style.bundle.css" %}" rel="stylesheet" type="text/css"/>
+  {% endif %}
+  <style>
+      @font-face {
+          font-family: 'KFGQPC HAFS Uthmanic Script';
+          src: url('{% static "fonts/UthmanicHafs_V20.ttf" %}') format("opentype"),
+          url("{% static "fonts/UthmanicHafs_V20.woff" %}") format("woff"),
+          url("{% static "fonts/UthmanicHafs_V20.woff2" %}") format("woff2");
+      }
+
+      .HafsFont {
+          font-family: 'KFGQPC HAFS Uthmanic Script';
+      }
+  </style>
+  {% block styles %}{% endblock %}
+  <script type="module" src="{% static "notifications/src/index.js" %}"></script>
+  <script nomodule src="{% static 'components/dist/components.esm.js' %}"></script>
+  <script type="module" src="{% static "components/dist/components/components.esm.js" %}"></script>
+  <script nomodule src="{% static "components/dist/components/components.js" %}"></script>
+</head>
+
+<body id="kt_body"
+      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed">
+
+{% include "base_template/partials/theme-mode/_init.html" %}
+
+<div class="d-flex flex-column flex-root">
+  <div class="page d-flex flex-row flex-column-fluid">
+
+    {% include "base_template/layout/partials/_sidebar.html" %}
+
+    <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+
+      {% include "base_template/layout/partials/header/_header.html" %}
+
+      {% block toolbar %}
+        {% include "base_template/layout/partials/toolbar/_toolbar.html" %}
+      {% endblock %}
+
+
+      <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        {% block content %}{% endblock %}
+      </div>
+
+      {% include "base_template/layout/partials/footer/_footer.html" %}
+    </div>
+
+  </div>
+
+</div>
+
+{% block modals %}{% endblock %}
+
+{% include "base_template/partials/_scrolltop.html" %}
+
+
+<script src="{% url 'javascript-catalog' %}"></script>
+
+<script src="{% static "admin_base_template/plugins/global/plugins.bundle.js" %}"></script>
+<script src="{% static "admin_base_template/js/scripts.bundle.js" %}"></script>
+<script>
+  const csrfToken = $('meta[name="csrf-token"]').prop('content')
+  window.webSocketProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+  window.gettext = gettext
+</script>
+
+<script src="{% static "custom/formValidation.js" %}"></script>
+<script src="{% static "custom/modalHelpers.js" %}"></script>
+<script src="{% static "custom/toastr.js" %}"></script>
+<script src="{% static "custom/utils.js" %}"></script>
+<script src="{% static "records/audio-player.js" %}"></script>
+
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

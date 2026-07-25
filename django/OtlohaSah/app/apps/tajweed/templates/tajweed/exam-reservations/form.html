@@ -1,0 +1,21 @@
+{% extends 'base_template/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="offset-lg-2 col-lg-8 col-sm-12">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {% include 'django/forms/field.html' with field=form.meeting_link %}
+        {% include 'django/forms/field.html' with field=form.notes %}
+        <div class="d-flex justify-content-end mt-4">
+          <a class="btn btn-link text-danger" href="{% url 'admin:tajweed:exam-reservations:listing' %}">{% translate 'Cancel' %}</a>
+          <button style="margin-left: 20px" class="btn btn-primary" type="submit">{% translate 'Save' %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

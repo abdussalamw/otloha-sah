@@ -1,0 +1,12 @@
+{% if item.disk == 'youtube' %}
+    {% include 'main/admin/partials/items/youtube.html' with id=item.file_name caption=item.caption%}
+{% else %}
+    {% if 'image' in item.mime_type %}
+        {% include 'main/admin/partials/items/image.html' with item=item  %}
+    {% else %}
+        {% include 'main/admin/partials/items/file.html' with item=item %}
+    {% endif %}
+{% endif %}
+
+
+

@@ -1,0 +1,371 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-22 01:53+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: books/views_admin.py:19
+msgid "All Tajweed Books"
+msgstr "جميع كتب التجويد"
+
+#: books/views_admin.py:21 rules/views_admin.py:22
+#: tajweed_verse/views_admin.py:20 templates/tajweed/book/details.html:46
+#: templates/tajweed/verses/details.html:42
+#: templates/tajweed/verses/details.html:69
+#: templates/tajweed/verses/update.html:41
+msgid "ID"
+msgstr "المعرف"
+
+#: books/views_admin.py:22 models.py:35 models.py:80 rules/views_admin.py:23
+#: templates/tajweed/book/details.html:48 tests/test_models.py:235
+msgid "Name"
+msgstr "الأسم"
+
+#: books/views_admin.py:23 templates/tajweed/book/details.html:50
+msgid "Narration"
+msgstr "الرواية"
+
+#: books/views_admin.py:24 models.py:37 templates/tajweed/book/details.html:52
+#: tests/test_models.py:137
+msgid "Author"
+msgstr "المؤلف"
+
+#: books/views_admin.py:25 rules/views_admin.py:26
+#: tajweed_verse/views_admin.py:23
+msgid "Actions"
+msgstr "الإجراءات"
+
+#: books/views_admin.py:32 books/views_admin.py:73 books/views_admin.py:87
+msgid "Add New Tajweed Book"
+msgstr "اضافة كتاب تجويد جديد"
+
+#: books/views_admin.py:45 rules/views_admin.py:49
+#: tajweed_verse/views_admin.py:54 templates/tajweed/book/details.html:35
+#: templates/tajweed/book/form.html:26 templates/tajweed/rules/form.html:27
+msgid "Edit"
+msgstr "تعديل"
+
+#: books/views_admin.py:47 rules/views_admin.py:51
+msgid "Translate"
+msgstr "ترجمة"
+
+#: books/views_admin.py:49 rules/views_admin.py:53
+#: tajweed_verse/views_admin.py:56 templates/tajweed/book/details.html:38
+msgid "Delete"
+msgstr "حذف"
+
+#: books/views_admin.py:55 rules/views_admin.py:37
+#: tajweed_verse/views_admin.py:36 templates/tajweed/book/details.html:15
+#: templates/tajweed/book/form.html:17 templates/tajweed/rules/form.html:17
+#: templates/tajweed/verses/details.html:16
+#: templates/tajweed/verses/update.html:15
+msgid "Home"
+msgstr "الرئيسية"
+
+#: books/views_admin.py:70 books/views_admin.py:83
+#, python-brace-format
+msgid "Edit {book}"
+msgstr "تعديل {book}"
+
+#: books/views_admin.py:84
+msgid "Book Updated Successfully"
+msgstr "تم تعديل الكتاب بنجاح"
+
+#: books/views_admin.py:88
+msgid "Book Created Successfully"
+msgstr "تم إضافة الكتاب بنجاح"
+
+#: books/views_admin.py:107
+#, python-brace-format
+msgid "{book} Book Details"
+msgstr "تفاصيل كتاب {book}"
+
+#: forms.py:49 models.py:131 tests/test_models.py:726
+msgid "Word Text"
+msgstr "الكلمة"
+
+#: forms.py:50 models.py:130 templates/tajweed/verses/details.html:70
+#: tests/test_models.py:709
+msgid "Character Number"
+msgstr "رقم الحرف"
+
+#: forms.py:51 models.py:129 tests/test_models.py:676
+msgid "Character Text"
+msgstr "الحرف"
+
+#: forms.py:52 models.py:96 models.py:134
+#: templates/tajweed/verses/details.html:43
+#: templates/tajweed/verses/update.html:42 tests/test_models.py:495
+#: tests/test_models.py:825
+msgid "Verse Number"
+msgstr "رقم الآية"
+
+#: forms.py:53 models.py:95 tajweed_verse/views_admin.py:21
+#: templates/tajweed/verses/details.html:72 tests/test_models.py:512
+msgid "Verse Text"
+msgstr "الآية"
+
+#: forms.py:54 models.py:98 models.py:135
+#: templates/tajweed/verses/details.html:73
+msgid "Chapter Number"
+msgstr "رقم السورة"
+
+#: forms.py:55 models.py:133 models.py:139
+#: templates/tajweed/verses/details.html:75 tests/test_models.py:792
+msgid "Rule"
+msgstr "الحكم"
+
+#: forms.py:56 models.py:132 tests/test_models.py:759
+msgid "Word Number"
+msgstr "رقم الكلمة"
+
+#: models.py:41 tests/test_models.py:149
+#, python-brace-format
+msgid "{book} Book"
+msgstr "كتاب {book}"
+
+#: models.py:65 tests/test_models.py:331
+msgid "Red"
+msgstr "احمر"
+
+#: models.py:66 tests/test_models.py:332
+msgid "Green"
+msgstr "اخضر"
+
+#: models.py:67 tests/test_models.py:333
+msgid "Blue"
+msgstr "ازرق"
+
+#: models.py:68 tests/test_models.py:334
+msgid "Yellow"
+msgstr "اصفر"
+
+#: models.py:69 tests/test_models.py:335
+msgid "Orange"
+msgstr "برتقالي"
+
+#: models.py:70 tests/test_models.py:336
+msgid "Black"
+msgstr "اسود"
+
+#: models.py:71 tests/test_models.py:337
+msgid "White"
+msgstr "ابيض"
+
+#: models.py:72 tests/test_models.py:338
+msgid "Pink"
+msgstr ""
+
+#: models.py:73 tests/test_models.py:339
+msgid "Brown"
+msgstr "بني"
+
+#: models.py:74 tests/test_models.py:340
+msgid "Grey"
+msgstr "رمادي"
+
+#: models.py:75 tests/test_models.py:341
+msgid "Navy"
+msgstr ""
+
+#: models.py:76 tests/test_models.py:342
+msgid "Aqua"
+msgstr ""
+
+#: models.py:79 rules/views_admin.py:24 tests/test_models.py:203
+msgid "Rule Number"
+msgstr "رقم الحكم"
+
+#: models.py:81 tests/test_models.py:283
+msgid "Description"
+msgstr "الوصف"
+
+#: models.py:87 tests/test_models.py:438
+#, python-brace-format
+msgid "Rule: {rule}, Rule Number: {rule_number}"
+msgstr "الجكم: {rule}، رقم: {rule_number}"
+
+#: models.py:103 tests/test_models.py:635
+#, fuzzy, python-brace-format
+#| msgid "Verse Number {verse_number}, Chapter Number: {chapter_number}"
+msgid "Verse Number: {verse_number}, Chapter Number: {chapter_number}"
+msgstr "آيه رقم: {verse_number}، سورة رقم: {chapter_number}"
+
+#: models.py:137
+#, fuzzy
+#| msgid "Books"
+msgid "Book"
+msgstr "الكتب"
+
+#: models.py:141
+#, fuzzy
+#| msgid "Verse Text"
+msgid "Verse"
+msgstr "الآية"
+
+#: models.py:145 tests/test_models.py:982
+#, python-brace-format
+msgid "Character {character}"
+msgstr "حرف الـ {character}"
+
+#: rules/views_admin.py:20
+msgid "All Rules"
+msgstr "جميع الأحكام"
+
+#: rules/views_admin.py:25
+msgid "Color"
+msgstr "اللون"
+
+#: rules/views_admin.py:33 rules/views_admin.py:71 rules/views_admin.py:85
+msgid "Add New Rule"
+msgstr "أضف حكم جديد"
+
+#: rules/views_admin.py:68 rules/views_admin.py:81
+#, python-brace-format
+msgid "Edit {rule}"
+msgstr "تعديل {rule}"
+
+#: rules/views_admin.py:82
+msgid "Rule Updated Successfully"
+msgstr "تم تعديل الحمن بنجاح"
+
+#: rules/views_admin.py:86
+msgid "Rule Created Successfully"
+msgstr "تم ضافة الحكم بنجاح"
+
+#: rules/views_admin.py:104
+#, fuzzy, python-brace-format
+#| msgid "Verse Details"
+msgid "{rule} Details"
+msgstr "تفاصيل {rule}"
+
+#: tajweed_verse/views_admin.py:18 templates/tajweed/book/details.html:83
+msgid "All Verses"
+msgstr "جميع الآيات"
+
+#: tajweed_verse/views_admin.py:22 templates/tajweed/verses/details.html:44
+#: templates/tajweed/verses/update.html:43
+msgid "Chapter"
+msgstr "سورة"
+
+#: tajweed_verse/views_admin.py:28
+#, python-brace-format
+msgid "All Verses of {book} Book"
+msgstr "جميع آيات كتاب {book}"
+
+#: tajweed_verse/views_admin.py:73
+#, python-brace-format
+msgid "Verse ( {text} ) Tajweed Details"
+msgstr "تفاصيل احكام التجويد الخاصة بالآية ( {text} )"
+
+#: tajweed_verse/views_admin.py:98 tajweed_verse/views_admin.py:120
+msgid "Update Characters"
+msgstr "تعديل أحكام الحروف"
+
+#: tajweed_verse/views_admin.py:108
+msgid "Characters Submitted Successfully"
+msgstr "تم ارسال أحكام الحروف بنجاح"
+
+#: templates/tajweed/book/details.html:18
+#: templates/tajweed/verses/details.html:19
+msgid "Tajweed Books"
+msgstr "كتب التجويد"
+
+#: templates/tajweed/book/details.html:64
+msgid "Tajweed Book CSV Files"
+msgstr "ملفات الـ CSV لكتاب التجويد"
+
+#: templates/tajweed/book/details.html:68
+msgid "All CSV Files"
+msgstr "جميع ملفات الـ CSV"
+
+#: templates/tajweed/book/details.html:73
+msgid "Upload New CSV"
+msgstr "ارفع ملف CSV جديد"
+
+#: templates/tajweed/book/details.html:79
+msgid "Book Verses"
+msgstr "آيات الكتاب"
+
+#: templates/tajweed/book/form.html:20
+msgid "Books"
+msgstr "الكتب"
+
+#: templates/tajweed/book/form.html:30 templates/tajweed/rules/form.html:31
+msgid "Create"
+msgstr "إنشاء"
+
+#: templates/tajweed/book/form.html:50 templates/tajweed/rules/form.html:51
+#: templates/tajweed/verses/update.html:47
+#: templates/tajweed/verses/update.html:82
+msgid "Submit"
+msgstr "إرسال"
+
+#: templates/tajweed/book/form.html:54 templates/tajweed/book/form.html:58
+#: templates/tajweed/rules/form.html:55 templates/tajweed/rules/form.html:59
+#: templates/tajweed/verses/update.html:53
+#: templates/tajweed/verses/update.html:58
+#: templates/tajweed/verses/update.html:88
+#: templates/tajweed/verses/update.html:93
+msgid "Cancel"
+msgstr "الغاء"
+
+#: templates/tajweed/rules/form.html:20
+msgid "Rules"
+msgstr "الأحكام"
+
+#: templates/tajweed/verses/details.html:71
+msgid "Character"
+msgstr "الحرف"
+
+#: templates/tajweed/verses/details.html:74
+msgid "Word"
+msgstr "الكلمة"
+
+#: templates/tajweed/verses/update.html:18
+msgid "Tajweed"
+msgstr "التجويد"
+
+#: templates/tajweed/verses/update.html:21
+msgid "Verse Details"
+msgstr "تفاصيل الآية"
+
+#: templates/tajweed/verses/update.html:49
+#: templates/tajweed/verses/update.html:84
+msgid "Submit and Finish"
+msgstr "إرسال وإنهاء"
+
+#: tests/test_forms.py:57 tests/test_forms.py:64 tests/test_forms.py:123
+#: tests/test_forms.py:138 tests/test_forms.py:145 tests/test_forms.py:152
+#: tests/test_forms.py:213 tests/test_forms.py:220 tests/test_forms.py:235
+#: tests/test_forms.py:315 tests/test_forms.py:322 tests/test_forms.py:337
+#: tests/test_forms.py:344 tests/test_forms.py:359 tests/test_forms.py:374
+msgid "This field is required."
+msgstr "هذا الحقل مطلوب"
+
+#: tests/test_forms.py:131 tests/test_forms.py:228 tests/test_forms.py:243
+#: tests/test_forms.py:330 tests/test_forms.py:352 tests/test_forms.py:367
+#: tests/test_forms.py:382
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr "تأكد من أن القيمة اكبر من او مساوية لـ %(limit_value)s"
+
+#: tests/test_forms.py:160
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr "تأكد من أن الإختيار صحيح. %(value)s ليس من الإختيارات المتاحة."

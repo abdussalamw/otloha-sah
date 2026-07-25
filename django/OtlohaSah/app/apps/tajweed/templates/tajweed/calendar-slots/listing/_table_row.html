@@ -1,0 +1,20 @@
+{% load dj_translation %}
+{% load i18n %}
+
+<td class="text-center">{{ item.id }}</td>
+
+<td class="text-center">{{ item.date }}</td>
+
+<td class="text-center">{{ item.time_from }}</td>
+
+<td class="text-center">{{ item.time_to }}</td>
+
+<td class="text-center">{{ item.available_slots }}</td>
+
+<td class="text-center">{{ item.reserved_slots }}</td>
+
+
+<td class="text-center">
+  {% include 'tajweed/calendar-slots/listing/_item_actions.html' %}
+</td>
+

@@ -1,0 +1,30 @@
+{% load i18n %}
+<td>{{ item.id }}</td>
+<td class="HafsFont fs-4 text-dark">{{ item.recitation_name }}</td>
+<td class="text-center">{{ item.price|floatformat }}</td>
+<td class="text-center">
+  {% if item.is_paid %}
+    <div class="badge badge-success">{% trans "Paid" %}</div>
+  {% else %}
+    <div class="badge badge-danger">{% trans "Unpaid" %}</div>
+  {% endif %}
+</td>
+<td class="text-center">{{ item.created_at|date:"M d, Y h:i A" }}</td>
+<td class="text-center">{{ item.paid_at|date:"M d, Y h:i A"|default:"-------" }}</td>
+<td class="text-end">
+  <a href="{% url "admin:users:mark-pricing-as-complete" "teachers" teacher.id item.id %}"
+     class="btn {% if item.is_paid %} disabled{% else %} btn-light-primary{% endif %}"
+      {% if item.is_paid %}
+     disabled
+      {% else %}
+     data-request-method="POST"
+     data-toggle="confirm"
+     data-confirm-message="{% trans "Are you sure you would like to complete payment for selected recitation!" %}"
+      {% endif %}>
+    {% if item.is_paid %}
+      {% trans "Complete payment" %}
+    {% else %}
+      {% trans "Payment Completed" %}
+    {% endif %}
+  </a>
+</td>

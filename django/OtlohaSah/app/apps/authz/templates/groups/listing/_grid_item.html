@@ -1,0 +1,24 @@
+{% load i18n %}
+<div class="col-md-4">
+  <div class="card card-flush h-md-100">
+    <div class="card-header">
+      <div class="card-title">
+        <h2>{{ item.name }}</h2>
+      </div>
+    </div>
+    <div class="card-body pt-1">
+      <div class="fw-bold text-gray-600 mb-5">
+        {% trans "Total users with this role" %}: {{ item.user_set.count }}
+      </div>
+      {% include "groups/partials/_permissions_list.html" with item=object limited=True %}
+    </div>
+    <div class="card-footer flex-wrap pt-0">
+      <a href="{% url "admin:authorization:details" item.pk %}"
+         class="btn btn-light btn-active-primary my-1 me-2">{% trans "View Role" %}</a>
+
+      <a href="{% url "admin:authorization:edit" item.pk %}"
+         class="btn btn-light btn-active-light-primary my-1">{% trans "Edit Role" %}
+      </a>
+    </div>
+  </div>
+</div>

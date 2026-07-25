@@ -1,0 +1,12 @@
+{% load dj_translation %}
+{% load i18n %}
+
+<td class="text-center">{{ item.id }}</td>
+<td class="text-center">{{ item.url }}</td>
+<td class="text-end">{{ item.lesson }}</td>
+
+
+
+<td class="text-center">
+  {% include 'tajweed/lessons/Videos/listing/_item_actions.html' %}
+</td>

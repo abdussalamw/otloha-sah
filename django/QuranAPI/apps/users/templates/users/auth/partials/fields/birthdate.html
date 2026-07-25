@@ -1,0 +1,18 @@
+<div class="field-wrapper field-wrapper--full">
+    <label class="field-wrapper__label" for="{{ form.email.id_for_label }}">{{ form.birth_date.label }}</label>
+    <div class="field-wrapper__content">
+        <input class="field"
+               type="date"
+               id="{{ form.birth_date.id_for_label }}"
+               placeholder="{{ form.birth_date.label }}"
+               name="{{ form.birth_date.html_name }}"
+               value="{{ form.birth_date.value|default_if_none:'' }}">
+    </div>
+    {% if form.birth_date.errors %}
+        <ul class="field-wrapper__messages">
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>

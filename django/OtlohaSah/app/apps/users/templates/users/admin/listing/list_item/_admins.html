@@ -1,0 +1,21 @@
+{% load i18n %}
+<div class="card mb-5">
+  <div class="card-header p-4">
+    {% include "users/admin/listing/list_item/partials/__admin_details.html" %}
+  </div>
+  {% with item_groups=item.groups.all item_perms=item.user_permissions.all %}
+    <div class="card-body d-flex justify-content-between py-4">
+      <div class="d-flex">
+        <p class="text-gray-700 fw-bold mb-0 me-2">{% trans "Roles" %}: </p>
+        {% for group in item_groups %}
+          <div class="badge badge-light-primary me-3">{{ group.name }}</div>
+        {% empty %}
+          <p class="text-gray-700 mb-0">{% trans "Has no roles" %}</p>
+        {% endfor %}
+      </div>
+      <p class="text-gray-700 fw-bold m-0">
+        {% blocktrans with count=item_perms|length %}Has {{ count }} permissions{% endblocktrans %}
+      </p>
+    </div>
+  {% endwith %}
+</div>

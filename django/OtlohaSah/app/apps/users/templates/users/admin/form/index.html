@@ -1,0 +1,10 @@
+{% extends 'base_template/base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+    {% include "users/admin/form/_"|add:user_type|add:".html" %}
+{% endblock %}

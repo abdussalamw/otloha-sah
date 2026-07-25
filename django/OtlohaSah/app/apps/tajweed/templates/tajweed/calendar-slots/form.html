@@ -1,0 +1,40 @@
+{% extends 'base_template/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="offset-lg-2 col-lg-8 col-sm-12">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.media }}
+                    <div class="form-group{% if form.date.errors %} has-error{% endif %}">
+                        {% include 'django/forms/field.html' with field=form.date %}
+                        {% for error in form.date.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% include 'django/forms/field.html' with field=form.time_from %}
+                    {% include 'django/forms/field.html' with field=form.time_to %}
+                    <div class="form-group{% if form.available_slots.errors %} has-error{% endif %}">
+                        {% include 'django/forms/field.html' with field=form.available_slots %}
+                        {% for error in form.available_slots.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% include 'django/forms/field.html' with field=form.reserved_slots %}
+                    <div class="d-flex justify-content-end mt-4">
+                        <a class="btn btn-link text-danger mr-2"
+                           href="{% url 'admin:tajweed:calendar-slots:listing' %}">{% translate 'Cancel' %}</a>
+                        <button style="margin-left: 20px" class="btn btn-primary"
+                                type="submit">{% translate 'Save' %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

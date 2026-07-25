@@ -1,0 +1,38 @@
+{% comment %}<div id="kt_aside"
+     class="aside overflow-visible pb-5 pt-5 pt-lg-0"
+     data-kt-drawer="true"
+     data-kt-drawer-name="aside"
+     data-kt-drawer-activate="{default: true, lg: false}"
+     data-kt-drawer-overlay="true"
+     data-kt-drawer-width="{default:'80px', '300px': '100px'}"
+     data-kt-drawer-direction="start"
+     data-kt-drawer-toggle="#kt_aside_mobile_toggle">
+
+  <div class="aside-menu flex-column-fluid" id="kt_aside_menu">
+
+  </div>
+
+
+</div>{% endcomment %}
+
+<div id="kt_aside"
+     class="aside overflow-visible pb-5 pt-5 pt-lg-0"
+     data-kt-drawer="true"
+     data-kt-drawer-name="aside"
+     data-kt-drawer-activate="{default: true, lg: false}"
+     data-kt-drawer-overlay="true"
+     data-kt-drawer-width="{default:'80px', '300px': '100px'}"
+     data-kt-drawer-direction="start"
+     data-kt-drawer-toggle="#kt_aside_mobile_toggle">
+  {% include "base_template/layout/partials/sidebar/_logo.html" %}
+
+
+  <div class="aside-menu flex-column-fluid" id="kt_aside_menu">
+    {% include "base_template/layout/partials/sidebar/_menu.html" %}
+  </div>
+
+   {% if sidebar.footer %}
+    {% include sidebar.footer %}
+  {% endif %}
+
+</div>

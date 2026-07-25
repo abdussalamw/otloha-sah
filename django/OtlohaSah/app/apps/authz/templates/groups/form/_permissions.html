@@ -1,0 +1,71 @@
+{% load i18n %}
+<h2 class="fs-2 fw-bold form-label mb-5">{{ field.label }}</h2>
+
+<div class="d-flex jus mb-3">
+  <h4 class="fw-semibold fs-3 me-5">
+    {% trans "Administrator Access" %}
+    <span
+        data-bs-toggle="tooltip"
+        title="{% trans "Allows a full access to the system" %}"
+        class="svg-icon svg-icon-primary svg-icon-2 ms-1">
+      <svg width="24" height="24" viewBox="0 0 24 24"
+           fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"></rect>
+        <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="currentColor"></rect>
+        <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="currentColor"></rect>
+      </svg>
+    </span>
+  </h4>
+  <label class="form-check form-check-sm form-check-custom form-check-solid">
+    <input class="form-check-input" type="checkbox" id="admin-select-all">
+    <span class="form-check-label text-gray-700">{% trans "Select All" %}</span>
+  </label>
+</div>
+<div class="row">
+  {% for key, group in permissions.items %}
+    <div class="d-flex jus mb-3">
+      <h4 class="fw-semibold fs-4 me-5">{{ group.name }}</h4>
+      <label class="form-check form-check-sm form-check-custom form-check-solid">
+        <input class="form-check-input" type="checkbox" data-app-select="{{ key }}">
+        <span class="form-check-label text-gray-700">{% trans "Select All" %}</span>
+      </label>
+    </div>
+    <div class="row mb-5">
+      {% for group_key, item in group.models.items %}
+        <div class="col-md-3 mb-5">
+          <div class="bg-white p-5  shadow shadow-5 rounded-1 h-100">
+            <div class="d-flex justify-content-between mb-3">
+              <p class="fw-semibold fs-5 me-5">{{ item.name }}</p>
+              <label class="form-check form-check-sm form-check-custom form-check-solid me-lg-20 mb-3">
+                <input class="form-check-input"
+                       type="checkbox"
+                       data-model-select="{{ group_key }}"
+                       data-app="{{ key }}">
+                <span class="form-check-label text-gray-700">{% trans "Select All" %}</span>
+              </label>
+            </div>
+
+            {% for permission in item.permissions %}
+              <label class="form-check form-check-sm form-check-custom form-check-solid me-lg-20 mb-3">
+                <input class="form-check-input"
+                       data-model="{{ group_key }}"
+                       data-app="{{ key }}"
+                       data-permission-select="true"
+                       type="checkbox"
+                       value="{{ permission.id }}"
+                    {% if permission.id in field.value %}
+                       checked
+                    {% endif %}
+                       name="permissions">
+                <span class="form-check-label text-gray-700">
+                        {% trans permission.name %}
+                    </span>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
+

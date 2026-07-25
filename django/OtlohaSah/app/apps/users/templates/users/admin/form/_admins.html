@@ -1,0 +1,60 @@
+{% load groups_tags %}
+{% load i18n %}
+<div class="app-container container-fluid">
+
+  <form method="POST" class="row">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{{ title }}</h3>
+        </div>
+
+
+        {% csrf_token %}
+        {{ form.media }}
+        <div class="card-body">
+          {{ form.media }}
+          {% if form.non_field_errors %}
+            <ul>
+              {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% for hidden_field in form.hidden_fields %}
+            {% if hidden_field.errors %}
+              <ul>
+                {% for error in hidden_field.errors %}
+                  <li>({% translate 'Hidden field' %} {{ hidden_field.name }}) {{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {{ hidden_field }}
+          {% endfor %}
+
+          {% include 'django/forms/field.html' with field=form.username %}
+          {% include 'django/forms/field.html' with field=form.first_name %}
+          {% include 'django/forms/field.html' with field=form.last_name %}
+          {% include 'django/forms/field.html' with field=form.email %}
+          {% include 'django/forms/field.html' with field=form.phone %}
+          {% include 'django/forms/field.html' with field=form.groups %}
+          {% include 'django/forms/field.html' with field=form.is_superuser %}
+
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-text-danger">{% trans "Cancel" %}</a>
+          <button class="btn btn-light-primary" type="submit">{% trans "Submit" %}</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          {% permissions_field form.permissions %}
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

@@ -1,0 +1,68 @@
+{% load i18n quran static %}
+
+<div class="card mb-5 mb-xl-8">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="fw-bold m-0">{% trans "Discussion" %}</h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <div
+        class="w-100 mh-400px scroll hover-scroll d-flex flex-column py-5 {% get_narration_font_class object.narration_id %}">
+      {% if room %}
+        {% for message in room.messages.all %}
+          <div class="d-flex mb-3 p-3" id="message-{{ message.id }}">
+            <div class="symbol symbol-35px symbol-circle me-2">
+              <img alt="{{ message.user.get_full_name }}" src="{{ message.user.profile_image }}">
+            </div>
+            <div class="d-flex flex-column">
+              <a href="{{ message.user.get_details_url }}"
+                 class="text-dark fw-semibold">
+                {{ message.user.get_full_name }}
+              </a>
+              <div
+                  class="d-flex flex-column rounded bg-light-info text-dark fw-semibold p-3 min-w-200px">
+                {% if message.recitationfault %}
+                  <span class="border border-primary p-2 mb-2 rounded bg-white fs-7"
+                        style="width:fit-content">
+                    {{ message.recitationfault.get_fault_type }}
+                  </span>
+                  <div class="text-gray-500 fs-4" style="direction: rtl">
+                    {{ message.recitationfault }}
+                  </div>
+                {% endif %}
+                {% if message.reply_to %}
+                  <a href="#message-{{ message.reply_to.id }}"
+                     class="d-flex align-items-center p-2 fs-7 bg-light rounded">
+                    {% if message.reply_to.record %}
+                      <i class="bi bi-record"></i>
+                    {% endif %}
+                    {% if message.reply_to.text %}
+                      <span class="fw-lighter">{{ message.reply_to.text }}</span>
+                    {% endif %}
+                  </a>
+                {% endif %}
+                <div class="d-flex flex-column">
+                  {% if message.record %}
+                    <div class="d-flex min-w-175px align-items-center mb-1">
+                      <span class="cursor-pointer"
+                            data-toggle="audio"
+                            data-src="{{ message.record.record.url }}">
+                        <span class="svg-icon svg-icon-2x audio-icon"></span>
+                      </span>
+                      <img src="{% static "records/wave.png" %}" alt="wave"
+                           class="w-100 mh-25px" style="object-fit: cover">
+                    </div>
+                  {% endif %}
+                  {% if message.text %}
+                    <span class="text-gray-600">{{ message.text }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>

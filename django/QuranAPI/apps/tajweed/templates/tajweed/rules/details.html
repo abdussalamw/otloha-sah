@@ -1,0 +1,41 @@
+{% extends 'admin_base.html' %}
+{% load i18n humanize %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <div class="col-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">{{ rule }}</h3>
+                <div class="card-tools">
+                    <a href="{% url 'admin:tajweed:rules:update' rule.pk %}" class="btn btn-sm btn-primary"
+                       title="Edit">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="#" class="btn btn-sm btn-danger" title="احذف">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">ID</dt>
+                    <dd class="col-sm-8">{{ rule.pk }}</dd>
+                    <dt class="col-sm-4">COLOR</dt>
+                    <dd class="col-sm-8">{{ rule.color }}</dd>
+                    <dt class="col-sm-4">NAME</dt>
+                    <dd class="col-sm-8">{{ rule.translated_name }}</dd>
+                    <dt class="col-sm-4">RULE NUMBER</dt>
+                    <dd class="col-sm-8">{{ rule.rule_number }}</dd>
+                    <dt class="col-sm-4">TAJWEET BOOK</dt>
+                    <dd class="col-sm-8">{{ rule.tajweed_book }}</dd>
+                </dl>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+
+{% endblock %}

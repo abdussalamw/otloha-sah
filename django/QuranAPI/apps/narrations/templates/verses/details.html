@@ -1,0 +1,86 @@
+{% extends 'admin_base.html' %}
+{% load i18n humanize %}
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'admin:main:home' %}">{% translate 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url "admin:narrations:listing" %}">{% translate 'Narrations' %}</a>
+            <li class="breadcrumb-item">
+              <a href="{% url "admin:narrations:details" narration.id %}">
+                {{ narration.translated_name }}
+              </a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% url "admin:narrations:verses:listing" narration.pk %}">
+                {% translate 'Verses' %}
+              </a>
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-sm-3">
+        <div class="card card-outline card-primary">
+          <div class="card-header">
+            <h3 class="card-title">{{ verse }}</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <dl class="row">
+              <dt class="col-sm-4">{% translate 'ID' %}</dt>
+              <dd class="col-sm-8">{{ verse.id }}</dd>
+              <dt class="col-sm-4">{% translate 'Line Start' %}</dt>
+              <dd class="col-sm-8">{{ verse.line_start }}</dd>
+              <dt class="col-sm-4">{% translate 'Line End' %}</dt>
+              <dd class="col-sm-8">{{ verse.line_end }}</dd>
+              <dt class="col-sm-4">{% translate 'Verse Number' %}</dt>
+              <dd class="col-sm-8">{{ verse.verse_number }}</dd>
+              <dt class="col-sm-4">{% translate 'Page Number' %}</dt>
+              <dd class="col-sm-8">{{ verse.page_number }}</dd>
+              <dt class="col-sm-4">{% translate 'Chapter' %}</dt>
+              <dd class="col-sm-8">{{ verse.chapter }}</dd>
+              <dt class="col-sm-4">{% translate 'Part' %}</dt>
+              <dd class="col-sm-8">{{ verse.part }}</dd>
+            </dl>
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title uthmainc-font">
+              {{ verse.text }}
+            </h3>
+          </div>
+          <div class="card-body">
+            <p>{% translate "Verse Words" %}</p>
+            {% for verse_word in verse.verse_words.all %}
+              <div class="list-group">
+                <div class="list-group-item">
+                  <div class="fw-bold uthmainc-font">{{ verse_word.text }}</div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

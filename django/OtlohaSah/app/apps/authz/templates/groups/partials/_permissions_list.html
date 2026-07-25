@@ -1,0 +1,15 @@
+{% load i18n groups_tags %}
+{% get_permissions_list item limited as PERMISSIONS %}
+<div class="d-flex flex-column text-gray-600 mh-600px scroll-y">
+  {% for permission in PERMISSIONS.items %}
+    <div class="d-flex align-items-center py-2">
+      <span class="bullet bg-primary me-3"></span> {% trans permission.name %}
+    </div>
+  {% endfor %}
+  {% if limited  and count %}
+    <div class="d-flex align-items-center py-2">
+      <span class="bullet bg-primary me-3"></span>
+      {% blocktrans with count=PERMISSIONS.count %} +{{ count }} more...{% endblocktrans %}
+    </div>
+  {% endif %}
+</div>

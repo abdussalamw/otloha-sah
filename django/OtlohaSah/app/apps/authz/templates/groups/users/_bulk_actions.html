@@ -1,0 +1,9 @@
+{% load i18n %}
+<a href="{% url "admin:authorization:bulk-revoke-access" group.id %}"
+   data-toggle="bulk-action"
+   data-request-method="POST"
+   data-confirm-message="{% trans "Are you sure you want to revoke access for selected users?" %}"
+   data-input-type="selected"
+   class="btn btn-light-danger btn-sm">
+  {% trans "Revoke Access" %}
+</a>

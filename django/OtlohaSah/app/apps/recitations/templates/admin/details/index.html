@@ -1,0 +1,23 @@
+{% extends 'base_template/base.html' %}
+{% load static %}
+{% load quran i18n %}
+
+{% block content %}
+  <div class="container-xxl">
+    <div class="d-flex flex-column flex-lg-row">
+      <div class="flex-column flex-lg-row-auto w-lg-250px w-xl-350px mb-10">
+        {% include "admin/details/_details.html" %}
+
+
+        {% if object.teacher %}
+          {% include "admin/details/_teacher.html" %}
+        {% endif %}
+
+      </div>
+      <div class="flex-lg-row-fluid ms-lg-15">
+        {% include "admin/details/_recitation.html" %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

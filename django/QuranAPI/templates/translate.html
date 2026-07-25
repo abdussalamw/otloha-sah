@@ -1,0 +1,68 @@
+{% extends 'admin_base.html' %}
+{% load i18n %}
+{% load model_translation %}
+
+
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row justify-content-between">
+        <h1>{% translate 'Translate' %}: {{ object }}</h1>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
+            {% translate "Translate to" %}
+          </button>
+          <div class="dropdown-menu" role="menu">
+            {% for key, text in languages.items %}
+              <a class="dropdown-item"
+                 href="{% url "translation:admin-view" app_label=app_label model=model pk=object.pk locale=key %}?next={{ next }}">
+                {{ text }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-5">
+        {% autoescape off %}
+          <div class="card">
+            <div class="card-body">
+              <dl>
+                {% for field in object.translatable %}
+                  <dt>{% trans field %}</dt>
+                  <dd>{{ object|get_field_original_translation:field }}</dd>
+                {% endfor %}
+              </dl>
+            </div>
+          </div>
+
+        {% endautoescape %}
+      </div>
+      <div class="col-md-7">
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" value="{{ locale }}" name="locale">
+          <div class="card mb-4">
+            <div class="card-body" dir="{% if locale == 'ar' %}rtl{% endif %}">
+              <input type="hidden" name="next" value="{{ next }}">
+              {% include 'django/forms/form.html' with form=form %}
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-link text-danger"
+                 href="{{ next }}">{% translate "Cancel" %}</a>
+              <button class="btn btn-primary" type="submit">
+                {% translate "Submit" %}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

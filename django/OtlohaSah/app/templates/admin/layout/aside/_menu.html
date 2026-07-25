@@ -1,0 +1,150 @@
+{% load i18n %}
+<div class="hover-scroll-overlay-y my-2 my-lg-5 pe-lg-n1" id="kt_aside_menu_wrapper" data-kt-scroll="true"
+     data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer"
+     data-kt-scroll-wrappers="#kt_aside, #kt_aside_menu" data-kt-scroll-offset="5px">
+
+  <div
+      class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-semibold"
+      id="#kt_aside_menu" data-kt-menu="true">
+
+
+    {% for item in sidebar %}
+      {% if item.permissions %}
+        {% if 'url' in item %}
+          <a href="{{ item.url }}"
+              {% if item.has_children %}
+             data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+             data-kt-menu-placement="right-start"
+              {% endif %}
+             class="menu-item py-2{% if item.is_active %} here show{% endif %}">
+        {% else %}
+          <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start"
+               class="menu-item py-2{% if item.is_active %} here show{% endif %}">
+        {% endif %}
+
+
+
+      <span class="menu-link menu-center">
+            <span class="menu-icon me-0">
+              <i class="{{ item.icon }} fs-1"></i>
+            </span>
+            <span class="menu-title">{{ item.title }}</span>
+          </span>
+      {% if item.children|length > 1 %}
+        <div class="menu-sub menu-sub-dropdown py-4 w-200px w-lg-225px">
+          <div class="menu-item">
+            <div class="menu-content">
+              <span class="menu-section fs-5 fw-bolder ps-1 py-1">{{ item.title }}</span>
+            </div>
+          </div>
+          {% if item.children|length > 4 %}
+            {% for child in item.children %}
+              {% if forloop.counter0 < 4 %}
+                <div class="menu-item">
+                  <a class="menu-link{% if child.is_active %} active{% endif %}"
+                      {% if child.comment %}
+                     title="{{ child.comment }}"
+                     data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
+                     data-bs-placement="right"
+                      {% endif %}
+                     href="{{ child.url }}">
+                      <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                      </span>
+                    <span class="menu-title">{{ child.title }}</span>
+                  </a>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+            <div class="menu-inner flex-column collapse" id="{{ item.key }}">
+
+              {% for child in item.children %}
+                {% if forloop.counter0 >= 4 %}
+                  <div class="menu-item">
+                    <a class="menu-link{% if child.is_active %} active{% endif %}"
+                        {% if child.comment %}
+                       title="{{ child.comment }}"
+                       data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
+                       data-bs-placement="right"
+                        {% endif %}
+                       href="{{ child.url }}">
+                      <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                      </span>
+                      <span class="menu-title">{{ child.title }}</span>
+                    </a>
+                  </div>
+                {% endif %}
+              {% endfor %}
+              {#                  <div class="menu-item">#}
+              {#                    <!--begin:Menu link-->#}
+              {#                    <a class="menu-link" href="?page=dashboards/bidding">#}
+              {#                      <span class="menu-bullet">#}
+              {#                        <span class="bullet bullet-dot"></span>#}
+              {#                      </span>#}
+              {#                      <span class="menu-title">Bidding</span>#}
+              {#                    </a>#}
+              {#                    <!--end:Menu link-->#}
+              {#                  </div>#}
+
+            </div>
+
+            <div class="menu-item">
+              <div class="menu-content">
+                <a class="btn btn-flex btn-color-primary d-flex flex-stack fs-base p-0 ms-2 mb-2 toggle collapsible collapsed"
+                   data-bs-toggle="collapse" href="#{{ item.key }}"
+                   data-kt-toggle-text="Show Less">
+                      <span data-kt-toggle-text-target="true">
+                        {% blocktranslate with count=item.children|length|add:-4 %}Show {{ count }}
+                          More{% endblocktranslate %}
+                      </span>
+
+                  <span class="svg-icon toggle-on svg-icon-2 me-0">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                          <rect x="6.0104" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                        </svg>
+                      </span>
+                  <span class="svg-icon toggle-off svg-icon-2 me-0">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="currentColor"></rect>
+                          <rect x="10.8891" y="17.8033" width="12" height="2" rx="1"
+                                transform="rotate(-90 10.8891 17.8033)"
+                                fill="currentColor"></rect>
+                          <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="currentColor"></rect>
+                        </svg>
+                      </span>
+
+                </a>
+              </div>
+            </div>
+          {% else %}
+            {% for child in item.children %}
+              <div class="menu-item">
+                <a class="menu-link{% if child.is_active %} active{% endif %}"
+                    {% if child.comment %}
+                   title="{{ child.comment }}"
+                   data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
+                   data-bs-placement="right"
+                    {% endif %}
+                   href="{{ child.url }}">
+                      <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                      </span>
+                  <span class="menu-title">{{ child.title }}</span>
+                </a>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if 'url' in item %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+      {% endif %}
+    {% endfor %}
+</div>
+</div>

@@ -1,0 +1,14 @@
+<div class="flex-column flex-lg-row-auto w-100 w-lg-200px w-xl-300px mb-10">
+
+  <div class="card card-flush">
+    <div class="card-header">
+      <div class="card-title">
+        <h2 class="mb-0">{{ object.name }}</h2>
+      </div>
+    </div>
+
+    <div class="card-body pt-0">
+      {% include "groups/partials/_permissions_list.html" with item=object %}
+    </div>
+  </div>
+</div>

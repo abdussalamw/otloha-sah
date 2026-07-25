@@ -1,0 +1,64 @@
+{% extends 'admin_base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            {% for item in breadcrumb %}
+              {% if "url" in item.keys %}
+                <li class="breadcrumb-item">
+                  <a href="{{ item.url }}">
+                    {{ item.name }}
+                  </a>
+                </li>
+              {% else %}
+                <li class="breadcrumb-item active">{{ item.name }}</li>
+              {% endif %}
+            {% endfor %}
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">{% trans 'Are you sure that you want to process this file?' %}</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            <div class="card-body">
+              {% if form %}
+                {{ form }}
+              {% endif %}
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary">{% translate 'Submit' %}</button>
+              <a href="{{ next }}"
+                 class="btn btn-link text-danger">{% translate 'Cancel' %}</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

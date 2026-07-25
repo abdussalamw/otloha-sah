@@ -1,0 +1,54 @@
+{% load i18n %}
+<div class="row g-5 g-xl-8">
+  <div class="col-md-4">
+    <a href="{% url "admin:students:listing" %}" class="card bg-body hoverable card-xl-stretch mb-xl-8">
+      <div class="card-body">
+        <span class="svg-icon svg-icon-primary svg-icon-3x ms-n1">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+               xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="9" width="3" height="10" rx="1.5" fill="currentColor"></rect>
+            <rect opacity="0.5" x="13" y="5" width="3" height="14" rx="1.5"
+                  fill="currentColor"></rect>
+            <rect x="18" y="11" width="3" height="8" rx="1.5" fill="currentColor"></rect>
+            <rect x="3" y="13" width="3" height="6" rx="1.5" fill="currentColor"></rect>
+          </svg>
+        </span>
+        <div class="text-dark fw-bold fs-2 mb-2 mt-5">{{ students_count }}</div>
+        <div class="fw-semibold text-dark">{% trans "All Students" %}</div>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{% url "admin:students:listing" %}?is_active=True"
+       class="card bg-light-success hoverable card-xl-stretch mb-xl-8">
+      <div class="card-body">
+        <span class="svg-icon svg-icon-success-3 svg-icon-3x ms-n1">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M9.89557 13.4982L7.79487 11.2651C7.26967 10.7068 6.38251 10.7068 5.85731 11.2651C5.37559 11.7772 5.37559 12.5757 5.85731 13.0878L9.74989 17.2257C10.1448 17.6455 10.8118 17.6455 11.2066 17.2257L18.1427 9.85252C18.6244 9.34044 18.6244 8.54191 18.1427 8.02984C17.6175 7.47154 16.7303 7.47154 16.2051 8.02984L11.061 13.4982C10.7451 13.834 10.2115 13.834 9.89557 13.4982Z"
+                fill="currentColor"></path>
+          </svg>
+        </span>
+        <div class="text-dark fw-bold fs-2 mb-2 mt-5">{{ active_students_count }}</div>
+        <div class="fw-semibold text-dark">{% trans "Active Students" %}</div>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{% url "admin:students:listing" %}?is_active=False"
+       class="card bg-light-danger hoverable card-xl-stretch mb-5 mb-xl-8">
+      <div class="card-body">
+        <span class="svg-icon svg-icon-danger svg-icon-3x ms-n1">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1"
+                  transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+            <rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)"
+                  fill="currentColor"></rect>
+          </svg>
+        </span>
+        <div class="text-dark fw-bold fs-2 mb-2 mt-5">{{ blocked_students_count }}</div>
+        <div class="fw-semibold text-dark">{% trans "Blocked Students" %}</div>
+      </div>
+    </a>
+  </div>
+</div>

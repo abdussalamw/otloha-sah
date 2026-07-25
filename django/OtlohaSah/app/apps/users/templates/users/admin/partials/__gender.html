@@ -1,0 +1,10 @@
+<div class="border border-gray-500 border-dashed rounded min-w-75px p-2 me-2">
+  <div class="d-flex align-items-center">
+    {% if gender == 'male' %}
+      <i class="fa-solid fa-mars fs-2 me-2 text-primary"></i>
+    {% else %}
+      <i class="fa-solid fa-venus fs-2 me-2 text-danger"></i>
+    {% endif %}
+    <div class="fw-semibold fs-5 text-gray-600">{{ item.get_gender }}</div>
+  </div>
+</div>

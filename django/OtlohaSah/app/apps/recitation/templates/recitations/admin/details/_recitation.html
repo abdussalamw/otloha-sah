@@ -1,0 +1,48 @@
+{% load quran i18n %}
+{% if object.narration_id %}
+  {% narration object.narration_id as narration %}
+{% endif %}
+{% if object.chapter_id %}
+  {% chapter object.chapter_id as chapter %}
+{% endif %}
+
+<div class="card mb-5 mb-xl-8">
+  <div class="card-header border-0">
+    <div class="card-title">
+      <button class="btn btn-light-info btn-sm btn-icon me-2"
+              data-toggle="audio"
+              data-src="{{ object.records.all.0.record.url }}">
+        <span class="svg-icon svg-icon-2x audio-icon"></span>
+      </button>
+      <div class="text-gray-700 fs-4 fw-semibold {% get_narration_font_class object.narration_id %}"
+           style="direction: rtl">
+        {{ narration|default_if_none:"" }} - {{ chapter|default_if_none:"" }} -
+        {% with  first=object.get_verses|first last=object.get_verses|last %}
+          {% if first == last %}
+            {% blocktrans with verse=first.verse_number %} Verse {{ verse }}{% endblocktrans %}
+          {% else %}
+            {% blocktrans with first=first.verse_number last=last.verse_number %}From Verse {{ first }} to Verse
+              {{ last }}{% endblocktrans %}
+          {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="mh-225px scroll hover-scroll px-3 {% get_narration_font_class object.narration_id %}"
+         style="direction: rtl;text-align:justify"
+         dir="rtl" lang="ar">
+      <span class="text-dark fs-2 {% get_narration_font_class object.narration_id %}">
+        {% with verses=recitation.get_verses  first=recitation.get_verses|first last=recitation.get_verses|last %}
+          {% if first.verse_number == last.verse_number %}
+            {{ first.text }}
+          {% else %}
+            {% for verse in verses %}
+              {{ verse.text }}
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </span>
+    </div>
+  </div>
+</div>

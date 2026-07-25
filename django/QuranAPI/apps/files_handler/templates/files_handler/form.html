@@ -1,0 +1,42 @@
+{% extends 'admin_base.html' %}
+{% load i18n humanize %}
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
+        <div class="card">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-body">
+              {% include 'django/forms/form.html' with form=form %}
+              <button type="submit" class="btn btn-primary">{% translate 'Submit' %}</button>
+              <a class="btn btn-link text-danger" href="{{ back }}">
+                {% translate 'Cancel' %}
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

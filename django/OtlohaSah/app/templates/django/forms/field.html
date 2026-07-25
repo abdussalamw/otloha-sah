@@ -1,0 +1,21 @@
+{% load i18n %}
+<div class="form-group mb-5">
+
+  {% if field.field.widget.input_type == "checkbox" or field.field.widget.input_type == "radio" %}
+    <div class="custom-control custom-checkbox">
+      {{ field }}
+      <label for="{{ field.id_for_label }}" class="custom-control-label">{{ field.label }}</label>
+    </div>
+  {% else %}
+    <label for="{{ field.id_for_label }}" class="fs-5 fw-bold form-label {% if field.field.required %} required{% endif %}">
+      {{ field.label }}
+    </label>
+    {{ field }}
+  {% endif %}
+
+  {% if field.errors %}
+    <div id="{{ field.id_for_label }}-feedback" class="invalid-feedback">
+      {{ field.errors.as_ul }}
+    </div>
+  {% endif %}
+</div>

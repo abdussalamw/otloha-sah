@@ -1,0 +1,23 @@
+{% load i18n %}
+{% load static %}
+
+{% if factory and media %}
+  {{ media }}
+{% endif %}
+
+<div class="card">
+  <div class="card-body py-4">
+    <div id="kt_table_users_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+      {% if object_list|length > 0 %}
+        {% include "site/dynamic_listing/_table.html" %}
+        {% include "site/dynamic_listing/_pagination.html" %}
+      {% else %}
+        {% include 'site/dynamic_listing/_no_data.html' %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% if modals_template_name %}
+  {% include modals_template_name %}
+{% endif %}

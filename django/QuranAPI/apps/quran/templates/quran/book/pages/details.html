@@ -1,0 +1,81 @@
+{% extends 'admin_base.html' %}
+{% load i18n humanize %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h1>{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'admin:main:home' %}">{% translate 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url "admin:books:listing" %}">{% translate 'Books' %}</a>
+            <li class="breadcrumb-item"><a href="{% url "admin:books:details" book.pk %}">{{ book.translated_name }}</a>
+            <li class="breadcrumb-item"><a href="{% url "admin:books:pages:list" book.pk %}">{% translate 'Pages' %}</a>
+            </li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">{{ title }}</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              {% if page.image %}
+                <img class="img-fluid pad" src="{{ page.image.url }}" alt="">
+              {% endif %}
+              <dl class="row">
+                <dt class="col-sm-4">{% translate 'Page Number' %}</dt>
+                <dd class="col-sm-8">{{ page.page_number }}</dd>
+                <dt class="col-sm-4">{% translate 'Narration' %}</dt>
+                <dd class="col-sm-8">{{ page.narration.translated_name }}</dd>
+                <dt class="col-sm-4">{% translate 'Book' %}</dt>
+                <dd class="col-sm-8">{{ page.book.translated_name }}</dd>
+                <dt class="col-sm-4">{% translate 'Part' %}</dt>
+                <dd class="col-sm-8">{{ page.part.translated_name }}</dd>
+                <dt class="col-sm-4">{% translate 'Subpart' %}</dt>
+                <dd class="col-sm-8">{{ page.sub_part }}</dd>
+                <dt class="col-sm-4">{% translate 'Chapters' %}</dt>
+                <dd class="col-sm-8">
+                  {% for chapter in page.chapters.all %}
+                    {{ chapter.chapter.translated_name }}
+                  {% endfor %}
+                </dd>
+              </dl>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.card-header -->
+        <div class="col-sm-9">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">{% trans "Verses" %}</h3>
+            </div>
+            <div class="card-body p-0">
+              {% include "quran/book/pages/details-verses.html" %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

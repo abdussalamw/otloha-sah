@@ -1,0 +1,317 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-31 22:36+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: admin_views.py:17 tests/test_admin_views.py:42
+msgid "All Recitations"
+msgstr "جميع التلاوات"
+
+#: admin_views.py:19 recitation_verse/tests/test_views_admin.py:49
+#: recitation_verse/views_admin.py:15 reciter/tests/test_views_admin.py:61
+#: reciter/views_admin.py:22 templates/recitations/reciter/details.html:84
+#: tests/test_admin_views.py:49
+msgid "ID"
+msgstr ""
+
+#: admin_views.py:20 reciter/tests/test_views_admin.py:62
+#: reciter/views_admin.py:23 templates/recitations/reciter/details.html:57
+#: tests/test_admin_views.py:50
+msgid "name"
+msgstr "الاسم"
+
+#: admin_views.py:21 tests/test_admin_views.py:51
+msgid "narrations"
+msgstr "الرواية"
+
+#: admin_views.py:22 tests/test_admin_views.py:52
+msgid "reciter"
+msgstr "القارئ"
+
+#: admin_views.py:23 tests/test_admin_views.py:53
+msgid "actions"
+msgstr "الاجراءات"
+
+#: admin_views.py:50 admin_views.py:87 admin_views.py:102
+#: templates/recitations/reciter/details.html:76 tests/test_admin_views.py:264
+#: tests/test_admin_views.py:353
+msgid "Add New Recitation"
+msgstr "إضافة تلاوة جديدة"
+
+#: admin_views.py:50 reciter/tests/test_views_admin.py:317
+#: reciter/tests/test_views_admin.py:410 reciter/views_admin.py:44
+#: reciter/views_admin.py:69 reciter/views_admin.py:85
+msgid "Add New Reciter"
+msgstr "إضافة قارئ"
+
+#: admin_views.py:60
+msgid "edit"
+msgstr "تعديل"
+
+#: admin_views.py:62
+msgid "translate"
+msgstr "ترجمة"
+
+#: admin_views.py:64
+msgid "delete"
+msgstr "حذف"
+
+#: admin_views.py:75 tests/test_admin_views.py:193
+msgid "Recitation Details"
+msgstr "تفاصيل التلاوة"
+
+#: admin_views.py:84 admin_views.py:97 reciter/tests/test_views_admin.py:361
+#: reciter/tests/test_views_admin.py:471 reciter/views_admin.py:66
+#: reciter/views_admin.py:81 templates/recitations/recitation/detail.html:47
+#: templates/recitations/recitation/form.html:24
+#: templates/recitations/reciter/details.html:39
+#: templates/recitations/reciter/form.html:24 tests/test_admin_views.py:304
+#: tests/test_admin_views.py:410
+msgid "Edit"
+msgstr "التعديل"
+
+#: admin_views.py:98 tests/test_admin_views.py:420
+#, fuzzy
+#| msgid "Recitation Created Successfully"
+msgid "Recitation Updated Successfully"
+msgstr "تم إضافة التلاوة بنجاح"
+
+#: admin_views.py:103 tests/test_admin_views.py:368
+msgid "Recitation Created Successfully"
+msgstr "تم إضافة التلاوة بنجاح"
+
+#: models.py:18 reciter/tests/test_models.py:19
+#: templates/recitations/reciter/details.html:19 tests/test_forms.py:65
+#: tests/test_models.py:37
+msgid "Reciter"
+msgstr "القارئ"
+
+#: models.py:19 reciter/tests/test_models.py:22
+#: templates/recitations/reciter/form.html:18 tests/test_models.py:40
+msgid "Reciters"
+msgstr "القراء"
+
+#: models.py:25 models.py:44 reciter/tests/test_models.py:64
+#: tests/test_forms.py:31 tests/test_models.py:88 tests/test_models.py:224
+msgid "Name"
+msgstr "الاسم"
+
+#: models.py:26 tests/test_models.py:109
+msgid "Created At"
+msgstr "تاريخ الإنشاء"
+
+#: models.py:27 tests/test_models.py:130
+msgid "Updated At"
+msgstr "تاريخ اخر تعديل"
+
+#: models.py:37 templates/recitations/reciter/details.html:73
+#: tests/test_models.py:173
+msgid "Recitation"
+msgstr "التلاوة"
+
+#: models.py:38 templates/recitations/recitation/detail.html:21
+#: templates/recitations/recitation/detail.html:98
+#: templates/recitations/recitation/form.html:18 tests/test_models.py:176
+msgid "Recitations"
+msgstr "التلاوات"
+
+#: models.py:51 recitation_verse/tests/test_views_admin.py:50
+#: recitation_verse/views_admin.py:16 tests/test_models.py:301
+msgid "recitation"
+msgstr "التلاوة"
+
+#: models.py:51 tests/test_models.py:301
+msgid "by shaikh"
+msgstr "بواسطة الشيخ"
+
+#: recitation_verse/tests/test_views_admin.py:42
+#: recitation_verse/views_admin.py:13
+#: templates/recitations/recitation/detail.html:103
+msgid "All Recitation Verses"
+msgstr "جميع آيات التلاوة"
+
+#: recitation_verse/tests/test_views_admin.py:51
+#: recitation_verse/views_admin.py:17
+#: templates/recitations/recitation_verse/detail.html:49
+#: templates/recitations/recitation_verse/detail.html:68
+msgid "chapter"
+msgstr "السورة"
+
+#: recitation_verse/tests/test_views_admin.py:52
+#: recitation_verse/views_admin.py:18
+#: templates/recitations/recitation_verse/detail.html:51
+#: templates/recitations/recitation_verse/detail.html:69
+msgid "verse_number"
+msgstr "رقم الآية"
+
+#: recitation_verse/tests/test_views_admin.py:53
+#: recitation_verse/views_admin.py:19
+msgid "Play"
+msgstr "تشغيل"
+
+#: reciter/tests/test_forms.py:48 tests/test_forms.py:92
+#: tests/test_forms.py:107
+msgid "This field is required."
+msgstr "هذا الحقل مطلوب"
+
+#: reciter/tests/test_views_admin.py:54 reciter/views_admin.py:20
+#, fuzzy
+#| msgid "Reciters"
+msgid "All Reciters"
+msgstr "القراء"
+
+#: reciter/tests/test_views_admin.py:63 reciter/views_admin.py:24
+msgid "created at"
+msgstr "تاريخ الإنشاء"
+
+#: reciter/tests/test_views_admin.py:64 reciter/views_admin.py:25
+msgid "updated_at"
+msgstr "تاريخ اخر تعديل"
+
+#: reciter/tests/test_views_admin.py:213 reciter/views_admin.py:54
+msgid "Details"
+msgstr "تفاصيل"
+
+#: reciter/tests/test_views_admin.py:425 reciter/views_admin.py:84
+msgid "Reciter Created Successfully"
+msgstr "تم إضافة القارئ بنجاح"
+
+#: reciter/tests/test_views_admin.py:486 reciter/views_admin.py:80
+msgid "Reciter Updated Successfully"
+msgstr "تم تعديل القارئ بنجاح"
+
+#: templates/recitations/recitation/detail.html:18
+#: templates/recitations/recitation/form.html:17
+#: templates/recitations/recitation_verse/detail.html:17
+#: templates/recitations/reciter/details.html:18
+#: templates/recitations/reciter/form.html:17
+msgid "Home"
+msgstr ""
+
+#: templates/recitations/recitation/detail.html:42
+msgid "Upload Files"
+msgstr ""
+
+#: templates/recitations/recitation/detail.html:52
+#: templates/recitations/recitation_verse/detail.html:36
+#: templates/recitations/reciter/details.html:44
+#, fuzzy
+#| msgid "translate"
+msgid "Translate"
+msgstr "ترجمة"
+
+#: templates/recitations/recitation/detail.html:57
+#: templates/recitations/recitation_verse/detail.html:41
+#: templates/recitations/reciter/details.html:49
+#, fuzzy
+#| msgid "delete"
+msgid "Delete"
+msgstr "حذف"
+
+#: templates/recitations/recitation/detail.html:65
+#, fuzzy
+#| msgid "recitation"
+msgid "recitation name"
+msgstr "التلاوة"
+
+#: templates/recitations/recitation/detail.html:67
+#, fuzzy
+#| msgid "narrations"
+msgid "narrations name"
+msgstr "الرواية"
+
+#: templates/recitations/recitation/detail.html:69
+#, fuzzy
+#| msgid "reciter"
+msgid "reciter name"
+msgstr "القارئ"
+
+#: templates/recitations/recitation/detail.html:83
+#, fuzzy
+#| msgid "Recitation Details"
+msgid "Recitation Files"
+msgstr "تفاصيل التلاوة"
+
+#: templates/recitations/recitation/detail.html:87
+msgid "All Files"
+msgstr ""
+
+#: templates/recitations/recitation/detail.html:92
+msgid "Upload New File"
+msgstr ""
+
+#: templates/recitations/recitation/form.html:28
+#: templates/recitations/reciter/form.html:28
+#, fuzzy
+#| msgid "Created At"
+msgid "Create"
+msgstr "تاريخ الإنشاء"
+
+#: templates/recitations/recitation/form.html:48
+#: templates/recitations/reciter/form.html:48
+msgid "Submit"
+msgstr ""
+
+#: templates/recitations/recitation/form.html:51
+#: templates/recitations/recitation/form.html:55
+#: templates/recitations/reciter/form.html:51
+#: templates/recitations/reciter/form.html:55
+msgid "Cancel"
+msgstr ""
+
+#: templates/recitations/recitation_verse/detail.html:18
+#, fuzzy
+#| msgid "All Recitation Verses"
+msgid "Recitation Verse"
+msgstr "جميع آيات التلاوة"
+
+#: templates/recitations/recitation_verse/detail.html:53
+#: templates/recitations/recitation_verse/detail.html:70
+msgid "sub_part"
+msgstr ""
+
+#: templates/recitations/recitation_verse/detail.html:71
+msgid "record"
+msgstr ""
+
+#: templates/recitations/reciter/details.html:59
+#, fuzzy
+#| msgid "created at"
+msgid "Created at"
+msgstr "تاريخ الإنشاء"
+
+#: templates/recitations/reciter/details.html:61
+#, fuzzy
+#| msgid "Updated At"
+msgid "Updated at"
+msgstr "تاريخ اخر تعديل"
+
+#: templates/recitations/reciter/details.html:85 tests/test_forms.py:48
+msgid "Narration"
+msgstr "الرواية"
+
+#: templates/recitations/reciter/details.html:86
+#, fuzzy
+#| msgid "actions"
+msgid "Actions"
+msgstr "الاجراءات"
+
+#: templates/recitations/reciter/details.html:101
+msgid "There is No Recitations for This Reciter Yet!"
+msgstr ""

@@ -1,0 +1,17 @@
+{% extends 'base_template/base.html' %}
+{% load quran i18n users_tags %}
+
+{% block content %}
+  <div id="kt_content_container" class="container-xxl">
+    <div class="d-flex flex-column flex-lg-row">
+      {% include 'users/admin/details/user_info/index.html' %}
+      <div class="flex-lg-row-fluid ms-lg-5">
+        {% get_user_tabs user_type details_type object %}
+
+        <div class="tab-content" id="myTabContent">
+         {% include 'users/admin/details/tab_contents/index.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

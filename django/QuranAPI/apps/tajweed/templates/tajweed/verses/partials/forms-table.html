@@ -1,0 +1,48 @@
+{% load i18n %}
+<form id="character-form">
+<div class="table-responsive">
+  <table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th style="min-width: 200px">{% translate "Word" %}</th>
+      <th style="min-width: 200px">{% translate "Character" %}</th>
+      <th style="min-width: 200px">{% translate "Rule Text" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for character in characters %}
+      <tr class="character-row">
+        <td>{{ forloop.counter }}</td>
+        <td style="min-width: 200px" class="p-1">
+          <div class="form-group">
+            <select class="custom-select uthmainc-font word-selector" name="word" id="word-{{ character.pk }}">
+              {% for word in words %}
+                <option value="{{ word.pk }}">{{ word.text }}</option>
+              {% endfor %}
+            </select>
+            <div id="word-{{ character.pk }}-feedback" class="invalid-feedback"></div>
+          </div>
+        </td>
+        <td style="min-width: 200px" class="p-1">
+          <div class="form-group">
+            <select class="custom-select uthmainc-font character-selector" name="character"
+                    id="character-{{ character.pk }}">
+            </select>
+            <div id="character-{{ character.pk }}-feedback" class="invalid-feedback"></div>
+          </div>
+        </td>
+        <td style="min-width: 200px" class="p-1">
+          <div class="form-group">
+              <textarea class="form-control uthmainc-font character-selector" name="rule_text"
+                        id="rule-text-{{ character.pk }}" rows="2"></textarea>
+            <div id="rule-text-{{ character.pk }}-feedback" class="invalid-feedback"></div>
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+</form>
+

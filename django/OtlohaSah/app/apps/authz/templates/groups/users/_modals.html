@@ -1,0 +1,24 @@
+{% load i18n %}
+<div class="modal fade" tabindex="-1" id="modal-group-admins">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{% trans "Grant Access to Users" %}</h5>
+
+        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+          <span class="svg-icon fs-2x"></span>
+        </div>
+      </div>
+      <form action="{% url "admin:authorization:grant-access" group.pk %}" method="POST" id="modal-group-admins-form">
+        {% csrf_token %}
+        <div class="modal-body">
+          {{ form.as_div }}
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-light" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+          <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+{% extends 'base_template/base.html' %}
+{% load quran i18n %}
+
+{% block content %}
+  <div id="kt_content_container" class="container-xxl">
+    <div class="d-flex flex-column flex-lg-row">
+      {% include 'users/students/admin/details/_user_info.html' %}
+      <div class="flex-lg-row-fluid ms-lg-5">
+        {% include 'users/students/admin/details/_tabs.html' %}
+
+        <div class="tab-content" id="myTabContent">
+          {% if page_type == 'recitations' %}
+            <div class="tab-pane fade show active" id="recitations_tab" role="tabpanel">
+              {% include "users/students/admin/details/_recitations.html" %}
+            </div>
+          {% else %}
+            {% include "users/students/admin/details/__progress.html" %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

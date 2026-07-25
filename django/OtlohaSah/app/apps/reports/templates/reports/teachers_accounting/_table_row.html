@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<td>{{ item.id }}</td>
+
+<td class="text-start">{{ item.get_full_name }}</td>
+<td class="text-center">{{ item.total_earnings|stringformat:".2f"}}</td>
+<td class="text-center">{{ item.total_dues|stringformat:".2f" }}</td>
+<td class="text-center">{{ item.paid_recitation_count }}</td>
+<td class="text-center">{{ item.unpaid_recitation_count }}</td>
+

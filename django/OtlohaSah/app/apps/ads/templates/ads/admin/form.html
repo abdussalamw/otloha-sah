@@ -1,0 +1,68 @@
+{% extends 'base_template/base.html' %}
+{% load i18n %}
+
+{% block page_header %}
+  <div class="page-header">
+    <div class="container">
+      <div class="bread-crumbs">
+        {% comment %} {% if 'update' in request.path %}
+          <a class="btn btn--primary btn--icon btn--outlined btn--ripple"
+             href="{% url 'admin:ads:update' form.instance.id %}">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        {% else %}
+          <a class="btn btn--primary btn--icon btn--outlined btn--ripple"
+             href="{% url 'admin:ads:listing' %}">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        {% endif %} {% endcomment %}
+
+        {% comment %} <a class="bread-crumbs__link text-3" href="{% url 'admin:home:index' %}">{% translate 'Home' %}</a>
+        <a class="bread-crumbs__link text-3"
+           href="{% url 'admin:ads:listing' %}">{% translate 'All Users' %}</a>
+        {% if 'update' in request.path %}
+          <a class="bread-crumbs__link text-3" href="{% url 'admin:users:update' form.instance.id %}">
+            {% translate 'Update ads #' %}{{ form.instance.id }}</a>
+        {% else %}
+          <a class="bread-crumbs__link text-3" href="#">{% translate 'Create New User' %}</a>
+        {% endif %}
+
+      </div>
+      <div class="page-header__content">
+        {% if 'edit' in request.path %}
+          <h1>{% translate 'Update Ads #' %}{{ form.instance.id }}</h1>
+        {% else %}
+          <h1>{% translate 'Ads Form' %}</h1>
+        {% endif %}
+        <div class="page-header__actions">{{ actions }}</div> {% endcomment %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="offset-lg-2 col-lg-8 col-sm-12">
+        <form method="post" enctype="multipart/form-data">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="card__content" dir="">
+                {% csrf_token %}
+                {% include 'django/forms/form.html' with form=form %}
+              </div>
+              <div class="card__actions d-flex justify-content-end">
+                <a class="btn btn-link text-danger"
+                    {% comment %} href="{% url 'admin:ads:create' form.instance.pk %}">{% translate 'Cancel' %}</a> {% endcomment %}
+                   href="{% url 'admin:ads:create' %}">{% translate 'Cancel' %}</a>
+                <button class="btn btn-primary"
+                        type="submit">{% translate 'Save' %}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

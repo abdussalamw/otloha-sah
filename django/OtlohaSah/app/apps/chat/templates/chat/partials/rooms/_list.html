@@ -1,0 +1,15 @@
+{% load chat %}
+<div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" data-kt-scroll="true"
+     data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
+     data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_chat_contacts_header"
+     data-kt-scroll-wrappers="#kt_content, #kt_chat_contacts_body" data-kt-scroll-offset="5px"
+     style="max-height: 161px;">
+  {% for room in rooms %}
+    {% with room|get_room_peers:user as peers %}
+      {% if room.room_type == room.ROOM_TYPE_RECITATION %}
+        {% include "chat/partials/rooms/__item-recitation.html" with peers=peers room=room %}
+      {% endif %}
+    {% endwith %}
+    <div class="separator separator-dashed d-none"></div>
+  {% endfor %}
+</div>

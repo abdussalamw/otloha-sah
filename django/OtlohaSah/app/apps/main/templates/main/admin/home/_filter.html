@@ -1,0 +1,21 @@
+{% load i18n %}
+<div class="card mb-5 mb-xl-10">
+  <div class="card-body p-4">
+    <form action="{% url "admin:main:statistics" %}"
+          method="GET"
+          class="d-flex align-items-center"
+          id="filter-form">
+      <div class="d-flex flex-wrap gap-3">
+        {% include "main/admin/home/__field.html" with field=form.date_from type='date' %}
+        {% include "main/admin/home/__field.html" with field=form.date_to type='date' %}
+        {% include "main/admin/home/__field.html" with field=form.country type='select' %}
+        {% include "main/admin/home/__field.html" with field=form.language type='select' %}
+        {% include "main/admin/home/__field.html" with field=form.gender type='select' %}
+      </div>
+      <div class="ms-auto ">
+        <button type="submit" class="btn btn-primary btn-sm">{% trans "Search" %}</button>
+        <button type="reset" class="btn btn-text-primary btn-sm">{% trans "Reset" %}</button>
+      </div>
+    </form>
+  </div>
+</div>

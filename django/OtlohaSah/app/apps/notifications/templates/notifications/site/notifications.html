@@ -1,0 +1,69 @@
+{% load i18n static %}
+
+<div class="dropdown dropdown--header">
+  <a class="notification__item dropdown__activator"
+     aria-haspopup="true"
+     aria-expanded="false"
+     data-toggle="dropdown"
+     data-offset="0,18"
+     href="javascript:void(0)"
+     data-app-notifications-toggle="true"
+     title="{% trans "Notifications" %}">
+    <i class="material-icons-outlined">notifications</i>
+    <span data-app-unseen-indicator="true" class="d-none notification__number">0</span>
+  </a>
+  <div class="dropdown__content dropdown-menu overflow-hidden" data-app-notification="true"
+       style="overflow-y:auto; overflow-x:hidden; min-width:300px">
+    <div class="list py-3 mxh-400px overflow-scroll"
+         data-app-noifications-menu="true"></div>
+  </div>
+</div>
+
+{% verbatim%}
+<script id="notification-template" type="text/template">
+  <div class="list-item list-item--hover list-item--primary"
+       data-id="{id}"
+       data-is-read="{is_read}"
+       data-unread-class="list-item--active"
+       data-app-notification-item="true">
+    <a href="{sender.profile_url}"
+       class="symbol symbol--45px symbol--circle">
+      <span class="symbol__label bg-light-primary" style="background-image: url('{sender.image}')"></span>
+    </a>
+    <div class="list-item__content">
+      <a href="{object_url}" class="text-gray fs-14 text-weight-500">
+        {text}
+      </a>
+      <span class="text-gray fs-12">{created_at}</span>
+    </div>
+  </div>
+</script>
+
+<script id="not-read-notification-template" type="text/template">
+  <div class="list-item list-item--hover list-item--primary list-item--active"
+       data-id="{id}"
+       data-is-read="{is_read}"
+       data-unread-class="list-item--active"
+       data-app-notification-item="true">
+    <a href="{sender.profile_url}"
+       class="symbol symbol--45px symbol--circle">
+      <span class="symbol__label bg-light-primary" style="background-image: url('{sender.image}')"></span>
+    </a>
+    <div class="list-item__content">
+      <a href="{object_url}" class="text-gray fs-14 text-weight-500">
+        {text}
+      </a>
+      <span class="text-gray fs-12">{created_at}</span>
+    </div>
+  </div>
+</script>
+
+<script id="view-more-notification" type="text/template">
+  <div class="py-3 text-center border-top">
+    <a href="?page=pages/user-profile/activity" class="btn btn-color-gray-600 btn-active-color-primary">View All
+    </a>
+  </div>
+</script>
+{% endverbatim %}
+
+{#    <span class="badge badge-light fs-8"></span>#}

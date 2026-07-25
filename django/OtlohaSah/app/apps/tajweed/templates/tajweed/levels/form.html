@@ -1,0 +1,50 @@
+{% extends 'base_template/base.html' %}
+{% load i18n %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="offset-lg-2 col-lg-8 col-sm-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="card__content" dir="">
+                                {% csrf_token %}
+                                {{ form.media }}
+                                <div class="form-group{% if form.name.errors %} has-error{% endif %}">
+                                    {% include 'django/forms/field.html' with field=form.name %}
+                                    {% for error in form.name.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group{% if form.color.errors %} has-error{% endif %}">
+                                    {% include 'django/forms/field.html' with field=form.color %}
+                                    {% for error in form.color.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group{% if form.value.errors %} has-error{% endif %}">
+                                    {% include 'django/forms/field.html' with field=form.value %}
+                                    {% for error in form.value.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <a class="btn btn-link text-danger mr-2"
+                                   href="{% url 'admin:tajweed:levels:listing' %}">{% translate 'Cancel' %}</a>
+                                <button style="margin-left: 20px" class="btn btn-primary"
+                                        type="submit">{% translate 'Save' %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

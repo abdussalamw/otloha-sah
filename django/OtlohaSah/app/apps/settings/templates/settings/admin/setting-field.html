@@ -1,0 +1,13 @@
+{% if instance.value_type == 'number' %}
+  <input type="number"
+         id="{{ instance.key }}"
+         class="form-control"
+         step="0.001"
+         name="form-{{ form_index }}-{{ field.name }}"
+         value="{{ field.value|default_if_none:0 }}">
+  <input class="form-control"
+         type="hidden"
+         name="form-{{ form_index }}-id"
+         value="{{ instance.id }}"
+         id="id_form-{{ form_index }}-id">
+{% endif %}

@@ -1,0 +1,24 @@
+{% load i18n %}
+<div class="app-container container-xxl">
+
+  <form method="POST" class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{{ title }}</h3>
+        </div>
+
+        <form method="POST">
+          {% csrf_token %}
+          <div class="card-body">
+            {% include "django/forms/form.html" %}
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-text-danger">{% trans "Cancel" %}</a>
+            <button class="btn btn-light-primary" type="submit">{% trans "Submit" %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,47 @@
+{% extends 'base_template/base.html' %}
+{% load dj_translation %}
+{% load i18n %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <div id="kt_content_container" class="container-xxl">
+        <div class="row">
+            <div class="col-lg-4 mb-10">
+                <div class="card ribbon ribbon-top ribbon-vertical mb-5 mb-xl-8">
+                    <div class="card-body">
+                        <div class="d-flex flex-center flex-column py-5">
+                            <div class="card-title">
+                                <h3 class="fw-bold mt-5">{% trans "Lesson Details" %}</h3>
+                            </div>
+                            <div class="fw-bold mt-5">{% trans "Lesson Id" %}</div>
+                            <div class="text-gray-600">ID-{{ lesson.id }}</div>
+                            <div class="fw-bold mt-5">{% trans "Lesson Title" %}</div>
+                            <span class="fs-6 text-gray-600 fw-lighter mb-2">{% blocktrans %}{{ lesson.title }}{% endblocktrans %}</span>
+                            <div class="fw-bold mt-5">{% trans "Lesson Level" %}</div>
+                            <div class="text-gray-600">{{ lesson.lesson_level }}</div>
+                            <div class="fw-bold mt-5">{% trans "Parent Lesson" %}</div>
+                            {% if lesson.parent %}
+                                <a href="{{ lesson.parent.get_details_url }}" class="fs-6">{{ lesson.parent }}</a>
+                            {% else %}
+                                <div class="btn btn-sm btn-light-danger fw-bold fs-8 py-1 px-3 me-2">
+                                    {% trans "No Parent" %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="pb-5 fs-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card mb-5 mb-xl-8">
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            {{ lessons }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'admin_base.html' %}
+{% load i18n %}
+
+{% block page_header %}
+    {{ form.media }}
+
+    <div class="page-header">
+        <div class="container">
+            <div class="bread-crumbs">
+                {% if 'update' in request.path %}
+                    <a class="btn btn--primary btn--icon btn--outlined btn--ripple"
+                       href="{% url 'admin:groups:details' form.instance.id %}">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                {% else %}
+                    <a class="btn btn--primary btn--icon btn--outlined btn--ripple"
+                       href="{% url 'admin:group:listing' %}">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                {% endif %}
+
+                <a class="bread-crumbs__link text-3" href="{% url 'admin:home:index' %}">{% translate 'Home' %}</a>
+                <a class="bread-crumbs__link text-3" href="{% url 'admin:group:listing' %}">{% translate 'All Groups' %}</a>
+                {% if 'update' in request.path %}
+                    <a class="bread-crumbs__link text-3" href="{% url 'admin:group:update' form.instance.id %}">
+                        {% translate 'Update group #' %}{{ form.instance.id }}</a>
+                {% else %}
+                    <a class="bread-crumbs__link text-3" href="#">{% translate 'Create New Group' %}</a>
+                {% endif %}
+
+            </div>
+            <div class="page-header__content">
+                {% if 'edit' in request.path %}
+                    <h1>{% translate 'Update Group #' %}{{ form.instance.id }}</h1>
+                {% else %}
+                    <h1>{% translate 'Users Group Form' %}</h1>
+                {% endif %}
+                <div class="page-header__actions">{{ actions }}</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="offset-lg-2 col-lg-8 col-sm-12">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="card mb-4">
+                        <div class="card__content" dir="{% if locale == 'ar' %}rtl{% endif %}">
+                            {% include 'django/forms/form.html' with form=form %}
+                        </div>
+                     <div class="card__actions d-flex justify-content-end">
+                        <a class="btn btn--danger btn--text btn--hover-rounded btn--ripple"
+                           href="{% url 'admin:groups:listing' %}">{% translate 'Cancel' %}</a>
+                        <button class="btn btn--primary btn--ripple btn--rounded bold" type="submit">{% translate 'Save' %}
+                        </button>
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% load quran %}
+{% load i18n %}
+<div class="flex-column flex-lg-row-auto w-lg-250px w-xl-350px mb-10">
+  <div class="card ribbon ribbon-top ribbon-vertical mb-5 mb-xl-8">
+    <div class="ribbon-label{% if object.is_verified %} bg-success{% else %} bg-danger{% endif %}">
+      {% if object.is_verified %}{% trans "Verified" %}{% else %}{% trans "Not Verified" %}{% endif %}
+    </div>
+    <div class="card-body">
+      <div class="d-flex flex-center flex-column py-5">
+        <div class="symbol symbol-100px symbol-circle mb-7">
+          <img src="{{ object.profile_image }}" alt="{{ object.get_full_name }}"/>
+        </div>
+        <span class="fs-6 text-gray-600 fw-lighter mb-2">ID-{{ object.id }}</span>
+        <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bold mb-1">{{ object.get_full_name }} <span
+            class="fs-6 text-gray-600 fw-lighter mb-2">({{ object.username }})</span></a>
+        <span class="fs-6 text-gray-600 fw-lighter mb-2">{{ object.email }}</span>
+        <span class="fs-6 text-gray-600 fw-lighter mb-3">{{ object.phone }}</span>
+        <span class="fs-6 text-gray-600 fw-lighter mb-3">{{ object.get_gender }}</span>
+        <div class="mw-100 mb-3 d-flex justify-content-center align-items-center flex-wrap">
+          <span class="mb-2 badge badge-light-warning fw-bold fs-8 py-1 px-3 me-2">
+            <i class="fa fa-star text-warning me-1"></i> {{ object.rate }} - {{ object.get_level }}
+          </span>
+          {% if not object.is_active %}
+            <div class="mb-2 badge badge-danger fw-bold me-2 fs-8 py-1 px-3 me-2">
+              {% trans "Blocked" %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          {{ object.bio|default_if_none:'' }}
+        </div>
+        {% if object.favorite_teacher %}
+          {% trans "Favorite Teacher" as TEACHER %}
+          <div>{% include "recitations/admin/listing/__user.html" with user=object.favorite_teacher user_role=TEACHER %}</div>
+        {% endif %}      </div>
+      <div class="separator"></div>
+      <div class="pb-5 fs-6">
+        {% trans "Not Provided" as NOT_PROVIDED %}
+        <div class="fw-bold mt-5">{% trans "First Name" %}</div>
+        <div class="text-gray-600">{{ object.first_name|default:NOT_PROVIDED }}</div>
+
+        <div class="fw-bold mt-5">{% trans "Last Name" %}</div>
+        <div class="text-gray-600">{{ object.last_name|default:NOT_PROVIDED }}</div>
+
+        <div class="fw-bold mt-5">{% trans "Gender" %}</div>
+        <div class="text-gray-600">{{ object.get_gender }}</div>
+
+        <div class="fw-bold mt-5">{% trans "Age" %}</div>
+        <div class="text-gray-600">{{ object.get_age }}{% trans "yo" %}
+          | {% trans "Birthdate" %}: {{ object.birthdate }}</div>
+
+        <div class="fw-bold mt-5">{% trans "Education Degree" %}</div>
+        <div class="text-gray-600">
+          {% trans "Not Provided!" as NOT_PROVIDED %}
+          {{ object.objectprofile.education_degree|stringformat:"%s"|default:NOT_PROVIDED }}
+        </div>
+
+        <div class="fw-bold mt-5">{% trans "Current Narration" %}</div>
+        <div class="text-gray-600">{% narration object.narration_id %}</div>
+      </div>
+    </div>
+  </div>
+</div>

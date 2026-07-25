@@ -1,0 +1,15 @@
+{% load i18n teachers_tags %}
+<div class="d-flex flex-nowrap">
+  <span class="badge badge-light fw-bold me-2 fs-8">
+    {{ item.teacherprofile.teacher_type|get_teacher_type }}
+  </span>
+  <span
+      class="badge badge-{% if item.teacherprofile.status == 'approved' %}primary{% elif item.teacherprofile.status == 'rejected' %}danger{% else %}dark{% endif %} text-white me-2 fs-8">
+    {{ item.teacherprofile.status|get_teacher_status }}
+  </span>
+  <span
+      class="badge badge-{% if item.teacherprofile.is_active %}primary{% else %}danger{% endif %} text-white me-2 fs-8">
+    {% if item.teacherprofile.is_active %}{% trans "Profile Active" %}{% else %}
+      {% trans "Profile Inactive" %}{% endif %}
+  </span>
+</div>

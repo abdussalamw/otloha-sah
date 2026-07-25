@@ -1,0 +1,3 @@
+import os
+
+SEARCH_SERVICE_PROVIDER = os.environ.get('SEARCH_SERVICE_PROVIDER')

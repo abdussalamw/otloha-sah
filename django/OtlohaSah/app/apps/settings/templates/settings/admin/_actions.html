@@ -1,0 +1,16 @@
+{% load i18n %}
+<a href="{% url "admin:settings:reset" %}"
+   data-toggle="confirm"
+   class="btn btn-sm btn-light me-2"
+   data-request-method="POST"
+   data-confirm-message="{% trans "Are you sure you would like to reset settings!" %}">
+  {% trans "Reset" %}
+</a>
+
+<a href="{% url "admin:settings:collect-missing-settings" %}"
+   data-toggle="confirm"
+   class="btn btn-sm btn-light"
+   data-request-method="POST"
+   data-confirm-message="{% trans "Are you sure you would like to collect missing settings!" %}">
+  {% trans "Collect Missing Settings" %}
+</a>

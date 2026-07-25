@@ -1,0 +1,16 @@
+{% load i18n quran %}
+<div class="card mb-5">
+  <div class="card-header flex-nowrap px-4">
+    {% include "users/admin/listing/list_item/partials/__student_details.html" %}
+  </div>
+  <div class="card-body py-2">
+    <div class="d-flex justify-content-between align-items-end w-100">
+      {% trans "Recitations Statistics" as RECITATION_STATISTICS_TITLE %}
+      {% include "users/admin/listing/list_item/statistics/__new_recitations.html" with title=RECITATION_STATISTICS_TITLE %}
+      {% if item.favorite_teacher %}
+        {% trans "Favorite Teacher" as TEACHER %}
+        <div>{% include "recitations/admin/listing/__user.html" with user=item.favorite_teacher user_role=TEACHER %}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>

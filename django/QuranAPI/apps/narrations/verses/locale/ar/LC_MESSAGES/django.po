@@ -1,0 +1,82 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-29 14:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: verses/tests/test_models.py:55 verses/views_admin.py:23
+msgid "Line Start"
+msgstr "بداية السطر"
+
+#: verses/tests/test_models.py:66 verses/views_admin.py:24
+msgid "Line End"
+msgstr "نهاية السطر"
+
+#: verses/tests/test_models.py:81 verses/views_admin.py:20
+msgid "Verse Number"
+msgstr "رقم اﻵية"
+
+#: verses/tests/test_models.py:92 verses/views_admin.py:19
+msgid "Text"
+msgstr "النص"
+
+#: verses/tests/test_models.py:179
+msgid "Verse"
+msgstr "آية"
+
+#: verses/tests/test_models.py:182
+msgid "Verses"
+msgstr "اﻵيات"
+
+#: verses/tests/test_models.py:192
+#, python-brace-format
+msgid "Verse Number {verse_number}"
+msgstr "آيه رقم {verse_number}"
+
+#: verses/views_admin.py:15
+msgid "All Verses"
+msgstr "كل اﻵيات"
+
+#: verses/views_admin.py:17
+msgid "ID"
+msgstr "المعرف"
+
+#: verses/views_admin.py:18
+msgid "Image"
+msgstr "الصورة"
+
+#: verses/views_admin.py:21
+msgid "Chapter"
+msgstr "السورة"
+
+#: verses/views_admin.py:22
+msgid "Part"
+msgstr "الجزء"
+
+#: verses/views_admin.py:60
+msgid "Home"
+msgstr "الرئيسية"
+
+#: verses/views_admin.py:61
+msgid "Narrations"
+msgstr "الروايات"
+
+#: verses/views_admin.py:75
+#, python-brace-format
+msgid "verse {verse} of {chapter} Details"
+msgstr "تفاصيل آيه {verse} من سورة {chapter}"

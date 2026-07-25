@@ -1,0 +1,47 @@
+{% load quran %}
+{% load i18n %}
+<div class="flex-column flex-lg-row-auto w-lg-250px w-xl-350px mb-10">
+  <div class="card ribbon ribbon-top ribbon-vertical mb-5 mb-xl-8">
+    {% include  "users/admin/details/user_info/partials/__is_verified.html" %}
+    <div class="card-body">
+      <div class="d-flex flex-center flex-column py-5 gap-2">
+        {% include  "users/admin/details/user_info/partials/__avatar.html" %}
+        <div class="d-flex flex-center flex-column">
+          <span class="fs-6 text-gray-600 fw-lighter mb-">{% trans "ID" %} - {{ object.id }}</span>
+          <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bold">{{ object.get_full_name }}
+            <span class="fs-6 text-gray-700 fw-lighter">({{ object.username }})</span>
+          </a>
+          <span class="fs-6 text-gray-700 fw-lighter">{{ object.email }}</span>
+          <span class="fs-6 text-gray-700 fw-lighter">{{ object.phone }}</span>
+        </div>
+        {% include "users/admin/partials/__level.html" with level=object.level %}
+        {% include "users/admin/partials/__gender.html" with gender=object.gender %}
+        {% include "users/admin/details/user_info/partials/__is_blocked.html" with is_blocked=object.is_blocked %}
+        {% if object.bio %}
+          <blockquote class="text-gray-800 fw-bold mb-0">"{{ object.bio|default_if_none:'' }}"</blockquote>
+        {% endif %}
+        {% if object.favorite_teacher %}
+          {% trans "Favorite Teacher" as TEACHER %}
+          <div>{% include "recitations/admin/listing/__user.html" with user=object.favorite_teacher user_role=TEACHER %}</div>
+        {% endif %}
+      </div>
+      <div class="separator"></div>
+      <div class="pb-5 fs-6">
+        {% trans "Not Provided" as NOT_PROVIDED %}
+        {% trans "First Name" as F_NAME %}
+        {% trans "Last Name" as L_NAME %}
+        {% trans "Gender" as GENDER %}
+        {% trans "Age" as AGE %}{% trans "yo" as YO %} {% trans "Birthdate" as BD %}
+        {% trans "Current Narration" as CN %}
+        {% narration object.narration_id as NARRATION %}
+
+        {% include "users/admin/details/user_info/partials/__info.html" with title=F_NAME value=object.first_name|default:NOT_PROVIDED %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=L_NAME value=object.last_name|default:NOT_PROVIDED %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=GENDER value=object.get_gender %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=AGE value=object.get_age|stringformat:'s'|add:' '|add:YO %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=BD value=object.birthdate|date:"M d, Y" %}
+        {% include "users/admin/details/user_info/partials/__info.html" with title=CN value=NARRATION %}
+      </div>
+    </div>
+  </div>
+</div>

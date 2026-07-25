@@ -1,0 +1,9 @@
+{% load i18n %}
+{% if is_blocked %}
+  <div class="border border-dashed rounded min-w-75px p-2 me-2 border-danger">
+    <div class="d-flex align-items-center">
+      <i class="fa-solid fa-ban fs-2 me-2 text-danger"></i>
+      <div class="fw-semibold fs-5 text-danger">{% trans "Blocked" %}</div>
+    </div>
+  </div>
+{% endif %}

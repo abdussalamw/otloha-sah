@@ -1,0 +1,10 @@
+<div id="levels_form_template"
+     data-action="{% url 'admin:tajweed:levels:create' %}"
+     data-method="post"
+     class="d-none">
+  {% csrf_token %}
+  {{ form.media }}
+  {% include "django/forms/field.html" with field=form.name %}
+  {% include "django/forms/field.html" with field=form.color %}
+  {% include "django/forms/field.html" with field=form.value %}
+</div>

@@ -1,0 +1,48 @@
+{% load static %}
+
+<!-- jQuery -->
+<script src="{% static 'old-assets/plugins/jquery/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'old-assets/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'old-assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- ChartJS -->
+<script src="{% static 'old-assets/plugins/chart.js/Chart.min.js' %}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{% static 'old-assets/plugins/jquery-knob/jquery.knob.min.js' %}"></script>
+<!-- duallistbox -->
+<script src="{% static 'old-assets/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js' %}"></script>
+<script src="{% static 'old-assets/plugins/select2/js/select2.full.min.js' %}"></script>
+<!-- daterangepicker & inputmask-->
+<script src="{% static 'old-assets/plugins/moment/moment.min.js' %}"></script>
+<script src="{% static 'old-assets/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+<script src="{% static 'old-assets/plugins/daterangepicker/daterangepicker.js' %}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static 'old-assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'old-assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static "vendors/rating/rating.js" %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'old-assets/js/adminlte.js' %}"></script>
+<!-- dashboard -->
+<script src="{% static 'old-assets/js/pages/custom.js' %}"></script>
+
+<script>
+  const csrfToken = $('meta[name="csrf-token"]').prop('content')
+  window.webSocketProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+
+  $(".rating").each(function () {
+    let $this = $(this)
+    $this.starRating({
+      initialRating: Number($this.data('value')),
+      strokeColor: '#894A00',
+      strokeWidth: 10,
+      starSize: 25,
+      readOnly: true,
+    }).starRating('setRating', 2.5)
+  })
+</script>

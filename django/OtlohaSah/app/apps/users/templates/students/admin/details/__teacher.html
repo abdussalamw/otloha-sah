@@ -1,0 +1,24 @@
+{% load i18n %}
+{% if student.favorite_teacher %}
+  <div class="fw-bold mb-3">{% trans "Favorite Teacher" %}</div>
+  <div class="d-flex align-items-center">
+    <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+      <a href="{{ student.favorite_teacher.get_details_url }}">
+        <div class="symbol-label">
+          <img src="{{ student.favorite_teacher.profile_image }}" alt="{{ student.favorite_teacher.get_full_name }}"
+               class="w-100">
+        </div>
+      </a>
+    </div>
+    <div class="d-flex flex-column">
+      <a href="{{ student.favorite_teacher.get_details_url }}"
+         class="text-gray-800 text-hover-primary mb-1">{{ student.favorite_teacher.get_full_name }}
+        - {{ student.favorite_teacher.get_gender }}</a>
+      <span>{{ student.favorite_teacher.email }}</span>
+    </div>
+  </div>
+{% else %}
+  <div class="d-flex align-items-center">
+    <span class="text-gray fw-bold">{% trans "No Favorite Teacher Selected" %}</span>
+  </div>
+{% endif %}

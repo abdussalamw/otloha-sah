@@ -1,0 +1,176 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-24 10:15+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: context_processors/admin_sidebar.py:10
+msgid "Quran Control"
+msgstr "لوحة تحكم القرآن"
+
+#: context_processors/admin_sidebar.py:16
+msgid "Narrations"
+msgstr "الروايات"
+
+#: context_processors/admin_sidebar.py:25
+msgid "Books"
+msgstr "المصاحف"
+
+#: context_processors/admin_sidebar.py:34
+msgid "Chapters"
+msgstr "السور"
+
+#: context_processors/admin_sidebar.py:43
+msgid "Parts"
+msgstr "الأجزاء"
+
+#: context_processors/admin_sidebar.py:52
+msgid "Recitations"
+msgstr "الروايات"
+
+#: context_processors/admin_sidebar.py:61
+msgid "Explanations"
+msgstr "التفاسير"
+
+#: context_processors/admin_sidebar.py:70
+msgid "Tajweed"
+msgstr "التجويد"
+
+#: context_processors/admin_sidebar.py:78
+#, fuzzy
+#| msgid "Tajweed"
+msgid "Tajweed Books"
+msgstr "التجويد"
+
+#: context_processors/admin_sidebar.py:84
+msgid "Rules"
+msgstr "احكام التجويد"
+
+#: context_processors/admin_sidebar.py:93
+msgid "Translations"
+msgstr "الترجمات"
+
+#: context_processors/admin_sidebar.py:135
+msgid "Accounts"
+msgstr "الحسابات"
+
+#: context_processors/admin_sidebar.py:141
+msgid "Manage Accounts"
+msgstr "ادارة الحسابات"
+
+#: context_processors/admin_sidebar.py:147
+msgid "Staff"
+msgstr "المديرين"
+
+#: context_processors/admin_sidebar.py:153
+msgid "Groups"
+msgstr "المجموعات"
+
+#: context_processors/user_sidebar.py:12
+msgid "User Profile Control"
+msgstr "اعدادات الملف الشخصي"
+
+#: context_processors/user_sidebar.py:18
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+#: context_processors/user_sidebar.py:26
+msgid "Update Profile"
+msgstr "تعديل الملف الشخصي"
+
+#: context_processors/user_sidebar.py:34
+msgid "Manage Your Profile"
+msgstr "إدارة الملف الشخصي"
+
+#: context_processors/user_sidebar.py:39
+msgid "Change Password"
+msgstr "تغيير كلمة المرور"
+
+#: context_processors/user_sidebar.py:46
+msgid "Update Email"
+msgstr "تغيير عنوان البريد الالكتروني"
+
+#: context_processors/user_sidebar.py:53
+msgid "Update Phone Number"
+msgstr "تغير رقم الهاتف"
+
+#: context_processors/user_sidebar.py:63
+msgid "Manage Your Apps"
+msgstr "التحكم بالتطبيقات"
+
+#: context_processors/user_sidebar.py:69
+msgid "All Apps"
+msgstr "جميع التطبيقات"
+
+#: context_processors/user_sidebar.py:77
+msgid "Register New App"
+msgstr "اضافة تطبيق جديد"
+
+#: templates/main/admin/delete_confirmation.html:33
+msgid "Are you sure ?"
+msgstr "هل انت متأكد؟"
+
+#: templates/main/admin/delete_confirmation.html:34
+msgid ""
+"Are you sure you want to delete the selected admin info? All of the "
+"following objects and their related items will be deleted"
+msgstr ""
+
+#: templates/main/admin/delete_confirmation.html:35
+msgid "Summary"
+msgstr ""
+
+#: templates/main/admin/delete_confirmation.html:42
+msgid "Confirm"
+msgstr ""
+
+#: templates/main/admin/delete_confirmation.html:43
+msgid "Cancel"
+msgstr ""
+
+#: templates/main/admin/list_view.html:12
+msgid "Home"
+msgstr ""
+
+#: templates/main/admin/partials/list_view/listing-view-table.html:25
+msgid "There is No records Yet!"
+msgstr ""
+
+#: tests/xtest_views.py:15 tests/xtest_views.py:30
+msgid "Test Data"
+msgstr ""
+
+#: tests/xtest_views.py:17 tests/xtest_views.py:32
+msgid "id"
+msgstr ""
+
+#: tests/xtest_views.py:18 tests/xtest_views.py:33
+msgid "title"
+msgstr ""
+
+#: tests/xtest_views.py:19 tests/xtest_views.py:34
+msgid "created_at"
+msgstr ""
+
+#: tests/xtest_views.py:20 tests/xtest_views.py:35
+msgid "updated_at"
+msgstr ""
+
+#: views_admin.py:17
+msgid "All Pages"
+msgstr "جميع الصفحات"

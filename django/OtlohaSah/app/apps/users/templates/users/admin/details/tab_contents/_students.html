@@ -1,0 +1,8 @@
+<div class="tab-pane fade show active" id="recitations_tab" role="tabpanel">
+  {% if details_type == 'recitations' %}
+
+    {{ recitations }}
+  {% else %}
+    {% include "users/admin/details/tab_contents/partials/progress/__progress.html" %}
+  {% endif %}
+</div>

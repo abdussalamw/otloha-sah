@@ -1,0 +1,16 @@
+{% extends 'base_template/base.html' %}
+{% load dj_translation %}
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <div id="kt_content_container" class="container-xxl">
+        <div class="d-flex flex-column flex-lg-row">
+            {% include 'tajweed/lessons/details/_lesson_info.html' %}
+            <div class="flex-lg-row-fluid ms-lg-5">
+                {% include 'tajweed/lessons/details/_tabs.html' %}
+            </div>
+        </div>
+{#        <div>{{ lessons }}</div>#}
+    </div>
+{% endblock %}

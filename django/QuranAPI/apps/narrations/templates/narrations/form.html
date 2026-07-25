@@ -1,0 +1,61 @@
+{% extends 'admin_base.html' %}
+{% load i18n %}
+
+{% block page_title %}
+  {{ title }}
+{% endblock %}
+
+{% block content_header %}
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'admin:main:home' %}">{% translate 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url "admin:narrations:listing" %}">{% translate 'Narrations' %}</a>
+            </li>
+            {% if form.instance.pk %}
+              <li class="breadcrumb-item">
+                <a href="{% url "admin:narrations:listing" %}?id={{ form.instance.pk }}">
+                  {{ form.instance.translated_name }}
+                </a>
+              </li>
+              <li class="breadcrumb-item active">
+                {% trans "Edit" %}
+              </li>
+            {% else %}
+              <li class="breadcrumb-item active">
+                {% trans "Create" %}
+              </li>
+            {% endif %}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 offset-sm-2">
+        <div class="card card-primary">
+          <form id="quickForm" method="POST">
+            {% csrf_token %}
+            <div class="card-body">
+              {% include 'django/forms/form.html' with form=form %}
+
+              <button type="submit" class="btn btn-primary">{% translate 'Submit' %}</button>
+              <a class="btn btn-link text-danger" href="{% url 'admin:narrations:listing' %}">
+                {% translate 'Cancel' %}
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

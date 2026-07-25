@@ -1,0 +1,107 @@
+{% load i18n  static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% translate "Otloha Sah" %} | {% block page_title %}{% endblock %}</title>
+  <meta charset="utf-8"/>
+  <meta name="description" content=""/>
+  <meta name="keywords" content=""/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:title" content=""/>
+  <meta property="og:url" content="https://keenthemes.com/metronic"/>
+  <meta property="og:site_name" content="{% translate "Otloha Sah" %}"/>
+  <link rel="canonical" href="https://preview.keenthemes.com/metronic8"/>
+  <link rel="shortcut icon" href="{% static "images/favicon.ico" %}"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
+  <meta content="{{ csrf_token }}" name="csrf-token">
+  <link href="{% static "admin/plugins/custom/fullcalendar/fullcalendar.bundle.css" %}" rel="stylesheet"
+        type="text/css"/>
+  <link href="{% static "admin/plugins/custom/datatables/datatables.bundle.css" %}" rel="stylesheet" type="text/css"/>
+  <link href="{% static "admin/plugins/global/plugins.bundle.css" %}" rel="stylesheet" type="text/css"/>
+  <link href="{% static "admin/css/style.bundle.css" %}" rel="stylesheet" type="text/css"/>
+  <style>
+      @font-face {
+          font-family: 'KFGQPC HAFS Uthmanic Script';
+          src: url('{% static "fonts/UthmanicHafs_V20.ttf" %}') format("opentype"),
+          url("{% static "fonts/UthmanicHafs_V20.woff" %}") format("woff"),
+          url("{% static "fonts/UthmanicHafs_V20.woff2" %}") format("woff2");
+      }
+      .HafsFont {
+          font-family: 'KFGQPC HAFS Uthmanic Script';
+      }
+  </style>
+
+  <script>
+    const url = new URL(window.location.href)
+    const noSearchUrl = window.location.href.replace(url.search, '');
+  </script>
+  {% block styles %}{% endblock %}
+</head>
+
+<body data-kt-name="metronic" id="kt_body"
+      class="page-loading-enabled page-loading header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed">
+
+{% include "admin/partials/theme-mode/_init.html" %}
+{#{% include "admin/partials/_loader.html" %}#}
+
+<div class="d-flex flex-column flex-root">
+
+  <div class="page d-flex flex-row flex-column-fluid">
+    {% include "admin/layout/aside/_base.html" %}
+
+    <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+
+
+      {% include "admin/layout/header/_base.html" %}
+
+
+      {% block toolbar %}
+        {% include "admin/layout/_toolbar.html" %}
+      {% endblock %}
+
+
+      <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+        {% block content %}{% endblock %}
+      </div>
+
+      {% include "admin/layout/_footer.html" %}
+    </div>
+
+  </div>
+
+</div>
+{#{% include "admin/partials/_drawers.html" %}#}
+{#{% include "admin/partials/_scrolltop.html" %}#}
+{#{% include "admin/partials/modals/_upgrade-plan.html" %}#}
+{#{% include "admin/partials/modals/create-campaign/_main.html" %}#}
+{#{% include "admin/partials/modals/_invite-friends.html" %}#}
+{#{% include "admin/partials/modals/users-search/_main.html" %}#}
+
+<script>
+  var hostUrl = "admin/";
+
+</script>
+<script src="{% static "admin/plugins/global/plugins.bundle.js" %}"></script>
+<script src="{% static "admin/js/scripts.bundle.js" %}"></script>
+<script src="{% static "admin/plugins/custom/fullcalendar/fullcalendar.bundle.js" %}"></script>
+<script src="{% static "admin/js/custom/intro.js" %}"></script>
+<script src="{% url 'javascript-catalog' %}"></script>
+
+<script>
+  const csrfToken = $('meta[name="csrf-token"]').prop('content')
+  window.webSocketProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+  document.gettext = gettext
+</script>
+
+<script src="{% static "custom/formValidation.js" %}"></script>
+<script src="{% static "custom/modalHelpers.js" %}"></script>
+<script src="{% static "custom/toastr.js" %}"></script>
+<script src="{% static "custom/utils.js" %}"></script>
+<script src="{% static "records/audio-player.js" %}"></script>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
