@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:get/get.dart' as local;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:ntp/ntp.dart';
@@ -56,7 +57,14 @@ class ApiBaseHelper implements ApiQueueHandler {
   late BaseOptions opts;
 
   Dio createDio() {
-    return Dio(opts);
+    var dio = Dio(opts);
+    (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+      final client = HttpClient();
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
+    return dio;
   }
 
   static Dio addAuthInterceptors(Dio dio) {
@@ -103,7 +111,7 @@ class ApiBaseHelper implements ApiQueueHandler {
               UserDataServices.instance.signOut();
             } else {
               final refreshExpiryDate =
-                  Jwt.getExpiryDate(refreshToken)!.difference(await NTP.now());
+                  Jwt.getExpiryDate(refreshToken)!.difference(DateTime.now());
               if (refreshExpiryDate.inSeconds < 60) {
                 NavigationService().navigateTo(OnBoardPage.routeName);
                 await FirebaseService.instance.deleteToken();
@@ -117,7 +125,7 @@ class ApiBaseHelper implements ApiQueueHandler {
                   DioException(requestOptions: options, error: AuthError));
             } else {
               final expiryDate = Jwt.getExpiryDate(currentToken)!
-                  .difference(await NTP.now())
+                  .difference(DateTime.now())
                   .inSeconds;
               if (expiryDate < 60) {
                 String refreshToken =

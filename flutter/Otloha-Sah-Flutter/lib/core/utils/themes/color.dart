@@ -165,6 +165,6 @@ class AppColor {
   static const Color warningIconColor = Color(0xFFf6d642);
   static const Color warningAlertColor = Color(0xFFf5c716);
 
-  static const Color lightGrey = Color(0xFFedf1f7);
-  static const Color txtGrey = Color(0xFF9da8bd);
+  static const lightGrey = Color(0xFFedf1f7);
+  static const txtGrey = Color(0xFF9da8bd);
 }

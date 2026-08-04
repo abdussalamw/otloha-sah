@@ -37,9 +37,9 @@ class TajweedCubit extends Cubit<TajweedState> {
     }
   }
 
-  setTajweed(int selected, {Translatable? name}) {
+  setTajweed(int selected, {dynamic name}) {
     QuranCacheRepository.setSelectedTajweedId(selected);
-    QuranCacheRepository.setSelectedTajweedName(json.encode(name?.toJson()));
+    QuranCacheRepository.setSelectedTajweedName(json.encode(name));
 
     tajweedId = selected;
 

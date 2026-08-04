@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert' show base64, utf8;
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:quran_widget_flutter/data_source/cache/chash_helper.dart';
 import 'package:quran_widget_flutter/network_helper/apis.dart';
 import 'package:quran_widget_flutter/plugin_auth/auth_plugin_model.dart';
@@ -28,8 +30,15 @@ class QuranWidgetInit {
         },
       ));
 
+      (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+        final client = HttpClient();
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+
       Response response =
-          await dio.post('/o/token/', data: 'grant_type=client_credentials');
+          await dio.post('/api/v1/o/token/', data: 'grant_type=client_credentials');
 
       var val = AuthPluginModel.fromJson(response.data);
       Apis.authorization = '${val.tokenType} ${val.accessToken}';

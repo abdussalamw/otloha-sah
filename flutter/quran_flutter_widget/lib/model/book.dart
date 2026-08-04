@@ -76,9 +76,13 @@ class Book extends BaseModel {
   }
 
   factory Book.fromJson(Map<String, dynamic> map) {
+    String? nameStr = map['name'] is Map
+        ? ((map['name'] as Map)['ar']?.toString() ?? (map['name'] as Map).values.first?.toString())
+        : map['name']?.toString();
+
     return Book(
       id: map['id']?.toInt(),
-      name: map['name'],
+      name: nameStr,
       narrationId: map['narration']?.toInt(),
       downloaded: map['downloaded'],
     );

@@ -13,20 +13,18 @@ class TafsirCubit extends Cubit<TafsirState> {
   static TafsirCubit get(context) => BlocProvider.of(context);
   List<Explanation>? tafsir;
   int tafsirId = QuranCacheRepository.tafsirSelectedId ?? 1;
-  fetchTafsirList({String? qurey}) {
+  fetchTafsirList({String? qurey}) async {
     try {
-      DataSource.instance
+      final value = await DataSource.instance
           .fetchTafseerList(
               qurey: qurey,
-              narrationId: QuranCacheRepository.narrationSelectedId)
-          .then((value) async {
-        if (value != null && value.isNotEmpty) {
-          tafsir = value;
-          emit(TafsirFetched(value));
-        } else {
-          emit(TafsirError(EmptyListException()));
-        }
-      });
+              narrationId: QuranCacheRepository.narrationSelectedId);
+      if (value != null && value.isNotEmpty) {
+        tafsir = value;
+        emit(TafsirFetched(value));
+      } else {
+        emit(TafsirError(EmptyListException()));
+      }
     } catch (e) {
       emit(TafsirError(e));
     }

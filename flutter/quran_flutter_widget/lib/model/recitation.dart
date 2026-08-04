@@ -78,11 +78,18 @@ class Recitation extends BaseModel {
   }
 
   factory Recitation.fromJson(Map<String, dynamic> map) {
+    String? nameStr;
+    if (map['name'] is Map) {
+      nameStr = (map['name'] as Map)['ar']?.toString() ?? (map['name'] as Map)['en']?.toString() ?? (map['name'] as Map).values.first?.toString();
+    } else if (map['name'] is String) {
+      nameStr = map['name'];
+    }
+
     return Recitation(
       map['id']?.toInt(),
       map['narration']?.toInt(),
       map['reciter']?.toInt(),
-      map['name'],
+      nameStr,
     );
   }
 }

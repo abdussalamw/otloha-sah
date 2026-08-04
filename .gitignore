@@ -1,11 +1,13 @@
 # Python / Django
 venv/
+venv_52/
 *.pyc
 __pycache__/
 *.sqlite3
 .env
 media/
 staticfiles/
+requirements_52.txt
 
 # Flutter / Dart
 .dart_tool/
@@ -13,6 +15,18 @@ staticfiles/
 .pub/
 build/
 *.packages
+
+# Binaries / External
+*.exe
+*.dll
+external/
+
+# Root documentation / test files
+/*.html
+طلب.md
+change.md
+systemdesigne.md
+logo.jpeg
 
 # IDEs
 .idea/

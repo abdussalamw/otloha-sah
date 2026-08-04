@@ -24,7 +24,7 @@ class BookCubit extends Cubit<BookState> {
 
     // downLoadSettings[0].subTitle = books![index].name;
     QuranCacheRepository.setBookSelectedName(
-        json.encode(books![index].name!.toJson()));
+        json.encode(books![index].name));
 
     emit(BookFetched(books, index));
   }

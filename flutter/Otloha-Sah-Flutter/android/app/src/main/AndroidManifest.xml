@@ -36,7 +36,7 @@
   android:networkSecurityConfig="@xml/network_security_config"
   android:icon="@mipmap/launcher_icon">
     <activity 
-    android:name="com.ryanheise.audioservice.AudioServiceActivity" 
+    android:name=".MainActivity" 
     android:exported="true" 
     android:launchMode="singleTop" 
     android:theme="@style/LaunchTheme" 
@@ -102,19 +102,7 @@
     </activity>
 
 
-    <receiver 
-    android:name="com.ryanheise.audioservice.MediaButtonReceiver"
-    android:exported="true" >
-      <intent-filter>
-        <action android:name="android.intent.action.MEDIA_BUTTON" />
-      </intent-filter>
-    </receiver>
 
-    <service android:name="com.ryanheise.audioservice.AudioService" android:exported="true" >
-      <intent-filter>
-        <action android:name="android.media.browse.MediaBrowserService" />
-      </intent-filter>
-    </service>
 
     <meta-data android:name="flutterEmbedding" android:value="2" />
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>

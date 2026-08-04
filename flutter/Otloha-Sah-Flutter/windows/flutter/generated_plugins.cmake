@@ -10,14 +10,14 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_secure_storage_windows
   permission_handler_windows
   record_windows
-  smart_auth
-  sqlite3_flutter_libs
+  sentry_flutter
+  speech_to_text_windows
   syncfusion_pdfviewer_windows
   url_launcher_windows
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
-  sentry_flutter
+  jni
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

@@ -59,12 +59,7 @@ class _OnBoardPageState extends State<OnBoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      body: UpgradeAlert(
-        upgrader:
-            Upgrader(minAppVersion: context.read<SplashCubit>().minAppVersion),
-        showIgnore: false,
-        showLater: false,
-        child: Stack(
+      body: Stack(
           children: [
             _layoutBackgroundImage(AppImages.onbordBack, context),
             Padding(
@@ -139,7 +134,6 @@ class _OnBoardPageState extends State<OnBoardPage> {
             ),
           ],
         ),
-      ),
     );
   }
 

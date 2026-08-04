@@ -16,9 +16,11 @@ class SearchQuran extends StatelessWidget {
     Key? key,
     required this.onTapVerse,
     required this.onTapChapter,
+    this.locale,
   }) : super(key: key);
   final Function() onTapVerse;
   final Function() onTapChapter;
+  final String? locale;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

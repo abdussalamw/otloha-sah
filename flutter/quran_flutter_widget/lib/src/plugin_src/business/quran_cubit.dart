@@ -67,16 +67,21 @@ class QuranCubit extends Cubit<QuranState> {
     //tajweedPageController = PageController(initialPage: verse.verseNumber! - 1);
     _selectedTajweedWord = word;
     _currentVerse = verse;
+
+    if (chapters.isEmpty) return;
+
     Chapter crnChapter = chapters.firstWhere(
       (chapter) => chapter.chapterNumber == verse.chapterNumber,
+      orElse: () => chapters.first,
     );
 
-    if (crnChapter.chapterNumber != currentChapter!.chapterNumber) {
+    if (currentChapter == null ||
+        crnChapter.chapterNumber != currentChapter!.chapterNumber) {
       currentChapter = crnChapter;
       QuranCacheRepository.setSelectedChapterId(currentChapter!.id!);
-      QuranCacheRepository.setSelectedChapterName(currentChapter!.name!);
+      QuranCacheRepository.setSelectedChapterName(currentChapter!.name ?? '');
       CacheHelper.saveData(
-          key: Q.lastPageNumber, value: currentChapter!.pageFrom!);
+          key: Q.lastPageNumber, value: currentChapter!.pageFrom ?? 1);
     }
     if (word != null) {
       CacheHelper.saveData(
@@ -136,26 +141,38 @@ class QuranCubit extends Cubit<QuranState> {
     QuranCacheRepository.saveLastPageType(pageType.toString());
     currentPageType = pageType;
     print('pageType: $pageType');
-    Verse firstPageVerse = pages.values
-        .toList()
-        .elementAt((QuranCacheRepository.lastPageNumber ?? 1) - 1)
-        .first;
 
-    if (currentVerse?.pageNumber == firstPageVerse.pageNumber) {
+    if (pages.isEmpty) {
+      emit(ChangePageState());
+      return;
+    }
+
+    int rawIndex = (QuranCacheRepository.lastPageNumber ?? 1) - 1;
+    final pagesList = pages.values.toList();
+    if (rawIndex < 0 || rawIndex >= pagesList.length) {
+      rawIndex = 0;
+    }
+
+    Verse? firstPageVerse = pagesList[rawIndex].isNotEmpty ? pagesList[rawIndex].first : (allVerses.isNotEmpty ? allVerses.first : null);
+
+    if (firstPageVerse != null && currentVerse?.pageNumber == firstPageVerse.pageNumber) {
       firstPageVerse = currentVerse!;
     }
+
+    int initialIndex = firstPageVerse != null ? allVerses.indexOf(firstPageVerse) : 0;
+    if (initialIndex < 0) initialIndex = 0;
 
     switch (pageType) {
       case PageType.tafsir:
         {
           tafsirPageController =
-              PageController(initialPage: allVerses.indexOf(firstPageVerse));
+              PageController(initialPage: initialIndex);
           break;
         }
       case PageType.tajwid:
         {
           tajweedPageController =
-              PageController(initialPage: allVerses.indexOf(firstPageVerse));
+              PageController(initialPage: initialIndex);
           break;
         }
       case PageType.translation:
@@ -164,7 +181,7 @@ class QuranCubit extends Cubit<QuranState> {
             translationPageController = PageController();
             Future.microtask(() {
               translationPageController!
-                  .jumpToPage(allVerses.indexOf(firstPageVerse));
+                  .jumpToPage(initialIndex);
             });
           } catch (e) {
             print(e);
@@ -174,7 +191,7 @@ class QuranCubit extends Cubit<QuranState> {
       default:
         {
           pageController = PageController(
-              initialPage: (QuranCacheRepository.lastPageNumber ?? 1) - 1);
+              initialPage: rawIndex);
         }
     }
     emit(ChangePageState());
@@ -191,43 +208,58 @@ class QuranCubit extends Cubit<QuranState> {
 
   fetchInitailPages(context) async {
     emit(PagesFetchLoadingState());
-    
-    int lastPageNumber = CacheHelper.getData(key: Q.lastPageNumber) ?? 1;
 
-    parts = (await PartRepository().fetchPartsList())!;
-    chapters = (await ChapterRepository().fetchChaptersList())!;
+    try {
+      int lastPageNumber = CacheHelper.getData(key: Q.lastPageNumber) ?? 1;
 
-    currentChapter = chapters.firstWhere((element) =>
-        element.pageFrom! <= lastPageNumber &&
-        element.pageTo! >= lastPageNumber);
+      parts = (await PartRepository().fetchPartsList()) ?? [];
+      chapters = (await ChapterRepository().fetchChaptersList()) ?? [];
 
-    // emit(ChapterChangedState(currentChapter!));
+      if (chapters.isNotEmpty) {
+        currentChapter = chapters.firstWhere(
+          (element) =>
+              (element.pageFrom ?? 1) <= lastPageNumber &&
+              (element.pageTo ?? 604) >= lastPageNumber,
+          orElse: () => chapters.first,
+        );
+      }
 
-    allVerses = QuranService.instance.allVerses;
+      allVerses = await QuranService.instance.allVersesAsync ?? [];
 
-    if (allVerses.isNotEmpty) {
-      currentPart =
-          parts.firstWhere((element) => element.id == allVerses.first.partId);
+      if (allVerses.isNotEmpty && parts.isNotEmpty) {
+        currentPart = parts.firstWhere(
+          (element) => element.id == allVerses.first.partId,
+          orElse: () => parts.first,
+        );
+      }
+
+      pages.clear();
+      for (var e in allVerses) {
+        if (e.pageNumber != null) {
+          if (!pages.containsKey(e.pageNumber)) pages[e.pageNumber!] = [];
+          pages[e.pageNumber!]!.add(e);
+        }
+      }
+
+      emit(PagesFetchedState(pages: pages));
+
+      int targetIndex = 0;
+      if (pages.isNotEmpty) {
+        final rawIndex = pages.keys.toList().indexOf(lastPageNumber);
+        targetIndex = rawIndex < 0 ? 0 : rawIndex;
+      }
+
+      if (pageController.hasClients) {
+        pageController.jumpToPage(targetIndex);
+      } else {
+        pageController = PageController(initialPage: targetIndex);
+      }
+
+      currentPageNumber = lastPageNumber;
+    } catch (e, s) {
+      print('Error in fetchInitailPages: $e\n$s');
+      emit(PagesFetchErrorState(error: e.toString()));
     }
-    for (var e in allVerses) {
-      if (!pages.containsKey(e.pageNumber)) pages[e.pageNumber!] = [];
-      pages[e.pageNumber!]!.add(e);
-    }
-
-    emit(PagesFetchedState(pages: pages));
-
-    if (pageController.hasClients) {
-      pageController.jumpToPage(lastPageNumber == 1
-          ? 0
-          : pages.keys.toList().indexOf(lastPageNumber));
-    } else {
-      pageController = PageController(
-          initialPage: lastPageNumber == 1
-              ? 0
-              : pages.keys.toList().indexOf(lastPageNumber));
-    }
-
-    currentPageNumber = lastPageNumber;
   }
 
   updateChapter(Chapter chapter) {
@@ -321,20 +353,27 @@ class QuranCubit extends Cubit<QuranState> {
     int lastPage = CacheHelper.getData(key: Q.lastPageNumber) ?? 1;
     List<Chapter> selectedChapters = chapters
         .where((element) =>
-            element.pageFrom! <= pageNumber && element.pageTo! >= pageNumber)
+            (element.pageFrom ?? 1) <= pageNumber && (element.pageTo ?? 604) >= pageNumber)
         .toList();
 
-    if (currentPart!.id != pages[pageNumber]!.first.partId) {
-      currentPart = parts.firstWhere(
-          (element) => element.id == pages[pageNumber]!.first.partId);
-      emit(PartChangedState());
+    if (pages.containsKey(pageNumber) && pages[pageNumber]!.isNotEmpty) {
+      int? partId = pages[pageNumber]!.first.partId;
+      if (currentPart == null || currentPart!.id != partId) {
+        if (parts.isNotEmpty) {
+          currentPart = parts.firstWhere(
+            (element) => element.id == partId,
+            orElse: () => parts.first,
+          );
+          emit(PartChangedState());
+        }
+      }
     }
 
-    if (!selectedChapters.contains(currentChapter)) {
+    if (selectedChapters.isNotEmpty && !selectedChapters.contains(currentChapter)) {
       currentChapter = selectedChapters.first;
       emit(ChapterChangedState(currentChapter!));
-      QuranCacheRepository.setSelectedChapterId(currentChapter!.id!);
-      QuranCacheRepository.setSelectedChapterName(currentChapter!.name!);
+      if (currentChapter!.id != null) QuranCacheRepository.setSelectedChapterId(currentChapter!.id!);
+      if (currentChapter!.name != null) QuranCacheRepository.setSelectedChapterName(currentChapter!.name!);
     }
     currentPageNumber = pageNumber;
     if (lastPage > pageNumber) {
@@ -439,8 +478,17 @@ class QuranCubit extends Cubit<QuranState> {
         if (versesList
             .where((element) => element.chapterNumber != verse.chapterNumber)
             .isNotEmpty) {
-          if (lines[verse.lineStart! - 3].isEmpty) {
-            lines[verse.lineStart! - 3].add(
+          int lineIdx = (verse.lineStart ?? 3) - 3;
+          if (lineIdx >= 0 && lineIdx < lines.length && lines[lineIdx].isEmpty) {
+            String chName = '';
+            if (chapters.isNotEmpty) {
+              var ch = chapters.firstWhere(
+                (chapter) => chapter.chapterNumber == verse.chapterNumber,
+                orElse: () => chapters.first,
+              );
+              chName = ch.name ?? '';
+            }
+            lines[lineIdx].add(
               WordWidget(
                 lineFontSize: 22,
                 selectedVerses: selectedVerses,
@@ -449,19 +497,18 @@ class QuranCubit extends Cubit<QuranState> {
                 onTap: onTapCallback!,
                 playingVerse: playingVerse,
                 verseStyles: verseStyles,
-                customWords:
-                    '${chapters.firstWhere((chapter) => chapter.chapterNumber == verse.chapterNumber).name}',
+                customWords: chName,
                 chapterImage: SvgPicture.asset(
                     isDark
                         ? 'assets/quran_assets/dark/${verse.chapterNumber ?? 1}.svg'
                         : 'assets/quran_assets/${verse.chapterNumber ?? 1}.svg',
-                    // 'assets/quran_assets/${verse.chapterNumber ?? 1}.svg',
                     width: MediaQuery.of(context).size.width - 5,
                     colorBlendMode: BlendMode.multiply),
               ),
             );
           }
         } else {
+          int chNum = currentChapter?.chapterNumber ?? 1;
           lines[0].add(
             WordWidget(
               lineFontSize: 22,
@@ -475,24 +522,21 @@ class QuranCubit extends Cubit<QuranState> {
                   '${currentChapter?.name ?? QuranCacheRepository.selectedChapterName}',
               chapterImage: Padding(
                 padding: EdgeInsets.only(
-                    bottom: currentChapter!.chapterNumber == 1 ||
-                            currentChapter!.chapterNumber == 2
-                        ? 40
-                        : 0),
+                    bottom: chNum == 1 || chNum == 2 ? 40 : 0),
                 child: SvgPicture.asset(
                   isDark
                       ? 'assets/quran_assets/dark/${verse.chapterNumber ?? 1}.svg'
                       : 'assets/quran_assets/${verse.chapterNumber ?? 1}.svg',
                   width: MediaQuery.of(context).size.width - 12,
-                  // height: 150,x
                 ),
               ),
             ),
           );
         }
         if (verse.chapterNumber != 9 && verse.chapterNumber != 1) {
-          if (lines[verse.lineStart! - 2].isEmpty) {
-            lines[verse.lineStart! - 2].add(
+          int basmalaIdx = (verse.lineStart ?? 2) - 2;
+          if (basmalaIdx >= 0 && basmalaIdx < lines.length && lines[basmalaIdx].isEmpty) {
+            lines[basmalaIdx].add(
               WordWidget(
                 lineFontSize: 22,
                 selectedVerses: selectedVerses,
@@ -506,8 +550,6 @@ class QuranCubit extends Cubit<QuranState> {
                       ? 'assets/quran_assets/dark/basmala.svg'
                       : 'assets/quran_assets/basmala.svg',
                   width: 170,
-
-                  // height: 150,x
                 ),
               ),
             );
@@ -516,23 +558,26 @@ class QuranCubit extends Cubit<QuranState> {
       }
       if (verse.words != null) {
         for (var word in verse.words!) {
-          lines[word.lineNumber! - 1].add(
-            WordWidget(
-              lineFontSize: getLineFontSize(
-                getLineText(versesList, word.lineNumber!),
-                verse.pageNumber!,
-                word.lineNumber!,
-                context,
+          int wordLineIdx = (word.lineNumber ?? 1) - 1;
+          if (wordLineIdx >= 0 && wordLineIdx < lines.length) {
+            lines[wordLineIdx].add(
+              WordWidget(
+                lineFontSize: getLineFontSize(
+                  getLineText(versesList, word.lineNumber ?? 1),
+                  verse.pageNumber ?? 1,
+                  word.lineNumber ?? 1,
+                  context,
+                ),
+                playingVerse: playingVerse,
+                verseStyles: verseStyles,
+                selectedVerses: selectedVerses,
+                versesList: versesList,
+                onLongPress: onLongTapCallback!,
+                onTap: onTapCallback!,
+                word: word,
               ),
-              playingVerse: playingVerse,
-              verseStyles: verseStyles,
-              selectedVerses: selectedVerses,
-              versesList: versesList,
-              onLongPress: onLongTapCallback!,
-              onTap: onTapCallback!,
-              word: word,
-            ),
-          );
+            );
+          }
         }
       }
     }

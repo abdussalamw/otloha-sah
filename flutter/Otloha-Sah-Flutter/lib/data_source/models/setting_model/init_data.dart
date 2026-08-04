@@ -21,18 +21,21 @@ import '../../../modules/settings/presentation/pages/settings/tajweed_page.dart'
 class SettingsMenusData {
   get settings => _settings;
 
-  static String getTajweedName() {
-    if (QuranCacheRepository.selectedTajweedName?.isNotEmpty) {
-      try {
-        return Translatable.fromJson(json
-                    .decode(QuranCacheRepository.selectedTajweedName ?? '{}'))
-                .translate() ??
-            '';
-      } catch (_) {
-        return QuranCacheRepository.selectedTajweedName;
+  static String safeTranslate(String? rawJson) {
+    if (rawJson == null || rawJson.isEmpty) return '';
+    try {
+      final decoded = json.decode(rawJson);
+      if (decoded is Map<String, dynamic>) {
+        return Translatable.fromJson(decoded).translate() ?? '';
       }
+      return rawJson;
+    } catch (_) {
+      return rawJson;
     }
-    return '';
+  }
+
+  static String getTajweedName() {
+    return safeTranslate(QuranCacheRepository.selectedTajweedName);
   }
 
   final List<Settings> _settings = [
@@ -40,9 +43,7 @@ class SettingsMenusData {
       name: translate('Narration'),
       image: AppIcons.languageIcon,
       actionTo: NarrationPage.routeName,
-      subTitle: Translatable.fromJson(
-              json.decode(QuranCacheRepository.narrationSelectedName))
-          .translate(),
+      subTitle: safeTranslate(QuranCacheRepository.narrationSelectedName),
     ),
     Settings(
       name: translate('Languages'),
@@ -59,11 +60,7 @@ class SettingsMenusData {
       name: translate('Recitations'),
       image: AppIcons.discussioncon,
       actionTo: RecitationPage.routeName,
-      subTitle: QuranCacheRepository.selectedRecitationName!.isNotEmpty
-          ? Translatable.fromJson(
-                  json.decode(QuranCacheRepository.selectedRecitationName!))
-              .translate()
-          : '',
+      subTitle: safeTranslate(QuranCacheRepository.selectedRecitationName),
     ),
     Settings(
       name: translate('RecitationsDownloadCenter'),
@@ -95,11 +92,7 @@ class SettingsMenusData {
       name: translate('Tafsir'),
       image: AppIcons.readingIcon,
       actionTo: TafseerPage.routeName,
-      subTitle: QuranCacheRepository.tafsirSelectedName.isNotEmpty
-          ? Translatable.fromJson(
-                  json.decode(QuranCacheRepository.tafsirSelectedName ?? '{}'))
-              .translate()
-          : '',
+      subTitle: safeTranslate(QuranCacheRepository.tafsirSelectedName),
     ),
     Settings(
       name: translate('TafsirDownloadCenter'),
@@ -115,9 +108,7 @@ class SettingsMenusData {
       name: translate('QuranTranslationLanguage'),
       image: AppIcons.languageIcon,
       actionTo: QuranTranslationLanguagePage.routeName,
-      subTitle: Translatable.fromJson(json.decode(
-              QuranCacheRepository.quranTranslationSelectedName ?? '{}'))
-          .translate(),
+      subTitle: safeTranslate(QuranCacheRepository.quranTranslationSelectedName),
     ),
     Settings(
       name: translate('TranslationsDownloadCenter'),

@@ -25,22 +25,35 @@ class QuranService {
 
   Future<List<Verse>?> getVerses() async {
     print('reload data');
-    _allVerses = [];
-
-    String _narrationName = QuranCacheRepository.narrationSelectedName;
-
-    print(
-        'narrationName: $_narrationName verse ${CacheHelper.getData(key: _narrationName)} ');
-
-    List jsonVerses =
-        json.decode(CacheHelper.getData(key: _narrationName) ?? '[]');
-
-    if (jsonVerses.isNotEmpty) {
-      for (var element in jsonVerses) {
-        _allVerses?.add(Verse.fromJson(element));
+    try {
+      // 1) Try in-memory cache first
+      if (_allVerses != null && _allVerses!.isNotEmpty) {
+        return _allVerses;
       }
-    } else {
+
+      // 2) Try persisted cache (SharedPreferences) next
+      String narrationName = QuranCacheRepository.narrationSelectedName;
+      var cached = CacheHelper.getData(key: narrationName);
+      if (cached != null) {
+        String cachedStr = cached.toString();
+        if (cachedStr.isNotEmpty) {
+          List jsonVerses = json.decode(cachedStr);
+          if (jsonVerses.isNotEmpty) {
+            _allVerses = [];
+            for (var element in jsonVerses) {
+              _allVerses?.add(Verse.fromJson(element));
+            }
+            return _allVerses;
+          }
+        }
+      }
+
+      // 3) Finally fall back to the database / bundled assets
       _allVerses = await DataSource.instance.fetchVersesList();
+    } catch (e) {
+      print('Error loading verses in getVerses: $e');
+      // Last safety net: never leave _allVerses as null -> use empty list
+      _allVerses = _allVerses ?? [];
     }
     print('reload data done ');
     return _allVerses;

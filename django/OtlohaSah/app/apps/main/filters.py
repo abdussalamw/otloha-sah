@@ -15,9 +15,13 @@ def get_country_name(country_code):
 
 
 def get_countries():
-    countries = set(
-        User.objects.exclude(
-            Q(country__isnull=True) | Q(country='') | Q(country=None)).values_list('country', flat=True).distinct())
+    try:
+        
+        countries = set(
+            User.objects.exclude(
+                Q(country__isnull=True) | Q(country='') | Q(country=None)).values_list('country', flat=True).distinct())
+    except Exception:
+        countries = set()
     return [('', '')] + [(country, get_country_name(country)) for country in countries]
 
 

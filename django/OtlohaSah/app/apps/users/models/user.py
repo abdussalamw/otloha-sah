@@ -8,7 +8,7 @@ from django.db import models
 from django.db.models import Q, Exists, OuterRef
 from django.templatetags.static import static
 from django.urls import reverse
-from django.utils.datetime_safe import date
+from datetime import date
 from django.utils.translation import gettext_lazy as _, gettext as _
 from phonenumber_field.modelfields import PhoneNumberField
 

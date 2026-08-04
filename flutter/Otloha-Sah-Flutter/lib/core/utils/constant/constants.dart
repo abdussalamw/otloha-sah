@@ -1,4 +1,5 @@
 import 'package:quran_widget_flutter/network_helper/apis.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Constants {
   static const String fontFamily1 = 'Cairo';
@@ -14,16 +15,16 @@ class Constants {
   // static String baseUrl =
   //     isTesting ? '$protocol://o.itqadem.com' : '$protocol://app.otlohasah.org';
   static get socketUrl => isTesting
-      ? '$socketProtocol://otlohasah.itqadem.com'
-      : '$socketProtocol://app.otlohasah.org';
+      ? dotenv.env['TESTING_SOCKET_URL']
+      : dotenv.env['PRODUCTION_SOCKET_URL'];
 
   static get baseUrl => isTesting
-      ? '$protocol://otlohasah.itqadem.com'
-      : '$protocol://app.otlohasah.org';
+      ? dotenv.env['TESTING_BASE_URL']
+      : dotenv.env['PRODUCTION_BASE_URL'];
 
   static String appIconUrl = '$baseUrl/static/images/app_icon.png';
 
-  static const String prefix = Apis.baseUrl;
+  static String get prefix => Apis.baseUrl;
 
   static const String accept = 'accept';
   static const String reject = 'reject';

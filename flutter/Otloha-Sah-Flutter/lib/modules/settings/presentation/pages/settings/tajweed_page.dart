@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:otloha_sah_flutter/data_source/models/translation/translatable.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../../../core/exception_indicators/error_indicator.dart';
 import '../../../../../core/utils/constant/utils.dart';
 import '../../../business_logic/tajweed/tajweed_cubit.dart';

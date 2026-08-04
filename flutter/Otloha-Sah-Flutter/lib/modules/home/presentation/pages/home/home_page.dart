@@ -14,6 +14,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../settings/business_logic/themes/theme_cubit.dart';
 import 'package:quran_widget_flutter/quran_widget_flutter.dart';
 
+import '../../../../auth_module/presentation/pages/onboard_page.dart';
+import 'package:otloha_sah_flutter/core/utils/services/navigator_service.dart';
+
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
 
@@ -145,6 +148,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future _changePage(index) async {
+    if (index == 3 && !SplashCubit.isLogin) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertPopup(
+          alertType: AlertType.warning,
+          title: translate('login'),
+          message: translate('Please login to continue'),
+          buttonText: translate('login'),
+          onTap: () {
+            Navigator.pop(context);
+            NavigationService().navigateTo(OnBoardPage.routeName);
+          },
+        ),
+      );
+      return;
+    }
     BlocProvider.of<HomeCubit>(context).changeIndex(index ?? 0);
   }
 }

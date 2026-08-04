@@ -22,14 +22,16 @@ class TafasirCubit extends Cubit<TafasirState> {
   fetchVerseTafseer() async {
     emit(TafasirVerseLoading());
     try {
-      _selectedTafasirVerse =
-          await _tafsirRepository.fetchExplanationVerseByVerseId(
-              QuranCacheRepository.tafsirSelectedId ?? 1,
-              QuranCubit.currentVerse!);
+      if (QuranCubit.currentVerse != null) {
+        _selectedTafasirVerse =
+            await _tafsirRepository.fetchExplanationVerseByVerseId(
+                QuranCacheRepository.tafsirSelectedId ?? 1,
+                QuranCubit.currentVerse!);
+      }
 
       emit(TafasirVerseFetchedState(verses: verses));
-    }on Exception catch (e) {
-      emit(TafasirVerseErrorState(exception: e ));
+    } on Exception catch (e) {
+      emit(TafasirVerseErrorState(exception: e));
     }
   }
 

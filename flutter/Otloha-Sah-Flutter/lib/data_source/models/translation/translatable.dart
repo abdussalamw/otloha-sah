@@ -32,3 +32,9 @@ class Translations extends Equatable {
   @override
   List<Object> get props => [translations];
 }
+
+typedef Translatable = Translations;
+
+extension StringTranslateExtension on String {
+  String translate() => this;
+}

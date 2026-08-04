@@ -13,10 +13,14 @@ class Explanation extends BaseModel {
   Explanation({this.id, this.name, this.narration});
 
   factory Explanation.fromJson(Map<String, dynamic> json) {
+    String? nameStr = json['name'] is Map
+        ? ((json['name'] as Map)['ar']?.toString() ?? (json['name'] as Map).values.first?.toString())
+        : json['name']?.toString();
+
     return Explanation(
-      id: json['id'],
-      name: json['name'],
-      narration: json['narration'],
+      id: json['id']?.toInt(),
+      name: nameStr,
+      narration: json['narration']?.toInt(),
     );
   }
 

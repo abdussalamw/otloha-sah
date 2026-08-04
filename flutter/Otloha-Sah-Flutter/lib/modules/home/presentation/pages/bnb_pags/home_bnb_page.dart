@@ -102,7 +102,6 @@ class _HomeBNBPageState extends State<HomeBNBPage> {
                               _sectionMain(context),
                               _titleView(),
                               _subSections(context),
-                              AdsListing(),
                             ],
                           );
                         },

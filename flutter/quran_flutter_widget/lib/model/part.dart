@@ -43,10 +43,24 @@ class Part extends BaseModel {
   }
 
   factory Part.fromJson(Map<String, dynamic> map) {
+    String? nameStr;
+    if (map['name'] is Map) {
+      nameStr = (map['name'] as Map)['ar']?.toString() ?? (map['name'] as Map).values.first?.toString();
+    } else if (map['name'] is String) {
+      nameStr = map['name'];
+    }
+
+    String? aliasStr;
+    if (map['alias'] is Map) {
+      aliasStr = (map['alias'] as Map)['ar']?.toString() ?? (map['alias'] as Map).values.first?.toString();
+    } else if (map['alias'] is String) {
+      aliasStr = map['alias'];
+    }
+
     return Part(
       map['id']?.toInt(),
-      map['name'],
-      map['alias'],
+      nameStr,
+      aliasStr,
       map['part_number']?.toInt(),
     );
   }

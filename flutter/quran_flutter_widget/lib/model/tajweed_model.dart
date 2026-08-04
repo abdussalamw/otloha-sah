@@ -14,11 +14,19 @@ class TajweedBook extends BaseModel {
   TajweedBook({this.id, this.name, this.author, this.narration});
 
   factory TajweedBook.fromJson(Map<String, dynamic> json) {
+    String? nameStr = json['name'] is Map
+        ? ((json['name'] as Map)['ar']?.toString() ?? (json['name'] as Map)['en']?.toString() ?? (json['name'] as Map).values.first?.toString())
+        : json['name']?.toString();
+
+    String? authorStr = json['author'] is Map
+        ? ((json['author'] as Map)['ar']?.toString() ?? (json['author'] as Map).values.first?.toString())
+        : json['author']?.toString();
+
     return TajweedBook(
-      id: json['id'],
-      name: json['name'],
-      author: json['author'],
-      narration: json['narration'],
+      id: json['id']?.toInt(),
+      name: nameStr,
+      author: authorStr,
+      narration: json['narration']?.toInt(),
     );
   }
 

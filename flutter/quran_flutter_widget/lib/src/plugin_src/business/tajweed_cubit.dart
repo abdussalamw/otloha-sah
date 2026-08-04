@@ -31,8 +31,10 @@ class TajweedCubit extends Cubit<TajweedState> {
             verseId: verse?.id ?? 1) ??
         [];
     print(charachters);
-    await getWords(verse!);
-    if (selectedTajweedWord != null) {
+    if (verse != null) {
+      await getWords(verse);
+    }
+    if (selectedTajweedWord != null && verse != null) {
       if ((isWordHasTajweed[selectedTajweedWord.number] ?? false) &&
           selectedTajweedWord.verseNumber == verse.verseNumber) {
         var index = selectedTajweedWord.id;

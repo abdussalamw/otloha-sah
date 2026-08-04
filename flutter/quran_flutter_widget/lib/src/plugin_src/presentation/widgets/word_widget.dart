@@ -117,6 +117,7 @@ class WordWidget extends StatelessWidget {
                                               'قالون'
                                           ? 'Qaloun'
                                           : 'Hafs20',
+                              package: 'quran_widget_flutter',
                               fontSize: lineFontSize,
                             ),
                           ),
@@ -134,6 +135,7 @@ class WordWidget extends StatelessWidget {
                                               'قالون'
                                           ? 'Qaloun'
                                           : 'Hafs20',
+                              package: 'quran_widget_flutter',
                               fontSize: lineFontSize,
                             ),
                           ),
@@ -142,7 +144,6 @@ class WordWidget extends StatelessWidget {
                       style: TextStyle(
                         color: verseColor(),
                         fontSize: lineFontSize,
-
                         fontFamily:
                             QuranCacheRepository.narrationSelectedName == 'ورش'
                                 ? 'Warsh'
@@ -150,6 +151,7 @@ class WordWidget extends StatelessWidget {
                                         'قالون'
                                     ? 'Qaloun'
                                     : 'Hafs20',
+                        package: 'quran_widget_flutter',
                         // wordSpacing: 3,
                       ),
                     )
@@ -158,7 +160,6 @@ class WordWidget extends StatelessWidget {
                       style: TextStyle(
                         color: verseColor(),
                         fontSize: lineFontSize,
-
                         fontFamily:
                             QuranCacheRepository.narrationSelectedName == 'ورش'
                                 ? 'Warsh'
@@ -166,6 +167,7 @@ class WordWidget extends StatelessWidget {
                                         'قالون'
                                     ? 'Qaloun'
                                     : 'Hafs20',
+                        package: 'quran_widget_flutter',
                         // wordSpacing: 3,
                       ),
                     )
@@ -180,6 +182,7 @@ class WordWidget extends StatelessWidget {
                         : QuranCacheRepository.narrationSelectedName == 'قالون'
                             ? 'Qaloun'
                             : 'Hafs20',
+                    package: 'quran_widget_flutter',
                     // wordSpacing: 3,
                   ),
                 ),

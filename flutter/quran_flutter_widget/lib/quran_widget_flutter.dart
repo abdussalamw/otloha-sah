@@ -17,6 +17,7 @@ export 'package:quran_widget_flutter/model/part.dart';
 export 'package:quran_widget_flutter/model/recitation.dart';
 export 'package:quran_widget_flutter/model/recitation_verses.dart';
 export 'package:quran_widget_flutter/model/reciter.dart';
+export 'package:quran_widget_flutter/model/translatable.dart';
 export 'package:quran_widget_flutter/plugin_auth/quran_widget_init.dart';
 export 'package:quran_widget_flutter/src/plugin_src/business/quran_cubit.dart';
 export 'package:quran_widget_flutter/src/plugin_src/data/models/page_type.dart';

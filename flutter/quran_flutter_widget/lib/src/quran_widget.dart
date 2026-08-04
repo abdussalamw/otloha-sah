@@ -23,6 +23,9 @@ class QuranWidget extends StatefulWidget {
     this.isDark = false,
     this.playingVerse,
     this.verseStyles,
+    this.playerController,
+    this.locale,
+    this.onPlay,
   }) : super(key: key);
 
   final PageType page;
@@ -33,6 +36,9 @@ class QuranWidget extends StatefulWidget {
   final Verse? playingVerse;
   final QuranController controller;
   final List<VerseStyle>? verseStyles;
+  final dynamic playerController;
+  final dynamic locale;
+  final dynamic onPlay;
 
   final Function(int pageNumber) onPageChange;
   final Function(PageType pageType) onPageTypeChage;
@@ -62,7 +68,10 @@ class _QuranWidgetState extends State<QuranWidget> {
           narrationId: widget.narrationId,
           bookId: widget.bookId,
           isDark: widget.isDark,
-        )..fetchInitailPages(context);
+        );
+        cubit.fetchInitailPages(context).catchError((e) {
+          print('Error during initial fetchInitailPages: $e');
+        });
         widget.controller.setCubit(cubit);
         return cubit;
       },

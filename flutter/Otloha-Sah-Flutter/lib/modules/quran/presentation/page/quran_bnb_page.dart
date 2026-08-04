@@ -172,7 +172,6 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
                     textDirection: TextDirection.rtl,
                     child: BlocBuilder<QuranPlayerCubit, QuranPlayerState>(
                       builder: (context, state) {
-                        QuranViewCubit.get(context).init();
                         return BlocConsumer<ProgressCubit, ProgressState>(
                           listener: (context, progressState) {},
                           buildWhen: (previous, current) =>

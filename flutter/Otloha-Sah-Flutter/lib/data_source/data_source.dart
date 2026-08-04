@@ -1,3 +1,4 @@
+import 'package:otloha_sah_flutter/data_source/models/translation/translatable.dart';
 import 'package:dio/dio.dart';
 import 'package:file/file.dart';
 import 'package:otloha_sah_flutter/data_source/models/recitations/recitation.dart';

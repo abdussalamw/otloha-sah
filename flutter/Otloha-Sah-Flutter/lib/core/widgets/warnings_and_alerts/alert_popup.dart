@@ -12,7 +12,7 @@ enum AlertType {
   warning,
 }
 
-class AlertPopup extends StatelessWidget {
+class AlertPopup extends StatefulWidget {
   const AlertPopup({
     super.key,
     required this.alertType,
@@ -23,6 +23,7 @@ class AlertPopup extends StatelessWidget {
     this.buttonText,
     this.onTap,
     this.hideBtn,
+    this.autoDismissDuration,
   });
   final AlertType alertType;
   final String? title;
@@ -32,29 +33,51 @@ class AlertPopup extends StatelessWidget {
   final String? buttonText;
   final Function()? onTap;
   final bool? hideBtn;
+  final Duration? autoDismissDuration;
+
+  @override
+  State<AlertPopup> createState() => _AlertPopupState();
+}
+
+class _AlertPopupState extends State<AlertPopup> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.alertType == AlertType.seccess) {
+      Future.delayed(widget.autoDismissDuration ?? const Duration(seconds: 4), () {
+        if (mounted && Navigator.of(context, rootNavigator: true).canPop()) {
+          if (widget.onTap != null) {
+            widget.onTap!();
+          } else {
+            Navigator.of(context, rootNavigator: true).pop();
+          }
+        }
+      });
+    }
+  }
 
   String getIcon() {
-    if (alertType == AlertType.seccess) {
+    if (widget.alertType == AlertType.seccess) {
       return AppIcons.sucessIcon;
-    } else if (alertType == AlertType.warning) {
+    } else if (widget.alertType == AlertType.warning) {
       return AppIcons.waningIcon;
     }
     return AppIcons.dangerIcon;
   }
 
   String getText() {
-    if (alertType == AlertType.seccess) {
+    if (widget.alertType == AlertType.seccess) {
       return translate('Done'.tr());
-    } else if (alertType == AlertType.warning) {
+    } else if (widget.alertType == AlertType.warning) {
       return translate('ok');
     }
     return translate('cancel');
   }
 
   Color getColor() {
-    if (alertType == AlertType.seccess) {
+    if (widget.alertType == AlertType.seccess) {
       return AppColor.headTextColor;
-    } else if (alertType == AlertType.warning) {
+    } else if (widget.alertType == AlertType.warning) {
       return AppColor.warningAlertColor;
     }
     return Colors.red;
@@ -75,7 +98,7 @@ class AlertPopup extends StatelessWidget {
           children: [
             SvgPicture.asset(getIcon()),
             const SizedBox(height: 30),
-            if (alertType == AlertType.warning)
+            if (widget.alertType == AlertType.warning)
               Text(
                 'Warning'.tr(),
                 style: TextStyle(
@@ -84,9 +107,9 @@ class AlertPopup extends StatelessWidget {
                   fontSize: 20,
                 ),
               ),
-            if (title != null)
+            if (widget.title != null)
               Text(
-                title!,
+                widget.title!,
                 style: TextStyle(
                   color: getColor(),
                   fontWeight: FontWeight.bold,
@@ -95,7 +118,7 @@ class AlertPopup extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             Text(
-              message,
+              widget.message,
               style: const TextStyle(
                 color: AppColor.txtGrey,
               ),
@@ -103,39 +126,39 @@ class AlertPopup extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             Row(
-              mainAxisAlignment: actions == null
+              mainAxisAlignment: widget.actions == null
                   ? MainAxisAlignment.center
                   : MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if ((alertType == AlertType.seccess ||
-                        alertType == AlertType.warning) &&
-                    !(hideBtn ?? true))
+                if ((widget.alertType == AlertType.seccess ||
+                        widget.alertType == AlertType.warning) &&
+                    !(widget.hideBtn ?? true))
                   SizedBox(
                     height: 35,
                     child: ButtonApp(
-                        buttonText: buttonText ?? getText(),
-                        onPressed: onTap ??
+                        buttonText: widget.buttonText ?? getText(),
+                        onPressed: widget.onTap ??
                             () {
                               Navigator.pop(context);
                             },
-                        width: 220 / ((actions?.length ?? 0) + 1),
+                        width: 220 / ((widget.actions?.length ?? 0) + 1),
                         borderRaduis: BorderRadius.circular(10),
-                        colors: buttonColor == null
+                        colors: widget.buttonColor == null
                             ? [
                                 AppColor.darkBlue,
                                 AppColor.lightBlue,
                               ]
                             : [
-                                buttonColor!,
-                                buttonColor!,
+                                widget.buttonColor!,
+                                widget.buttonColor!,
                               ]),
                   ),
-                if (actions != null)
-                  for (Widget action in actions!) ...[
+                if (widget.actions != null)
+                  for (Widget action in widget.actions!) ...[
                     SizedBox(
                       height: 35,
-                      width: 220 / ((actions?.length ?? 0) + 1),
+                      width: 220 / ((widget.actions?.length ?? 0) + 1),
                       child: action,
                     )
                   ]

@@ -39,9 +39,16 @@ class Reciter extends BaseModel {
   }
 
   factory Reciter.fromJson(Map<String, dynamic> map) {
+    String? nameStr;
+    if (map['name'] is Map) {
+      nameStr = (map['name'] as Map)['ar']?.toString() ?? (map['name'] as Map)['en']?.toString() ?? (map['name'] as Map).values.first?.toString();
+    } else if (map['name'] is String) {
+      nameStr = map['name'];
+    }
+
     return Reciter(
       map['id']?.toInt(),
-      map['name'],
+      nameStr,
     );
   }
 

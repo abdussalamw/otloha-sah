@@ -114,8 +114,8 @@ class DataSource {
         onDownloadProgress: onDownloadProgress,
       );
 
-  Future<Chapter?> fetchChapterById(int chapterId) =>
-      _chapterRepository.fetchChapterById(chapterId);
+  Future<Chapter?> fetchChapterById(int chapterId, [int? narrationId]) =>
+      _chapterRepository.fetchChapterById(chapterId, narrationId);
 
   Future<List<Part>?> fetchPartsList({
     String? qurey,

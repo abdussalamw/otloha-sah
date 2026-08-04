@@ -48,7 +48,9 @@ class NarrationApi {
     int? chapterNumber,
     Function(int, int)? onDownloadProgress,
   }) async {
-    int narrationId = QuranCacheRepository.narrationSelectedId ?? 1;
+    int narrationId = (QuranCacheRepository.narrationSelectedId == null || QuranCacheRepository.narrationSelectedId! <= 0)
+        ? 1
+        : QuranCacheRepository.narrationSelectedId!;
     var narrationName = QuranCacheRepository.narrationSelectedName;
 
     // var tempDir = await getTemporaryDirectory();
@@ -66,7 +68,15 @@ class NarrationApi {
 
     // final contents = await file.readAsString();
 
-    await CacheHelper.saveData(key: narrationName, value: data);
+    // Persist verses in cache so offline reload works
+    try {
+      if (narrationName != null && narrationName.isNotEmpty) {
+        await CacheHelper.saveData(key: narrationName, value: data);
+      }
+    } catch (e) {
+      print('Error saving verses cache: $e');
+    }
+
     return MyResponse<Verse>.fromJson(jsonDecode(data), Apis.list);
     // if (response != null) {
     //   if (response.statusCode == 200) {

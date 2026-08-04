@@ -219,7 +219,7 @@ class _RecitationsPageState extends State<RecitationsPage>
                 ayah: cubit.userRecitatios[index].name ?? '',
 
                 // ayahInfo: _getAyahInfo(recitations),
-                userName: UserDataServices.instance.getUserDataFast()!.fullname,
+                userName: UserDataServices.instance.getUserDataFast()?.fullname ?? '',
                 // dateStr: (recitations.finishedAt != null)
                 //     ? DateFormat('hh:mm dd MMM')
                 //         .format(DateTime.parse(recitations.finishedAt ?? ''))
@@ -299,7 +299,7 @@ class _RecitationsPageState extends State<RecitationsPage>
                 // wavePath: recitations.records?.first.wave,
                 ayah: cubit.localUserRecitations[index].name,
                 // ayahInfo: _getAyahInfo(recitations),
-                userName: UserDataServices.instance.getUserDataFast()!.fullname,
+                userName: UserDataServices.instance.getUserDataFast()?.fullname ?? '',
                 // dateStr: (recitations.finishedAt != null)
                 //     ? DateFormat('hh:mm dd MMM')
                 //         .format(DateTime.parse(recitations.finishedAt ?? ''))

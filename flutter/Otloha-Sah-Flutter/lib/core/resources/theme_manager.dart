@@ -17,7 +17,7 @@ ThemeData getApplicationLightTheme() {
     splashColor: ColorManager.primaryOpacity70,
     fontFamily: 'Cairo',
     // card view theme
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: ColorManager.white,
       shadowColor: ColorManager.grey,
       elevation: 4,

@@ -110,48 +110,57 @@ class SplashCubit extends Cubit<SplashState> {
       await DataSource.instance.initialApp(
         clientId: Constants.clientId,
         clientSecret: Constants.clientSecret,
-      );
+      ).timeout(const Duration(seconds: 10));
     } on NetworkConnectionExceptionOnTocken catch (e) {
       ExceptionHandling.hanleToastFromException(e, fromPackage: true);
+    } catch (e) {
+      print('Timeout or error during initialApp: $e');
     }
 
-    await initCacheData();
-    DataSource.instance.loadQuranData();
-    if (isLogin) {
-      await getUsersInfo();
+    try {
+      await initCacheData().timeout(const Duration(seconds: 10));
+    } catch (e) {
+      print('Error/Timeout during splash initCacheData: $e');
+    }
 
-      if (isLogin && !Platform.isIOS) {
-        await FirebaseService.instance.initNotifications();
+    try {
+      await DataSource.instance.loadQuranData();
+      if (isLogin) {
+        await getUsersInfo().timeout(const Duration(seconds: 10));
+
+        if (isLogin && !Platform.isIOS) {
+          await FirebaseService.instance.initNotifications();
+        }
       }
+    } catch (e) {
+      print('Error during splash userInfo/loadQuranData: $e');
+    } finally {
+      emit(
+        SplashFinish(
+          isBlocked: isBlocked,
+          isProfileCompelete: (user?.username != null &&
+              user?.birthdate != null &&
+              user?.gender != null &&
+              user!.phone != null),
+          isPhoneVerified: user?.phoneVerifiedAt != null,
+        ),
+      );
     }
-    emit(
-      SplashFinish(
-        isBlocked: isBlocked,
-        isProfileCompelete: (user?.username != null &&
-            user?.birthdate != null &&
-            user?.gender != null &&
-            user!.phone != null),
-        isPhoneVerified: user?.phoneVerifiedAt != null,
-      ),
-    );
   }
 
   Future<void> initCacheData() async {
     List<Narration>? narrations;
-    int? firstNarration;
-    if (QuranCacheRepository.narrationSelectedId == null) {
-      narrations = await DataSource.instance.fetchNarrationsList(
-            onDownloadProgress: (val, total) {
-              titleProgress = 'DownloadingNarrations';
-              progress = (val / total);
-              emit(DownloadingState(progress: progress));
-            },
-          ) ??
-          [];
-      firstNarration = narrations.isNotEmpty ? narrations.first.id : 0;
-    }
+    narrations = await DataSource.instance.fetchNarrationsList(
+          onDownloadProgress: (val, total) {
+            titleProgress = 'DownloadingNarrations';
+            progress = (val / total);
+            emit(DownloadingState(progress: progress));
+          },
+        ) ??
+        [];
+    int firstNarration = QuranCacheRepository.narrationSelectedId ?? (narrations.isNotEmpty ? narrations.first.id : 1);
 
-    if (firstNarration != null) {
+    if (true) {
       List<Book> books = await DataSource.instance.fetchBooksList(
             narrationId: firstNarration,
             onDownloadProgress: (val, total) {
@@ -197,39 +206,55 @@ class SplashCubit extends Cubit<SplashState> {
       if (tajweedBooks.isNotEmpty) {
         QuranCacheRepository.setSelectedTajweedId(tajweedBooks.first.id ?? 1);
         QuranCacheRepository.setSelectedTajweedName(
-            json.encode(tajweedBooks.first.name?.toJson()));
+            json.encode(tajweedBooks.first.name));
+      } else if (QuranCacheRepository.selectedTajweedId == null) {
+        QuranCacheRepository.setSelectedTajweedId(1);
       }
 
       if (taragama.isNotEmpty) {
         QuranCacheRepository.setQuranTranslationSelectedId(
             taragama.first.id ?? 1);
         QuranCacheRepository.setQuranTranslationSelectedName(
-            json.encode(taragama.first.name?.toJson()));
+            json.encode(taragama.first.name));
+      } else if (QuranCacheRepository.quranTranslationSelectedId == null) {
+        QuranCacheRepository.setQuranTranslationSelectedId(1);
       }
 
       if (explanations.isNotEmpty) {
         QuranCacheRepository.setTafsirSelectedId(explanations.first.id ?? 1);
         QuranCacheRepository.setTafsirSelectedName(
-            json.encode(explanations.first.name?.toJson()));
+            json.encode(explanations.first.name));
+      } else if (QuranCacheRepository.tafsirSelectedId == null) {
+        QuranCacheRepository.setTafsirSelectedId(1);
       }
-      int firstRecitation = recitations.isNotEmpty ? recitations.first.id! : 0;
+      int firstRecitation = recitations.isNotEmpty ? recitations.first.id! : 1;
 
-      await QuranCacheRepository.setNarrationSelectedId(firstNarration);
-      await QuranCacheRepository.setNarrationSelectedName(firstNarration == 0
-          ? ''
-          : json.encode(narrations!.first.name.toJson()));
-      await QuranCacheRepository.setBookSelectedId(firstBook);
-      await QuranCacheRepository.setBookSelectedName(
-          firstBook != 0 ? json.encode(books.first.name!.toJson()) : '');
-      await QuranCacheRepository.setSelectedChapterId(firstChapter);
-      await QuranCacheRepository.setSelectedChapterName(
-          firstChapter != 0 ? json.encode(chapters.first.name!.toJson()) : '');
-      await QuranCacheRepository.setSelectedRecitationId(firstRecitation);
-      await QuranCacheRepository.setSelectedRecitationName(firstRecitation == 0
-          ? ''
-          : json.encode(recitations.first.name!.toJson()));
+      await QuranCacheRepository.setNarrationSelectedId(
+          QuranCacheRepository.narrationSelectedId ?? (firstNarration != 0 ? firstNarration : 1));
+      if (narrations.isNotEmpty) {
+        await QuranCacheRepository.setNarrationSelectedName(
+            json.encode(narrations.first.name));
+      }
+      await QuranCacheRepository.setBookSelectedId(
+          QuranCacheRepository.bookSelectedId ?? (firstBook != 0 ? firstBook : 1));
+      if (books.isNotEmpty) {
+        await QuranCacheRepository.setBookSelectedName(
+            json.encode(books.first.name));
+      }
+      await QuranCacheRepository.setSelectedChapterId(
+          QuranCacheRepository.selectedChapterId ?? (firstChapter != 0 ? firstChapter : 1));
+      if (chapters.isNotEmpty) {
+        await QuranCacheRepository.setSelectedChapterName(
+            json.encode(chapters.first.name));
+      }
+      await QuranCacheRepository.setSelectedRecitationId(
+          QuranCacheRepository.selectedRecitationId ?? firstRecitation);
+      if (recitations.isNotEmpty) {
+        await QuranCacheRepository.setSelectedRecitationName(
+            json.encode(recitations.first.name));
+      }
       await QuranCacheRepository.setSelectedReciterId(
-          firstRecitation == 0 ? 0 : recitations.first.reciter!.id!);
+          firstRecitation == 0 || recitations.isEmpty ? 1 : (recitations.first.reciter?.id ?? 1));
 
       await DataSource.instance.fetchPartsList(
         onDownloadProgress: (val, total) {

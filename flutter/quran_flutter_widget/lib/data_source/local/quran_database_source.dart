@@ -8,7 +8,7 @@ class QuranDatabaseSource {
   static QuranDatabase? _database;
 
   Future<QuranDatabase?> get database async {
-    _database = await $FloorQuranDatabase
+    _database ??= await $FloorQuranDatabase
         .databaseBuilder('quran_database_v2.db')
         .build();
     return _database;

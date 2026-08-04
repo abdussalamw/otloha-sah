@@ -2,7 +2,8 @@ import 'package:quran_widget_flutter/data_source/cache/chash_helper.dart';
 import 'package:quran_widget_flutter/helper/q.dart';
 
 class QuranCacheRepository {
-  static get selectedChapterId => CacheHelper.getData(key: Q.chapterSelectedId);
+  static int get selectedChapterId =>
+      CacheHelper.getData(key: Q.chapterSelectedId) ?? 1;
   static get selectedChapterName =>
       CacheHelper.getData(key: Q.chapterSelectedName);
 
@@ -12,7 +13,7 @@ class QuranCacheRepository {
       await CacheHelper.saveData(key: Q.chapterSelectedName, value: name);
 
   static get quranTranslationSelectedId =>
-      CacheHelper.getData(key: Q.qtlSelectedId);
+      CacheHelper.getData(key: Q.qtlSelectedId) ?? 1;
   static get quranTranslationSelectedName =>
       CacheHelper.getData(key: Q.qtlSelectedName);
 
@@ -21,7 +22,8 @@ class QuranCacheRepository {
   static setQuranTranslationSelectedName(String name) async =>
       await CacheHelper.saveData(key: Q.qtlSelectedName, value: name);
 
-  static get tafsirSelectedId => CacheHelper.getData(key: Q.tafseerSelectedId);
+  static get tafsirSelectedId =>
+      CacheHelper.getData(key: Q.tafseerSelectedId) ?? 1;
   static get tafsirSelectedName =>
       CacheHelper.getData(key: Q.tafseerSelectedName);
 
@@ -30,7 +32,8 @@ class QuranCacheRepository {
   static setTafsirSelectedName(String name) async =>
       await CacheHelper.saveData(key: Q.tafseerSelectedName, value: name);
 
-  static get bookSelectedId => CacheHelper.getData(key: Q.bookSelectedId);
+  static int get bookSelectedId =>
+      CacheHelper.getData(key: Q.bookSelectedId) ?? 1;
   static get bookSelectedName => CacheHelper.getData(key: Q.bookSelectedName);
 
   static setBookSelectedId(int id) async =>
@@ -38,17 +41,18 @@ class QuranCacheRepository {
   static setBookSelectedName(String name) async =>
       await CacheHelper.saveData(key: Q.bookSelectedName, value: name);
 
-  static get narrationSelectedId =>
-      CacheHelper.getData(key: Q.narrationSelectedId);
+  static int get narrationSelectedId =>
+      CacheHelper.getData(key: Q.narrationSelectedId) ?? 1;
   static String get narrationSelectedName =>
-      CacheHelper.getData(key: Q.narrationSelectedName);
+      CacheHelper.getData(key: Q.narrationSelectedName) ?? '';
 
   static setNarrationSelectedId(int id) async =>
       await CacheHelper.saveData(key: Q.narrationSelectedId, value: id);
   static setNarrationSelectedName(String name) async =>
       await CacheHelper.saveData(key: Q.narrationSelectedName, value: name);
 
-  static get selectedReciterId => CacheHelper.getData(key: Q.reciterSelectedId);
+  static int get selectedReciterId =>
+      CacheHelper.getData(key: Q.reciterSelectedId) ?? 1;
   static get selectedReciterName =>
       CacheHelper.getData(key: Q.reciterSelectedName);
 
@@ -67,8 +71,8 @@ class QuranCacheRepository {
   static setSelectedTajweedName(String name) async =>
       await CacheHelper.saveData(key: Q.tajweedSelectedName, value: name);
 
-  static get selectedRecitationId =>
-      CacheHelper.getData(key: Q.recitationSelectedId);
+  static int get selectedRecitationId =>
+      CacheHelper.getData(key: Q.recitationSelectedId) ?? 1;
   static String? get selectedRecitationName =>
       CacheHelper.getData(key: Q.recitationSelectedName);
   static setSelectedRecitationId(int id) async =>
@@ -81,7 +85,8 @@ class QuranCacheRepository {
   static Future<void> initDataSetted() =>
       CacheHelper.saveData(key: Q.initDataIsSetted, value: true);
 
-  static get lastPageNumber => CacheHelper.getData(key: Q.lastPageNumber);
+  static int get lastPageNumber =>
+      CacheHelper.getData(key: Q.lastPageNumber) ?? 1;
   static Future<void> setLastPageNumber(int pageNumber) =>
       CacheHelper.saveData(key: Q.lastPageNumber, value: pageNumber);
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_preview/device_preview.dart';
@@ -87,34 +88,31 @@ import 'modules/settings/business_logic/themes/theme_cubit.dart';
 import 'modules/splash/business_logic/cubit/splash_cubit.dart';
 import 'modules/teachers/business_logic/cubit/teacherviewtype_cubit.dart';
 
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    debugPrint('DotEnv load error: $e');
+  }
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  try {
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  } catch (e) {
+    debugPrint('Firebase init error: $e');
+  }
 
   QueueManager(apiHandler: ApiBaseHelper()).init();
 
-  if (true) {
-    SlackLogger(
-      webhookUrl:
-          'https://hooks.slack.com/services/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',
-    );
-
-    final SlackLogger _slack = SlackLogger.instance;
-// Capture Flutter Error
-    FlutterError.onError = (FlutterErrorDetails details) async {
-      // Build the Slack message
-      final buffer = StringBuffer("API Error Report\n\n");
-
-      json.decode(details.toString()).forEach((key, value) {
-        buffer.writeln("$key:"); // Use the key as a title
-        buffer.writeln("```\n");
-        buffer.writeln(value is String ? value : jsonEncode(value)); // Format values as JSON or plain text
-        buffer.writeln("```\n");
-      });
-
+  if (kDebugMode) {
+    FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.presentError(details);
-      _slack.send('buffer.toString()');
     };
   }
   await initMain();
@@ -123,48 +121,54 @@ void main() async {
   Bloc.observer = AppBlocObserver();
   QueueManager(apiHandler: ApiBaseHelper()).logSavedRequests();
 
-  await SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://9d1aee674d0c70d1c0fdb749f5274114@o4507777651900416.ingest.de.sentry.io/4507777657143376';
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-      // The sampling rate for profiling is relative to tracesSampleRate
-      // Setting to 1.0 will profile 100% of sampled transactions:
-      // Note: Profiling alpha is available for iOS and macOS since SDK version 7.12.0
-      options.profilesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(
-      DevicePreview(
-        enabled: false,
-        builder: (context) {
-          return EasyLocalization(
-            supportedLocales: const [Locale('en'), Locale('ar')],
-            path: 'assets/lang',
-            // startLocale: Locale(Constants.isEn ? 'en' : 'ar'),
-            useOnlyLangCode: true,
-            saveLocale: true,
-            fallbackLocale: const Locale('en'),
-            useFallbackTranslations: true,
-            child: OtlohaSahApp(
-              appRouter: AppRouter(),
-            ),
-            errorWidget: (FlutterError? message) {
-              return MaterialApp(
-                home: Scaffold(
-                  body: Center(
-                    child: TextView(
-                      padding: const EdgeInsets.all(32),
-                      text: message!.message.toString(),
-                    ),
+  if (kIsWeb || Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    _startApp();
+  } else {
+    try {
+      await SentryFlutter.init(
+        (options) {
+          options.dsn = dotenv.env['SENTRY_DSN'];
+          options.tracesSampleRate = 1.0;
+          options.profilesSampleRate = 1.0;
+        },
+        appRunner: () => _startApp(),
+      );
+    } catch (e) {
+      debugPrint('Sentry init error: $e');
+      _startApp();
+    }
+  }
+}
+
+void _startApp() {
+  runApp(
+    DevicePreview(
+      enabled: false,
+      builder: (context) {
+        return EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('ar')],
+          path: 'assets/lang',
+          useOnlyLangCode: true,
+          saveLocale: true,
+          fallbackLocale: const Locale('en'),
+          useFallbackTranslations: true,
+          child: OtlohaSahApp(
+            appRouter: AppRouter(),
+          ),
+          errorWidget: (FlutterError? message) {
+            return MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: TextView(
+                    padding: const EdgeInsets.all(32),
+                    text: message!.message.toString(),
                   ),
                 ),
-              );
-            },
-          );
-        },
-      ),
+              ),
+            );
+          },
+        );
+      },
     ),
   );
 }
@@ -179,8 +183,11 @@ class DevHttpOverrides extends HttpOverrides {
 }
 
 initMain() async {
-  await EasyLocalization.ensureInitialized();
-  // FirebaseApp fbApp = await Firebase.initializeApp();
+  try {
+    await EasyLocalization.ensureInitialized();
+  } catch(e) {
+    debugPrint('EasyLocalization init error: $e');
+  }
 
   // todo: delete
   HttpOverrides.global = DevHttpOverrides();
@@ -193,9 +200,13 @@ initMain() async {
     ),
   );
 
-  //init DateBase
-  await DatabaseRepository().initDb;
-  await CacheHelper.init();
+  try {
+    //init DateBase
+    await DatabaseRepository().initDb;
+    await CacheHelper.init();
+  } catch (e) {
+    debugPrint('DB or Cache init error: $e');
+  }
 }
 
 class OtlohaSahApp extends StatelessWidget {
@@ -364,7 +375,7 @@ class OtlohaSahApp extends StatelessWidget {
         BlocProvider(
           create: (context) => StudentsListCubit(
             pagingController: PagingController(firstPageKey: 1),
-            searchCubit: BlocProvider.of<SearchCubit>(context),
+            searchCubit: SearchCubit(),
           ),
         ),
         BlocProvider(

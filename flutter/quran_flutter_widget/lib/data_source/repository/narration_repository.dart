@@ -73,7 +73,7 @@ class NarrationRepository {
         await _versesLocalDataSource.insertVersesList(verses);
         List<Word> words = verses
             .map((element) => element.words)
-            .toList()
+            .where((element) => element != null)
             .expand((element) => element!)
             .toList();
 

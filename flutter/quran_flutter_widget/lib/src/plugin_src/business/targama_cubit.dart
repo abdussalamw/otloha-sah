@@ -22,17 +22,19 @@ class TargamaCubit extends Cubit<TargamaState> {
 
   fetchVerseTargama() async {
     emit(TargamaVerseLoading());
-    // try {
-      _selectedTargamaVerse = await _translationRepo
-          .fetchTranslationVerseByVerseId(QuranCubit.currentVerse!);
+    try {
+      if (QuranCubit.currentVerse != null) {
+        _selectedTargamaVerse = await _translationRepo
+            .fetchTranslationVerseByVerseId(QuranCubit.currentVerse!);
+      }
       print('tragama');
       print(QuranCubit.currentVerse);
       print(_selectedTargamaVerse);
       emit(TargamaVerseFetchedState(verses: verses));
-    // } catch (e) {
-    //   print(e);
-    //   emit(TargamaVerseErrorState(exception: e));
-    // }
+    } catch (e) {
+      print(e);
+      emit(TargamaVerseErrorState(exception: e as Exception));
+    }
   }
 
   // fetchVerseTargama(Verse verse) async {

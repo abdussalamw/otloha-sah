@@ -1,3 +1,4 @@
+import 'package:otloha_sah_flutter/data_source/models/translation/translatable.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

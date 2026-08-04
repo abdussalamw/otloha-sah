@@ -115,8 +115,8 @@ class CheckOTPPageState extends State<CheckOTPPage> {
                           padding: const EdgeInsets.all(16.0),
                           child: Pinput(
                             length: 6,
-                            androidSmsAutofillMethod:
-                                AndroidSmsAutofillMethod.smsUserConsentApi,
+                            // androidSmsAutofillMethod:
+                            //     AndroidSmsAutofillMethod.smsUserConsentApi,
                             onSubmitted: (String pin) =>
                                 _showSnackBar(pin, context),
                             focusNode: _pinPutFocusNode,

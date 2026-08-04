@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:otloha_sah_flutter/data_source/models/translation/translatable.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:quran_widget_flutter/model/narration.dart';
 
 class NarrationsPicker extends StatefulWidget {

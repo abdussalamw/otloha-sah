@@ -104,77 +104,72 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     }, builder: (context, state) {
       var authCubit = AuthCubit.get(context);
-      return (SplashCubit.isLogin)
-          ? ListView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                _titleSection(tr('Settings')),
-                SettingsItem(
-                  title: tr('change_theme'),
-                  icon: Icons.color_lens,
-                  action: () {
-                    ThemeCubit.get(context).changeTheme();
-                  },
-                ),
-                SettingsItem(
-                  title: tr('Profile Settings'),
-                  icon: Icons.settings_outlined,
-                  action: () {
-                    Get.to(() => ProfileSettings());
-                  },
-                ),
-                SettingsItem(
-                  title: tr('About Us'),
-                  icon: Icons.info_outline,
-                  action: () {
-                    Get.to(() => const AboutUsPage());
-                  },
-                ),
-                SettingsItem(
-                  title: tr('Honor Board'),
-                  icon: Icons.military_tech,
-                  action: () {
-                    Get.to(() => const HonorBoardPage(type: 'student'));
-                  },
-                ),
-                SettingsItem(
-                  title: tr('Best Teachers'),
-                  icon: Icons.military_tech,
-                  action: () {
-                    Get.to(() => const HonorBoardPage(type: 'teacher'));
-                  },
-                ),
-                SettingsItem(
-                  title: tr('How it works'),
-                  icon: Icons.question_mark,
-                  action: () {
-                    Get.to(() => const HowItWorksPage());
-                  },
-                ),
-                SettingsItem(
-                  title: tr('Contact us'),
-                  icon: Icons.phone,
-                  action: () {
-                    Get.to(() => const ContactUsPage());
-                  },
-                ),
-                SettingsItem(
-                  title: tr('Log Out'),
-                  icon: Icons.logout,
-                  action: () {
-                    authCubit.userLogOut();
-                  },
-                ),
-              ],
-            )
-          : _viewItemProfile(
+      return ListView(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          _titleSection(tr('About & Support')),
+          SettingsItem(
+            title: tr('How it works'), // كيف يعمل التطبيق
+            icon: Icons.help_outline,
+            action: () {
+              Get.to(() => const HowItWorksPage());
+            },
+          ),
+          SettingsItem(
+            title: tr('Contact us'), // للدعم الفني والاستشارات
+            icon: Icons.support_agent,
+            action: () {
+              Get.to(() => const ContactUsPage());
+            },
+          ),
+          SettingsItem(
+            title: tr('About Us'), // عن التطبيق
+            icon: Icons.info_outline,
+            action: () {
+              Get.to(() => const AboutUsPage());
+            },
+          ),
+          SettingsItem(
+            title: tr('Honor Board'), // عن أكاديمية الراجحي / لوحة الشرف
+            icon: Icons.military_tech,
+            action: () {
+              Get.to(() => const HonorBoardPage(type: 'student'));
+            },
+          ),
+          SettingsItem(
+            title: tr('change_theme'),
+            icon: Icons.color_lens,
+            action: () {
+              ThemeCubit.get(context).changeTheme();
+            },
+          ),
+          if (SplashCubit.isLogin) ...[
+            SettingsItem(
+              title: tr('Profile Settings'),
+              icon: Icons.settings_outlined,
+              action: () {
+                Get.to(() => ProfileSettings());
+              },
+            ),
+            SettingsItem(
+              title: tr('Log Out'),
+              icon: Icons.logout,
+              action: () {
+                authCubit.userLogOut();
+              },
+            ),
+          ] else ...[
+            _viewItemProfile(
               title: 'Login',
               icon: Icons.login,
               action: () {
                 Get.to(const OnBoardPage());
               },
-            );
+            ),
+          ]
+        ],
+      );
     });
   }
 

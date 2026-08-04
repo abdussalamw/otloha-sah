@@ -15,20 +15,18 @@ class Apis extends Object {
 
   static const String baseUrl = 'https://api.otlohasah.org';
 
-  //static const String baseUrl = 'http://134.209.205.213';
+  static String get basePath => baseUrl + '/api/v1/';
+  static String get imageUrl => basePath;
 
-  static String basePath = baseUrl + '/api/v1/';
-  static String imageUrl = basePath;
-
-  static String fetchAllNARRATIONS = '${basePath}narrations/';
-  static String fetchAllBOOKS = '${basePath}books/';
-  static String fetchAllCHAPTERS = '${basePath}chapters/';
-  static String fetchAllPARTS = '${basePath}parts/';
-  static String fetchAllPAGES = '${basePath}pages/';
-  static String fetchAllRECITATIONS = '${basePath}recitations/';
-  static String fetchAllRECITERS = '${basePath}reciters/';
-  static String fetchAllTRANSLATION = '${basePath}translations/';
-  static String fetchAllTAJWEED = '${basePath}tajweed/books/';
-  static String fetchAllTAFSEER = '${basePath}explanation/';
-  static String fetchAllSEARCH = '${basePath}search/';
+  static String get fetchAllNARRATIONS => '${basePath}narrations/';
+  static String get fetchAllBOOKS => '${basePath}books/';
+  static String get fetchAllCHAPTERS => '${basePath}chapters/';
+  static String get fetchAllPARTS => '${basePath}parts/';
+  static String get fetchAllPAGES => '${basePath}pages/';
+  static String get fetchAllRECITATIONS => '${basePath}recitations/';
+  static String get fetchAllRECITERS => '${basePath}reciters/';
+  static String get fetchAllTRANSLATION => '${basePath}translations/';
+  static String get fetchAllTAJWEED => '${basePath}tajweed/books/';
+  static String get fetchAllTAFSEER => '${basePath}explanation/';
+  static String get fetchAllSEARCH => '${basePath}search/';
 }

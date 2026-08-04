@@ -42,10 +42,18 @@ class Narration extends BaseModel {
   }
 
   factory Narration.fromMap(Map<String, dynamic> map) {
+    String? nameStr = map['name'] is Map
+        ? ((map['name'] as Map)['ar']?.toString() ?? (map['name'] as Map).values.first?.toString())
+        : map['name']?.toString();
+
+    String? descStr = map['description'] is Map
+        ? ((map['description'] as Map)['ar']?.toString() ?? (map['description'] as Map).values.first?.toString())
+        : map['description']?.toString();
+
     return Narration(
-      id: map['id']?.toInt(),
-      name: map['name'],
-      description: map['description'],
+      id: map['id']?.toInt() ?? 1,
+      name: nameStr ?? '',
+      description: descStr ?? '',
     );
   }
 

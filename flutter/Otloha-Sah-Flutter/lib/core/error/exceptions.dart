@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../utils/constant/utils.dart';
 import '../utils/themes/color.dart';
@@ -65,20 +66,27 @@ class ExceptionHandling {
         throw NotFound();
       }
       if (e.response!.statusCode! >= 500) {
-        final SlackLogger _slack = SlackLogger(
-            webhookUrl:
-                'https://hooks.slack.com/services/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');
-        _slack.sendMarkdownAsAttachment(
-            markdownMessageList: [
-              '*Request info*',
-              '*Path*: `${e.requestOptions.path}`',
-              '*Method*: `${e.response?.data['request_info']['method']}`',
-              '*data*',
-              '```${e.response?.data['request_info']['data']}```',
-              '*Response*',
-              '*Traceback*',
-              '```${e.response?.data['trace_info'].join('')}```',
-            ], color: 'red',);
+        try {
+          final SlackLogger _slack = SlackLogger(
+              webhookUrl:
+                  dotenv.env['SLACK_WEBHOOK_URL'] ?? '');
+                  
+          Map<String, dynamic>? data = e.response?.data is Map<String, dynamic> ? e.response?.data : null;
+          
+          _slack.sendMarkdownAsAttachment(
+              markdownMessageList: [
+                '*Request info*',
+                '*Path*: `${e.requestOptions.path}`',
+                '*Method*: `${data?['request_info']?['method'] ?? 'Unknown'}`',
+                '*data*',
+                '```${data?['request_info']?['data'] ?? 'Unknown'}```',
+                '*Response*',
+                '*Traceback*',
+                '```${data?['trace_info']?.join('') ?? 'Unknown'}```',
+              ], color: 'red',);
+        } catch (err) {
+          debugPrint('SlackLogger error: $err');
+        }
         throw ServerError();
       }
       if (List.generate(100, (index) => 300 + index)

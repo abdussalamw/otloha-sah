@@ -22,10 +22,16 @@ class QuranViewCubit extends Cubit<QuranViewState> {
     chapterId = QuranCacheRepository.selectedChapterId ?? 1;
     bookId = QuranCacheRepository.bookSelectedId ?? 1;
     narrationId = QuranCacheRepository.narrationSelectedId ?? 1;
-    chapterName = Translatable.fromJson(
-                json.decode(QuranCacheRepository.selectedChapterName))
-            .translate() ??
-        '';
+    try {
+      final name = QuranCacheRepository.selectedChapterName;
+      if (name != null && name.isNotEmpty) {
+        chapterName = Translatable.fromJson(json.decode(name)).translate() ?? '';
+      } else {
+        chapterName = '';
+      }
+    } catch (e) {
+      chapterName = '';
+    }
     getIsATeacher();
   }
 
@@ -101,10 +107,10 @@ class QuranViewCubit extends Cubit<QuranViewState> {
     emit(ChangePageState());
   }
 
-  late int chapterId = controller.getCurrentChapterId();
-  late int bookId;
-  late int narrationId;
-  late String chapterName;
+  int chapterId = 1;
+  int bookId = 1;
+  int narrationId = 1;
+  String chapterName = '';
 
   chapter.Chapter? currentChapter;
 
