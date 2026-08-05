@@ -50,7 +50,7 @@ class CorrectedRecitationsCubit extends Cubit<CorrectedRecitationsState> {
 
   fetchNextPage(int next) async {
     Response? response = await ApiBaseHelper().getHTTP(
-      '${Constants.baseUrl}/api/v1/recitations/?my_evaluated_recitations=true',
+      '/api/v1/recitations/?my_evaluated_recitations=true',
       queryParameters: {'page': next},
       dioTypes: DioTypes.authRequired,
     );

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:otloha_sah_flutter/core/utils/constant/constants.dart';
-import 'package:otloha_sah_flutter/modules/auth_module/business_logic/auth_cubit.dart';
-import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/check_otp_page.dart';
-import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/social_login_compelete_form.dart';
-import 'package:upgrader/upgrader.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../core/design_system/tokens/app_spacing.dart';
+import '../../../../core/design_system/tokens/app_typography.dart';
+import '../../../../core/utils/constant/constants.dart';
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/utils/res/icons_app.dart';
-import '../../../../core/utils/themes/color.dart';
+import '../../../auth_module/business_logic/auth_cubit.dart';
+import '../../../auth_module/presentation/pages/check_otp_page.dart';
 import '../../../auth_module/presentation/pages/onboard_page.dart';
+import '../../../auth_module/presentation/pages/social_login_compelete_form.dart';
 import '../../../home/presentation/pages/home/block_page.dart';
 import '../../../home/presentation/pages/home/home_page.dart';
 import '../../business_logic/cubit/splash_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -40,168 +41,162 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<SplashCubit, SplashState>(builder: (ctx, state) {
-        return _bodyView(context, state);
-      }, listener: (ctx, state) {
-        if (state is SplashFinish) {
-          if (state.isBlocked) {
-            Navigator.of(context).pushReplacementNamed(BlockedPage.route);
-          } else if (SplashCubit.user != null && !state.isProfileCompelete) {
-            AuthCubit.get(context).userProfile = SplashCubit.user!;
-            Get.offAll(() => const SocialLoginCompeleteFormPage());
-          } else if (!state.isPhoneVerified && Constants.hasOTP) {
-            Get.offAll(() => CheckOTPPage());
-          } else {
-            Navigator.of(context).pushReplacementNamed(
-              (SplashCubit.isLogin)
-                  ? HomePage.routeName
-                  : OnBoardPage.routeName,
-            );
+      backgroundColor: AppColors.primaryDark,
+      body: BlocConsumer<SplashCubit, SplashState>(
+        builder: (ctx, state) => _bodyView(context, state),
+        listener: (ctx, state) {
+          if (state is SplashFinish) {
+            if (state.isBlocked) {
+              Navigator.of(context).pushReplacementNamed(BlockedPage.route);
+            } else if (SplashCubit.user != null && !state.isProfileCompelete) {
+              AuthCubit.get(context).userProfile = SplashCubit.user!;
+              Get.offAll(() => const SocialLoginCompeleteFormPage());
+            } else if (!state.isPhoneVerified && Constants.hasOTP) {
+              Get.offAll(() => CheckOTPPage());
+            } else {
+              Navigator.of(context).pushReplacementNamed(
+                HomePage.routeName,
+              );
+            }
           }
-        }
-      }),
+        },
+      ),
     );
   }
 
-  _bodyView(BuildContext context, SplashState state) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColor.lightBlue, AppColor.fantaBlue],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .25,
-            child: Stack(
-              children: [
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.05,
-                // ),
-                Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: SvgPicture.asset(
-                      'assets/svg/khairakom_logo.svg',
-                      color: AppColor.white,
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      height: MediaQuery.of(context).size.height * 0.08,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Image.asset(
-                      'assets/icons/V.3.png',
-                      color: AppColor.white,
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      height: MediaQuery.of(context).size.height * 0.08,
-                    ),
-                  ),
-                ),
+  Widget _bodyView(BuildContext context, SplashState state) {
+    final size = MediaQuery.of(context).size;
 
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 25),
-                //   child: Align(
-                //     alignment: Alignment.centerLeft,
-                //     child: Image.asset(
-                //       AppIcons.appIcon4,
-                //       width: 100,
-                //       height: 200,
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Stack(
-              children: [
-                RotatedBox(
-                  quarterTurns: 3,
-                  child: SvgPicture.asset(
-                    'assets/svg/back1.svg',
-                    fit: BoxFit.cover,
-                    color: Colors.white10,
-                    width: MediaQuery.of(context).size.width,
-                    height: 500,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Hero(
-                    tag: 'MainPage',
-                    child: Image.asset(
-                      'assets/icons/LOGO_500.gif',
-                      width: 200,
-                      height: 200,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Column(
-            children: [
-              const SizedBox(
-                height: 20,
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: AppColors.headerGradient,
+      ),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Top Header: Both Partner Logos Side-by-Side (خيركم + أوقاف الراجحي)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.md,
               ),
-              Text(
-                translate(cubit!.titleProgress),
-                style:
-                    const TextStyle(fontSize: 20, color: AppColor.lightYellow),
-              ),
-            ],
-          ),
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    RichText(
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        text: const TextSpan(children: [
-                          TextSpan(
-                            text: 'بدعم و رعاية اوقاف الشيخ\n',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: AppColor.white,
-                                fontFamily: 'Cairo'),
+                    // Right Side: Khairakom Logo
+                    SvgPicture.asset(
+                      'assets/svg/khairakom_logo.svg',
+                      color: Colors.white.withOpacity(0.95),
+                      width: size.width * 0.26,
+                      height: 48,
+                    ),
+
+                    // Left Side: Awqaf Al-Rajhi Logo & Text Badge
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        RichText(
+                          textAlign: TextAlign.left,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'بدعم ورعاية أوقاف الشيخ\n',
+                                style: AppTypography.bodySmall(color: Colors.white70).copyWith(
+                                  fontSize: 10,
+                                  height: 1.2,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'محمد بن عبدالعزيز الراجحي',
+                                style: AppTypography.bodyMedium(color: Colors.white).copyWith(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.2,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: 'محمد بن عبدالعزيز الراجحي',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: AppColor.white,
-                                fontFamily: 'Cairo'),
-                          ),
-                        ])),
-                    // Center(
-                    //     child: Text(
-                    //         'بدعم ورعايه اوقاف الشيخ\nمحمد بن عبدالعزيز الراجحي')),
-                    Image.asset(
-                      AppIcons.appIcon1,
-                      width: MediaQuery.of(context).size.width * .30,
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        Image.asset(
+                          AppIcons.appIcon1,
+                          width: size.width * 0.22,
+                          height: 44,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 32)
+              ),
+            ),
+
+            // Center Section: App Main Logo & Progress Status
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Hero(
+                  tag: 'MainPage',
+                  child: Container(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.08),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'assets/icons/LOGO_500.gif',
+                      width: size.width * 0.45,
+                      height: size.width * 0.45,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                if (state is DownloadingState) ...[
+                  SizedBox(
+                    width: size.width * 0.6,
+                    child: LinearProgressIndicator(
+                      value: state.progress > 0 ? state.progress : null,
+                      backgroundColor: Colors.white24,
+                      valueColor: const AlwaysStoppedAnimation<Color>(AppColors.accent),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                ],
+                Text(
+                  translate(cubit?.titleProgress ?? ''),
+                  style: AppTypography.bodyMedium(color: AppColors.waveYellow).copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ],
             ),
-          )
-        ],
+
+            // Bottom Section: Footer Version Information
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'الإصدار v4 تطوير حلول وبدائل لتقنية المعلومات',
+                    style: AppTypography.caption(color: Colors.white60).copyWith(
+                      fontSize: 11,
+                      letterSpacing: 0.3,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

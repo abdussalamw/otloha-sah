@@ -6,21 +6,32 @@ part of 'quran_database.dart';
 // FloorGenerator
 // **************************************************************************
 
+abstract class $QuranDatabaseBuilderContract {
+  /// Adds migrations to the builder.
+  $QuranDatabaseBuilderContract addMigrations(List<Migration> migrations);
+
+  /// Adds a database [Callback] to the builder.
+  $QuranDatabaseBuilderContract addCallback(Callback callback);
+
+  /// Creates the database and initializes it.
+  Future<QuranDatabase> build();
+}
+
 // ignore: avoid_classes_with_only_static_members
 class $FloorQuranDatabase {
   /// Creates a database builder for a persistent database.
   /// Once a database is built, you should keep a reference to it and re-use it.
-  static _$QuranDatabaseBuilder databaseBuilder(String name) =>
+  static $QuranDatabaseBuilderContract databaseBuilder(String name) =>
       _$QuranDatabaseBuilder(name);
 
   /// Creates a database builder for an in memory database.
   /// Information stored in an in memory database disappears when the process is killed.
   /// Once a database is built, you should keep a reference to it and re-use it.
-  static _$QuranDatabaseBuilder inMemoryDatabaseBuilder() =>
+  static $QuranDatabaseBuilderContract inMemoryDatabaseBuilder() =>
       _$QuranDatabaseBuilder(null);
 }
 
-class _$QuranDatabaseBuilder {
+class _$QuranDatabaseBuilder implements $QuranDatabaseBuilderContract {
   _$QuranDatabaseBuilder(this.name);
 
   final String? name;
@@ -29,19 +40,19 @@ class _$QuranDatabaseBuilder {
 
   Callback? _callback;
 
-  /// Adds migrations to the builder.
-  _$QuranDatabaseBuilder addMigrations(List<Migration> migrations) {
+  @override
+  $QuranDatabaseBuilderContract addMigrations(List<Migration> migrations) {
     _migrations.addAll(migrations);
     return this;
   }
 
-  /// Adds a database [Callback] to the builder.
-  _$QuranDatabaseBuilder addCallback(Callback callback) {
+  @override
+  $QuranDatabaseBuilderContract addCallback(Callback callback) {
     _callback = callback;
     return this;
   }
 
-  /// Creates the database and initializes it.
+  @override
   Future<QuranDatabase> build() async {
     final path = name != null
         ? await sqfliteDatabaseFactory.getDatabasePath(name!)
@@ -99,8 +110,11 @@ class _$QuranDatabase extends QuranDatabase {
 
   TranslationVerseDao? _translationVerseDaoInstance;
 
-  Future<sqflite.Database> open(String path, List<Migration> migrations,
-      [Callback? callback]) async {
+  Future<sqflite.Database> open(
+    String path,
+    List<Migration> migrations, [
+    Callback? callback,
+  ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
       version: 1,
       onConfigure: (database) async {
@@ -267,8 +281,10 @@ class _$QuranDatabase extends QuranDatabase {
 }
 
 class _$NarrationDao extends NarrationDao {
-  _$NarrationDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$NarrationDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _narrationInsertionAdapter = InsertionAdapter(
             database,
             'Narration',
@@ -361,8 +377,10 @@ class _$NarrationDao extends NarrationDao {
 }
 
 class _$BookDao extends BookDao {
-  _$BookDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$BookDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _bookInsertionAdapter = InsertionAdapter(
             database,
             'Book',
@@ -485,8 +503,10 @@ class _$BookDao extends BookDao {
 }
 
 class _$ChapterDao extends ChapterDao {
-  _$ChapterDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
+  _$ChapterDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
         _chapterInsertionAdapter = InsertionAdapter(
             database,
             'Chapter',
@@ -625,8 +645,10 @@ class _$ChapterDao extends ChapterDao {
 }
 
 class _$PartDao extends PartDao {
-  _$PartDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$PartDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _partInsertionAdapter = InsertionAdapter(
             database,
             'Part',
@@ -724,8 +746,10 @@ class _$PartDao extends PartDao {
 }
 
 class _$PageDao extends PageDao {
-  _$PageDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
+  _$PageDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
         _pageInsertionAdapter = InsertionAdapter(
             database,
             'Page',
@@ -800,7 +824,9 @@ class _$PageDao extends PageDao {
 
   @override
   Future<List<Page>> findPageListByNarrationAndBook(
-      int narration, int book) async {
+    int narration,
+    int book,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Page WHERE narration = ?1 AND book = ?2',
         mapper: (Map<String, Object?> row) => Page(
@@ -833,8 +859,13 @@ class _$PageDao extends PageDao {
   }
 
   @override
-  Future<Page?> findPageFilters(int narrationId, int chapterid, int bookId,
-      int partId, int subPartId) async {
+  Future<Page?> findPageFilters(
+    int narrationId,
+    int chapterid,
+    int bookId,
+    int partId,
+    int subPartId,
+  ) async {
     return _queryAdapter.query(
         'SELECT * FROM Page WHERE narration = ?1 or chapters= ?2 or book =?3 or part =?4 or sub_part =?5',
         mapper: (Map<String, Object?> row) => Page(id: row['id'] as int?, pageNumber: row['page_number'] as int?, narrationId: row['narration'] as int?, bookId: row['book'] as int?, partId: row['part'] as int?, subPartId: row['sub_part'] as int?, image: row['image'] as String?, localImage: row['localImage'] as String?, chaptersId: row['chapters'] as String),
@@ -843,7 +874,10 @@ class _$PageDao extends PageDao {
 
   @override
   Future<List<Page>?> findChapterPage(
-      int narrationId, int chapterid, int bookId) async {
+    int narrationId,
+    int chapterid,
+    int bookId,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT  DISTINCT(Page.id), Page.* FROM Page,ChaptersPage WHERE narration = ?1 and ChaptersPage.chapterId = ?2 and book = ?3 and ChaptersPage.pageId = Page.id ORDER by Page.page_number',
         mapper: (Map<String, Object?> row) => Page(id: row['id'] as int?, pageNumber: row['page_number'] as int?, narrationId: row['narration'] as int?, bookId: row['book'] as int?, partId: row['part'] as int?, subPartId: row['sub_part'] as int?, image: row['image'] as String?, localImage: row['localImage'] as String?, chaptersId: row['chapters'] as String),
@@ -851,7 +885,10 @@ class _$PageDao extends PageDao {
   }
 
   @override
-  Future<List<Page>> findPageBetween(int firstPage, int lastPage) async {
+  Future<List<Page>> findPageBetween(
+    int firstPage,
+    int lastPage,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Page WHERE id BETWEEN ?1 AND ?2',
         mapper: (Map<String, Object?> row) => Page(
@@ -884,8 +921,10 @@ class _$PageDao extends PageDao {
 }
 
 class _$RecitationDao extends RecitationDao {
-  _$RecitationDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$RecitationDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _recitationInsertionAdapter = InsertionAdapter(
             database,
             'Recitation',
@@ -955,7 +994,9 @@ class _$RecitationDao extends RecitationDao {
 
   @override
   Future<List<Recitation>> findRecitations(
-      int narrationId, int reciterId) async {
+    int narrationId,
+    int reciterId,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Recitation WHERE narration = ?1 and reciter = ?2',
         mapper: (Map<String, Object?> row) => Recitation(
@@ -997,8 +1038,10 @@ class _$RecitationDao extends RecitationDao {
 }
 
 class _$ReciterDao extends ReciterDao {
-  _$ReciterDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$ReciterDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _reciterInsertionAdapter = InsertionAdapter(
             database,
             'Reciter',
@@ -1074,8 +1117,10 @@ class _$ReciterDao extends ReciterDao {
 }
 
 class _$RecitationVersesDao extends RecitationVersesDao {
-  _$RecitationVersesDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$RecitationVersesDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _recitationVersesInsertionAdapter = InsertionAdapter(
             database,
             'RecitationVerses',
@@ -1157,7 +1202,9 @@ class _$RecitationVersesDao extends RecitationVersesDao {
 
   @override
   Future<List<RecitationVerses>> findRecitationVersesChapterList(
-      int chapterId, int recitationId) async {
+    int chapterId,
+    int recitationId,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM RecitationVerses WHERE recitation = ?2 AND chapter = ?1',
         mapper: (Map<String, Object?> row) => RecitationVerses(
@@ -1189,8 +1236,10 @@ class _$RecitationVersesDao extends RecitationVersesDao {
 }
 
 class _$VerseDao extends VerseDao {
-  _$VerseDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$VerseDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _verseInsertionAdapter = InsertionAdapter(
             database,
             'Verse',
@@ -1310,7 +1359,9 @@ class _$VerseDao extends VerseDao {
 
   @override
   Future<List<Verse>> findAllVersesByBookAndNarration(
-      int book, int narration) async {
+    int book,
+    int narration,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Verse WHERE narration = ?2 and book = ?1;',
         mapper: (Map<String, Object?> row) => Verse(
@@ -1333,7 +1384,10 @@ class _$VerseDao extends VerseDao {
 
   @override
   Future<List<Verse>> findAllVersesChapterPage(
-      int page, int narration, int book) async {
+    int page,
+    int narration,
+    int book,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Verse WHERE page = ?1 and narration = ?2 and book = ?3;',
         mapper: (Map<String, Object?> row) => Verse(
@@ -1378,7 +1432,10 @@ class _$VerseDao extends VerseDao {
   }
 
   @override
-  Future<List<Verse>> findVersesBetween(int first, int last) async {
+  Future<List<Verse>> findVersesBetween(
+    int first,
+    int last,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Verse WHERE id BETWEEN ?1 AND ?2',
         mapper: (Map<String, Object?> row) => Verse(
@@ -1401,7 +1458,9 @@ class _$VerseDao extends VerseDao {
 
   @override
   Future<List<Verse>> filterVersesByPageNumberAndNarrationId(
-      int pageNumber, int narrationId) async {
+    int pageNumber,
+    int narrationId,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Verse WHERE page_number = ?1 AND narration = ?2',
         mapper: (Map<String, Object?> row) => Verse(
@@ -1424,7 +1483,10 @@ class _$VerseDao extends VerseDao {
 
   @override
   Future<List<Verse>> filterVersesByPageNumberAndNarrationIdBetweenPages(
-      int narrationId, int startPage, int endPage) async {
+    int narrationId,
+    int startPage,
+    int endPage,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Verse WHERE page_number BETWEEN ?2 AND ?3 AND narration = ?1',
         mapper: (Map<String, Object?> row) => Verse(id: row['id'] as int?, text: row['text'] as String?, uthmanicText: row['uthmanic_text'] as String?, lineStart: row['line_start'] as int?, lineEnd: row['line_end'] as int?, image: row['image'] as String?, narrationId: row['narration'] as int?, chapterId: row['chapter'] as int?, bookId: row['book'] as int?, partId: row['part'] as int?, pageId: row['page'] as int?, verseNumber: row['verse_number'] as int?, pageNumber: row['page_number'] as int?, chapterNumber: row['chapter_number'] as int?),
@@ -1453,8 +1515,10 @@ class _$VerseDao extends VerseDao {
 }
 
 class _$GlyphDao extends GlyphDao {
-  _$GlyphDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$GlyphDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _glyphInsertionAdapter = InsertionAdapter(
             database,
             'Glyph',
@@ -1575,8 +1639,10 @@ class _$GlyphDao extends GlyphDao {
 }
 
 class _$ChaptersPageDao extends ChaptersPageDao {
-  _$ChaptersPageDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
+  _$ChaptersPageDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
         _chaptersPageInsertionAdapter = InsertionAdapter(
             database,
             'ChaptersPage',
@@ -1613,8 +1679,10 @@ class _$ChaptersPageDao extends ChaptersPageDao {
 }
 
 class _$ChapterDownloadDao extends ChapterDownloadDao {
-  _$ChapterDownloadDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
+  _$ChapterDownloadDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
         _chapterDownloadInsertionAdapter = InsertionAdapter(
             database,
             'ChapterDownload',
@@ -1665,7 +1733,9 @@ class _$ChapterDownloadDao extends ChapterDownloadDao {
 
   @override
   Future<List<ChapterDownload>> findAllChapterDownloads(
-      int narrationId, int recitationId) async {
+    int narrationId,
+    int recitationId,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM ChapterDownload WHERE narrationId = ?1 AND recitationId = ?2',
         mapper: (Map<String, Object?> row) => ChapterDownload(id: row['id'] as int?, narrationId: row['narrationId'] as int?, reciterId: row['reciterId'] as int?, recitationId: row['recitationId'] as int?, chapterId: row['chapterId'] as int?, downloaded: (row['downloaded'] as int) != 0),
@@ -1704,8 +1774,10 @@ class _$ChapterDownloadDao extends ChapterDownloadDao {
 }
 
 class _$WordDao extends WordDao {
-  _$WordDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
+  _$WordDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
         _wordInsertionAdapter = InsertionAdapter(
             database,
             'Word',
@@ -1784,7 +1856,9 @@ class _$WordDao extends WordDao {
 
   @override
   Future<List<Word>> findWordsBetweenVerses(
-      int firstVerse, int lastVerse) async {
+    int firstVerse,
+    int lastVerse,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM Word WHERE verse BETWEEN ?1 AND ?2 ORDER BY number',
         mapper: (Map<String, Object?> row) => Word(
@@ -1828,8 +1902,10 @@ class _$WordDao extends WordDao {
 }
 
 class _$TajweedWordDao extends TajweedWordDao {
-  _$TajweedWordDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$TajweedWordDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _tajweedCharactersInsertionAdapter = InsertionAdapter(
             database,
             'tajweed_charchter',
@@ -1907,114 +1983,144 @@ class _$TajweedWordDao extends TajweedWordDao {
 
   @override
   Future<List<TajweedCharacters>> findAllTajweedCharacters(int bookId) async {
-    return _queryAdapter
-        .queryList('SELECT * FROM tajweed_charchter where book = ?1',
-            mapper: (Map<String, Object?> row) => TajweedCharacters(
-                  id: row['id'] as int?,
-                  chrachterText: row['charchter_text'] as String?,
-                  wordNumber: row['word_number'] as int?,
-                  wordText: row['word_text'] as String?,
-                  rule: row['rule'] as String?,
-                  verseNumber: row['verse_number'] as int?,
-                  characterText: row['character_text'] as String?,
-                  characterNumber: row['charachter_number'] as int?,
-                  ruleText: row['rule_text'] as String?,
-                  chapterNumber: row['chapter_number'] as int?,
-                  word: row['word'] as int?,
-                  chapter: row['chapter'] as int?,
-                  verse: row['verse'] as int?,
-                  book: row['book'] as int?,
-                ),
-            arguments: [bookId]);
+    return _queryAdapter.queryList(
+        'SELECT * FROM tajweed_charchter where book = ?1',
+        mapper: (Map<String, Object?> row) => TajweedCharacters(
+            id: row['id'] as int?,
+            chrachterText: row['charchter_text'] as String?,
+            wordNumber: row['word_number'] as int?,
+            wordText: row['word_text'] as String?,
+            rule: row['rule'] as String?,
+            verseNumber: row['verse_number'] as int?,
+            characterText: row['character_text'] as String?,
+            characterNumber: row['charachter_number'] as int?,
+            ruleText: row['rule_text'] as String?,
+            chapterNumber: row['chapter_number'] as int?,
+            word: row['word'] as int?,
+            chapter: row['chapter'] as int?,
+            verse: row['verse'] as int?,
+            book: row['book'] as int?),
+        arguments: [bookId]);
   }
 
   @override
   Future<List<TajweedCharacters>> searchInTajweedCharacters(
       String qurey) async {
-    return _queryAdapter
-        .queryList('SELECT * FROM tajweed_charchter WHERE name like ?1',
-            mapper: (Map<String, Object?> row) => TajweedCharacters(
-                  id: row['id'] as int?,
-                  chrachterText: row['charchter_text'] as String?,
-                  wordNumber: row['word_number'] as int?,
-                  wordText: row['word_text'] as String?,
-                  rule: row['rule'] as String?,
-                  verseNumber: row['verse_number'] as int?,
-                  characterText: row['character_text'] as String?,
-                  characterNumber: row['charachter_number'] as int?,
-                  ruleText: row['rule_text'] as String?,
-                  chapterNumber: row['chapter_number'] as int?,
-                  word: row['word'] as int?,
-                  chapter: row['chapter'] as int?,
-                  verse: row['verse'] as int?,
-                  book: row['book'] as int?,
-                ),
-            arguments: [qurey]);
+    return _queryAdapter.queryList(
+        'SELECT * FROM tajweed_charchter WHERE name like ?1',
+        mapper: (Map<String, Object?> row) => TajweedCharacters(
+            id: row['id'] as int?,
+            chrachterText: row['charchter_text'] as String?,
+            wordNumber: row['word_number'] as int?,
+            wordText: row['word_text'] as String?,
+            rule: row['rule'] as String?,
+            verseNumber: row['verse_number'] as int?,
+            characterText: row['character_text'] as String?,
+            characterNumber: row['charachter_number'] as int?,
+            ruleText: row['rule_text'] as String?,
+            chapterNumber: row['chapter_number'] as int?,
+            word: row['word'] as int?,
+            chapter: row['chapter'] as int?,
+            verse: row['verse'] as int?,
+            book: row['book'] as int?),
+        arguments: [qurey]);
   }
 
   @override
   Future<List<TajweedCharacters>> findAllTajweedChapter(
-      int bookId, int chapter) async {
+    int bookId,
+    int chapter,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM tajweed_charchter where book = ?1 and chapter = ?2',
         mapper: (Map<String, Object?> row) => TajweedCharacters(
-              id: row['id'] as int?,
-              chrachterText: row['charchter_text'] as String?,
-              wordNumber: row['word_number'] as int?,
-              wordText: row['word_text'] as String?,
-              rule: row['rule'] as String?,
-              verseNumber: row['verse_number'] as int?,
-              characterText: row['character_text'] as String?,
-              characterNumber: row['charachter_number'] as int?,
-              ruleText: row['rule_text'] as String?,
-              chapterNumber: row['chapter_number'] as int?,
-              word: row['word'] as int?,
-              chapter: row['chapter'] as int?,
-              verse: row['verse'] as int?,
-              book: row['book'] as int?,
-            ),
+            id: row['id'] as int?,
+            chrachterText: row['charchter_text'] as String?,
+            wordNumber: row['word_number'] as int?,
+            wordText: row['word_text'] as String?,
+            rule: row['rule'] as String?,
+            verseNumber: row['verse_number'] as int?,
+            characterText: row['character_text'] as String?,
+            characterNumber: row['charachter_number'] as int?,
+            ruleText: row['rule_text'] as String?,
+            chapterNumber: row['chapter_number'] as int?,
+            word: row['word'] as int?,
+            chapter: row['chapter'] as int?,
+            verse: row['verse'] as int?,
+            book: row['book'] as int?),
         arguments: [bookId, chapter]);
   }
 
   @override
   Future<List<TajweedCharacters>> findAllTajweedVerse(
-      int bookId, int verse) async {
+    int bookId,
+    int verse,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM tajweed_charchter where book = ?1 and verse = ?2',
         mapper: (Map<String, Object?> row) => TajweedCharacters(
-              id: row['id'] as int?,
-              chrachterText: row['charchter_text'] as String?,
-              wordNumber: row['word_number'] as int?,
-              wordText: row['word_text'] as String?,
-              rule: row['rule'] as String?,
-              verseNumber: row['verse_number'] as int?,
-              characterText: row['character_text'] as String?,
-              characterNumber: row['charachter_number'] as int?,
-              ruleText: row['rule_text'] as String?,
-              chapterNumber: row['chapter_number'] as int?,
-              word: row['word'] as int?,
-              chapter: row['chapter'] as int?,
-              verse: row['verse'] as int?,
-              book: row['book'] as int?,
-            ),
+            id: row['id'] as int?,
+            chrachterText: row['charchter_text'] as String?,
+            wordNumber: row['word_number'] as int?,
+            wordText: row['word_text'] as String?,
+            rule: row['rule'] as String?,
+            verseNumber: row['verse_number'] as int?,
+            characterText: row['character_text'] as String?,
+            characterNumber: row['charachter_number'] as int?,
+            ruleText: row['rule_text'] as String?,
+            chapterNumber: row['chapter_number'] as int?,
+            word: row['word'] as int?,
+            chapter: row['chapter'] as int?,
+            verse: row['verse'] as int?,
+            book: row['book'] as int?),
         arguments: [bookId, verse]);
   }
 
   @override
+  Future<List<TajweedCharacters>> findAllTajweedVerseNumberAndChapter(
+    int bookId,
+    int verseNumber,
+    int chapterNumber,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM tajweed_charchter where book = ?1 and verse_number = ?2 and chapter_number = ?3',
+        mapper: (Map<String, Object?> row) => TajweedCharacters(id: row['id'] as int?, chrachterText: row['charchter_text'] as String?, wordNumber: row['word_number'] as int?, wordText: row['word_text'] as String?, rule: row['rule'] as String?, verseNumber: row['verse_number'] as int?, characterText: row['character_text'] as String?, characterNumber: row['charachter_number'] as int?, ruleText: row['rule_text'] as String?, chapterNumber: row['chapter_number'] as int?, word: row['word'] as int?, chapter: row['chapter'] as int?, verse: row['verse'] as int?, book: row['book'] as int?),
+        arguments: [bookId, verseNumber, chapterNumber]);
+  }
+
+  @override
   Future<List<TajweedCharacters>> findAllTajweedWord(
-      int bookId, int word) async {
+    int bookId,
+    int word,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM tajweed_charchter where book = ?1 and word = ?2',
-        mapper: (Map<String, Object?> row) => TajweedCharacters(),
+        mapper: (Map<String, Object?> row) => TajweedCharacters(
+            id: row['id'] as int?,
+            chrachterText: row['charchter_text'] as String?,
+            wordNumber: row['word_number'] as int?,
+            wordText: row['word_text'] as String?,
+            rule: row['rule'] as String?,
+            verseNumber: row['verse_number'] as int?,
+            characterText: row['character_text'] as String?,
+            characterNumber: row['charachter_number'] as int?,
+            ruleText: row['rule_text'] as String?,
+            chapterNumber: row['chapter_number'] as int?,
+            word: row['word'] as int?,
+            chapter: row['chapter'] as int?,
+            verse: row['verse'] as int?,
+            book: row['book'] as int?),
         arguments: [bookId, word]);
   }
 
   @override
   Future<List<TajweedCharacters>> findTajweedWordsInNarrationId(
-      int bookId, int narrationId) async {
+    int bookId,
+    int narrationId,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM tajweed_charchter WHERE where book = ?1 and narration = ?2',
-        mapper: (Map<String, Object?> row) => TajweedCharacters(),
+        mapper: (Map<String, Object?> row) => TajweedCharacters(id: row['id'] as int?, chrachterText: row['charchter_text'] as String?, wordNumber: row['word_number'] as int?, wordText: row['word_text'] as String?, rule: row['rule'] as String?, verseNumber: row['verse_number'] as int?, characterText: row['character_text'] as String?, characterNumber: row['charachter_number'] as int?, ruleText: row['rule_text'] as String?, chapterNumber: row['chapter_number'] as int?, word: row['word'] as int?, chapter: row['chapter'] as int?, verse: row['verse'] as int?, book: row['book'] as int?),
         arguments: [bookId, narrationId]);
   }
 
@@ -2022,7 +2128,21 @@ class _$TajweedWordDao extends TajweedWordDao {
   Stream<TajweedCharacters?> findTajweedWordById(int id) {
     return _queryAdapter.queryStream(
         'SELECT * FROM tajweed_charchter WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => TajweedCharacters(),
+        mapper: (Map<String, Object?> row) => TajweedCharacters(
+            id: row['id'] as int?,
+            chrachterText: row['charchter_text'] as String?,
+            wordNumber: row['word_number'] as int?,
+            wordText: row['word_text'] as String?,
+            rule: row['rule'] as String?,
+            verseNumber: row['verse_number'] as int?,
+            characterText: row['character_text'] as String?,
+            characterNumber: row['charachter_number'] as int?,
+            ruleText: row['rule_text'] as String?,
+            chapterNumber: row['chapter_number'] as int?,
+            word: row['word'] as int?,
+            chapter: row['chapter'] as int?,
+            verse: row['verse'] as int?,
+            book: row['book'] as int?),
         arguments: [id],
         queryableName: 'tajweed_charchter',
         isView: false);
@@ -2033,21 +2153,20 @@ class _$TajweedWordDao extends TajweedWordDao {
     return _queryAdapter.queryList(
         'SELECT * FROM tajweed_charchter WHERE book = ?1 GROUP BY chapter',
         mapper: (Map<String, Object?> row) => TajweedCharacters(
-              id: row['id'] as int?,
-              chrachterText: row['charchter_text'] as String?,
-              wordNumber: row['word_number'] as int?,
-              wordText: row['word_text'] as String?,
-              rule: row['rule'] as String?,
-              verseNumber: row['verse_number'] as int?,
-              characterText: row['character_text'] as String?,
-              characterNumber: row['charachter_number'] as int?,
-              ruleText: row['rule_text'] as String?,
-              chapterNumber: row['chapter_number'] as int?,
-              word: row['word'] as int?,
-              chapter: row['chapter'] as int?,
-              verse: row['verse'] as int?,
-              book: row['book'] as int?,
-            ),
+            id: row['id'] as int?,
+            chrachterText: row['charchter_text'] as String?,
+            wordNumber: row['word_number'] as int?,
+            wordText: row['word_text'] as String?,
+            rule: row['rule'] as String?,
+            verseNumber: row['verse_number'] as int?,
+            characterText: row['character_text'] as String?,
+            characterNumber: row['charachter_number'] as int?,
+            ruleText: row['rule_text'] as String?,
+            chapterNumber: row['chapter_number'] as int?,
+            word: row['word'] as int?,
+            chapter: row['chapter'] as int?,
+            verse: row['verse'] as int?,
+            book: row['book'] as int?),
         arguments: [bookId]);
   }
 
@@ -2070,8 +2189,10 @@ class _$TajweedWordDao extends TajweedWordDao {
 }
 
 class _$TajweedDao extends TajweedDao {
-  _$TajweedDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$TajweedDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _tajweedBookInsertionAdapter = InsertionAdapter(
             database,
             'tajweed',
@@ -2129,7 +2250,9 @@ class _$TajweedDao extends TajweedDao {
 
   @override
   Future<List<TajweedBook>> findAllTajweedQurey(
-      String qurey, int narrationId) async {
+    String qurey,
+    int narrationId,
+  ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM tajweed WHERE narration = ?2 and name like ?1 or author like ?1',
         mapper: (Map<String, Object?> row) => TajweedBook(id: row['id'] as int?, name: row['name'] as String?, author: row['author'] as String?, narration: row['narration'] as int?),
@@ -2191,8 +2314,10 @@ class _$TajweedDao extends TajweedDao {
 }
 
 class _$ExplanationDao extends ExplanationDao {
-  _$ExplanationDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$ExplanationDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _explanationInsertionAdapter = InsertionAdapter(
             database,
             'explanation',
@@ -2298,8 +2423,10 @@ class _$ExplanationDao extends ExplanationDao {
 }
 
 class _$ExplanationVerseDao extends ExplanationVerseDao {
-  _$ExplanationVerseDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$ExplanationVerseDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _explanationVerseInsertionAdapter = InsertionAdapter(
             database,
             'explanation_verse',
@@ -2484,6 +2611,19 @@ class _$ExplanationVerseDao extends ExplanationVerseDao {
   }
 
   @override
+  Future<ExplanationVerse?>
+      findExplanationVersesByVerseNumberAndChapterAndExplanation(
+    int verseNumber,
+    int chapterNumber,
+    int explanationId,
+  ) async {
+    return _queryAdapter.query(
+        'SELECT * FROM explanation_verse WHERE verse_number = ?1 AND chapter_number = ?2 AND explanation = ?3 LIMIT 1',
+        mapper: (Map<String, Object?> row) => ExplanationVerse(id: row['id'] as int?, explanation: row['explanation'] as int?, text: row['text'] as String?, verseNumber: row['verse_number'] as int?, chapterNumber: row['chapter_number'] as int?, pageNumber: row['page_number'] as int?, chapter: row['chapter'] as int?, verse: row['verse'] as int?),
+        arguments: [verseNumber, chapterNumber, explanationId]);
+  }
+
+  @override
   Future<void> insertExplanationVerse(ExplanationVerse explanation) async {
     await _explanationVerseInsertionAdapter.insert(
         explanation, OnConflictStrategy.replace);
@@ -2502,8 +2642,10 @@ class _$ExplanationVerseDao extends ExplanationVerseDao {
 }
 
 class _$TranslationDao extends TranslationDao {
-  _$TranslationDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$TranslationDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _translationInsertionAdapter = InsertionAdapter(
             database,
             'translation',
@@ -2591,8 +2733,10 @@ class _$TranslationDao extends TranslationDao {
 }
 
 class _$TranslationVerseDao extends TranslationVerseDao {
-  _$TranslationVerseDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+  _$TranslationVerseDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _translationVerseInsertionAdapter = InsertionAdapter(
             database,
             'translation_verse',
@@ -2694,7 +2838,10 @@ class _$TranslationVerseDao extends TranslationVerseDao {
 
   @override
   Future<TranslationVerse?> findTranslationVerseByVerseId(
-      int translationId, int verseNumber, int chapterNumber) async {
+    int translationId,
+    int verseNumber,
+    int chapterNumber,
+  ) async {
     return _queryAdapter.query(
         'SELECT * FROM translation_verse WHERE translation = ?1 AND verse_number = ?2 AND chapter_number = ?3',
         mapper: (Map<String, Object?> row) => TranslationVerse(text: row['text'] as String?, chapter: row['chapter'] as int?, chapterNumber: row['chapter_number'] as int?, verseNumber: row['verse_number'] as int?, translation: row['translation'] as int?),

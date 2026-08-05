@@ -12,9 +12,12 @@ class QuranWidgetInit {
   static Dio dio = Dio();
 
   static Future<void> init(
-      {required String clientId, required String clientSecret}) async {
+      {required String clientId, required String clientSecret, String? baseUrl}) async {
     Apis.clientId = clientId;
     Apis.clientSecret = clientSecret;
+    if (baseUrl != null) {
+      Apis.baseUrl = baseUrl;
+    }
 
     String auth = '$clientId:$clientSecret';
     String encoded = base64.encode(utf8.encode(auth));

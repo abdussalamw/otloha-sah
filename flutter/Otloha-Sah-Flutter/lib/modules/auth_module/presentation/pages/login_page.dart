@@ -2,31 +2,30 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:otloha_sah_flutter/core/utils/themes/color.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
+import 'package:otloha_sah_flutter/core/design_system/components/cards/app_card.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_colors.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_radius.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_spacing.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_typography.dart';
+import 'package:otloha_sah_flutter/core/utils/res/icons_app.dart';
 import 'package:otloha_sah_flutter/core/widgets/password_form_field.dart';
 import 'package:otloha_sah_flutter/core/widgets/text_from_fielid.dart';
 import 'package:otloha_sah_flutter/core/widgets/text_view.dart';
+import 'package:otloha_sah_flutter/core/widgets/tool_bar_app.dart';
 import 'package:otloha_sah_flutter/core/widgets/vali_errorr_text.dart';
 import 'package:otloha_sah_flutter/data_source/remote/auth_services.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/business_logic/auth_cubit.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/forget_password_page.dart';
-import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/google_signin.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/sign_up.dart';
-import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/social_login_compelete_form.dart';
-import 'package:otloha_sah_flutter/modules/auth_module/presentation/widget/auth_button.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/widget/page_head_text.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/widget/page_layout.dart';
 import 'package:otloha_sah_flutter/modules/home/business_logic/cubit/home_cubit.dart';
 import 'package:otloha_sah_flutter/modules/home/presentation/pages/home/home_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-
-import 'package:get/get.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
-// import 'package:twitter_login/twitter_login.dart';
 
-// ignore: must_be_immutable
 class LoginPage extends StatefulWidget {
   static const routeName = '/loginPage';
 
@@ -38,15 +37,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
-
-  var border = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: const BorderSide(width: 1, color: AppColor.lightBlue),
-  );
 
   @override
   void initState() {
@@ -56,85 +48,100 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageAuthLayout(
-        pageComponents: loginComponents(context),
-      ),
+    return PageAuthLayout(
+      pageComponents: loginComponents(context),
     );
   }
 
   Widget loginComponents(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is LogInSuccessState) {
           Get.offAll(() => const HomePage());
-
-          // var cubit = AuthCubit.get(context);
-          // cubit.changeIsLogin(islog: true).then((value) {
-          //   cubit.saveProfile().then((value) {
-          //     ProfilePageCubit.get(context).userProfile().then((value) {
-
-          //     });
-          //   });
-          // });
         }
       },
       builder: (context, state) {
         var cubit = AuthCubit.get(context);
-        return Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  pageLayOutTextHead(tr('Login')),
-                  loginForm(cubit),
-                  // const SignInDemo(),
-                  // SocialLoginButton(
-                  //   buttonType: SocialLoginButtonType.facebook,
-                  //   onPressed: () async {
-                  //     cubit.loginWith(Providers.facebook);
-                  //   },
-                  // )
-                ],
+        return Column(
+          children: [
+            ToolBarApp(
+              backIcon: IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              title: tr('Login'),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                child: Column(
+                  children: [
+                    const SizedBox(height: AppSpacing.sm),
+                    // Header Logo & Text
+                    Image.asset(
+                      AppIcons.flatLogoIcon,
+                      width: 90,
+                      height: 90,
+                      errorBuilder: (_, __, ___) => const Icon(
+                        Icons.menu_book_rounded,
+                        size: 70,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    pageLayOutTextHead(tr('Login'), context),
+
+                    // Login Form Card
+                    AppCard(
+                      padding: const EdgeInsets.all(AppSpacing.lg),
+                      child: loginForm(cubit, isDark),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
+          ],
         );
       },
     );
   }
 
-  Widget loginForm(AuthCubit cubit) {
+  Widget loginForm(AuthCubit cubit, bool isDark) {
     return Form(
       key: formKey,
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Email / Phone Field
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFormFieldApp(
-                      title: tr('emailOrPhone'),
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: [
-                        FormBuilderValidators.required(),
-                      ]),
-                  (state is LogInErrorState)
-                      ? ValidationErrorText(
-                          error: (state.error['identifier'] != null)
-                              ? state.error['identifier'][0]
-                              : '')
-                      : const SizedBox(),
+                    title: tr('emailOrPhone'),
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: [
+                      FormBuilderValidators.required(),
+                    ],
+                  ),
+                  if (state is LogInErrorState)
+                    ValidationErrorText(
+                      error: (state.error['identifier'] != null)
+                          ? state.error['identifier'][0]
+                          : '',
+                    ),
                 ],
               ),
-              const SizedBox(height: 20),
+
+              const SizedBox(height: AppSpacing.md),
+
+              // Password Field
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PasswordFormField(
                     title: tr('password'),
@@ -143,129 +150,119 @@ class _LoginPageState extends State<LoginPage> {
                       FormBuilderValidators.required(),
                     ],
                   ),
-                  (state is LogInErrorState)
-                      ? ValidationErrorText(
-                          error: (state.error['password'] != null)
-                              ? state.error['password'][0]
-                              : '')
-                      : const SizedBox(),
+                  if (state is LogInErrorState)
+                    ValidationErrorText(
+                      error: (state.error['password'] != null)
+                          ? state.error['password'][0]
+                          : '',
+                    ),
                 ],
               ),
-              (state is LogInErrorState)
-                  ? ValidationErrorText(
-                      error: (state.error['non_field_errors'] != null)
-                          ? state.error['non_field_errors']
-                          : (state.error['__all__'] != null)
-                              ? state.error['__all__'][0]
-                              : '')
-                  : const SizedBox(),
-              TextView(
-                text: tr('ForgotPassword'),
-                sizeText: 13,
-                action: () {
-                  Get.to(const ForgotPasswordPage());
-                },
-                weightText: FontWeight.w500,
-                textAlign: TextAlign.end,
-                colorText: AppColor.txtGrayColor,
-                padding: const EdgeInsets.all(8),
+
+              if (state is LogInErrorState)
+                ValidationErrorText(
+                  error: (state.error['non_field_errors'] != null)
+                      ? state.error['non_field_errors']
+                      : (state.error['__all__'] != null)
+                          ? state.error['__all__'][0]
+                          : '',
+                ),
+
+              // Forgot Password link
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                  onPressed: () => Get.to(const ForgotPasswordPage()),
+                  child: Text(
+                    tr('ForgotPassword'),
+                    style: AppTypography.bodyMedium(
+                      color: AppColors.primary,
+                    ).copyWith(fontWeight: FontWeight.w600),
+                  ),
+                ),
               ),
+
+              const SizedBox(height: AppSpacing.sm),
+
+              // Login Button
               BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, state) {
-                  return (state is LogInLoadingState ||
-                          state is LogInSuccessState)
+                  return (state is LogInLoadingState || state is LogInSuccessState)
                       ? const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(color: AppColors.primary),
                         )
                       : BlocBuilder<HomeCubit, HomeState>(
                           builder: (context, state) {
-                            // var homeCubit = HomeCubit.get(context);
-                            return ButtonApp(
-                              buttonText: tr('Login'),
-                              onPressed: () async {
-                                FocusScope.of(context).unfocus();
-
-                                if (formKey.currentState!.validate()) {
-                                  debugPrint('validate');
-
-                                  await cubit.userLogIn(
-                                      email: emailController.text,
-                                      password: passwordController.text);
-                                }
-                              },
+                            return SizedBox(
                               width: double.infinity,
-                              colors: const [
-                                AppColor.btn2Color,
-                                AppColor.btn2lColor,
-                              ],
+                              height: 50,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: AppRadius.radiusMd,
+                                  ),
+                                  elevation: 0,
+                                ),
+                                onPressed: () async {
+                                  FocusScope.of(context).unfocus();
+                                  if (formKey.currentState!.validate()) {
+                                    await cubit.userLogIn(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  tr('Login'),
+                                  style: AppTypography.buttonStyle(color: Colors.white).copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
                             );
                           },
                         );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextView(
-                      text: tr('Registernow?'),
-                      sizeText: 14,
-                      colorText: AppColor.txtGrayColor,
+
+              const SizedBox(height: AppSpacing.md),
+
+              // Register Now Row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    tr('Registernow?'),
+                    style: AppTypography.bodyMedium(
+                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
                     ),
-                    TextView(
-                      text: tr('RegisterNow'),
-                      sizeText: 14,
-                      action: () {
-                        Get.to(const SignUpPage());
-                      },
-                      weightText: FontWeight.w600,
-                      textAlign: TextAlign.end,
-                      colorText: AppColor.txtGrayColor,
+                  ),
+                  const SizedBox(width: 4),
+                  GestureDetector(
+                    onTap: () => Get.to(const SignUpPage()),
+                    child: Text(
+                      tr('RegisterNow'),
+                      style: AppTypography.bodyMedium(
+                        color: AppColors.primary,
+                      ).copyWith(fontWeight: FontWeight.bold),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const Divider(),
-              if (Platform.isAndroid)
+
+              if (Platform.isAndroid) ...[
+                const SizedBox(height: AppSpacing.md),
+                const Divider(),
+                const SizedBox(height: AppSpacing.sm),
                 SocialLoginButton(
                   buttonType: SocialLoginButtonType.facebook,
                   onPressed: () {
                     cubit.loginWith(Providers.facebook);
                   },
                 ),
-              // SocialLoginButton(
-              //   buttonType: SocialLoginButtonType.twitter,
-              //   onPressed: () async {
-              //     final twitterLogin = TwitterLogin(
-              //       // Consumer API keys
-              //       apiKey: 'Qa9KuNTVUUurcqXYqTrPzDB1l',
-              //       // Consumer API Secret keys
-              //       apiSecretKey:
-              //           'waK2a9YXRyvbxvh4cOgfEQm2VsarABCBo8S39hi6cRicuAayQu',
-              //       // Registered Callback URLs in TwitterApp
-              //       // Android is a deeplink
-              //       // iOS is a URLScheme
-              //       redirectURI:
-              //           'https://otlohasah.itqadem.com/auth/x/callback',
-              //     );
-              //     final authResult = twitterLogin.login();
-              //     switch ((await authResult).status) {
-              //       case TwitterLoginStatus.loggedIn:
-              //         // success
-              //         break;
-              //       case TwitterLoginStatus.cancelledByUser:
-              //         // cancel
-              //         break;
-              //       case TwitterLoginStatus.error:
-              //         // error
-              //         break;
-              //       case null:
-              //         // TODO: Handle this case.
-              //         break;
-              //     }
-              //   },
-              // ),
+              ],
             ],
           );
         },

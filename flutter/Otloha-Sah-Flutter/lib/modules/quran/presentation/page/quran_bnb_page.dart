@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quran_widget_flutter/quran_widget_flutter.dart';
+
+import '../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../core/design_system/tokens/app_radius.dart';
+import '../../../../core/design_system/tokens/app_shadows.dart';
+import '../../../../core/design_system/tokens/app_spacing.dart';
+import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/utils/res/icons_app.dart';
-import '../../../../core/utils/res/svg_app.dart';
+import '../../../settings/business_logic/themes/theme_cubit.dart';
 import '../../business_logic/cubit/ballview_cubit.dart';
 import '../../business_logic/cubit/progress/progress_cubit.dart';
 import '../../business_logic/cubit/progress/progress_state.dart';
-import '../../business_logic/cubit/quranplayer_cubit.dart';
-import '../../../settings/business_logic/themes/theme_cubit.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import '../../../../core/utils/themes/color.dart';
-import '../../../../core/widgets/text_view.dart';
 import '../../business_logic/cubit/quran_cubit.dart';
+import '../../business_logic/cubit/quranplayer_cubit.dart';
 import '../../business_logic/cubit/recitation_cubit.dart';
-import 'chapters/index_surah_page.dart';
 import '../widget/floatin_button_widget.dart';
 import '../widget/play_botton.dart';
 import '../widget/play_puse_tools.dart';
 import '../widget/recorded_file_setting.dart';
 import '../widget/tool_botton.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quran_widget_flutter/quran_widget_flutter.dart';
+import 'action_pages/bookmark_bage.dart';
+import 'chapters/index_surah_page.dart';
+import '../../../home/presentation/pages/bnb_pags/search_bnb_page.dart';
 
 class QuranBNBPage extends StatefulWidget {
+  final PageType initialPageType;
+  const QuranBNBPage({super.key, this.initialPageType = PageType.quran});
+
   @override
   State<QuranBNBPage> createState() => _QuranBNBPageState();
 }
@@ -38,7 +46,7 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
   }
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     ProgressCubit.get(context)
         .getProgress(QuranCacheRepository.selectedChapterId);
@@ -54,6 +62,19 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
     );
     QuranViewCubit.get(context).setQuranController(quranController);
     QuranPlayerCubit.get(context).setQuranController(quranController);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        QuranViewCubit.get(context).changePageType(page: widget.initialPageType);
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant QuranBNBPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialPageType != widget.initialPageType) {
+      QuranViewCubit.get(context).changePageType(page: widget.initialPageType);
+    }
   }
 
   @override
@@ -62,40 +83,45 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
     addCubit = RecitationAddCubit.get(context);
     cubit?.getIsMarkorlike();
 
-    // Future.microtask(() => QuranViewCubit.controller
-    //     .changePageType(cubit?.pageType ?? PageType.quran));
-
     return BlocConsumer<QuranViewCubit, QuranViewState>(
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = QuranViewCubit.get(context);
         return Scaffold(
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.backgroundDark
+              : AppColors.backgroundLight,
           body: Column(
             children: [
+              // Top Audio Downloading Bar Indicator
               BlocBuilder<QuranPlayerCubit, QuranPlayerState>(
                 builder: (context, state) {
                   if (state is DownloadingChapterState) {
-                    return const LinearProgressIndicator();
+                    return const LinearProgressIndicator(
+                      backgroundColor: AppColors.primaryLight,
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                    );
                   }
                   return const SizedBox();
                 },
               ),
+
+              // Fixed Modern Top App Bar with Surah (Right), Juz (Center), Bookmark & Search (Left)
+              _buildTopAppBar(context, cubit),
+
+              // Full Quran Mushaf Screen Container
               Expanded(
                 child: Stack(
                   children: [
-                    _viewTop(context),
                     _viewPageReading(context),
-
-                    //_tempView(context, cubit),
                     _viewLikeMarked(cubit),
-                    if (cubit.isRecorded) const RecordTool(),
+                    if (cubit.isRecorded) RecordTool(),
                     if (cubit.checkVersesValue &&
                         cubit.selectedVerses.isNotEmpty &&
                         cubit.isPlaying == false &&
                         cubit.isRecorded == false &&
                         cubit.isRecordedFile == false)
                       const ToolBotton(),
-                    // if (cubit.checkVersesValue && cubit.isPlaying == false)
                     if (cubit.isRecordedFile) const RecordedFileTool(),
                     if (cubit.isPlaying) const PlayPauseTools(),
                     const FloatingButton(),
@@ -109,9 +135,114 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
     );
   }
 
+  // Fixed Royal Blue Top App Bar: Surah (Right), Juz (Center), Bookmark & Search (Left)
+  Widget _buildTopAppBar(BuildContext context, QuranViewCubit cubit) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final String rawName = cubit.chapterName ?? '';
+    final String surahText = rawName.isEmpty
+        ? 'سورة الفاتحة'
+        : (rawName.startsWith('سورة') ? rawName : 'سورة $rawName');
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
+      decoration: BoxDecoration(
+        gradient: AppColors.headerGradient,
+        boxShadow: isDark ? AppShadows.softCardDark : AppShadows.softCardLight,
+      ),
+      child: SafeArea(
+        bottom: false,
+        child: Row(
+          children: [
+            // Right: Surah Name (e.g. سورة البقرة)
+            InkWell(
+              onTap: () => Navigator.of(context).pushNamed(IndexSurahPage.routeName),
+              borderRadius: AppRadius.radiusMd,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs, vertical: 4.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      surahText,
+                      style: AppTypography.h3Bold(color: Colors.white).copyWith(
+                        fontFamily: 'Hafs20',
+                        fontSize: 16,
+                      ),
+                    ),
+                    const Icon(Icons.arrow_drop_down_rounded, color: Colors.white70, size: 20),
+                  ],
+                ),
+              ),
+            ),
+
+            const Spacer(),
+
+            // Center: Juz Name (e.g. الجزء الأول)
+            Text(
+              'الجزء الأول',
+              style: AppTypography.bodyMedium(color: Colors.white).copyWith(
+                fontFamily: 'Hafs20',
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+              ),
+            ),
+
+            const Spacer(),
+
+            // Left: Bookmark & Search Icons
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Bookmark Icon (إشارة مرجعية: ضغطة لإضافة/إلغاء، ضغطة مطولة لفتح الإشارات)
+                Tooltip(
+                  message: 'ضغطة لإضافة/حذف - ضغطة مطولة لفتح الإشارات المرجعية',
+                  child: InkWell(
+                    borderRadius: AppRadius.radiusFull,
+                    onTap: () {
+                      if (cubit.isBookmarked) {
+                        cubit.deleteBookMark();
+                        Fluttertoast.showToast(msg: 'تمت إزالة العلامة المرجعية');
+                      } else {
+                        cubit.addBookMark();
+                        Fluttertoast.showToast(msg: 'تمت إضافة العلامة المرجعية');
+                      }
+                    },
+                    onLongPress: () {
+                      Navigator.of(context).pushNamed(
+                        PagesBookMarkPage.routeName,
+                        arguments: 2,
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        cubit.isBookmarked ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
+                        color: cubit.isBookmarked ? Colors.amber : Colors.white,
+                        size: 22,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Search Icon (البحث في النص القرآني)
+                IconButton(
+                  icon: const Icon(Icons.search_rounded, color: Colors.white, size: 22),
+                  onPressed: () => Get.to(() => const SearchBNBPage()),
+                  tooltip: 'البحث في النص القرآني',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _viewLikeMarked(QuranViewCubit cubit) {
     return Positioned(
-      top: cubit.checkOpened ? 0 : 40,
+      top: 10,
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Center(
@@ -124,15 +255,15 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
                 Image.asset(
                   AppIcons.love2,
                   color: Colors.amber,
-                  width: 30,
-                  height: 30,
+                  width: 28,
+                  height: 28,
                 ),
               if (cubit.isBookmarked && cubit.pageType == PageType.quran)
                 Image.asset(
                   AppIcons.bookMark2Icon,
                   color: Colors.amber,
-                  width: 30,
-                  height: 30,
+                  width: 28,
+                  height: 28,
                 ),
             ],
           ),
@@ -141,176 +272,93 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
     );
   }
 
-  Widget _viewPageReading(context) {
+  Widget _viewPageReading(BuildContext context) {
     return GestureDetector(
       onTap: () {
         BlocProvider.of<BallViewCubit>(context).setHaveOpcity();
       },
       child: Padding(
-        padding: EdgeInsets.only(
-            top: cubit!.checkOpened ? 0 : 40,
-            bottom: cubit!.checkOpened ? 52 : 0),
+        padding: const EdgeInsets.only(top: 0, bottom: 0),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-            color: AppColor.background,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.surfaceDark
+                : AppColors.surfaceLight,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: BlocBuilder<QuranPlayerCubit, QuranPlayerState>(
+                    builder: (context, state) {
+                      return BlocConsumer<ProgressCubit, ProgressState>(
+                        listener: (context, progressState) {},
+                        buildWhen: (previous, current) => current is ProgressLoaded,
+                        builder: (context, progressState) {
+                          return QuranWidget(
+                            page: cubit!.pageType,
+                            playingVerse: QuranPlayerCubit.get(context).playingVerse,
+                            isDark: ThemeCubit.isDark,
+                            chapterId: cubit!.chapterId,
+                            bookId: cubit!.bookId,
+                            narrationId: cubit!.narrationId,
+                            onTap: (isVerSelected, selectedVerses) {
+                              cubit!.isVerSelected(isVerSelected);
+                              cubit!.changeIsSelectedVerse();
+                              cubit!.changeIsOnTruePressed();
+                              addCubit!.setSelectedVerses(selectedVerses!);
+                              cubit!.setSelectedVerses(selectedVerses);
+                            },
+                            onPageTypeChage: (pageType) {
+                              cubit!.changePageType(page: pageType);
+                            },
+                            onLongTap: (isVerSelected, selectedVerses) {
+                              cubit!.isVerSelected(isVerSelected);
+                              cubit!.changeIsSelectedVerse();
+                              cubit!.changeIsOnTruePressed();
+                              addCubit!.setSelectedVerses(selectedVerses!);
+                              cubit!.setSelectedVerses(selectedVerses);
+                            },
+                            onPageChange: (int pageNumber) async {
+                              QuranPlayerCubit.get(context).setPageChange();
+                              cubit?.getIsMarkorlike();
+                            },
+                            controller: QuranViewCubit.get(context).controller,
+                            onChapterChange: (chapter) async {
+                              await cubit!.updateChapterHeaderInfo(chapter!);
+                              await ProgressCubit.get(context).getProgress(chapter.id!);
+                            },
+                            locale: Get.locale!,
+                            verseStyles: progressState is ProgressLoaded
+                                ? [
+                                    VerseStyle(
+                                      textStyle: const TextStyle(color: AppColors.textMutedLight),
+                                      verseIds: progressState.progress.pending.values
+                                          .expand((item) => item)
+                                          .toList(),
+                                    ),
+                                    VerseStyle(
+                                      textStyle: const TextStyle(color: AppColors.success),
+                                      verseIds: progressState.progress.accepted.values
+                                          .expand((item) => item)
+                                          .toList(),
+                                    ),
+                                    VerseStyle(
+                                      textStyle: const TextStyle(color: AppColors.error),
+                                      verseIds: progressState.progress.rejected.values
+                                          .expand((item) => item)
+                                          .toList(),
+                                    ),
+                                  ]
+                                : [],
+                          );
+                        },
+                      );
+                    },
                   ),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: BlocBuilder<QuranPlayerCubit, QuranPlayerState>(
-                      builder: (context, state) {
-                        return BlocConsumer<ProgressCubit, ProgressState>(
-                          listener: (context, progressState) {},
-                          buildWhen: (previous, current) =>
-                              current is ProgressLoaded,
-                          builder: (context, progressState) {
-                            return QuranWidget(
-                              page: cubit!.pageType,
-                              playingVerse:
-                                  QuranPlayerCubit.get(context).playingVerse,
-                              isDark: ThemeCubit.isDark,
-                              chapterId: cubit!.chapterId,
-                              bookId: cubit!.bookId,
-                              narrationId: cubit!.narrationId,
-                              onTap: (isVerSelected, selectedVerses) {
-                                cubit!.isVerSelected(isVerSelected);
-                                cubit!.changeIsSelectedVerse();
-                                cubit!.changeIsOnTruePressed();
-                                addCubit!.setSelectedVerses(selectedVerses!);
-                                cubit!.setSelectedVerses(selectedVerses);
-                              },
-                              onPageTypeChage: (pageType) {
-                                cubit!.changePageType(page: pageType);
-                              },
-                              onLongTap: (isVerSelected, selectedVerses) {
-                                cubit!.isVerSelected(isVerSelected);
-                                cubit!.changeIsSelectedVerse();
-                                cubit!.changeIsOnTruePressed();
-                                addCubit!.setSelectedVerses(selectedVerses!);
-                                cubit!.setSelectedVerses(selectedVerses);
-                              },
-                              onPageChange: (int pageNumber) async {
-                                QuranPlayerCubit.get(context).setPageChange();
-                                cubit?.getIsMarkorlike();
-                              },
-                              controller:
-                                  QuranViewCubit.get(context).controller,
-                              onChapterChange: (chapter) async {
-                                await cubit!.updateChapterHeaderInfo(chapter!);
-                                await ProgressCubit.get(context)
-                                    .getProgress(chapter.id!);
-                              },
-                              locale: Get.locale!,
-                              verseStyles: progressState is ProgressLoaded
-                                  ? [
-                                      VerseStyle(
-                                        textStyle: const TextStyle(
-                                            color: AppColor.grey),
-                                        verseIds: progressState
-                                            .progress.pending.values
-                                            .expand((item) => item)
-                                            .toList(),
-                                      ),
-                                      VerseStyle(
-                                        textStyle: const TextStyle(
-                                            color: Colors.green),
-                                        verseIds: progressState
-                                            .progress.accepted.values
-                                            .expand((item) => item)
-                                            .toList(),
-                                      ),
-                                      VerseStyle(
-                                        textStyle:
-                                            const TextStyle(color: Colors.red),
-                                        verseIds: progressState
-                                            .progress.rejected.values
-                                            .expand((item) => item)
-                                            .toList(),
-                                      ),
-                                    ]
-                                  : [],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _viewTop(BuildContext context) {
-    return Hero(
-      tag: 'ToChooseSurah',
-      child: GestureDetector(
-        onTap: () => Navigator.of(context)
-            .pushNamed(IndexSurahPage.routeName)
-            .then((value) {}),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          padding: const EdgeInsets.only(bottom: 48, top: 8),
-          //margin:  EdgeInsets.only(top: 4),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Color(0xFF08226C),
-                Color(0xFF2566B0),
-                Color(0xFF3A7BD5),
-                Color(0xFF00D2FF),
-              ],
-            ),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-            image: DecorationImage(
-              image: Svg(
-                AppSVG.back2,
-                // color: AppColor.white,
-              ),
-              fit: BoxFit.cover,
-              opacity: .08,
-              repeat: ImageRepeat.noRepeat,
-              scale: 2,
-            ),
-            color: AppColor.darkBlue,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextView(
-                text: cubit?.chapterName ?? '',
-                textAlign: TextAlign.center,
-                padding: const EdgeInsets.only(bottom: 20),
-                colorText: AppColor.txtColor2,
-                sizeText: 18,
-                fontFamily: 'Hafs20',
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20.0),
-                child: Icon(
-                  Icons.expand_more,
-                  color: AppColor.txtColor2,
                 ),
               ),
             ],

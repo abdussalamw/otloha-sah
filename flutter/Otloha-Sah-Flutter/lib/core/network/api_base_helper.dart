@@ -82,7 +82,7 @@ class ApiBaseHelper implements ApiQueueHandler {
           onError: (DioException e, handler) async {
             log(e.requestOptions.path);
             if (e.response != null && e.response!.statusCode == 401 && e.requestOptions.path != '${Constants.baseUrl}/api/v2/token/') {
-              NavigationService().navigateTo(OnBoardPage.routeName);
+              // Removed forced navigation to OnBoardPage.routeName
             }
             return handler.next(e);
           },
@@ -106,21 +106,18 @@ class ApiBaseHelper implements ApiQueueHandler {
             String? refreshToken = UserDataServices.instance.getTokenRefresh;
 
             if (refreshToken == null) {
-              NavigationService().navigateTo(OnBoardPage.routeName);
               await FirebaseService.instance.deleteToken();
               UserDataServices.instance.signOut();
             } else {
               final refreshExpiryDate =
                   Jwt.getExpiryDate(refreshToken)!.difference(DateTime.now());
               if (refreshExpiryDate.inSeconds < 60) {
-                NavigationService().navigateTo(OnBoardPage.routeName);
                 await FirebaseService.instance.deleteToken();
                 UserDataServices.instance.signOut();
               }
             }
 
             if (currentToken.isEmpty) {
-              NavigationService().navigateTo(OnBoardPage.routeName);
               return handler.reject(
                   DioException(requestOptions: options, error: AuthError));
             } else {

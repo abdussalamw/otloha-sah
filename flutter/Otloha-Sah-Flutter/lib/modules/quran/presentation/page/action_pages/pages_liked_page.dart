@@ -1,17 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:otloha_sah_flutter/data_source/local/database/database/database.dart';
-import '../../../../../core/exception_indicators/exception_indicator.dart';
 
+import '../../../../../core/design_system/components/cards/app_card.dart';
+import '../../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../../core/design_system/tokens/app_radius.dart';
+import '../../../../../core/design_system/tokens/app_shadows.dart';
+import '../../../../../core/design_system/tokens/app_spacing.dart';
+import '../../../../../core/design_system/tokens/app_typography.dart';
+import '../../../../../core/exception_indicators/exception_indicator.dart';
 import '../../../../../core/utils/constant/utils.dart';
-import '../../../../../core/utils/res/icons_app.dart';
 import '../../../../home/presentation/pages/home/home_page.dart';
+import '../../../../settings/presentation/widgets/search_bar_app.dart';
 import '../../../business_logic/cubit/getuserquranaction_cubit.dart';
 import '../../../business_logic/cubit/quran_cubit.dart';
-import '../../../../settings/presentation/widgets/search_bar_app.dart';
-import '../../../../settings/presentation/widgets/user_like.dart';
 
 class LikedVersesPage extends StatelessWidget {
   const LikedVersesPage({
@@ -22,8 +26,11 @@ class LikedVersesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     BlocProvider.of<GetUserQuranActionCubit>(context).findAllVerseLikeds();
+
     return Scaffold(
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       body: SafeArea(
         child: Column(
           children: [_topView(context), _viewItems()],
@@ -35,7 +42,7 @@ class LikedVersesPage extends StatelessWidget {
   Widget _topView(BuildContext context) {
     return SearchBarApp(
       backIcon: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
+        icon: const Icon(Icons.arrow_back_ios_new_rounded),
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -47,11 +54,14 @@ class LikedVersesPage extends StatelessWidget {
   Expanded _viewItems() {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(AppSpacing.md),
         child: BlocBuilder<GetUserQuranActionCubit, GetUserQuranActionState>(
           builder: (context, state) {
             if (state is GetUserQuranActionLikeds) {
               List<FavoriteVerse> verses = Set.of(state.verses).toList();
+              if (verses.isEmpty) {
+                return Center(child: ExceptionIndicator(title: tr('No Data Found')));
+              }
               return ListView.builder(
                 itemCount: verses.length,
                 itemBuilder: (context, index) {
@@ -63,18 +73,17 @@ class LikedVersesPage extends StatelessWidget {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       HomePage.routeName,
                       ModalRoute.withName('/'),
-                      arguments: 1,
+                      arguments: 2,
                     );
                   }, index, context, verses[index]);
                 },
               );
             } else {
               return Center(
-                  child: ExceptionIndicator(
-                // onTryAgain: onTryAgain,
-                //assetName: AppIcons.emptyIcon,
-                title: tr('No Data Found'),
-              ));
+                child: ExceptionIndicator(
+                  title: tr('No Data Found'),
+                ),
+              );
             }
           },
         ),
@@ -84,31 +93,69 @@ class LikedVersesPage extends StatelessWidget {
 
   Widget _itemBuild(
       Function() action, index, context, FavoriteVerse verseLiked) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     var cubit = GetUserQuranActionCubit.get(context);
-    return UserLiked(
-      id: verseLiked.id,
-      index: index,
-      userName: verseLiked.textFristVerse,
-      userImage: AppIcons.quran2Icon,
-      note: null,
-      isTextHafs: true,
-      action: action,
-      onDismissed: (value) {
-        cubit.deleteVerseLiked(verseLiked.id);
 
-        Get.snackbar(
-          translate('DeletedDone'),
-          translate('YouUndoDeleted'),
-          mainButton: TextButton(
-            onPressed: () {
-              cubit.undoDeleteVerseLiked(verseLiked);
-              cubit.findAllVerseLikeds();
-            },
-            child: Text(translate('Undo')),
-          ),
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      },
+    return AppCard(
+      onTap: action,
+      margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      child: Dismissible(
+        key: UniqueKey(),
+        onDismissed: (value) {
+          cubit.deleteVerseLiked(verseLiked.id);
+          Get.snackbar(
+            translate('DeletedDone'),
+            translate('YouUndoDeleted'),
+            mainButton: TextButton(
+              onPressed: () {
+                cubit.undoDeleteVerseLiked(verseLiked);
+                cubit.findAllVerseLikeds();
+              },
+              child: Text(translate('Undo')),
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.favorite_rounded,
+                  color: Colors.amber,
+                  size: 22,
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  verseLiked.textFristVerse ?? '',
+                  style: AppTypography.bodyMedium(
+                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                  ).copyWith(
+                    fontFamily: 'Hafs20',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 2),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.1),
+                borderRadius: AppRadius.radiusFull,
+              ),
+              child: Text(
+                '${translate('Page')} ${verseLiked.pageNumber}',
+                style: AppTypography.bodySmall(color: AppColors.primary).copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

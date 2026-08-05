@@ -19,6 +19,10 @@ abstract class TajweedWordDao {
   Future<List<TajweedCharacters>> findAllTajweedVerse(int bookId, int verse);
 
   @Query(
+      'SELECT * FROM tajweed_charchter where book = :bookId and verse_number = :verseNumber and chapter_number = :chapterNumber')
+  Future<List<TajweedCharacters>> findAllTajweedVerseNumberAndChapter(int bookId, int verseNumber, int chapterNumber);
+
+  @Query(
       'SELECT * FROM tajweed_charchter where book = :bookId and word = :word')
   Future<List<TajweedCharacters>> findAllTajweedWord(int bookId, int word);
 

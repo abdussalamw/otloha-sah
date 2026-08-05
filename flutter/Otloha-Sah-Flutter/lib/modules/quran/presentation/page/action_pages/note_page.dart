@@ -1,34 +1,36 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:otloha_sah_flutter/data_source/local/database/database/database.dart';
-import '../../../../../core/exception_indicators/exception_indicator.dart';
-import '../../widget/add_note.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:otloha_sah_flutter/data_source/local/database/database/database.dart';
 
+import '../../../../../core/design_system/components/cards/app_card.dart';
+import '../../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../../core/design_system/tokens/app_radius.dart';
+import '../../../../../core/design_system/tokens/app_shadows.dart';
+import '../../../../../core/design_system/tokens/app_spacing.dart';
+import '../../../../../core/design_system/tokens/app_typography.dart';
+import '../../../../../core/exception_indicators/exception_indicator.dart';
 import '../../../../../core/utils/constant/utils.dart';
-import '../../../../../core/utils/res/icons_app.dart';
 import '../../../../settings/presentation/widgets/search_bar_app.dart';
-import '../../../../settings/presentation/widgets/user_like.dart';
 import '../../../business_logic/cubit/getuserquranaction_cubit.dart';
+import '../../widget/add_note.dart';
 
 class NotesVersePage extends StatelessWidget {
   const NotesVersePage({
     Key? key,
-
-    ///this.arg,
   }) : super(key: key);
 
   static const routeName = '/quran/note';
 
-  //final int? arg;
-
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     var cubit = GetUserQuranActionCubit.get(context);
 
     BlocProvider.of<GetUserQuranActionCubit>(context).findAllVerseNotes();
     return Scaffold(
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       body: SafeArea(
         child: Column(
           children: [_topView(context, cubit), _viewItems(cubit)],
@@ -43,7 +45,7 @@ class NotesVersePage extends StatelessWidget {
         cubit.search(value);
       },
       backIcon: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
+        icon: const Icon(Icons.arrow_back_ios_new_rounded),
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -55,10 +57,13 @@ class NotesVersePage extends StatelessWidget {
   Expanded _viewItems(GetUserQuranActionCubit cubit) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(AppSpacing.md),
         child: BlocBuilder<GetUserQuranActionCubit, GetUserQuranActionState>(
           builder: (context, state) {
             if (state is GetUserQuranActionNotes || state is NoteSearchError) {
+              if (cubit.verseNote.isEmpty) {
+                return Center(child: ExceptionIndicator(title: tr('No Data Found')));
+              }
               return ListView.builder(
                 itemCount: cubit.verseNote.length,
                 itemBuilder: (context, index) {
@@ -68,12 +73,10 @@ class NotesVersePage extends StatelessWidget {
                       Scaffold.of(context).showBottomSheet(
                         (context) {
                           return AddNoteWidget(
-                            // verseNote: cubit.verseNote[index],
                             isEdit: true,
                             title: cubit.verseNote[index].noteText,
                           );
                         },
-                        // backgroundColor: AppColor.transparent,
                       );
                     },
                     cubit: BlocProvider.of<GetUserQuranActionCubit>(context),
@@ -85,6 +88,9 @@ class NotesVersePage extends StatelessWidget {
               );
             }
             if (state is NoteSearched) {
+              if (cubit.searchedList.isEmpty) {
+                return Center(child: ExceptionIndicator(title: tr('No Data Found')));
+              }
               return ListView.builder(
                 itemCount: cubit.searchedList.length,
                 itemBuilder: (context, index) {
@@ -94,12 +100,10 @@ class NotesVersePage extends StatelessWidget {
                       Scaffold.of(context).showBottomSheet(
                         (context) {
                           return AddNoteWidget(
-                            // verseNote: cubit.searchedList[index],
                             isEdit: true,
                             title: cubit.verseNote[index].noteText,
                           );
                         },
-                        // backgroundColor: AppColor.transparent,
                       );
                     },
                     cubit: BlocProvider.of<GetUserQuranActionCubit>(context),
@@ -114,11 +118,10 @@ class NotesVersePage extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else {
               return Center(
-                  child: ExceptionIndicator(
-                // onTryAgain: onTryAgain,
-                //assetName: AppIcons.emptyIcon,
-                title: tr('No Data Found'),
-              ));
+                child: ExceptionIndicator(
+                  title: tr('No Data Found'),
+                ),
+              );
             }
           },
         ),
@@ -133,29 +136,69 @@ class NotesVersePage extends StatelessWidget {
     required int index,
     required BuildContext context,
   }) {
-    return UserLiked(
-      id: verseNote.id,
-      index: index,
-      userName: verseNote.textFristVerse,
-      userImage: AppIcons.quran2Icon,
-      note: verseNote.noteText,
-      action: action,
-      onDismissed: (val) async {
-        await cubit.deleteVerseNotes(verseNote.id);
-        // await cubit.findAllVerseNo
-        Get.snackbar(
-          translate('DeletedDone'),
-          translate('YouUndoDeleted'),
-          mainButton: TextButton(
-            onPressed: () async {
-              await cubit.undoDeleteNote(verseNote);
-              cubit.findAllVerseNotes();
-            },
-            child: Text(translate('Undo')),
-          ),
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      },
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return AppCard(
+      onTap: action,
+      margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+      padding: const EdgeInsets.all(AppSpacing.md),
+      child: Dismissible(
+        key: UniqueKey(),
+        onDismissed: (val) async {
+          await cubit.deleteVerseNotes(verseNote.id);
+          Get.snackbar(
+            translate('DeletedDone'),
+            translate('YouUndoDeleted'),
+            mainButton: TextButton(
+              onPressed: () async {
+                await cubit.undoDeleteNote(verseNote);
+                cubit.findAllVerseNotes();
+              },
+              child: Text(translate('Undo')),
+            ),
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        },
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(AppSpacing.xs + 2),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.1),
+                borderRadius: AppRadius.radiusSm,
+              ),
+              child: const Icon(Icons.note_alt_rounded, color: AppColors.primary, size: 20),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    verseNote.textFristVerse ?? '',
+                    style: AppTypography.bodyMedium(
+                      color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                    ).copyWith(
+                      fontFamily: 'Hafs20',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (verseNote.noteText != null && verseNote.noteText!.isNotEmpty)
+                    Text(
+                      verseNote.noteText!,
+                      style: AppTypography.bodySmall(
+                        color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

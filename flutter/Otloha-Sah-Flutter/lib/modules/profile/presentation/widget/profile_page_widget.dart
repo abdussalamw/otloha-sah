@@ -1,15 +1,28 @@
 import 'package:otloha_sah_flutter/data_source/models/translation/translatable.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:otloha_sah_flutter/data_source/models/recitations/recitation.dart';
 import 'package:otloha_sah_flutter/data_source/models/user/user.dart';
+
+import '../../../../core/design_system/components/cards/app_card.dart';
+import '../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../core/design_system/tokens/app_radius.dart';
+import '../../../../core/design_system/tokens/app_shadows.dart';
+import '../../../../core/design_system/tokens/app_spacing.dart';
+import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/widgets/cached_image.dart';
 import '../../../../core/widgets/warnings_and_alerts/warning.dart';
 import '../../../../data_source/models/progress/statistics_model.dart';
 import '../../../../data_source/remote/progress_service.dart';
+import '../../../auth_module/business_logic/auth_cubit.dart';
+import '../../../auth_module/presentation/pages/onboard_page.dart';
 import '../../../home/business_logic/cubit/home_cubit.dart';
+import '../../../settings/presentation/pages/settings/about_us_page.dart';
+import '../../../settings/presentation/pages/settings/contact_us_page.dart';
+import '../../../settings/presentation/pages/settings/how_it_works_page.dart';
+import '../../../users/presentation/pages/honor_board.dart';
 import '../../business_logic/profile_pic_cubit/profile_page_cubit.dart';
 import '../page/profile_settings.dart';
 import '../../../recitations/presentation/widget/recitation_item.dart';
@@ -26,7 +39,6 @@ class ProfilePage extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-      // width: double.infinity,
       child: Column(
         children: [
           if (SplashCubit.missedNarrationCertification != null && user == null)
@@ -57,45 +69,118 @@ class ProfilePage extends StatelessWidget {
           ProfileBody(
             user: user ?? ProfilePageCubit.get(context).currentUserProfile!,
           ),
-          // SizedBox(
-          //   height: 50,
-          //   child: AppBar(
-          //     elevation: 0,
-          //     backgroundColor: Colors.transparent,
-          //     titleTextStyle: TextStyle(color: AppColor.headTextColor),
-          //     bottom: TabBar(
-          //       labelColor: AppColor.headTextColor,
-          //       tabs: [
-          //         Tab(text: translate('accepted')),
-          //         Tab(text: translate('special')),
-          //         Tab(text: translate('rejected')),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          ProfilePageCubit.get(context).isRecitationsLocked
-              ? Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.lock,
-                        size: 100,
-                        color: AppColor.headTextColor,
-                      ),
-                      Center(
-                        child: Text(
-                          translate('recitations_locked'),
-                          style: TextStyle(
-                            color: AppColor.headTextColor,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                    ],
+          const SizedBox(height: AppSpacing.md),
+
+          // User Menu Hub Section
+          Expanded(
+            child: ListView(
+              children: [
+                _buildUserHubItem(
+                  context,
+                  icon: Icons.person_outline_rounded,
+                  title: 'تعديل الملف الشخصي',
+                  onTap: () => Get.to(() => ProfileSettings()),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                _buildUserHubItem(
+                  context,
+                  icon: Icons.military_tech_rounded,
+                  title: 'لوحة الشرف والأوسمة',
+                  onTap: () => Get.to(() => const HonorBoardPage(type: 'student')),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                _buildUserHubItem(
+                  context,
+                  icon: Icons.help_outline_rounded,
+                  title: 'كيف يعمل التطبيق',
+                  onTap: () => Get.to(() => const HowItWorksPage()),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                _buildUserHubItem(
+                  context,
+                  icon: Icons.support_agent_rounded,
+                  title: 'التواصل والدعم الفني',
+                  onTap: () => Get.to(() => const ContactUsPage()),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                _buildUserHubItem(
+                  context,
+                  icon: Icons.info_outline_rounded,
+                  title: 'عن تطبيق اتلوها صح والأوقاف',
+                  onTap: () => Get.to(() => const AboutUsPage()),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                if (SplashCubit.isLogin)
+                  _buildUserHubItem(
+                    context,
+                    icon: Icons.logout_rounded,
+                    title: 'تسجيل الخروج',
+                    isDanger: true,
+                    onTap: () {
+                      AuthCubit.get(context).userLogOut();
+                    },
+                  )
+                else
+                  _buildUserHubItem(
+                    context,
+                    icon: Icons.login_rounded,
+                    title: 'تسجيل الدخول',
+                    onTap: () {
+                      Get.to(() => const OnBoardPage());
+                    },
                   ),
-                )
-              : const ProfileFooter()
+                const SizedBox(height: AppSpacing.lg),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserHubItem(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    bool isDanger = false,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return AppCard(
+      onTap: onTap,
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.xs + 2),
+            decoration: BoxDecoration(
+              color: isDanger
+                  ? AppColors.error.withOpacity(0.1)
+                  : AppColors.primary.withOpacity(0.1),
+              borderRadius: AppRadius.radiusSm,
+            ),
+            child: Icon(
+              icon,
+              color: isDanger ? AppColors.error : AppColors.primary,
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Text(
+              title,
+              style: AppTypography.bodyMedium(
+                color: isDanger
+                    ? AppColors.error
+                    : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
+              ).copyWith(fontWeight: FontWeight.w600),
+            ),
+          ),
+          Icon(
+            Icons.chevron_left_rounded,
+            color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+          ),
         ],
       ),
     );
@@ -110,7 +195,6 @@ class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // height: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -206,7 +290,6 @@ class ProfileBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // height: 150,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -251,7 +334,6 @@ class ProfileBody extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // if ()
               iconedData(Icons.calendar_month, user.birthdate ?? ''),
               iconedData(Icons.equalizer, user.level!),
               iconedData(Icons.phone, user.phone ?? ''),
@@ -274,73 +356,6 @@ class ProfileBody extends StatelessWidget {
               style: const TextStyle(color: AppColor.txtColor4),
             ),
           ],
-        ),
-      );
-}
-
-class ProfileFooter extends StatefulWidget {
-  const ProfileFooter({super.key, this.user});
-  final User? user;
-
-  @override
-  State<ProfileFooter> createState() => _ProfileFooterState();
-}
-
-class _ProfileFooterState extends State<ProfileFooter> {
-  int playedIndex = -1;
-  @override
-  Widget build(BuildContext context) {
-    List<Recitation> recitations =
-        ProfilePageCubit.get(context).recitations ?? [];
-    return Expanded(
-        child: recitations.isEmpty
-            ? Center(
-                child: Text(
-                  translate('no_recitations'),
-                  style: TextStyle(
-                    color: AppColor.headTextColor,
-                    fontSize: 20,
-                  ),
-                ),
-              )
-            : ListView.builder(
-                itemCount: recitations.length,
-                itemBuilder: (context, index) => RecitationItem(
-                  recitation: recitations[index],
-                  hasMenu: true,
-                  id: recitations[index].id ?? 0,
-                  // onLongPress: () => _onLongPressItem(index, recitations),
-                  isRead: false,
-                  // recordPath: recitations[index].record != null
-                  //     ? recitations[index].record!.record
-                  //     : '',
-                  // wavePath: recitations.records?.first.wave,
-                  ayah: recitations[index].name ?? '',
-                  // ayahInfo: _getAyahInfo(recitations),
-                  userName: recitations[index].owner!.fullname,
-                  dateStr: (recitations[index].createdAt != null)
-                      ? DateFormat('hh:mm dd MMM').format(
-                          DateTime.parse(recitations[index].createdAt ?? ''))
-                      : '',
-                  color: AppColor.transparent,
-                  isPlay: playedIndex == index,
-                  toggelPlay: () {
-                    setState(() {
-                      playedIndex = index;
-                    });
-                  },
-                  owner: recitations[index].owner,
-                  onPress: () {
-                    //  Get.to(RecitationDetailsPage(recitationId: recitations.id ?? 0));
-                  },
-                ),
-              ));
-  }
-
-  commingSoon(context) => Center(
-        child: Text(
-          tr('comming_soon'),
-          style: Theme.of(context).textTheme.titleMedium,
         ),
       );
 }

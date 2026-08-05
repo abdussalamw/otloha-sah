@@ -1,20 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:otloha_sah_flutter/data_source/models/user/user.dart';
-import '../../../../core/pagination/view/pagination_view.dart';
+
+import '../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../core/design_system/tokens/app_radius.dart';
+import '../../../../core/design_system/tokens/app_shadows.dart';
+import '../../../../core/design_system/tokens/app_spacing.dart';
+import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/error/exceptions.dart';
+import '../../../../core/exception_indicators/error_indicator.dart';
+import '../../../../core/pagination/view/pagination_view.dart';
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/widgets/tool_bar_app.dart';
 import '../../../auth_module/presentation/pages/login_page.dart';
 import '../../../profile/presentation/page/profile_bnb_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../business_logic/cubit/teacherviewtype_cubit.dart';
 import '../widgets/item_teacher.dart';
-import 'package:get/get.dart';
-
-import '../../../../core/exception_indicators/error_indicator.dart';
 
 class TeacherPage extends StatefulWidget {
   static const routeName = '/teacher';
@@ -42,7 +46,10 @@ class _TeacherPageState extends State<TeacherPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       body: SafeArea(
         child: BlocBuilder<TeacherviewtypeCubit, TeacherviewtypeState>(
           builder: (context, state) {
@@ -79,8 +86,10 @@ class _TeacherPageState extends State<TeacherPage> {
 
   Expanded _viewItems() {
     return Expanded(
-      child:
-          Padding(padding: const EdgeInsets.all(8.0), child: _showData(_type)),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: _showData(_type),
+      ),
     );
   }
 
@@ -97,17 +106,13 @@ class _TeacherPageState extends State<TeacherPage> {
           userId:
               '${results.teacherProfile?.teacherType ?? ''} ${tr('Teacher')}',
           userbio: results.bio,
-          //     'bio of teacher bio of teacher bio of teacher bio of teacher bio of teacher ',
           action: () {
-            Get.to(
-              () => ProfileBNBPage(user: results),
-            );
+            Get.to(() => ProfileBNBPage(user: results));
           },
           typeView: _type,
           isCertified: results.teacherProfile?.isCertified ?? false,
           isFav: cubit.selected == results.id,
           userImg: results.profileImage ?? '',
-          //  results: results,
           setFav: () {
             teacherViewCubit.markAsFavTeacher(
               id: results.id,
@@ -130,20 +135,14 @@ class _TeacherPageState extends State<TeacherPage> {
           rate: '${results.rate ?? ''}',
           userId: tr((results.teacherProfile?.teacherType ?? '')),
           userbio: results.bio,
-          // 'Irure sint sint aute velit amet.Eu do Lorem nisi nulla excepteur esse eu est dolor esse tempor.',
           action: () {
-            Get.to(
-              () => ProfileBNBPage(
-                user: results,
-              ),
-            );
+            Get.to(() => ProfileBNBPage(user: results));
           },
           typeView: _type,
           isCertified:
               results.teacherProfile?.certifications?.isNotEmpty ?? false,
           isFav: cubit.selected == results.id,
           userImg: results.profileImage ?? '',
-          //  results: results,
           setFav: () {
             teacherViewCubit.markAsFavTeacher(
               id: results.id,
@@ -159,13 +158,13 @@ class _TeacherPageState extends State<TeacherPage> {
   Widget _topView() {
     return ToolBarApp(
       backIcon: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
+        icon: const Icon(Icons.arrow_back_ios_new_rounded),
         onPressed: () {
           Navigator.of(context).pop();
         },
       ),
       actionIcon: IconButton(
-        icon: Icon(_type ? Icons.grid_view : Icons.list),
+        icon: Icon(_type ? Icons.grid_view_rounded : Icons.view_list_rounded),
         onPressed: () {
           BlocProvider.of<TeacherviewtypeCubit>(context).changeType(!_type);
         },
@@ -176,7 +175,6 @@ class _TeacherPageState extends State<TeacherPage> {
 
   _viewDate(TeacherviewtypeState state, TeacherviewtypeCubit cubit) {
     if (state is TeacherLoadingState) {
-      //return _viewItems();
       return const Expanded(
         child: Center(
           child: CircularProgressIndicator(),
@@ -191,19 +189,14 @@ class _TeacherPageState extends State<TeacherPage> {
       } else {
         return const Expanded(child: ErrorIndicator(error: EmptyListException));
       }
-    } else if (state is TeacherErrorState) {
-      return Expanded(
-          child: ErrorIndicator(
-        error: state.error,
-      ));
     }
     if (state is NoAuthState) {
       Future.delayed(const Duration(seconds: 1), () {
         Navigator.of(context).pushReplacementNamed(LoginPage.routeName);
       });
     }
-    return Expanded(
-      child: const Center(
+    return const Expanded(
+      child: Center(
         child: CircularProgressIndicator(),
       ),
     );

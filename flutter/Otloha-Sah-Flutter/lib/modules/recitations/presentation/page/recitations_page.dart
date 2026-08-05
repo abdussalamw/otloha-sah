@@ -1,25 +1,27 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:otloha_sah_flutter/data_source/models/recitations/recitation.dart';
+
+import '../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../core/design_system/tokens/app_radius.dart';
+import '../../../../core/design_system/tokens/app_shadows.dart';
+import '../../../../core/design_system/tokens/app_spacing.dart';
+import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/error/exceptions.dart';
+import '../../../../core/exception_indicators/error_indicator.dart';
 import '../../../../core/pagination/view/pagination_view.dart';
 import '../../../../core/utils/constant/utils.dart';
-import '../../../../core/utils/themes/color.dart';
-import '../../../../core/widgets/text_view.dart';
 import '../../../../data_source/local/database/database_repository.dart';
 import '../../../../data_source/user_services_data.dart';
 import '../../../auth_module/presentation/pages/login_page.dart';
 import '../../business_logic/cubit/popup_action_cubit.dart';
 import '../../business_logic/cubit/popup_actions_state.dart';
-import '../widget/recitation_item.dart';
-import '../../../settings/presentation/widgets/search_bar_app.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-
-import '../../../../core/exception_indicators/error_indicator.dart';
 import '../../business_logic/cubit/userrecitation_cubit.dart';
 import '../widget/popup_recitation.dart';
+import '../widget/recitation_item.dart';
 
 class RecitationsPage extends StatefulWidget {
   const RecitationsPage({super.key});
@@ -48,35 +50,43 @@ class _RecitationsPageState extends State<RecitationsPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return WillPopScope(
       onWillPop: () async {
         if (cubit.indexPlay != -2) {
           cubit.setIndexPlay(-2);
           return false;
         } else {
-          // cubit?.reset();
           return true;
         }
       },
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
+          backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
           appBar: AppBar(
+            backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+            elevation: 0.5,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: AppColor.userNameColor),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              icon: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-            title: TextView(
-              text: translate('my_records'),
-              colorText: AppColor.txtColor3,
-              weightText: FontWeight.bold,
+            title: Text(
+              translate('my_records'),
+              style: AppTypography.h3Bold(
+                color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+              ),
             ),
-            elevation: 0.0,
-            backgroundColor: AppColor.transparent,
             bottom: TabBar(
-              labelColor: AppColor.headTextColor,
+              indicatorColor: AppColors.primary,
+              labelColor: AppColors.primary,
+              unselectedLabelColor: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+              labelStyle: AppTypography.buttonStyle().copyWith(fontWeight: FontWeight.bold),
               tabs: [
                 Tab(text: translate('sent')),
                 Tab(text: translate('unsent')),
@@ -86,7 +96,6 @@ class _RecitationsPageState extends State<RecitationsPage>
           body: SafeArea(
             child: TabBarView(
               children: [
-                // _topView(),
                 sentRecitations(),
                 unsentRecitations(),
               ],
@@ -102,25 +111,11 @@ class _RecitationsPageState extends State<RecitationsPage>
       builder: (context, state) {
         if (state is AuthErrorState) {
           Future.microtask(
-            () =>
-                Navigator.of(context).pushReplacementNamed(LoginPage.routeName),
+            () => Navigator.of(context).pushReplacementNamed(LoginPage.routeName),
           );
         }
 
         return _showSentData();
-
-        if (state is UserRecitationFetched ||
-            state is ChangeIndexState ||
-            state is RemoveUserRecitationState) {
-          return _showSentData();
-        }
-        if (state is UserRecitationError) {
-          return Center(child: ErrorIndicator(error: state.error));
-        }
-        // if (state is UserRecitationLoading || state is UserRecitationInitial) {
-        // }/
-        return const Center(child: CircularProgressIndicator());
-        // return ErrorIndicator(error: SomeThingWentWrong());
       },
     );
   }
@@ -130,8 +125,7 @@ class _RecitationsPageState extends State<RecitationsPage>
       builder: (context, state) {
         if (state is AuthErrorState) {
           Future.microtask(
-            () =>
-                Navigator.of(context).pushReplacementNamed(LoginPage.routeName),
+            () => Navigator.of(context).pushReplacementNamed(LoginPage.routeName),
           );
         }
 
@@ -146,12 +140,8 @@ class _RecitationsPageState extends State<RecitationsPage>
             return _showUnsentData();
           }
           return Center(child: ErrorIndicator(error: state.error));
-          // print(state.error);
         }
-        // if (state is UserRecitationLoading || state is UserRecitationInitial) {
-        // }
         return const Center(child: CircularProgressIndicator());
-        // return ErrorIndicator(error: SomeThingWentWrong());
       },
     );
   }
@@ -159,13 +149,13 @@ class _RecitationsPageState extends State<RecitationsPage>
   _showSavedSent() {
     return cubit.userRecitatios.isEmpty
         ? Center(
-            child: TextView(
-              text: translate('no_records'),
-              colorText: AppColor.txtColor3,
-              weightText: FontWeight.bold,
+            child: Text(
+              translate('no_records'),
+              style: AppTypography.bodyLarge().copyWith(fontWeight: FontWeight.bold),
             ),
           )
         : ListView.builder(
+            padding: const EdgeInsets.all(AppSpacing.sm),
             itemCount: cubit.userRecitatios.length,
             itemBuilder: (context, index) {
               return RecitationItem(
@@ -194,7 +184,6 @@ class _RecitationsPageState extends State<RecitationsPage>
                         });
                       },
                       onAddToGeneral: (recitation) {
-                        print('local recitation $recitation');
                         if (recitation != null) {
                           setState(() {
                             cubit.userRecitatios.removeAt(index);
@@ -215,25 +204,15 @@ class _RecitationsPageState extends State<RecitationsPage>
                 },
                 isRead: false,
                 recordPath: cubit.userRecitatios[index].localRecord ?? '',
-                // wavePath: recitations.records?.first.wave,
                 ayah: cubit.userRecitatios[index].name ?? '',
-
-                // ayahInfo: _getAyahInfo(recitations),
                 userName: UserDataServices.instance.getUserDataFast()?.fullname ?? '',
-                // dateStr: (recitations.finishedAt != null)
-                //     ? DateFormat('hh:mm dd MMM')
-                //         .format(DateTime.parse(recitations.finishedAt ?? ''))
-                //     : null,
-                color: AppColor.transparent,
+                color: Colors.transparent,
                 isLocal: true,
-
                 isPlay: cubit.indexPlay == index,
                 toggelPlay: () {
                   cubit.setIndexPlay(index);
                 },
-                onPress: () {
-                  //  Get.to(RecitationDetailsPage(recitationId: recitations.id ?? 0));
-                },
+                onPress: () {},
                 dateStr: cubit.userRecitatios[index].createdAt ?? '',
               );
             },
@@ -243,13 +222,13 @@ class _RecitationsPageState extends State<RecitationsPage>
   _showUnsentData() {
     return cubit.localUserRecitations.isEmpty
         ? Center(
-            child: TextView(
-              text: translate('no_records'),
-              colorText: AppColor.txtColor3,
-              weightText: FontWeight.bold,
+            child: Text(
+              translate('no_records'),
+              style: AppTypography.bodyLarge().copyWith(fontWeight: FontWeight.bold),
             ),
           )
         : ListView.builder(
+            padding: const EdgeInsets.all(AppSpacing.sm),
             itemCount: cubit.localUserRecitations.length,
             itemBuilder: (context, index) {
               return RecitationItem(
@@ -296,24 +275,15 @@ class _RecitationsPageState extends State<RecitationsPage>
                 },
                 isRead: false,
                 recordPath: cubit.localUserRecitations[index].record,
-                // wavePath: recitations.records?.first.wave,
                 ayah: cubit.localUserRecitations[index].name,
-                // ayahInfo: _getAyahInfo(recitations),
                 userName: UserDataServices.instance.getUserDataFast()?.fullname ?? '',
-                // dateStr: (recitations.finishedAt != null)
-                //     ? DateFormat('hh:mm dd MMM')
-                //         .format(DateTime.parse(recitations.finishedAt ?? ''))
-                //     : null,
-                color: AppColor.transparent,
+                color: Colors.transparent,
                 isLocal: true,
-
                 isPlay: cubit.indexPlay == index,
                 toggelPlay: () {
                   cubit.setIndexPlay(index);
                 },
-                onPress: () {
-                  //  Get.to(RecitationDetailsPage(recitationId: recitations.id ?? 0));
-                },
+                onPress: () {},
                 dateStr: '',
               );
             },
@@ -324,7 +294,7 @@ class _RecitationsPageState extends State<RecitationsPage>
     return BlocBuilder<PopupActionsCubit, PopupActionsState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(AppSpacing.sm),
           child: cubit.isLocal
               ? _showSavedSent()
               : PaginationData<Recitation>(
@@ -346,18 +316,6 @@ class _RecitationsPageState extends State<RecitationsPage>
     );
   }
 
-  Widget _topView() {
-    return SearchBarApp(
-      backIcon: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-      title: translate('my_records'),
-    );
-  }
-
   Widget _getItem(Recitation recitations, int index, bool isLocal) {
     return RecitationItem(
       recitation: recitations,
@@ -365,9 +323,6 @@ class _RecitationsPageState extends State<RecitationsPage>
       id: recitations.id,
       onLongPress: () => _onLongPressItem(index, recitations),
       isRead: false,
-      // recordPath: recitations.localRecord ??
-      //     (recitations.record != null ? recitations.record!.record : ''),
-      // wavePath: recitations.records?.first.wave,
       ayah: recitations.name ?? '',
       ayahInfo: _getAyahInfo(recitations),
       userName: recitations.owner!.fullname,
@@ -375,21 +330,18 @@ class _RecitationsPageState extends State<RecitationsPage>
           ? DateFormat('hh:mm dd MMM')
               .format(DateTime.parse(recitations.createdAt ?? ''))
           : '',
-      color: AppColor.transparent,
+      color: Colors.transparent,
       isPlay: cubit.indexPlay == index,
       owner: recitations.owner,
       toggelPlay: () {
         cubit.setIndexPlay(index);
       },
       isLocal: isLocal,
-      onPress: () {
-        //  Get.to(RecitationDetailsPage(recitationId: recitations.id ?? 0));
-      },
+      onPress: () {},
     );
   }
 
   _getAyahInfo(Recitation results) {
-    //${translate('Sourah')}
     return '';
   }
 
@@ -435,10 +387,6 @@ class _RecitationsPageState extends State<RecitationsPage>
         recitation: results,
       ),
     );
-    tr('from verse') +
-        results.verseIds![0].toString() +
-        tr('to verse') +
-        results.verseIds![results.verseIds!.length - 1].toString();
   }
 
   @override

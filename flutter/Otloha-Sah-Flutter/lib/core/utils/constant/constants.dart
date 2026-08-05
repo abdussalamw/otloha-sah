@@ -2,7 +2,7 @@ import 'package:quran_widget_flutter/network_helper/apis.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Constants {
-  static const String fontFamily1 = 'Cairo';
+  static const String fontFamily1 = 'Beiruti';
   static const String fontFamily2 = 'ElMessiri';
   static const String fontFamily3 = 'Hafs20';
 

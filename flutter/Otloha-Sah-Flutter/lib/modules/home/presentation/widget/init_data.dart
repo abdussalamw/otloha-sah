@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:quran_widget_flutter/quran_widget_flutter.dart';
+import 'package:otloha_sah_flutter/modules/kahtma/presentation/pages/katama_comming_soon_page.dart';
+import 'package:otloha_sah_flutter/modules/messages/presentation_v2/pages/corrected_recitations_page.dart';
+import 'package:otloha_sah_flutter/modules/tajweed/presentation/pages/levels_page.dart';
 import 'package:otloha_sah_flutter/modules/users/presentation/pages/users_listing.dart';
 import '../../../../app_router.dart';
 import '../../../../core/utils/res/svg_app.dart';
@@ -47,48 +51,6 @@ class SubSectionDataTeacher {
       image: AppSVG.teacherRecitations,
       action: Routes.messageTeacher,
     ),
-    // SubSectionItem(
-    //   title: translate('Teachers'),
-    //   image: AppSVG.teachers,
-    //   subTitle: _user(),
-    //   action: TeacherPage.routeName,
-    // ),
-    // SubSectionItem(
-    //   title: translate('Students'),
-    //   image: AppSVG.students,
-    //   action: StudentsPage.routeName,
-    // ),
-    // SubSectionItem(
-    //   title: translate('Translation'),
-    //   image: AppIcons.languageIcon,
-    //   isPng: true,
-    //   subTitle: QuranCacheRepository.quranTranslationSelectedName ?? '',
-    //   action2: (context) {
-    //     BlocProvider.of<QuranViewCubit>(context)
-    //         .changePluginPageType(page: PageType.translation)
-    //         .then((value) => BlocProvider.of<HomeCubit>(context).changeIndex(1));
-    //   },
-    // ),
-    // SubSectionItem(
-    //   title: translate('Tafsir'),
-    //   image: AppSVG.tafsir,
-    //   subTitle: QuranCacheRepository.tafsirSelectedName ?? '',
-    //   action2: (context) {
-    //     BlocProvider.of<QuranViewCubit>(context)
-    //         .changePluginPageType(page: PageType.tafsir)
-    //         .then((value) => BlocProvider.of<HomeCubit>(context).changeIndex(1));
-    //   },
-    // ),
-    // SubSectionItem(
-    //   title: translate('Tajweed'),
-    //   image: AppSVG.tajweed,
-    //   subTitle: QuranCacheRepository.selectedTajweedName ?? '',
-    //   action2: (context) {
-    //     BlocProvider.of<QuranViewCubit>(context)
-    //         .changePluginPageType(page: PageType.tajwid)
-    //         .then((value) => BlocProvider.of<HomeCubit>(context).changeIndex(1));
-    //   },
-    // ),
     SubSectionItem(
       title: translate('Note'),
       image: AppSVG.note,
@@ -107,7 +69,6 @@ class SubSectionDataTeacher {
       title: translate('BookMarks'),
       image: AppSVG.bookmark,
       action2: (context) {
-        //Get.to(const PagesBookMarkPage());
         Navigator.of(context)
             .pushNamed(PagesBookMarkPage.routeName, arguments: 2);
       },
@@ -137,43 +98,6 @@ class SubSectionDataStudents {
       image: AppSVG.special,
       action: Routes.messageMarkable,
     ),
-    // SubSectionItem(
-    //   title: translate('Teachers'),
-    //   image: AppSVG.teachers,
-    //   subTitle: _user(),
-    //   action: TeacherPage.routeName,
-    // ),
-    // SubSectionItem(
-    //   title: translate('Translation'),
-    //   image: AppIcons.languageIcon,
-    //   isPng: true,
-    //   subTitle: QuranCacheRepository.quranTranslationSelectedName ?? '',
-    //   action2: (context) {
-    //     BlocProvider.of<QuranViewCubit>(context)
-    //         .changePluginPageType(page: PageType.translation)
-    //         .then((value) => BlocProvider.of<HomeCubit>(context).changeIndex(1));
-    //   },
-    // ),
-    // SubSectionItem(
-    //   title: translate('Tafsir'),
-    //   image: AppSVG.tafsir,
-    //   subTitle: QuranCacheRepository.tafsirSelectedName ?? '',
-    //   action2: (context) {
-    //     BlocProvider.of<QuranViewCubit>(context)
-    //         .changePluginPageType(page: PageType.tafsir)
-    //         .then((value) => BlocProvider.of<HomeCubit>(context).changeIndex(1));
-    //   },
-    // ),
-    // SubSectionItem(
-    //   title: translate('Tajweed'),
-    //   image: AppSVG.tajweed,
-    //   subTitle: QuranCacheRepository.selectedTajweedName ?? '',
-    //   action2: (context) {
-    //     BlocProvider.of<QuranViewCubit>(context)
-    //         .changePluginPageType(page: PageType.tajwid)
-    //         .then((value) => BlocProvider.of<HomeCubit>(context).changeIndex(1));
-    //   },
-    // ),
     SubSectionItem(
       title: translate('Note'),
       image: AppSVG.note,
@@ -192,7 +116,6 @@ class SubSectionDataStudents {
       title: translate('BookMarks'),
       image: AppSVG.bookmark,
       action2: (context) {
-        //Get.to(const PagesBookMarkPage());
         Navigator.of(context)
             .pushNamed(PagesBookMarkPage.routeName, arguments: 2);
       },
@@ -201,6 +124,7 @@ class SubSectionDataStudents {
 }
 
 class HomeMenuItems {
+  // Quran page is positioned as the exact CENTER (middle) item in the bottom bar (Index 2)
   List<BottomBarData> homeMenuItems = [
     BottomBarData(
       title: translate('Home'),
@@ -210,34 +134,41 @@ class HomeMenuItems {
       page: const HomeBNBPage(),
     ),
     BottomBarData(
+      title: translate('CorrectedRecitations'),
+      iconData: AppSVG.recitations,
+      activeIconData: AppSVG.recitations,
+      isSVG: true,
+      badgeColor: AppColor.bottomMenu,
+      page: const CorrectedRecitationsPage(),
+    ),
+    BottomBarData(
       title: translate('Quran'),
       iconData: AppSVG.quranBNB,
       activeIconData: AppSVG.quranSelect,
       badgeColor: AppColor.bottomSaved,
       isSVG: true,
-      page: QuranBNBPage(),
+      page: const QuranBNBPage(),
     ),
     BottomBarData(
-      title: translate('Search'),
-      iconData: AppSVG.search,
-      activeIconData: AppSVG.search,
+      title: translate('Tafsir'),
+      iconData: AppSVG.chapter,
+      activeIconData: AppSVG.chapter,
       isSVG: true,
       badgeColor: AppColor.bottomMenu,
-      page: const SearchBNBPage(),
+      page: const QuranBNBPage(initialPageType: PageType.tafsir),
     ),
     BottomBarData(
-      title: translate('Users'),
-      iconData: AppSVG.users,
-      activeIconData: AppSVG.users,
+      title: translate('Tajweed'),
+      iconData: AppSVG.special,
+      activeIconData: AppSVG.special,
       isSVG: true,
       badgeColor: AppColor.bottomMenu,
-      page: const UsersListing(),
+      page: TajweedLevelsPage(),
     ),
   ];
 }
 
 String? _user() {
   String? teacherName = UserDataServices.instance.teacherName;
-
   return teacherName;
 }

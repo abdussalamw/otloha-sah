@@ -181,3 +181,7 @@ flutter:
     - family: Warsh
       fonts:
         - asset: assets/fonts/UthmanicWarsh_V21.ttf
+
+    - family: Beiruti
+      fonts:
+        - asset: assets/fonts/Beiruti-VariableFont_wght.ttf

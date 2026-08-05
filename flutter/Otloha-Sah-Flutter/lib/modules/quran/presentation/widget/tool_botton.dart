@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:quran_widget_flutter/model/verse.dart';
+import 'package:quran_widget_flutter/quran_widget_flutter.dart';
 
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/utils/res/svg_app.dart';
@@ -109,11 +110,6 @@ class _ToolBottonState extends State<ToolBotton> {
                           await cubitRecitation.init(
                               context, cubit.changeIsRecordedFile);
                           cubit.changeIsRecorded();
-                          // if (await RecordServiceApp.isHasPermission(context)) {
-                          //   await cubit.changeIsRecorded();
-                          //   await cubitRecitation
-                          //       .start(cubit.changeIsRecordedFile);
-                          // }
                         },
                         child: SvgPicture.asset(
                           AppSVG.mic,
@@ -199,31 +195,17 @@ class _ToolBottonState extends State<ToolBotton> {
                       size: sizeIcon,
                     ),
                   ),
-                  // GestureDetector(
-                  //   onTap: () {},
-                  //   child: Image.asset(
-                  //     AppIcons.languageIcon,
-                  //     color: AppColor.white,
-                  //     width: 30,
-                  //   ),
-                  // ),
-                  // GestureDetector(
-                  //   onTap: () {},
-                  //   child: SvgPicture.asset(
-                  //     AppSVG.recitations,
-                  //     color: AppColor.white,
-                  //     width: 30,
-                  //   ),
-                  // ),
-                  // GestureDetector(
-                  //   onTap: () {},
-                  //   child: SvgPicture.asset(
-                  //     AppSVG.tafsir,
-                  //     color: AppColor.white,
-                  //     width: 30,
-                  //     height: 30,
-                  //   ),
-                  // ),
+                  GestureDetector(
+                    onTap: () {
+                      cubit.changePageType(page: PageType.tafsir);
+                    },
+                    child: SvgPicture.asset(
+                      AppSVG.tafsir,
+                      color: AppColor.white,
+                      width: sizeIcon,
+                      height: sizeIcon,
+                    ),
+                  ),
                   /*  
                         GestureDetector(
                           onTap: () {},

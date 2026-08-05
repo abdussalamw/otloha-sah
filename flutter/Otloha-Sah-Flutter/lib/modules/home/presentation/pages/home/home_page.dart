@@ -15,7 +15,6 @@ import '../../../../settings/business_logic/themes/theme_cubit.dart';
 import 'package:quran_widget_flutter/quran_widget_flutter.dart';
 
 import '../../../../auth_module/presentation/pages/onboard_page.dart';
-import 'package:otloha_sah_flutter/core/utils/services/navigator_service.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -27,7 +26,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _index = 0;
+  // Default landing tab index is set to 2 (QuranBNBPage - المصحف الشريف في المنتصف)
+  int _index = 2;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                   'Congratulations, Now you can head to Corrected Recitations tab and begin to record chapter Al-Fatihah'),
               buttonText: translate('Start Learning'),
               onTap: () {
-                HomeCubit.get(context).changeIndex(1);
+                HomeCubit.get(context).changeIndex(2);
                 Navigator.pop(context);
               },
             );
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
       HomeCubit.get(context).getUnseenCount();
     });
     Future.microtask(() => BlocProvider.of<HomeCubit>(context).changeIndex(
-        (ModalRoute.of(context)!.settings.arguments as int?) ?? 0));
+        (ModalRoute.of(context)!.settings.arguments as int?) ?? 2));
     Future.microtask(() => BlocProvider.of<HomeCubit>(context).getUserData());
   }
 
@@ -81,8 +81,8 @@ class _HomePageState extends State<HomePage> {
                   QuranViewCubit.get(context).changeFalseFloating();
                   return false;
                 }
-                if (_index > 0) {
-                  cubit.changeIndex(0);
+                if (_index != 2) {
+                  cubit.changeIndex(2);
                   return false;
                 } else if (!HomeCubit.get(context).isExit) {
                   HomeCubit.get(context).setExit(true);
@@ -117,22 +117,11 @@ class _HomePageState extends State<HomePage> {
                           }
 
                           return BubbleBottomBarApp(
-                            onItemTapped: (int? index) {
-                              _changePage(index).then((value) {
-                                Future.delayed(
-                                  const Duration(milliseconds: 50),
-                                  () {
-                                    if (index == 1) {
-                                      BlocProvider.of<QuranViewCubit>(context)
-                                          .changePluginPageType(
-                                              page: PageType.quran);
-                                    }
-                                  },
-                                );
-                              });
-                            },
                             selectedIndex: _index,
                             items: HomeMenuItems().homeMenuItems,
+                            onItemTapped: (int? index) {
+                              cubit.changeIndex(index ?? 2);
+                            },
                           );
                         },
                       ),
@@ -145,25 +134,5 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
-  }
-
-  Future _changePage(index) async {
-    if (index == 3 && !SplashCubit.isLogin) {
-      showDialog(
-        context: context,
-        builder: (_) => AlertPopup(
-          alertType: AlertType.warning,
-          title: translate('login'),
-          message: translate('Please login to continue'),
-          buttonText: translate('login'),
-          onTap: () {
-            Navigator.pop(context);
-            NavigationService().navigateTo(OnBoardPage.routeName);
-          },
-        ),
-      );
-      return;
-    }
-    BlocProvider.of<HomeCubit>(context).changeIndex(index ?? 0);
   }
 }

@@ -1,12 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:otloha_sah_flutter/core/design_system/components/cards/app_card.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_colors.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_radius.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_spacing.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_typography.dart';
 import 'package:otloha_sah_flutter/data_source/models/tajweed/timeslot.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/business_logic/level_card_cubit/level_card_cubit.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/business_logic/timeslot_cubit/timeslot_cubit.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/presentation/widgets/exam_reservation_bottom_sheet.dart';
+import 'package:otloha_sah_flutter/data_source/user_services_data.dart';
+import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/onboard_page.dart';
 
 class TimeSlotCard extends StatelessWidget {
   final TimeSlot timeSlot;
@@ -18,6 +24,8 @@ class TimeSlotCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return BlocProvider(
       create: (context) => TimeslotCubit(timeSlot, false),
       child: BlocBuilder<TimeslotCubit, TimeSlotState>(
@@ -33,105 +41,113 @@ class TimeSlotCard extends StatelessWidget {
           DateTime timeTo =
               DateTime.parse('${state.timeSlot.date} ${state.timeSlot.timeTo}');
 
-          return Card(
-            margin:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-            elevation: 8.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
+          return Padding(
+            padding: const EdgeInsets.only(bottom: AppSpacing.md),
+            child: AppCard(
+              padding: const EdgeInsets.all(AppSpacing.md),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.calendar_today, color: Colors.blue),
-                      SizedBox(width: 8.0),
+                      Container(
+                        padding: const EdgeInsets.all(AppSpacing.xs),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withOpacity(0.12),
+                          borderRadius: AppRadius.radiusSm,
+                        ),
+                        child: const Icon(Icons.calendar_today_rounded, color: AppColors.primary, size: 20),
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
                       Text(
                         dateFormatter.format(date),
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue),
+                        style: AppTypography.h3Bold(
+                          color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: AppSpacing.xs),
                   Row(
                     children: [
-                      Icon(Icons.access_time, color: Colors.grey[600]),
-                      SizedBox(width: 8.0),
+                      Icon(
+                        Icons.access_time_rounded,
+                        color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                        size: 18,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
                       Text(
                         '${timeFormatter.format(timeFrom)} - ${timeFormatter.format(timeTo)}',
-                        style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+                        style: AppTypography.bodySmall(
+                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                        ),
                       ),
                     ],
                   ),
-                  Divider(height: 20.0, thickness: 1.0),
+                  const SizedBox(height: AppSpacing.xs),
+                  const Divider(height: 1),
+                  const SizedBox(height: AppSpacing.xs),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _buildSlotInfo(context, tr('Available Slots'),
-                          state.timeSlot.availableSlots, Colors.green),
-                      _buildSlotInfo(context, tr('Remaining Slots'),
-                          state.timeSlot.remainingSlots, Colors.orange),
-                      _buildSlotInfo(context, tr('Reserved Slots'),
-                          state.timeSlot.reservedSlots, Colors.red),
+                      _buildSlotInfo(tr('المجموع'), state.timeSlot.availableSlots, AppColors.info, isDark),
+                      _buildSlotInfo(tr('المتبقي'), state.timeSlot.remainingSlots, AppColors.warning, isDark),
+                      _buildSlotInfo(tr('المحجوز'), state.timeSlot.reservedSlots, AppColors.error, isDark),
                     ],
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: AppSpacing.md),
                   Center(
                     child: state.isReserved
                         ? Column(
                             children: [
-                              Text(
-                                tr('Reserved'),
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.green),
-                              ),
-                              const SizedBox(height: 8.0),
-                              ElevatedButton(
-                                onPressed: () {
-                                  context
-                                      .read<TimeslotCubit>()
-                                      .cancelReservation();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 30.0, vertical: 15.0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(20.0)),
-                                  backgroundColor: Colors.red,
-                                  textStyle: const TextStyle(fontSize: 16),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: AppColors.success.withOpacity(0.15),
+                                  borderRadius: AppRadius.radiusFull,
                                 ),
                                 child: Text(
-                                  tr('Cancel'),
-                                  style: TextStyle(color: Colors.white),
+                                  tr('محجوز بنجاح'),
+                                  style: AppTypography.bodyMedium(color: AppColors.success).copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                              ),
+                              const SizedBox(height: AppSpacing.xs),
+                              OutlinedButton(
+                                onPressed: () => context.read<TimeslotCubit>().cancelReservation(),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: AppColors.error,
+                                  side: const BorderSide(color: AppColors.error),
+                                  shape: RoundedRectangleBorder(borderRadius: AppRadius.radiusFull),
+                                ),
+                                child: Text(tr('إلغاء الحجز')),
                               ),
                             ],
                           )
-                        : ElevatedButton(
-                            onPressed: state.timeSlot.remainingSlots > 0
-                                ? () {
-                                    _showReserveBottomSheet(context);
-                                  }
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30.0, vertical: 15.0),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              backgroundColor: Colors.blue,
-                              textStyle: const TextStyle(fontSize: 16),
-                            ),
-                            child: Text(
-                              tr('Reserve'),
-                              style: const TextStyle(color: Colors.white),
+                        : SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: state.timeSlot.remainingSlots > 0
+                                  ? () {
+                                      if (UserDataServices.instance.getToken == null || UserDataServices.instance.getToken!.isEmpty) {
+                                        Navigator.of(context).pushNamed(OnBoardPage.routeName);
+                                      } else {
+                                        _showReserveBottomSheet(context);
+                                      }
+                                    }
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                                shape: RoundedRectangleBorder(borderRadius: AppRadius.radiusMd),
+                              ),
+                              child: Text(
+                                tr('حجز الموعد'),
+                                style: AppTypography.bodyMedium(color: Colors.white).copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                   ),
@@ -144,18 +160,19 @@ class TimeSlotCard extends StatelessWidget {
     );
   }
 
-  Widget _buildSlotInfo(
-      BuildContext context, String label, int count, Color color) {
+  Widget _buildSlotInfo(String label, int count, Color color, bool isDark) {
     return Column(
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 16, color: color),
+          style: AppTypography.bodySmall(color: color),
         ),
-        SizedBox(height: 4.0),
+        const SizedBox(height: 2),
         Text(
           '$count',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: AppTypography.h3Bold(
+            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+          ),
         ),
       ],
     );
@@ -165,33 +182,44 @@ class TimeSlotCard extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-      ),
+      backgroundColor: Colors.transparent,
       builder: (BuildContext cxt) {
-        return Padding(
+        final isDark = Theme.of(cxt).brightness == Brightness.dark;
+        return Container(
+          decoration: BoxDecoration(
+            color: isDark ? AppColors.cardDark : AppColors.cardLight,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
+          ),
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(cxt).viewInsets.bottom,
-            left: 16.0,
-            right: 16.0,
-            top: 16.0,
+            bottom: MediaQuery.of(cxt).viewInsets.bottom + AppSpacing.md,
+            left: AppSpacing.md,
+            right: AppSpacing.md,
+            top: AppSpacing.md,
           ),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(
-                  tr('Reserve Exam Slot'),
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                    borderRadius: AppRadius.radiusFull,
+                  ),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
+                  tr('حجز موعد الاختبار'),
+                  style: AppTypography.h2Bold(
+                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
                 ReservationBottomSheet(
                   onReserve: (String examType, String? notes) {
                     context.read<TimeslotCubit>().reserveSlot(
-                          (context.read<LevelCardCubit>().state
-                                  as LevelCardSelected)
-                              .tajweedLevel
-                              .id,
+                          (context.read<LevelCardCubit>().state as LevelCardSelected).tajweedLevel.id,
                           examType,
                           notes,
                         );

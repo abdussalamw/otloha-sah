@@ -34,6 +34,9 @@ abstract class ExplanationVerseDao {
   @Query('SELECT * FROM explanation_verse WHERE verse = :verse')
   Future<ExplanationVerse?> findExplanationVersesByVerse(int verse);
 
+  @Query('SELECT * FROM explanation_verse WHERE verse_number = :verseNumber AND chapter_number = :chapterNumber AND explanation = :explanationId LIMIT 1')
+  Future<ExplanationVerse?> findExplanationVersesByVerseNumberAndChapterAndExplanation(int verseNumber, int chapterNumber, int explanationId);
+
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertExplanationVerse(ExplanationVerse explanation);
 

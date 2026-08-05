@@ -47,7 +47,7 @@ class GenaralmessageCubit extends Cubit<GenaralmessageState> {
 
   fetchNextPage(int next) async {
     Response? response = await ApiBaseHelper().getHTTP(
-      '${Constants.baseUrl}/api/v1/recitations/?show_in_general=false',
+      '/api/v1/recitations/?show_in_general=true',
       queryParameters: {'page': next},
       dioTypes: DioTypes.authRequired,
     );

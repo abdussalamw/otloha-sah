@@ -34,9 +34,9 @@ class SplashCubit extends Cubit<SplashState> {
   static TeacherProfile? teacherProfile;
   static Narration? missedNarrationCertification;
   static bool isBlocked = false;
-  String titleProgress = 'Dawnloading...';
+  String titleProgress = '';
   double progress = 0;
-  String minAppVersion = '1.0.0';
+  String minAppVersion = '4.0.0';
 
   saveProfileImage(String url, int userId) async {
     var documentDirectory = await getApplicationDocumentsDirectory();
@@ -58,7 +58,6 @@ class SplashCubit extends Cubit<SplashState> {
 
       if (user != null) {
         await UserDataServices.instance.insertUser(user!);
-        // await UserDataServices.instance.updateUserData(user!);
       }
       if (user!.teacherProfile != null) {
         await CacheHelper.saveData(
@@ -96,29 +95,28 @@ class SplashCubit extends Cubit<SplashState> {
   getInitDate() async {
     emit(SplashInitial());
     emit(LoadingState());
+
     try {
       final response = await ApiBaseHelper().getHTTP('/api/v1/min-app-version/',
-          dioTypes: DioTypes.noAuthRequired);
+          dioTypes: DioTypes.noAuthRequired).timeout(const Duration(seconds: 2));
 
-      minAppVersion = response?.data['version'] ?? '1.0.0';
-      print('min aaaaaaaaaaaaaaap verssssssssssion $minAppVersion');
+      minAppVersion = response?.data['version'] ?? '4.0.0';
     } catch (e) {
-      print(e);
+      print('Min app version fetch skipped or timed out: $e');
     }
 
     try {
       await DataSource.instance.initialApp(
         clientId: Constants.clientId,
         clientSecret: Constants.clientSecret,
-      ).timeout(const Duration(seconds: 10));
-    } on NetworkConnectionExceptionOnTocken catch (e) {
-      ExceptionHandling.hanleToastFromException(e, fromPackage: true);
+        baseUrl: Constants.baseUrl,
+      ).timeout(const Duration(seconds: 3));
     } catch (e) {
       print('Timeout or error during initialApp: $e');
     }
 
     try {
-      await initCacheData().timeout(const Duration(seconds: 10));
+      await initCacheData().timeout(const Duration(seconds: 4));
     } catch (e) {
       print('Error/Timeout during splash initCacheData: $e');
     }
@@ -126,10 +124,10 @@ class SplashCubit extends Cubit<SplashState> {
     try {
       await DataSource.instance.loadQuranData();
       if (isLogin) {
-        await getUsersInfo().timeout(const Duration(seconds: 10));
+        await getUsersInfo().timeout(const Duration(seconds: 3));
 
         if (isLogin && !Platform.isIOS) {
-          await FirebaseService.instance.initNotifications();
+          FirebaseService.instance.initNotifications();
         }
       }
     } catch (e) {
@@ -278,6 +276,5 @@ class SplashCubit extends Cubit<SplashState> {
     isLogin = false;
     user = null;
     teacher = null;
-    // UserDataServices.instance.signOut();
   }
 }

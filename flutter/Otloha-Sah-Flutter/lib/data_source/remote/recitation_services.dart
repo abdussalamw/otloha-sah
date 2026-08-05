@@ -54,7 +54,7 @@ class UserRecitationApi {
           .deleteUserRecitation(userRecitation.id!);
       map.remove('records');
       await QueueManager(apiHandler: ApiBaseHelper()).addRequest(
-          '${Constants.baseUrl}/api/v1/recitations/',
+          '/api/v1/recitations/',
           map,
           {'records': userRecitation.record});
 
@@ -130,7 +130,7 @@ class UserRecitationApi {
 
   Future<List<GeneralResponse>?>? getGeneraBoXMessage() async {
     Response? response = await ApiBaseHelper().getHTTP(
-      '${Constants.baseUrl}/api/v1/recitations/?show_in_general=true',
+      '/api/v1/recitations/?show_in_general=true',
       dioTypes: DioTypes.authRequired,
     );
 
@@ -159,7 +159,7 @@ class UserRecitationApi {
 
   Future<List<Recitation>?>? getRecitation(String q) async {
     Response? response = await ApiBaseHelper().getHTTP(
-      '${Constants.baseUrl}/api/v1/recitations/?$q=true',
+      '/api/v1/recitations/?$q=true',
       dioTypes: DioTypes.authRequired,
     );
 

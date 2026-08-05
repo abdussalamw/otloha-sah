@@ -104,6 +104,11 @@ class ExplanationLocalDataSource {
     return await db!.explanationVerseDao.findExplanationVersesByVerse(verseId);
   }
 
+  Future<ExplanationVerse?> getExplanationVerseByVerseNumberAndChapter(int verseNumber, int chapterNumber, int explanationId) async {
+    final db = await QuranDatabaseSource.instance.database;
+    return await db!.explanationVerseDao.findExplanationVersesByVerseNumberAndChapterAndExplanation(verseNumber, chapterNumber, explanationId);
+  }
+
   Future<void> updateExplanationVerse(ExplanationVerse expl) async {
     final db = await QuranDatabaseSource.instance.database;
 

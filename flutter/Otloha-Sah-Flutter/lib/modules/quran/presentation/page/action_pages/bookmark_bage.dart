@@ -1,18 +1,22 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:otloha_sah_flutter/data_source/models/favorite_pages/favorite_pages.dart';
-import '../../../../../core/exception_indicators/exception_indicator.dart';
-import '../../../../../core/utils/themes/color.dart';
-import '../../../business_logic/cubit/quran_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:otloha_sah_flutter/data_source/models/favorite_pages/favorite_pages.dart';
 
+import '../../../../../core/design_system/components/cards/app_card.dart';
+import '../../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../../core/design_system/tokens/app_radius.dart';
+import '../../../../../core/design_system/tokens/app_shadows.dart';
+import '../../../../../core/design_system/tokens/app_spacing.dart';
+import '../../../../../core/design_system/tokens/app_typography.dart';
+import '../../../../../core/exception_indicators/exception_indicator.dart';
 import '../../../../../core/utils/constant/utils.dart';
 import '../../../../../core/utils/res/icons_app.dart';
-import '../../../../../core/widgets/text_view.dart';
 import '../../../../home/presentation/pages/home/home_page.dart';
 import '../../../../settings/presentation/widgets/search_bar_app.dart';
 import '../../../business_logic/cubit/getuserquranaction_cubit.dart';
+import '../../../business_logic/cubit/quran_cubit.dart';
 
 class PagesBookMarkPage extends StatelessWidget {
   const PagesBookMarkPage({
@@ -23,11 +27,17 @@ class PagesBookMarkPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     BlocProvider.of<GetUserQuranActionCubit>(context).findAllPageMarkeds();
+
     return Scaffold(
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       body: SafeArea(
         child: Column(
-          children: [_topView(context), _viewItems()],
+          children: [
+            _topView(context),
+            _viewItems(),
+          ],
         ),
       ),
     );
@@ -35,22 +45,30 @@ class PagesBookMarkPage extends StatelessWidget {
 
   Widget _topView(BuildContext context) {
     return SearchBarApp(
-        backIcon: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: translate('BookMarks'));
+      backIcon: IconButton(
+        icon: const Icon(Icons.arrow_back_ios_new_rounded),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      title: translate('BookMarks'),
+    );
   }
 
   Expanded _viewItems() {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(AppSpacing.md),
         child: BlocBuilder<GetUserQuranActionCubit, GetUserQuranActionState>(
           builder: (context, state) {
             if (state is GetUserQuranActionMarks) {
+              if (state.pages.isEmpty) {
+                return Center(
+                  child: ExceptionIndicator(
+                    title: tr('No Data Found'),
+                  ),
+                );
+              }
               return ListView.builder(
                 itemCount: state.pages.length,
                 itemBuilder: (context, index) {
@@ -64,7 +82,7 @@ class PagesBookMarkPage extends StatelessWidget {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         HomePage.routeName,
                         ModalRoute.withName('/'),
-                        arguments: 1,
+                        arguments: 2,
                       );
                     },
                     pageMarked: state.pages[index],
@@ -73,11 +91,10 @@ class PagesBookMarkPage extends StatelessWidget {
               );
             } else {
               return Center(
-                  child: ExceptionIndicator(
-                // onTryAgain: onTryAgain,
-                //assetName: AppIcons.emptyIcon,
-                title: tr('No Data Found'),
-              ));
+                child: ExceptionIndicator(
+                  title: tr('No Data Found'),
+                ),
+              );
             }
           },
         ),
@@ -104,13 +121,16 @@ class ItemBookMark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return AppCard(
       onTap: onPress,
+      margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
       child: Dismissible(
         key: UniqueKey(),
         onDismissed: (value) async {
           var cubit = GetUserQuranActionCubit.get(context);
-
           await cubit.deleteVerseBookMark(pageMarked.id);
 
           Get.snackbar(
@@ -126,44 +146,43 @@ class ItemBookMark extends StatelessWidget {
             snackPosition: SnackPosition.BOTTOM,
           );
         },
-        child: Container(
-          margin: const EdgeInsets.all(4),
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            // border: Border.all(
-            //   color: isSelect ? AppColor.borderColor : AppColor.conColor2,
-            //   width: 1,
-            // ),
-            color: AppColor.conColor2,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    AppIcons.quran3Icon,
-                    width: 32,
-                    height: 32,
-                  ),
-                  TextView(
-                    text: pageMarked.textVerse,
-                    colorText: AppColor.txtColor3,
-                    sizeText: 16,
-                    weightText: FontWeight.bold,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.bookmark_rounded,
+                  color: Colors.amber,
+                  size: 24,
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  pageMarked.textVerse ?? '',
+                  style: AppTypography.bodyMedium(
+                    color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                  ).copyWith(
                     fontFamily: 'Hafs20',
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 2),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.1),
+                borderRadius: AppRadius.radiusFull,
               ),
-              const Spacer(),
-              TextView(
-                text: '${translate('Page')} ${pageMarked.pageNumber} ',
-                colorText: AppColor.txtColor4,
-                sizeText: 12,
+              child: Text(
+                '${translate('Page')} ${pageMarked.pageNumber}',
+                style: AppTypography.bodySmall(color: AppColors.primary).copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

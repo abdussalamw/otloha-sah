@@ -5,6 +5,7 @@ import 'package:quran_widget_flutter/model/apis_response/my_response.dart';
 import 'package:quran_widget_flutter/model/tajweed_model.dart';
 import 'package:quran_widget_flutter/model/word_tajweed.dart';
 import 'package:quran_widget_flutter/network_helper/apis.dart';
+import 'package:quran_widget_flutter/data_source/data_source.dart' as quran;
 
 class TajweedRepository {
   final TajweedApi _tajweedApi = TajweedApi();
@@ -68,9 +69,19 @@ class TajweedRepository {
 
   Future<List<TajweedCharacters>?> fetchTajweedCharactersByVerseList(
       {required int verseId}) async {
-    List<TajweedCharacters>? tajweedList = await _tajweedLocalDataSource
-        .findAllTajweedCharacters(QuranCacheRepository.selectedTajweedId ?? 1,
-            verse: verseId);
+    List<TajweedCharacters>? tajweedList;
+    
+    // Attempt to fetch by verseNumber and chapterNumber if possible
+    final verseObj = await quran.DataSource.instance.fetchVerseById(verseId);
+    if (verseObj != null) {
+      tajweedList = await _tajweedLocalDataSource
+          .findAllTajweedCharacters(QuranCacheRepository.selectedTajweedId ?? 1,
+              verseNumber: verseObj.verseNumber, chapterNumber: verseObj.chapterId);
+    } else {
+      tajweedList = await _tajweedLocalDataSource
+          .findAllTajweedCharacters(QuranCacheRepository.selectedTajweedId ?? 1,
+              verse: verseId);
+    }
 
     if (tajweedList == null || tajweedList.isEmpty) {
       final MyResponse<TajweedCharacters> response =
@@ -79,6 +90,13 @@ class TajweedRepository {
       if (response.code == Apis.codeSUCCESS) {
         tajweedList = response.data;
         await _tajweedLocalDataSource.insertAllTajweedCharacters(tajweedList!);
+        
+        // Fetch again from local DB to verify
+        if (verseObj != null) {
+           tajweedList = await _tajweedLocalDataSource
+              .findAllTajweedCharacters(QuranCacheRepository.selectedTajweedId ?? 1,
+                  verseNumber: verseObj.verseNumber, chapterNumber: verseObj.chapterId);
+        }
       }
     }
 

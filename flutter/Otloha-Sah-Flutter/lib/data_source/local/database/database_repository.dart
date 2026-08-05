@@ -1,3 +1,4 @@
+import 'package:otloha_sah_flutter/data_source/models/favorite_pages/favorite_pages.dart';
 import 'package:otloha_sah_flutter/data_source/models/recitations/local_recitation.dart';
 import 'package:otloha_sah_flutter/data_source/models/recitations/recitation.dart';
 import 'package:otloha_sah_flutter/data_source/models/user/user.dart';
@@ -39,8 +40,10 @@ class DatabaseRepository {
   findVerseLikedById(int id, int userId) async =>
       await favoriteVersesDao!.findById(id, userId);
 
-  Future<int> insertVerseLiked(verseLiked) async =>
-      await favoriteVersesDao!.insert(verseLiked);
+  Future<FavoriteVerse> insertVerseLiked(FavoriteVerse verseLiked) async {
+    int id = await favoriteVersesDao!.insert(verseLiked);
+    return verseLiked.copyWith(id: id);
+  }
 
   updateVerseLiked(verseLiked) async => favoriteVersesDao!.update(verseLiked);
 
@@ -68,8 +71,10 @@ class DatabaseRepository {
   // findPageMarkedById(int id, int userId) async =>
   //     await favoritePagesDao!.findById(id, userId);
 
-  insertPageMarked(pageMarked) async =>
-      await favoritePagesDao!.insert(pageMarked);
+  Future<FavoritePage> insertPageMarked(FavoritePage pageMarked) async {
+    int id = await favoritePagesDao!.insert(pageMarked);
+    return pageMarked.copyWith(id: id);
+  }
 
   updatePageMarked(pageMarked) async => favoritePagesDao!.update(pageMarked);
 

@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_colors.dart';
 
 class PageAuthLayout extends StatelessWidget {
   const PageAuthLayout({
     Key? key,
     required this.pageComponents,
   }) : super(key: key);
+  
   final Widget pageComponents;
+
   @override
   Widget build(BuildContext context) {
-    return _pageLayout(context);
-  }
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-  Widget _pageLayout(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/images/auth_background.png'),
-            fit: BoxFit.cover),
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+        body: SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: pageComponents,
+          ),
+        ),
       ),
-      child: pageComponents,
     );
   }
 }

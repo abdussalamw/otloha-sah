@@ -17,15 +17,11 @@ class AuthNavigator extends StatefulWidget {
 class _AuthNavigatorState extends State<AuthNavigator> {
   Future pushConditionally<T extends Object>(BuildContext context, String route,
           {var arguments}) =>
-      UserDataServices.instance.getToken == null
-          ? Navigator.pushNamed(
-              context,
-              LoginPage.routeName,
-            )
-          : Navigator.pushNamed(
-              context,
-              route,
-            );
+      Navigator.pushNamed(
+        context,
+        route,
+        arguments: arguments,
+      );
 
   @override
   Widget build(BuildContext context) => widget.child;

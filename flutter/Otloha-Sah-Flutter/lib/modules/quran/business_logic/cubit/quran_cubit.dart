@@ -266,25 +266,29 @@ class QuranViewCubit extends Cubit<QuranViewState> {
     int uid = (await UserDataServices.instance.getUserData())?.id ?? 0;
 
     if (isSelect == true) {
-      //   like = await DatabaseRepository.instance.insertVerseLiked(
-      //     VerseLiked(
-      //       idFromVerse: selectedVerses.first.id,
-      //       pageNumber: QuranCacheRepository.lastPageNumber ?? 1,
-      //       textFristVerse: getFirstWords(selectedVerses.first.text ?? '', 5),
-      //       idToVerse: selectedVerses.last.id,
-      //       userId: uid,
-      //     ),
-      //   );
-      // } else {
-      //   like = await DatabaseRepository.instance.insertVerseLiked(
-      //     VerseLiked(
-      //       idFromVerse: verses.first.id,
-      //       pageNumber: QuranCacheRepository.lastPageNumber ?? 1,
-      //       textFristVerse: getFirstWords(verses.first.text ?? '', 5),
-      //       idToVerse: verses.last.id,
-      //       userId: uid,
-      //     ),
-      //   );
+      like = await DatabaseRepository.instance.insertVerseLiked(
+        FavoriteVerse(
+          id: 0,
+          idFromVerse: selectedVerses.first.id ?? 0,
+          idToVerse: selectedVerses.last.id ?? 0,
+          idPage: verses.first.pageId ?? 0,
+          pageNumber: QuranCacheRepository.lastPageNumber ?? 1,
+          textFristVerse: getFirstWords(selectedVerses.first.text ?? '', 5),
+          userId: uid,
+        ),
+      );
+    } else {
+      like = await DatabaseRepository.instance.insertVerseLiked(
+        FavoriteVerse(
+          id: 0,
+          idFromVerse: verses.first.id ?? 0,
+          idToVerse: verses.last.id ?? 0,
+          idPage: verses.first.pageId ?? 0,
+          pageNumber: QuranCacheRepository.lastPageNumber ?? 1,
+          textFristVerse: getFirstWords(verses.first.text ?? '', 5),
+          userId: uid,
+        ),
+      );
     }
 
     isDisable = false;
@@ -308,15 +312,16 @@ class QuranViewCubit extends Cubit<QuranViewState> {
 
     int uid = (await UserDataServices.instance.getUserData())?.id ?? 0;
 
-    // await DatabaseRepository.instance.insertPageMarked(
-    //   // PageMarked(
-    //   //   pageNumber: QuranCacheRepository.lastPageNumber ?? 1,
-    //   //   textVerse: getFirstWords(verses.first.text ?? '', 5),
-    //   //   userId: uid,
-    //   //   idBook: verses.first.bookId,
-    //   //   idPage: verses.first.pageNumber,
-    //   // ),
-    // );
+    mark = await DatabaseRepository.instance.insertPageMarked(
+      FavoritePage(
+        id: 0,
+        idPage: verses.first.pageId ?? 0,
+        idBook: verses.first.bookId ?? 0,
+        pageNumber: QuranCacheRepository.lastPageNumber ?? 1,
+        textVerse: getFirstWords(verses.first.text ?? '', 5),
+        userId: uid,
+      ),
+    );
     isDisable = false;
     changeIsBookmarked();
   }

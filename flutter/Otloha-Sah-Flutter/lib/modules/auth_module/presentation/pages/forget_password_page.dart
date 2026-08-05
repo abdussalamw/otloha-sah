@@ -1,17 +1,18 @@
+import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/utils/themes/color.dart';
-import '../../../../core/utils/themes/text_style.dart';
-import '../../../../core/widgets/text_from_fielid.dart';
-import '../../../../core/widgets/text_view.dart';
-import '../../../../core/widgets/vali_errorr_text.dart';
-import '../../business_logic/auth_cubit.dart';
-import '../widget/auth_button.dart';
-import '../widget/page_head_text.dart';
-import '../widget/page_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:otloha_sah_flutter/core/design_system/components/cards/app_card.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_colors.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_radius.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_spacing.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_typography.dart';
+import 'package:otloha_sah_flutter/core/widgets/text_from_fielid.dart';
+import 'package:otloha_sah_flutter/core/widgets/tool_bar_app.dart';
+import 'package:otloha_sah_flutter/core/widgets/vali_errorr_text.dart';
+import 'package:otloha_sah_flutter/modules/auth_module/business_logic/auth_cubit.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -22,107 +23,134 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   final TextEditingController emailController = TextEditingController();
-
   late AuthCubit cubit;
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     cubit = AuthCubit.get(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: PageAuthLayout(pageComponents: bodyView(context)),
-    );
-  }
 
-  bodyView(BuildContext context) {
-    return Center(child: components(context));
-  }
-
-  Widget components(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(35),
-      height: MediaQuery.of(context).size.height,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * .1),
-            pageLayOutTextHead(
-              tr('ForgotPassword'),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: TextView(
-                text: tr('ForgotPasswordMsg'),
-                sizeText: 16,
-                textAlign: TextAlign.start,
-                colorText: AppColor.txtColor3,
-              ),
-            ),
-            const SizedBox(height: 24),
-            loginForm(context),
-            SizedBox(height: MediaQuery.of(context).size.height * .5),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget loginForm(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is ForgotPasswordSuccessState) {
-          showToast(cubit.msg, context);
-        }
-      },
-      builder: (context, state) {
-        return Form(
-          key: formKey,
+    return Directionality(
+      textDirection: ui.TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+        body: SafeArea(
           child: Column(
             children: [
-              Column(
-                children: [
-                  TextFormFieldApp(
-                      title: tr('Email'),
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: [
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.email(),
-                      ]),
-                  (state is ForgotPasswordErrorState)
-                      ? ValidationErrorText(
-                          error: (state.error['email'] != null)
-                              ? state.error['email'][0]
-                              : '')
-                      : const SizedBox(),
-                ],
+              ToolBarApp(
+                backIcon: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  onPressed: () {
+                    if (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+                title: tr('استعادة كلمة المرور'),
               ),
-              const SizedBox(height: 48),
-              (state is ForgotPasswordLoadingState)
-                  ? const CircularProgressIndicator()
-                  : ButtonApp(
-                      buttonText: tr('ForgotPassword'),
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          var email = emailController.text;
-                          cubit.passwordReset(email: email);
-                        }
-                      },
-                      width: double.infinity,
-                      colors: const [
-                        AppColor.darkBlue,
-                        AppColor.lightBlue,
-                      ],
-                    ),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: AppSpacing.md),
+                      AppCard(
+                        padding: const EdgeInsets.all(AppSpacing.lg),
+                        child: Form(
+                          key: formKey,
+                          child: BlocConsumer<AuthCubit, AuthState>(
+                            listener: (context, state) {
+                              if (state is ForgotPasswordSuccessState) {
+                                showToast(cubit.msg, context);
+                              }
+                            },
+                            builder: (context, state) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(AppSpacing.md),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary.withOpacity(0.1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.lock_reset_rounded,
+                                      size: 48,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppSpacing.md),
+                                  Text(
+                                    tr('نسيت كلمة المرور؟'),
+                                    style: AppTypography.h2Bold(
+                                      color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppSpacing.xs),
+                                  Text(
+                                    tr('أدخل بريدك الإلكتروني المسجل لإرسال رابط إعادة تعيين كلمة المرور'),
+                                    textAlign: TextAlign.center,
+                                    style: AppTypography.bodySmall(
+                                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppSpacing.lg),
+                                  TextFormFieldApp(
+                                    title: tr('Email'),
+                                    controller: emailController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: [
+                                      FormBuilderValidators.required(),
+                                      FormBuilderValidators.email(),
+                                    ],
+                                  ),
+                                  if (state is ForgotPasswordErrorState)
+                                    ValidationErrorText(
+                                      error: (state.error['email'] != null) ? state.error['email'][0] : '',
+                                    ),
+                                  const SizedBox(height: AppSpacing.lg),
+                                  (state is ForgotPasswordLoadingState)
+                                      ? const CircularProgressIndicator()
+                                      : SizedBox(
+                                          width: double.infinity,
+                                          height: 48,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: AppColors.primary,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: AppRadius.radiusMd,
+                                              ),
+                                            ),
+                                            onPressed: () async {
+                                              if (formKey.currentState!.validate()) {
+                                                var email = emailController.text;
+                                                cubit.passwordReset(email: email);
+                                              }
+                                            },
+                                            child: Text(
+                                              tr('إرسال رابط الاستعادة'),
+                                              style: AppTypography.bodyMedium(color: Colors.white).copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 

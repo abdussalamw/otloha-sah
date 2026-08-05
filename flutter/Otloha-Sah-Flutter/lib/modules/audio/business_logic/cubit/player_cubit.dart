@@ -68,7 +68,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   Future<void> downloadFile() async {
     emit(AudioPlayerDownloading());
     final dio = ApiBaseHelper().dio;
-    final url = '${Constants.baseUrl}/api/v1/records/${record?.uuid}/download/';
+    final url = '/api/v1/records/${record?.uuid}/download/';
 
     final directory = await getApplicationDocumentsDirectory();
     final filePath = '${directory.path}/${record?.filename}';

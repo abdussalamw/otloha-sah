@@ -66,7 +66,7 @@ class MarkableRecitationsCubit extends Cubit<MarkableRecitationsState> {
     String type =
         isTeacherData ? 'is_teacher_recitation' : 'show_in_remarkable';
     Response? response = await ApiBaseHelper().getHTTP(
-      '${Constants.baseUrl}/api/v1/recitations/?$type=true',
+      '/api/v1/recitations/?$type=true',
       queryParameters: {'page': next},
       dioTypes: DioTypes.authRequired,
     );

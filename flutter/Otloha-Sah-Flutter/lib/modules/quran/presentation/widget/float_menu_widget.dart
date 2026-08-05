@@ -82,70 +82,25 @@ class _FloatingMenuState extends State<FloatingMenu> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(
-                                height: 32,
+                                height: 36,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    _viewIcon(
-                                      image: AppIcons.settingsIcon,
-                                      onTap: () {
-                                        Get.to(const SettingsPage());
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 30,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    BlocConsumer<QuranPlayerCubit,
-                                        QuranPlayerState>(
-                                      listener: (context, state) {
-                                        // if (state
-                                        //     is DownloadingChapterErrorState) {
-                                        //   pd.close();
-                                        // }
-                                        // if (state is DownloadingChapterState) {
-                                        //   if (state.progress == 0) {
-                                        //     pd.show(
-                                        //       max: 100,
-                                        //       hideValue: true,
-                                        //       msg: translate(
-                                        //         'downloading_chapter',
-                                        //       ),
-                                        //       progressType:
-                                        //           ProgressType.valuable,
-                                        //       completed: Completed(
-                                        //         completedImage: const AssetImage(
-                                        //             'assets/icons/completed.png'),
-                                        //       ),
-                                        //     );
-                                        //   } else {
-                                        //     pd.update(
-                                        //         value: (state.progress * 100)
-                                        //             .ceil());
-                                        //   }
-                                        // }
-                                      },
+                                    BlocConsumer<QuranPlayerCubit, QuranPlayerState>(
+                                      listener: (context, state) {},
                                       buildWhen: (_, __) => false,
                                       builder: (context, state) {
                                         return _viewIcon(
                                           image: AppIcons.playIcon,
                                           onTap: () async {
                                             if (!cubit.isDisable) {
-                                              var isPlay = await BlocProvider
-                                                      .of<QuranPlayerCubit>(
-                                                          context)
+                                              var isPlay = await BlocProvider.of<QuranPlayerCubit>(context)
                                                   .initRecitationVerses(
                                                 chapterId: cubit.chapterId,
-                                                pageNumber: QuranCacheRepository
-                                                    .lastPageNumber,
+                                                pageNumber: QuranCacheRepository.lastPageNumber,
                                                 context: context,
                                               );
-                                              print('is play $isPlay');
                                               if (isPlay) {
                                                 cubit.changeIsPlaying();
                                                 Get.back();
@@ -156,35 +111,15 @@ class _FloatingMenuState extends State<FloatingMenu> {
                                       },
                                     ),
                                     _viewIcon(
-                                      image: cubit.isBookmarked
-                                          ? AppIcons.bookMark2Icon
-                                          : AppIcons.bookMarkIcon,
+                                      image: cubit.isLiked ? AppIcons.love2 : AppIcons.love,
                                       onTap: () async {
                                         if (!cubit.isDisable) {
                                           Get.dialog(
-                                              const AlertDialogFullScreen(
-                                            autoClose: false,
-                                          ));
-                                          cubit.isBookmarked
-                                              ? await cubit.deleteBookMark()
-                                              : await cubit.addBookMark();
-                                          Get.back();
-                                        }
-                                      },
-                                    ),
-                                    _viewIcon(
-                                      image: cubit.isLiked
-                                          ? AppIcons.love2
-                                          : AppIcons.love,
-                                      onTap: () async {
-                                        if (!cubit.isDisable) {
-                                          Get.dialog(
-                                              const AlertDialogFullScreen(
-                                            autoClose: false,
-                                          ));
-                                          cubit.isLiked
-                                              ? await cubit.deleteLike()
-                                              : await cubit.saveLiked();
+                                            const AlertDialogFullScreen(
+                                              autoClose: false,
+                                            ),
+                                          );
+                                          cubit.isLiked ? await cubit.deleteLike() : await cubit.saveLiked();
                                           Get.back();
                                         }
                                       },
@@ -193,7 +128,7 @@ class _FloatingMenuState extends State<FloatingMenu> {
                                 ),
                               ),
                               SizedBox(
-                                height: 30,
+                                height: 36,
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Row(
@@ -203,8 +138,7 @@ class _FloatingMenuState extends State<FloatingMenu> {
                                       _viewIcon(
                                         image: AppIcons.languageIcon,
                                         onTap: () {
-                                          cubit.changePageType(
-                                              page: PageType.translation);
+                                          cubit.changePageType(page: PageType.translation);
                                           cubit.changeFalseFloating();
                                         },
                                       ),
@@ -212,8 +146,7 @@ class _FloatingMenuState extends State<FloatingMenu> {
                                         image: AppSVG.quran,
                                         isSvg: true,
                                         onTap: () {
-                                          cubit.changePageType(
-                                              page: PageType.quran);
+                                          cubit.changePageType(page: PageType.quran);
                                           cubit.changeFalseFloating();
                                         },
                                       ),
@@ -221,8 +154,7 @@ class _FloatingMenuState extends State<FloatingMenu> {
                                         image: AppSVG.recitations,
                                         isSvg: true,
                                         onTap: () {
-                                          cubit.changePageType(
-                                              page: PageType.tajwid);
+                                          cubit.changePageType(page: PageType.tajwid);
                                           cubit.changeFalseFloating();
                                         },
                                       ),
@@ -230,8 +162,7 @@ class _FloatingMenuState extends State<FloatingMenu> {
                                         image: AppSVG.tafsir,
                                         isSvg: true,
                                         onTap: () {
-                                          cubit.changePageType(
-                                              page: PageType.tafsir);
+                                          cubit.changePageType(page: PageType.tafsir);
                                           cubit.changeFalseFloating();
                                         },
                                       ),

@@ -15,42 +15,48 @@ class RecordServiceApp {
   final AudioRecorder recorder = AudioRecorder();
 
   Future<bool> isHasPermission(context) async {
-    if (await recorder.hasPermission()) {
+    // First check if permission is already granted
+    if (await Permission.microphone.isGranted) {
       return true;
-    } else {
-      // Permission not granted
-      if (await Permission.microphone.isPermanentlyDenied ||
-          (Platform.isAndroid && await Permission.microphone.isDenied)) {
-        // The user has permanently denied the permission
-        // Show a message to the user explaining why the permission is needed
-        // and giving them the option to grant the permission manually through the device     settings
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertPopup(
-            alertType: AlertType.warning,
-            message:
-                'The app needs permission to access your microphone to record audio. Please grant the permission manually in the device settings.'
-                    .tr(),
-            actions: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColor.warningAlertColor),
-                onPressed: () {
-                  openAppSettings();
-                  Navigator.pop(context);
-                },
-                child: Text(tr('Settings')),
-              )
-            ],
-          ),
-        );
-        return false;
-      } else {
-        await Permission.microphone.request();
-
-        return await Permission.microphone.isGranted;
-      }
     }
+
+    // Request permission
+    final status = await Permission.microphone.request();
+
+    if (status.isGranted) {
+      return true;
+    }
+
+    // Permission not granted
+    if (await Permission.microphone.isPermanentlyDenied ||
+        (Platform.isAndroid && await Permission.microphone.isDenied)) {
+      // The user has permanently denied the permission
+      // Show a message to the user explaining why the permission is needed
+      // and giving them the option to grant the permission manually through the device settings
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertPopup(
+          alertType: AlertType.warning,
+          message:
+              'The app needs permission to access your microphone to record audio. Please grant the permission manually in the device settings.'
+                  .tr(),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColor.warningAlertColor),
+              onPressed: () {
+                openAppSettings();
+                Navigator.pop(context);
+              },
+              child: Text(tr('Settings')),
+            )
+          ],
+        ),
+      );
+      return false;
+    }
+
+    return false;
   }
 
   initRecord(
@@ -91,10 +97,6 @@ class RecordServiceApp {
       print('You must accept permissions');
     }
   }
-
-  // static Future<Stream?> start(Function(Record?) getCurrent) async {
-  //   return null;
-  // }
 
   Future resume() async {
     await recorder.resume();

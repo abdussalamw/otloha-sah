@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart' as local;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_colors.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_radius.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_spacing.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_typography.dart';
 import 'package:otloha_sah_flutter/data_source/models/tajweed/tajweed_level.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/business_logic/level_card_cubit/level_card_cubit.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/presentation/pages/reserved_exams_listing.dart';
@@ -13,148 +16,109 @@ class ProgressCard extends StatelessWidget {
     super.key,
     required this.level,
   });
+
   final TajweedLevel level;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      child: Stack(
+    final isSelected = context.watch<LevelCardCubit>().state is LevelCardSelected;
+    final double percent = (level.completed.clamp(0, 100)) / 100.0;
+
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        gradient: AppColors.primaryGradient,
+        borderRadius: AppRadius.radiusLg,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withOpacity(0.3),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Row(
         children: [
-          Center(
-            child: Container(
-              height: 80,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: const Color(0xff009EC0),
-              ),
-              child: Stack(
-                children: [
-                  SvgPicture.asset(
-                    'assets/svg/card_background.svg',
-                    fit: BoxFit.cover,
-                    colorFilter: const ColorFilter.mode(
-                        Color(0xff19a7c5), BlendMode.srcIn),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          level.name.translate() ?? '',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        if (context.read<LevelCardCubit>().state
-                            is LevelCardSelected)
-                          Row(
-                            children: [
-                              SizedBox(
-                                height: 30,
-                                width: 120,
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, TimeSlotsListingPage.route);
-                                  },
-                                  clipBehavior: Clip.hardEdge,
-                                  child: Text(
-                                    local.tr('Take exam'),
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              SizedBox(
-                                height: 30,
-                                width: 120,
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, ReservedExamsListing.route);
-                                  },
-                                  clipBehavior: Clip.hardEdge,
-                                  child: Text(
-                                    local.tr('My Exams'),
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
+          // Circular Progress Indicator
+          CircularPercentIndicator(
+            radius: 36.0,
+            lineWidth: 8.0,
+            percent: percent,
+            animation: true,
+            center: Text(
+              '${(level.completed).ceil()}%',
+              style: AppTypography.bodyLarge(color: AppColors.quranGold).copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
+            progressColor: AppColors.quranGold,
+            backgroundColor: Colors.white.withOpacity(0.2),
+            circularStrokeCap: CircularStrokeCap.round,
           ),
-          Positioned(
-            left: Directionality.of(context) == TextDirection.ltr
-                ? MediaQuery.of(context).size.width - 150
-                : 0,
-            right: Directionality.of(context) == TextDirection.ltr ? 0 : 260,
-            child: Stack(
+
+          const SizedBox(width: AppSpacing.md),
+
+          // Title & Exam Action Buttons
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xff009EC0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0, 2),
-                        blurRadius: 5,
+                Text(
+                  level.name.translate() ?? '',
+                  style: AppTypography.h3Small(color: Colors.white).copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                if (isSelected)
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.quranGold,
+                          foregroundColor: AppColors.primaryDark,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          shape: RoundedRectangleBorder(borderRadius: AppRadius.radiusFull),
+                          minimumSize: const Size(0, 32),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, TimeSlotsListingPage.route);
+                        },
+                        child: Text(
+                          local.tr('Take exam'),
+                          style: AppTypography.caption(color: AppColors.primaryDark).copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: Colors.white, width: 1.2),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          shape: RoundedRectangleBorder(borderRadius: AppRadius.radiusFull),
+                          minimumSize: const Size(0, 32),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, ReservedExamsListing.route);
+                        },
+                        child: Text(
+                          local.tr('My Exams'),
+                          style: AppTypography.caption(color: Colors.white).copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  child: Center(
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xff007089),
-                      ),
-                      child: Center(
-                        child: Container(
-                          height: 74,
-                          width: 74,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xff009EC0),
-                          ),
-                          child: CircularPercentIndicator(
-                            radius: 37.0,
-                            lineWidth: 10.0,
-                            percent: level.completed / 100,
-                            center: Text(
-                              '${(level.completed).ceil()}%',
-                              style: const TextStyle(
-                                color: Color(0xffFAC700),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                              ),
-                            ),
-                            progressColor: const Color(0xffFAC700),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

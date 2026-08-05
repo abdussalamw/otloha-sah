@@ -73,7 +73,7 @@ class TafseerRepository {
       int explanationId, Verse verse) async {
     print(verse.text);
     ExplanationVerse? tafseer =
-        await _tafseerLocal.getExplanationVerseByVerseId(verse.id!);
+        await _tafseerLocal.getExplanationVerseByVerseNumberAndChapter(verse.verseNumber!, verse.chapterId!, explanationId);
     if (tafseer == null) {
       final MyResponse<ExplanationVerse> response =
           await _tafseerApi.fetchTafseerVersesList(
@@ -84,7 +84,7 @@ class TafseerRepository {
         List<ExplanationVerse>? tafseerList = response.data;
         await _tafseerLocal.insertExplanationVerseList(tafseerList ?? []);
       }
-      tafseer = await _tafseerLocal.getExplanationVerseByVerseId(verse.id!);
+      tafseer = await _tafseerLocal.getExplanationVerseByVerseNumberAndChapter(verse.verseNumber!, verse.chapterId!, explanationId);
     }
     return tafseer;
   }

@@ -189,7 +189,7 @@ initMain() async {
     debugPrint('EasyLocalization init error: $e');
   }
 
-  // todo: delete
+  // Global HttpOverrides for development
   HttpOverrides.global = DevHttpOverrides();
 
   SystemChrome.setSystemUIOverlayStyle(

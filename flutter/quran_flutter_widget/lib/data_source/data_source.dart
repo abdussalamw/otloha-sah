@@ -46,10 +46,12 @@ class DataSource {
   Future<void> initialApp({
     required String clientId,
     required String clientSecret,
+    String? baseUrl,
   }) async =>
       await QuranWidgetInit.init(
         clientId: clientId,
         clientSecret: clientSecret,
+        baseUrl: baseUrl,
       );
 
   Future<void> signOut() async => await CacheHelper.clearAll();

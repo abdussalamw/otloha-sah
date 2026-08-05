@@ -13,7 +13,7 @@ class Apis extends Object {
   static String clientId = '';
   static String clientSecret = '';
 
-  static const String baseUrl = 'https://api.otlohasah.org';
+  static String baseUrl = 'https://api.otlohasah.org';
 
   static String get basePath => baseUrl + '/api/v1/';
   static String get imageUrl => basePath;

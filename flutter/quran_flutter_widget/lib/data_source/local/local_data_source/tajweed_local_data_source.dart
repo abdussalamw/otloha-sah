@@ -46,8 +46,13 @@ class TajweedLocalDataSource {
     int? chapter,
     int? verse,
     int? word,
+    int? verseNumber,
+    int? chapterNumber,
   }) async {
     final db = await QuranDatabaseSource.instance.database;
+    if (verseNumber != null && chapterNumber != null) {
+      return db!.tajweedWordDao.findAllTajweedVerseNumberAndChapter(bookId, verseNumber, chapterNumber);
+    }
     if (chapter != null) {
       return db!.tajweedWordDao.findAllTajweedChapter(bookId, chapter);
     }

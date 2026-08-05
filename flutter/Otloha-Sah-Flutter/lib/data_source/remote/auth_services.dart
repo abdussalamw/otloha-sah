@@ -14,7 +14,7 @@ class AuthApi {
     password,
   }) async {
     return await ApiBaseHelper().postHTTP(
-      '${Constants.baseUrl}/api/v2/token/',
+      '/api/v2/token/',
       {
         'identifier': email,
         'password': password,
