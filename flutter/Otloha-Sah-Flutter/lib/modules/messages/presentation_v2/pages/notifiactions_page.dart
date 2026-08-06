@@ -10,6 +10,7 @@ import '../../../../core/pagination/view/pagination_view.dart';
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/utils/themes/color.dart';
 import '../../../../core/widgets/cached_image.dart';
+import '../../../../core/widgets/user_avatar_widget.dart';
 import '../../../../data_source/models/notifications_model/notifications_model.dart';
 import '../../../../data_source/remote/notification_service.dart';
 import '../../../home/business_logic/cubit/home_cubit.dart';
@@ -93,9 +94,10 @@ class _NotifiactionsPageState extends State<NotifiactionsPage> {
           //           .routeName!);
           // }
         },
-        leading: CachedImage(
-            url: notification.user?.profileImage ?? Constants.appIconUrl,
-            raduis: 30),
+        leading: UserAvatarWidget(
+          imageUrl: notification.user?.profileImage,
+          radius: 22,
+        ),
         title: NotificationContent(text: notification.text),
         subtitle: Text(
           notification.createdAt,

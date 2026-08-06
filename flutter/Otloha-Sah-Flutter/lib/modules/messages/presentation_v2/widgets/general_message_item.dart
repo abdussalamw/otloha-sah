@@ -7,6 +7,7 @@ import 'package:otloha_sah_flutter/data_source/models/user/user.dart';
 import 'package:otloha_sah_flutter/modules/audio/presentation/wave_view.dart';
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/widgets/cached_image.dart';
+import '../../../../core/widgets/user_avatar_widget.dart';
 import '../../../../data_source/user_services_data.dart';
 import '../../../profile/presentation/page/profile_bnb_page.dart';
 import '../../../profile/presentation/widget/user_name_view.dart';
@@ -105,7 +106,11 @@ class _GeneralMessageItemState extends State<GeneralMessageItem> {
             () => ProfileBNBPage(user: widget.owner),
           );
         },
-        child: CachedImage(url: widget.userImage ?? '', raduis: 36),
+        child: UserAvatarWidget(
+          user: widget.owner,
+          imageUrl: widget.userImage,
+          radius: 24,
+        ),
       ),
       userName: _viwName(),
       dataView: _viewData(),

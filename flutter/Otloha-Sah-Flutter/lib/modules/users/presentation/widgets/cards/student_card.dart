@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otloha_sah_flutter/core/widgets/cached_image.dart';
+import 'package:otloha_sah_flutter/core/widgets/user_avatar_widget.dart';
 import 'package:otloha_sah_flutter/data_source/data_source.dart';
 import 'package:otloha_sah_flutter/data_source/models/user/listing_models/student.dart';
 import 'package:otloha_sah_flutter/data_source/user_services_data.dart';
@@ -73,7 +74,11 @@ class StudentCardWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              CachedImage(url: student.image ?? '', raduis: 35),
+              UserAvatarWidget(
+                isTeacher: false,
+                imageUrl: student.image,
+                radius: 28,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(

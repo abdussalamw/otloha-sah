@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otloha_sah_flutter/core/utils/themes/color.dart';
 import 'package:otloha_sah_flutter/core/widgets/cached_image.dart';
+import 'package:otloha_sah_flutter/core/widgets/user_avatar_widget.dart';
 import 'package:otloha_sah_flutter/data_source/models/user/listing_models/teacher.dart';
 import 'package:otloha_sah_flutter/data_source/user_services_data.dart';
 import 'package:otloha_sah_flutter/modules/invitations/cubit/student_to_teacher_btn/student_to_teacher_btn_cubit.dart';
@@ -71,7 +72,11 @@ class TeacherCardWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              CachedImage(url: teacher.image ?? '', raduis: 35),
+              UserAvatarWidget(
+                isTeacher: true,
+                imageUrl: teacher.image,
+                radius: 28,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(

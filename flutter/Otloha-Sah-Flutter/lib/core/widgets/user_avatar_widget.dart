@@ -24,7 +24,7 @@ class UserAvatarWidget extends StatelessWidget {
 
   bool get _isFemale {
     final g = (gender ?? user?.gender ?? '').toLowerCase();
-    return g == 'female' || g == 'أنثى' || g == 'f' || g == '2';
+    return g == 'female' || g == 'أنثى' || g == 'f' || g == '2' || g == 'woman';
   }
 
   bool get _checkIsTeacher {
@@ -41,14 +41,20 @@ class UserAvatarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rawUrl = imageUrl ?? user?.profileImage;
-    final hasCustomUrl = rawUrl != null && rawUrl.isNotEmpty && !rawUrl.contains('default');
+    final rawUrl = (imageUrl != null && imageUrl!.isNotEmpty)
+        ? imageUrl
+        : (user?.profileImage != null && user!.profileImage!.isNotEmpty ? user!.profileImage : null);
+
+    final hasCustomUrl = rawUrl != null &&
+        rawUrl.isNotEmpty &&
+        !rawUrl.contains('default') &&
+        !rawUrl.contains('kindpng.com');
 
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
       children: [
-        // Main Avatar Image
+        // Main Avatar Image Container
         Container(
           width: radius * 2,
           height: radius * 2,
@@ -84,7 +90,7 @@ class UserAvatarWidget extends StatelessWidget {
         // Teacher Badge / Ribbon
         if (_checkIsTeacher)
           Positioned(
-            bottom: -4,
+            bottom: -5,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
               decoration: BoxDecoration(

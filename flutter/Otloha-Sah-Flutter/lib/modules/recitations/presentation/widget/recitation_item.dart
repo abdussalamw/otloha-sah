@@ -14,6 +14,7 @@ import 'package:quran_widget_flutter/model/narration.dart';
 import 'package:quran_widget_flutter/model/translatable.dart';
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/widgets/cached_image.dart';
+import '../../../../core/widgets/user_avatar_widget.dart';
 
 import '../../../audio/presentation/wave_view.dart';
 
@@ -89,24 +90,10 @@ class RecitationItem extends StatelessWidget {
             () => ProfileBNBPage(user: owner),
           );
         },
-        child: CachedImage(
-          url: owner?.profileImage ?? '',
-          raduis: 36,
-          errorWidget: FutureBuilder<Directory>(
-              future: getApplicationDocumentsDirectory(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  print(
-                      '${snapshot.data!.path}${Constants.profileImagePath}${UserDataServices.instance.getUserDataFast()!.id}.png');
-                  return Image.file(
-                    File(
-                      '${snapshot.data!.path}${Constants.profileImagePath}${UserDataServices.instance.getUserDataFast()!.id}.png',
-                    ),
-                  );
-                }
-
-                return const SizedBox();
-              }),
+        child: UserAvatarWidget(
+          user: owner,
+          imageUrl: owner?.profileImage,
+          radius: 24,
         ),
       ),
       userName: _viwName(),

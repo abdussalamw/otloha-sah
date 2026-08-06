@@ -13,6 +13,7 @@ import '../../../../core/design_system/tokens/app_spacing.dart';
 import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/widgets/cached_image.dart';
+import '../../../../core/widgets/user_avatar_widget.dart';
 import '../../../../core/widgets/warnings_and_alerts/warning.dart';
 import '../../../../data_source/models/progress/statistics_model.dart';
 import '../../../../data_source/remote/progress_service.dart';
@@ -198,7 +199,11 @@ class ProfileHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CachedImage(url: profileImage, raduis: 45),
+          UserAvatarWidget(
+            user: user,
+            imageUrl: profileImage,
+            radius: 45,
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.6,
             height: 90,

@@ -27,6 +27,9 @@ external/
 change.md
 systemdesigne.md
 logo.jpeg
+inspect_db.py
+inspect_sessions.py
+sessions_output.txt
 
 # IDEs
 .idea/

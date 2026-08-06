@@ -24,6 +24,7 @@ import '../../../../recitations/presentation/page/recitations_page.dart';
 import '../../../../settings/presentation/pages/settings/about_us_page.dart';
 import '../../../../settings/presentation/pages/settings/contact_us_page.dart';
 import '../../../../settings/presentation/pages/settings/how_it_works_page.dart';
+import '../../../../auth_module/presentation/pages/login_page.dart';
 import '../../../../settings/presentation/pages/settings_page.dart';
 import '../../../../splash/business_logic/cubit/splash_cubit.dart';
 import '../../../../teachers/presentation/page/students_page.dart';
@@ -249,33 +250,59 @@ class _HomeBNBPageState extends State<HomeBNBPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isLogin ? (user?.fullname ?? user?.username ?? translate('User')) : translate('Guest User'),
+                      isLogin ? (user?.fullname ?? user?.username ?? translate('User')) : 'مستخدم ضيف',
                       style: AppTypography.bodyLarge(
                         color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-                      ).copyWith(fontWeight: FontWeight.bold, fontSize: 15),
+                      ).copyWith(fontWeight: FontWeight.bold, fontSize: 14),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      isLogin ? (user?.email ?? '') : translate('Welcome to Otloha Sah'),
+                      isLogin ? (user?.email ?? '') : 'تسجيل الدخول اختياري للحفاظ على تقدمك وتفضيلاتك',
                       style: AppTypography.bodySmall(
                         color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-                      ).copyWith(fontSize: 11),
-                      maxLines: 1,
+                      ).copyWith(fontSize: 10),
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
 
-              // Settings Icon Button
-              IconButton(
-                icon: Icon(
-                  Icons.settings_outlined,
-                  color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-                  size: 34,
-                ),
-                onPressed: () => Get.to(() => const SettingsPage()),
+              // Actions (Login Button for Guest & Settings Icon Button)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (!isLogin)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 4),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(borderRadius: AppRadius.radiusSm),
+                        ),
+                        onPressed: () => Get.to(() => const LoginPage()),
+                        child: Text(
+                          'تسجيل الدخول',
+                          style: AppTypography.bodySmall(color: Colors.white).copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 11,
+                          ),
+                        ),
+                      ),
+                    ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.settings_outlined,
+                      color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                      size: 24,
+                    ),
+                    onPressed: () => Get.to(() => const SettingsPage()),
+                  ),
+                ],
               ),
             ],
           ),

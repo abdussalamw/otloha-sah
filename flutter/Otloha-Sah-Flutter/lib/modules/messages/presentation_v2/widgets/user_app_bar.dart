@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:otloha_sah_flutter/core/widgets/user_avatar_widget.dart';
 import 'package:otloha_sah_flutter/data_source/models/user/user.dart';
-import '../../../../core/utils/constant/constants.dart';
 import '../../../../core/utils/themes/color.dart';
-import '../../../../core/widgets/cached_image.dart';
 
 class UserAppBar extends StatelessWidget {
   final User user;
@@ -19,11 +18,11 @@ class UserAppBar extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
-        CachedImage(
-          url: user.profileImage ?? Constants.userDemo,
-          raduis: 16,
+        UserAvatarWidget(
+          user: user,
+          radius: 18,
         ),
-        const SizedBox(width: 6),
+        const SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
