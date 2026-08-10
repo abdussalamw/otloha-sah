@@ -17,6 +17,7 @@ import '../../../../settings/presentation/widgets/search_bar_app.dart';
 import '../../../../settings/presentation/widgets/view_error.dart';
 import '../../../business_logic/cubit/quran_cubit.dart';
 import '../../widget/item_surah.dart';
+import '../../../../../data_source/cache_helper.dart';
 
 class IndexSurahPage extends StatefulWidget {
   const IndexSurahPage({super.key});
@@ -103,10 +104,14 @@ class _IndexSurahPageState extends State<IndexSurahPage> {
           isSelect: QuranViewCubit.get(context).chapterId == chapters[index].id,
           onLongPress: () {},
           action: () async {
-            QuranViewCubit.get(context)
-                .controller
-                .changeChapter(chapters[index]);
-            _changePage(2);
+            if (CacheHelper.getData(key: 'selected_narration_id') == 1) {
+              Navigator.of(context).pop(chapters[index].pageFrom);
+            } else {
+              QuranViewCubit.get(context)
+                  .controller
+                  .changeChapter(chapters[index]);
+              _changePage(2);
+            }
           },
         );
       },

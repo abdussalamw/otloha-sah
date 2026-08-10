@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:otloha_sah_flutter/data_source/models/tajweed/tajweed_lesson.dart';
+import 'package:otloha_sah_flutter/modules/splash/presentation/page/setup_quran_page.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/presentation/pages/lesson_page.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/presentation/pages/levels_page.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/presentation/pages/reserved_exams_listing.dart';
@@ -89,6 +90,11 @@ class AppRouter {
           builder: (_) => const NotesVersePage(),
           settings: settings,
         );
+      case SetupQuranPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const SetupQuranPage(),
+        );
+
       case HomePage.routeName:
         return MaterialPageRoute(
           builder: (_) => const HomePage(),

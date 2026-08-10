@@ -15,6 +15,7 @@ import '../../../../../core/utils/constant/utils.dart';
 import '../../../../../core/utils/res/icons_app.dart';
 import '../../../../home/presentation/pages/home/home_page.dart';
 import '../../../../settings/presentation/widgets/search_bar_app.dart';
+import '../../../../../data_source/cache_helper.dart';
 import '../../../business_logic/cubit/getuserquranaction_cubit.dart';
 import '../../../business_logic/cubit/quran_cubit.dart';
 
@@ -75,9 +76,13 @@ class PagesBookMarkPage extends StatelessWidget {
                   return ItemBookMark(
                     index: index,
                     onPress: () {
-                      QuranViewCubit.get(context)
-                          .controller
-                          .changeInitPage(state.pages[index].pageNumber!);
+                      if (CacheHelper.getData(key: 'selected_narration_id') == 1) {
+                        CacheHelper.saveData(key: 'hafs_initial_page', value: state.pages[index].pageNumber!);
+                      } else {
+                        QuranViewCubit.get(context)
+                            .controller
+                            .changeInitPage(state.pages[index].pageNumber!);
+                      }
 
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         HomePage.routeName,

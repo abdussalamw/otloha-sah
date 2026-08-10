@@ -69,6 +69,7 @@ class SignUpPage extends StatelessWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: AppSpacing.xs),
+                      // Stitch Brand Header
                       Image.asset(
                         AppIcons.flatLogoIcon,
                         width: 80,
@@ -76,12 +77,27 @@ class SignUpPage extends StatelessWidget {
                         errorBuilder: (_, __, ___) => const Icon(
                           Icons.menu_book_rounded,
                           size: 60,
-                          color: AppColors.primary,
+                          color: Colors.white,
                         ),
                       ),
-                      pageLayOutTextHead(tr('Register New Account'), context),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        'أتلوها صح',
+                        style: AppTypography.h1Large(color: Colors.white).copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'أنشئ حسابك للبدء في رحلتك القرآنية',
+                        style: AppTypography.bodyMedium(color: Colors.white70).copyWith(
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
                       AppCard(
-                        padding: const EdgeInsets.all(AppSpacing.lg),
+                        padding: const EdgeInsets.all(AppSpacing.xl),
                         child: SignForm(cubit: cubit),
                       ),
                     ],

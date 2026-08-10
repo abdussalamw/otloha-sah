@@ -79,23 +79,38 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     const SizedBox(height: AppSpacing.sm),
-                    // Header Logo & Text
+                    const SizedBox(height: AppSpacing.sm),
+                    // Stitch Brand Header
                     Image.asset(
                       AppIcons.flatLogoIcon,
-                      width: 90,
-                      height: 90,
+                      width: 80,
+                      height: 80,
                       errorBuilder: (_, __, ___) => const Icon(
                         Icons.menu_book_rounded,
                         size: 70,
-                        color: AppColors.primary,
+                        color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.sm),
-                    pageLayOutTextHead(tr('Login'), context),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      'أتلوها صح',
+                      style: AppTypography.h1Large(color: Colors.white).copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'مرحباً بك مجدداً في رحلتك القرآنية',
+                      style: AppTypography.bodyMedium(color: Colors.white70).copyWith(
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
 
-                    // Login Form Card
+                    // Stitch Login Form Card
                     AppCard(
-                      padding: const EdgeInsets.all(AppSpacing.lg),
+                      padding: const EdgeInsets.all(AppSpacing.xl),
                       child: loginForm(cubit, isDark),
                     ),
                   ],

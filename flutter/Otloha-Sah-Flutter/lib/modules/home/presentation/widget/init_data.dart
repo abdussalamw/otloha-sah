@@ -16,6 +16,8 @@ import '../../../profile/presentation/page/profile_bnb_page.dart';
 import '../../../quran/presentation/page/quran_bnb_page.dart';
 import '../pages/bnb_pags/search_bnb_page.dart';
 import 'sub_section_item.dart';
+import '../../../../data_source/cache_helper.dart';
+import '../../../quran_hafs/presentation/pages/quran_hafs_page.dart';
 import '../../../quran/presentation/page/action_pages/pages_liked_page.dart';
 import '../../../recitations/presentation/page/recitations_page.dart';
 import '../../../teachers/presentation/page/students_page.dart';
@@ -147,7 +149,9 @@ class HomeMenuItems {
       activeIconData: AppSVG.quranSelect,
       badgeColor: AppColor.bottomSaved,
       isSVG: true,
-      page: const QuranBNBPage(),
+      page: (CacheHelper.getData(key: 'selected_narration_id') == 1)
+          ? const QuranHafsPage()
+          : const QuranBNBPage(),
     ),
     BottomBarData(
       title: translate('Tafsir'),

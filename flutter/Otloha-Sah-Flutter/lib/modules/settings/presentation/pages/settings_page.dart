@@ -22,6 +22,8 @@ import 'settings/recitation_page.dart';
 import 'settings/tafseer_page.dart';
 import 'settings/tajweed_page.dart';
 import 'settings/quran_translation_language_page.dart';
+import '../../../splash/presentation/page/setup_quran_page.dart';
+import '../../../../data_source/cache_helper.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -326,49 +328,56 @@ class _SettingsPageState extends State<SettingsPage> {
               const Divider(),
               const SizedBox(height: AppSpacing.xs),
 
-              // Narrations List from Cubit
-              BlocProvider(
-                create: (context) => NarrationCubit()..fetchNarration(),
-                child: BlocBuilder<NarrationCubit, NarrationState>(
-                  builder: (context, state) {
-                    if (state is NarrationFetched || state is NarrationChangeSelected) {
-                      final cubit = BlocProvider.of<NarrationCubit>(context);
-                      final narrations = cubit.narrations ?? [];
-                      final selectedIndex = cubit.selected ?? 0;
+              // Narrations List
+              Builder(
+                builder: (context) {
+                  final narrations = [
+                    {'id': 1, 'name': 'رواية حفص عن عاصم', 'subtitle': '(تنزيل الخطوط والصفحات المتميزة)'},
+                    {'id': 2, 'name': 'رواية ورش عن نافع', 'subtitle': '(نص عادي)'},
+                    {'id': 3, 'name': 'رواية قالون عن نافع', 'subtitle': '(نص عادي)'},
+                  ];
 
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: List.generate(narrations.length, (index) {
-                          final narration = narrations[index];
-                          final isSelected = selectedIndex == index;
-                          final name = narration.name.translate().toString();
+                  int selectedId = CacheHelper.getData(key: 'selected_narration_id') ?? 1;
 
-                          return AppCard(
-                            onTap: () {
-                              cubit.changeSelected(index);
-                              Get.dialog(
-                                ChangeNarrtionPopup(narration: narration),
-                              ).then((_) {
-                                Navigator.pop(context);
-                                parentContext.findAncestorStateOfType<_SettingsPageState>()?.setState(() {});
-                              });
-                            },
-                            margin: const EdgeInsets.only(bottom: AppSpacing.xs),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.md,
-                              vertical: AppSpacing.sm,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: narrations.map((item) {
+                      final int id = item['id'] as int;
+                      final String name = item['name'] as String;
+                      final String subtitle = item['subtitle'] as String;
+                      final bool isSelected = selectedId == id;
+
+                      return AppCard(
+                        onTap: () async {
+                          await CacheHelper.saveData(key: 'selected_narration_id', value: id);
+
+                          Navigator.pop(context);
+
+                          if (id == 1 && CacheHelper.getData(key: 'is_setup_completed') != true) {
+                            Navigator.of(parentContext).pushNamed(SetupQuranPage.routeName);
+                          } else {
+                            parentContext.findAncestorStateOfType<_SettingsPageState>()?.setState(() {});
+                          }
+                        },
+                        margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.sm,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
                               children: [
-                                Row(
+                                Icon(
+                                  Icons.menu_book_rounded,
+                                  color: isSelected ? AppColors.primary : Colors.grey,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: AppSpacing.sm),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(
-                                      Icons.menu_book_rounded,
-                                      color: isSelected ? AppColors.primary : Colors.grey,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: AppSpacing.sm),
                                     Text(
                                       name,
                                       style: AppTypography.bodyMedium(
@@ -377,32 +386,32 @@ class _SettingsPageState extends State<SettingsPage> {
                                         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                                       ),
                                     ),
+                                    Text(
+                                      subtitle,
+                                      style: AppTypography.bodySmall(color: Colors.grey),
+                                    ),
                                   ],
                                 ),
-                                if (isSelected)
-                                  const Icon(
-                                    Icons.check_circle_rounded,
-                                    color: AppColors.primary,
-                                    size: 22,
-                                  )
-                                else
-                                  const Icon(
-                                    Icons.radio_button_unchecked_rounded,
-                                    color: Colors.grey,
-                                    size: 22,
-                                  ),
                               ],
                             ),
-                          );
-                        }),
+                            if (isSelected)
+                              const Icon(
+                                Icons.check_circle_rounded,
+                                color: AppColors.primary,
+                                size: 22,
+                              )
+                            else
+                              const Icon(
+                                Icons.radio_button_unchecked_rounded,
+                                color: Colors.grey,
+                                size: 22,
+                              ),
+                          ],
+                        ),
                       );
-                    }
-                    return const Padding(
-                      padding: EdgeInsets.all(AppSpacing.lg),
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                ),
+                    }).toList(),
+                  );
+                },
               ),
               const SizedBox(height: AppSpacing.md),
             ],

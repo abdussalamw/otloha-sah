@@ -16,6 +16,8 @@ import '../../../auth_module/presentation/pages/social_login_compelete_form.dart
 import '../../../home/presentation/pages/home/block_page.dart';
 import '../../../home/presentation/pages/home/home_page.dart';
 import '../../business_logic/cubit/splash_cubit.dart';
+import '../../../../data_source/cache_helper.dart';
+import 'setup_quran_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -54,9 +56,15 @@ class _SplashScreenState extends State<SplashScreen> {
             } else if (!state.isPhoneVerified && Constants.hasOTP) {
               Get.offAll(() => CheckOTPPage());
             } else {
-              Navigator.of(context).pushReplacementNamed(
-                HomePage.routeName,
-              );
+              if (CacheHelper.getData(key: 'selected_narration_id') == null || CacheHelper.getData(key: 'is_setup_completed') != true) {
+                Navigator.of(context).pushReplacementNamed(
+                  SetupQuranPage.routeName,
+                );
+              } else {
+                Navigator.of(context).pushReplacementNamed(
+                  HomePage.routeName,
+                );
+              }
             }
           }
         },
@@ -92,9 +100,12 @@ class _SplashScreenState extends State<SplashScreen> {
                     // Right Side: Khairakom Logo
                     SvgPicture.asset(
                       'assets/svg/khairakom_logo.svg',
-                      color: Colors.white.withOpacity(0.95),
-                      width: size.width * 0.26,
-                      height: 48,
+                      colorFilter: ColorFilter.mode(
+                        Colors.white.withOpacity(0.95),
+                        BlendMode.srcIn,
+                      ),
+                      width: size.width * 0.28,
+                      height: 54,
                     ),
 
                     // Left Side: Awqaf Al-Rajhi Logo & Text Badge
@@ -103,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         RichText(
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.right,
                           text: TextSpan(
                             children: [
                               TextSpan(
@@ -127,8 +138,9 @@ class _SplashScreenState extends State<SplashScreen> {
                         const SizedBox(width: AppSpacing.xs),
                         Image.asset(
                           AppIcons.appIcon1,
-                          width: size.width * 0.22,
-                          height: 44,
+                          width: size.width * 0.38,
+                          height: 75,
+                          fit: BoxFit.contain,
                         ),
                       ],
                     ),
