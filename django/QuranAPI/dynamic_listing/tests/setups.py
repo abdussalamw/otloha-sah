@@ -1,12 +1,19 @@
 import random
-from distutils.util import strtobool
-
 import django_filters
 import factory
 from django_filters import FilterSet
 
 from dynamic_listing.tests.models import ProductTestModel, CategoryTestModel
 from dynamic_listing.views import DynamicListView
+
+
+def strtobool(value):
+    normalized = str(value).strip().lower()
+    if normalized in {'y', 'yes', 't', 'true', 'on', '1'}:
+        return 1
+    if normalized in {'n', 'no', 'f', 'false', 'off', '0'}:
+        return 0
+    raise ValueError(f'invalid truth value {value!r}')
 
 
 class CategoryTestFactory(factory.django.DjangoModelFactory):

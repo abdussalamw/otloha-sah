@@ -1,4 +1,3 @@
-import distutils.dir_util
 import json
 import os
 
@@ -275,7 +274,7 @@ def create_narration_json_file(pk):
     verses = narration.narration_verses.all().order_by('chapter_number', 'verse_number')
     serializer = VerseSerializer(verses, many=True)
 
-    distutils.dir_util.mkpath(settings.MEDIA_ROOT + '/narrations/')
+    os.makedirs(os.path.join(settings.MEDIA_ROOT, 'narrations'), exist_ok=True)
     media_path = 'narrations/{}.json'.format(narration.id)
     path = os.path.join(settings.MEDIA_ROOT, media_path)
     with open(path, 'w') as file:

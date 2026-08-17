@@ -21,7 +21,7 @@ class FilesForm(forms.ModelForm):
     class Meta:
         model = File
         fields = ['file']
-        widgets = {'file': forms.ClearableFileInput(attrs={'multiple': True})}
+        widgets = {'file': forms.ClearableFileInput()}
 
     def __init__(self, *args, **kwargs):
         self.target_model = kwargs.pop('model')

@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.12-slim
 
 LABEL maintainer="fritill.com"
 
@@ -6,6 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /requirements.txt
+COPY ./requirements.lock /requirements.lock
 COPY ./app /app
 COPY ./scripts /scripts
 
@@ -15,7 +16,7 @@ RUN apt-get update && \
     apt-get install -y postgresql-client gettext libmagic-dev && \
     python3 -m venv --system-site-packages /py && \
     /py/bin/pip3 install --upgrade pip && \
-    /py/bin/pip3 install -r /requirements.txt
+    /py/bin/pip3 install -r /requirements.lock
 
 ENV PATH="/scripts:/py/bin:$PATH"
 
