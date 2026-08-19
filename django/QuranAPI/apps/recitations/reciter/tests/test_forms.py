@@ -17,7 +17,7 @@ class ReciterFormStructureTestCase(TestCase):
         self.assertIn('Meta', ReciterForm.__dict__)
 
     def test_the_model_used_in_the_meta_is_Reciter_Model(self):
-        self.assertEquals(Reciter, ReciterForm.Meta.model)
+        self.assertEqual(Reciter, ReciterForm.Meta.model)
 
     def test_name_exists_in_serializer_fields(self):
         self.assertIn('name', ReciterForm.Meta.fields)
@@ -39,9 +39,9 @@ class ReciterFormValidationTest(TestCase):
     def test_error_code_is_required_if_name_has_no_value(self):
         self.data.pop('name')
         form = ReciterForm(data=self.data)
-        self.assertEquals(form.errors.as_data()['name'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['name'][0].code, 'required')
 
     def test_error_message_is_required_if_name_has_no_value(self):
         self.data.pop('name')
         form = ReciterForm(data=self.data)
-        self.assertEquals(form.errors.as_data()['name'][0].message, _('This field is required.'))
+        self.assertEqual(form.errors.as_data()['name'][0].message, _('This field is required.'))

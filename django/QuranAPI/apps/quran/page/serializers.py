@@ -7,8 +7,7 @@ from apps.quran.models import Page
 
 
 class PageSerializer(serializers.ModelSerializer):
-    glyphs = GlyphSerializer(many=True, read_only=True, source="page_glyph")
-    # verses = VerseSerializer(many=True, read_only=True, source="pages_verse")
+    glyphs = GlyphSerializer(many=True, read_only=True, source="page_glyphs")
     image = serializers.ImageField(use_url=True)
     chapters = serializers.SerializerMethodField(method_name="get_chapters")
 
@@ -22,8 +21,7 @@ class PageSerializer(serializers.ModelSerializer):
             "chapters",
             "part",
             "book",
-            "narrations",
-            "verses",
+            "narration",
             "glyphs"
         )
 

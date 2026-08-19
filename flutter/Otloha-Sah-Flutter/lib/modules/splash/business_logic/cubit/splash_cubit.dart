@@ -106,11 +106,9 @@ class SplashCubit extends Cubit<SplashState> {
     }
 
     try {
-      await DataSource.instance.initialApp(
-        clientId: Constants.clientId,
-        clientSecret: Constants.clientSecret,
-        baseUrl: Constants.baseUrl,
-      ).timeout(const Duration(seconds: 3));
+      await DataSource.instance
+          .initialApp(baseUrl: Constants.baseUrl)
+          .timeout(const Duration(seconds: 3));
     } catch (e) {
       print('Timeout or error during initialApp: $e');
     }

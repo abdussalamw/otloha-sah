@@ -24,13 +24,13 @@ class ExplanationAPIFilterStructureTestCase(TestCase):
         self.assertIn('model', ExplanationAPIFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_Explanation_model(self):
-        self.assertEquals(Explanation, ExplanationAPIFilter.Meta.model)
+        self.assertEqual(Explanation, ExplanationAPIFilter.Meta.model)
 
     def test_filter_class_meta_has_fields_on_it(self):
         self.assertIn('fields', ExplanationAPIFilter.Meta.__dict__)
 
     def test_filter_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(ExplanationAPIFilter.Meta.fields), list)
+        self.assertEqual(type(ExplanationAPIFilter.Meta.fields), list)
 
     def test_class_meta_fields_has_narration(self):
         self.assertIn('narration', ExplanationAPIFilter.Meta.fields)
@@ -48,7 +48,7 @@ class ExplanationAPIFilterStructureTestCase(TestCase):
     def test_search_method_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(ExplanationAPIFilter.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ExplanationAPIFilterTestCase(TestCase):
@@ -62,8 +62,8 @@ class ExplanationAPIFilterTestCase(TestCase):
         for i in range(2):
             ExplanationFactory(narration=self.narration_2)
         result = ExplanationAPIFilter({'narration': self.narration_1}, Explanation.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(self.narration_1, result[0].narration)
+        self.assertEqual(5, len(result))
+        self.assertEqual(self.narration_1, result[0].narration)
 
     def test_it_filters_based_on_q_correctly(self):
         for i in range(5):
@@ -71,8 +71,8 @@ class ExplanationAPIFilterTestCase(TestCase):
         for i in range(2):
             ExplanationFactory(name='khalid')
         result = ExplanationAPIFilter({'q': 'med'}, Explanation.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals('ahmed', result[0].name)
+        self.assertEqual(5, len(result))
+        self.assertEqual('ahmed', result[0].name)
 
 
 class ExplanationAdminFilterStructureTestCase(TestCase):
@@ -87,13 +87,13 @@ class ExplanationAdminFilterStructureTestCase(TestCase):
         self.assertIn('model', ExplanationAdminFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_Explanation_model(self):
-        self.assertEquals(Explanation, ExplanationAdminFilter.Meta.model)
+        self.assertEqual(Explanation, ExplanationAdminFilter.Meta.model)
 
     def test_filter_class_meta_has_fields_on_it(self):
         self.assertIn('fields', ExplanationAdminFilter.Meta.__dict__)
 
     def test_filter_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(ExplanationAdminFilter.Meta.fields), list)
+        self.assertEqual(type(ExplanationAdminFilter.Meta.fields), list)
 
     def test_class_meta_fields_has_narration(self):
         self.assertIn('narration', ExplanationAdminFilter.Meta.fields)
@@ -110,8 +110,8 @@ class ExplanationAdminFilterTestCase(TestCase):
         for i in range(2):
             ExplanationFactory(narration=self.narration_2)
         result = ExplanationAdminFilter({'narration': self.narration_1}, Explanation.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(self.narration_1, result[0].narration)
+        self.assertEqual(5, len(result))
+        self.assertEqual(self.narration_1, result[0].narration)
 
 
 class ExplanationAdminSearchStructureTestCase(TestCase):
@@ -131,7 +131,7 @@ class ExplanationAdminSearchStructureTestCase(TestCase):
     def test_search_method_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(ExplanationAdminSearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ExplanationAdminSearchTestCase(TestCase):
@@ -142,6 +142,6 @@ class ExplanationAdminSearchTestCase(TestCase):
         for i in range(2):
             ExplanationFactory(name='khalid')
         result = ExplanationAdminSearch({'q': 'med'}, Explanation.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals('ahmed', result[0].name)
+        self.assertEqual(5, len(result))
+        self.assertEqual('ahmed', result[0].name)
 

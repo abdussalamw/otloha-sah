@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from apps.tajweed.serializers import BookSerializer
 
 
 class BooksListAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         books = BookAPISearch(request.GET, Book.objects.all())
@@ -19,7 +19,7 @@ class BooksListAPIView(APIView):
 
 
 class BooksDetailsAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, book_id):
         book = get_object_or_404(Book, pk=book_id)

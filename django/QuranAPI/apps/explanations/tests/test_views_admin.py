@@ -40,13 +40,13 @@ class ExplanationListingViewStructureTestCase(TestCase):
         self.assertTrue(hasattr(ExplanationListingView, 'title'))
 
     def test_list_view_title_value(self):
-        self.assertEquals(ExplanationListingView.title, _('All Explanations'))
+        self.assertEqual(ExplanationListingView.title, _('All Explanations'))
 
     def test_list_view_has_list_display(self):
         self.assertTrue(hasattr(ExplanationListingView, 'list_display'))
 
     def test_list_display_value(self):
-        self.assertEquals(ExplanationListingView.list_display, (
+        self.assertEqual(ExplanationListingView.list_display, (
             ('id', _('ID')),
             ('name', _('Name')),
             ('narration', _('Narration')),
@@ -59,7 +59,7 @@ class ExplanationListingViewStructureTestCase(TestCase):
     def test_get_breadcrumb_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(ExplanationListingView.get_breadcrumb)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_name(self):
         self.assertTrue(hasattr(ExplanationListingView, 'get_actions'))
@@ -67,7 +67,7 @@ class ExplanationListingViewStructureTestCase(TestCase):
     def test_load_name_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(ExplanationListingView.load_name)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_actions(self):
         self.assertTrue(hasattr(ExplanationListingView, 'load_actions'))
@@ -75,7 +75,7 @@ class ExplanationListingViewStructureTestCase(TestCase):
     def test_load_actions_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(ExplanationListingView.load_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_actions(self):
         self.assertTrue(hasattr(ExplanationListingView, 'get_actions'))
@@ -83,7 +83,7 @@ class ExplanationListingViewStructureTestCase(TestCase):
     def test_get_actions_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(ExplanationListingView.get_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ExplanationListingViewTestCase(TestCase):
@@ -117,7 +117,7 @@ class ExplanationDetailsViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'explanation_id']
         actual_signature = inspect.getfullargspec(ExplanationDetailsView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class BookDetailsViewTestCase(TestCase):
@@ -154,7 +154,7 @@ class BookDetailsViewTestCase(TestCase):
 
     def test_object_in_context_is_correct_one(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['explanation'], self.explanation)
+        self.assertEqual(response.context['explanation'], self.explanation)
 
     def test_template_used(self):
         response = self.client.get(self.url)
@@ -177,7 +177,7 @@ class ExplanationCreateAndUpdateViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(ExplanationCreateAndUpdateView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_post(self):
         self.assertTrue(hasattr(ExplanationCreateAndUpdateView, 'post'))
@@ -188,7 +188,7 @@ class ExplanationCreateAndUpdateViewStructureTestCase(TestCase):
     def test_post_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(ExplanationCreateAndUpdateView.post)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ExplanationCreateViewGETTestCase(TestCase):
@@ -225,7 +225,7 @@ class ExplanationCreateViewGETTestCase(TestCase):
 
     def test_context_form_is_new_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance.pk, None)
+        self.assertEqual(response.context['form'].instance.pk, None)
 
 
 class ExplanationUpdateViewGETTestCase(TestCase):
@@ -263,7 +263,7 @@ class ExplanationUpdateViewGETTestCase(TestCase):
 
     def test_context_form_instance_is_equal_to_explanation(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance, self.explanation)
+        self.assertEqual(response.context['form'].instance, self.explanation)
 
 
 class ExplanationCreateViewPOSTTestCase(TestCase):
@@ -316,12 +316,12 @@ class ExplanationCreateViewPOSTTestCase(TestCase):
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Explanation Created Successfully"))
+        self.assertEqual(str(msgs[0]), _("Explanation Created Successfully"))
 
 
 class ExplanationUpdateViewPOSTTestCase(TestCase):
@@ -368,14 +368,14 @@ class ExplanationUpdateViewPOSTTestCase(TestCase):
     def test_it_saves_updated_explanation_into_database(self):
         self.client.post(self.url, data=self.data)
         self.explanation.refresh_from_db()
-        self.assertEquals('new explanation name', self.explanation.name['ar'])
+        self.assertEqual('new explanation name', self.explanation.name['ar'])
 
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_updated_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Explanation Updated Successfully"))
+        self.assertEqual(str(msgs[0]), _("Explanation Updated Successfully"))

@@ -37,13 +37,13 @@ class VersesListingViewStructureTestCase(TestCase):
         self.assertTrue(hasattr(VersesListingView, 'title'))
 
     def test_list_view_title_value(self):
-        self.assertEquals(VersesListingView.title, _('All Verses'))
+        self.assertEqual(VersesListingView.title, _('All Verses'))
 
     def test_list_view_has_list_display(self):
         self.assertTrue(hasattr(VersesListingView, 'list_display'))
 
     def test_list_display_value(self):
-        self.assertEquals(VersesListingView.list_display, (
+        self.assertEqual(VersesListingView.list_display, (
             ('id', _('ID')),
             ('verse_text', _('Verse Text')),
             ('chapter', _('Chapter')),
@@ -62,7 +62,7 @@ class VersesListingViewStructureTestCase(TestCase):
     def test_get_breadcrumb_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(VersesListingView.get_breadcrumb)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_title(self):
         self.assertTrue(hasattr(VersesListingView, 'get_title'))
@@ -70,7 +70,7 @@ class VersesListingViewStructureTestCase(TestCase):
     def test_get_title_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(VersesListingView.get_title)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_actions(self):
         self.assertTrue(hasattr(VersesListingView, 'load_actions'))
@@ -78,7 +78,7 @@ class VersesListingViewStructureTestCase(TestCase):
     def test_load_actions_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(VersesListingView.load_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_queryset(self):
         self.assertTrue(hasattr(VersesListingView, 'get_queryset'))
@@ -86,7 +86,7 @@ class VersesListingViewStructureTestCase(TestCase):
     def test_get_queryset_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(VersesListingView.get_queryset)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_verse_text(self):
         self.assertTrue(hasattr(VersesListingView, 'load_verse_text'))
@@ -94,7 +94,7 @@ class VersesListingViewStructureTestCase(TestCase):
     def test_load_verse_text_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(VersesListingView.load_verse_text)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class VersesListingViewTestCase(TestCase):
@@ -134,7 +134,7 @@ class VerseDetailsViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'verse_id']
         actual_signature = inspect.getfullargspec(VerseDetailsView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class VerseDetailsViewTestCase(TestCase):
@@ -163,7 +163,7 @@ class VerseDetailsViewTestCase(TestCase):
 
     def test_characters_in_context_is_correct_one(self):
         response = self.client.get(self.url)
-        self.assertQuerysetEqual(response.context['characters'], Character.objects.filter(tajweed_verse=self.verse),
+        self.assertQuerySetEqual(response.context['characters'], Character.objects.filter(tajweed_verse=self.verse),
                                  transform=lambda x: x)
 
     def test_context_contains_prev_verse_url(self):
@@ -185,7 +185,7 @@ class VerseDetailsViewTestCase(TestCase):
 
     def test_object_in_context_is_correct_one(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['verses'], self.verse)
+        self.assertEqual(response.context['verses'], self.verse)
 
     def test_template_used(self):
         response = self.client.get(self.url)
@@ -205,7 +205,7 @@ class VerseUpdateViewStructureTestCase(TestCase):
     def test_get_formset_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(VerseUpdateView.get_formset)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get(self):
         self.assertTrue(hasattr(VerseUpdateView, 'get'))
@@ -216,7 +216,7 @@ class VerseUpdateViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'verse_id']
         actual_signature = inspect.getfullargspec(VerseUpdateView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_post(self):
         self.assertTrue(hasattr(VerseUpdateView, 'post'))
@@ -227,7 +227,7 @@ class VerseUpdateViewStructureTestCase(TestCase):
     def test_post_method_signature(self):
         expected_signature = ['self', 'request', 'verse_id']
         actual_signature = inspect.getfullargspec(VerseUpdateView.post)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class VerseUpdateViewGETTestCase(TestCase):
@@ -250,11 +250,11 @@ class VerseUpdateViewGETTestCase(TestCase):
 
     def test_context_form_instance_is_equal_to_verse(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['verses'], self.verse)
+        self.assertEqual(response.context['verses'], self.verse)
 
     def test_characters_in_context_is_correct_one(self):
         response = self.client.get(self.url)
-        self.assertQuerysetEqual(response.context['characters'], Character.objects.filter(tajweed_verse=self.verse),
+        self.assertQuerySetEqual(response.context['characters'], Character.objects.filter(tajweed_verse=self.verse),
                                  transform=lambda x: x)
 
     def test_context_contains_title(self):
@@ -263,7 +263,7 @@ class VerseUpdateViewGETTestCase(TestCase):
 
     def test_context_title_is_update_title(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context["title"], _('Update Characters'))
+        self.assertEqual(response.context["title"], _('Update Characters'))
 
     def test_context_contains_prev_verse_url(self):
         response = self.client.get(self.url)

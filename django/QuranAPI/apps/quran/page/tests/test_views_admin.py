@@ -9,7 +9,8 @@ from django.views import View
 
 from apps.main.views_admin import AdminListView
 from apps.quran.page.views_admin import PageListAdminView, PageDetailsView
-from apps.quran.factories import PageFactory, BookFactory, NarrationFactory
+from apps.narrations.factories import NarrationFactory
+from apps.quran.factories import BookFactory, PageFactory
 from apps.quran.models import Page
 from apps.users.factories import UserFactory
 
@@ -79,7 +80,7 @@ class PageDetailsViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'book_id', 'page_id']
         actual_signature = inspect.getfullargspec(PageDetailsView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class PageDetailsViewTestCase(TestCase):
@@ -122,7 +123,7 @@ class PageDetailsViewTestCase(TestCase):
 
     def test_context_book_is_correct(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['book'], self.book)
+        self.assertEqual(response.context['book'], self.book)
 
     def test_page_exists_in_the_context(self):
         response = self.client.get(self.url)
@@ -130,7 +131,7 @@ class PageDetailsViewTestCase(TestCase):
 
     def test_context_page_is_correct(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['page'], self.page)
+        self.assertEqual(response.context['page'], self.page)
 
     def test_title_exists_in_the_context(self):
         response = self.client.get(self.url)

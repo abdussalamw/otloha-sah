@@ -75,7 +75,7 @@ class PartFilterStructureTestCase(TestCase):
     def test_name_filter_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(PartFilter.name_filter)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test alias_filter function
     def test_it_has_name_filter_function(self):
@@ -84,7 +84,7 @@ class PartFilterStructureTestCase(TestCase):
     def test_name_filter_signature(self):
         expected_signature = ['self', 'queryset', 'alias', 'value']
         actual_signature = inspect.getfullargspec(PartFilter.alias_filter)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class PartFilterTestCase(TestCase):
@@ -141,7 +141,7 @@ class PartAdminSearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(PartAdminSearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class PartAdminSearchTestCase(TestCase):
@@ -155,7 +155,7 @@ class PartAdminSearchTestCase(TestCase):
         PartFactory(name='te')
         queryset = Part.objects.all()
         result = PartAdminSearch({'q': "te"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'alias'],
             value="te"), ordered=False)
@@ -166,7 +166,7 @@ class PartAdminSearchTestCase(TestCase):
         PartFactory(alias='te')
         queryset = Part.objects.all()
         result = PartAdminSearch({'q': "te"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'alias'],
             value="te"), ordered=False)
@@ -224,7 +224,7 @@ class PartAPISearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(PartAPISearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class PartAPISearchTestCase(TestCase):
@@ -238,7 +238,7 @@ class PartAPISearchTestCase(TestCase):
         PartFactory(name='te')
         queryset = Part.objects.all()
         result = PartAPISearch({'q': "te"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'alias'],
             value="te"), ordered=False)
@@ -249,7 +249,7 @@ class PartAPISearchTestCase(TestCase):
         PartFactory(alias='te')
         queryset = Part.objects.all()
         result = PartAPISearch({'q': "te"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'alias'],
             value="te"), ordered=False)

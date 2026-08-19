@@ -21,7 +21,7 @@ class UpdateUserDataSerializerValidationTestCase(TestCase):
 
     def test_it_contains_all_expected_fields(self):
         data = self.serializer.data
-        self.assertEquals(set(data.keys()), {'first_name', 'last_name', 'gender', 'birth_date', 'image'})
+        self.assertEqual(set(data.keys()), {'first_name', 'last_name', 'gender', 'birth_date', 'image'})
 
     def test_it_returns_error_when_no_data(self):
         serializer = UpdateUserDataSerializer(data={})
@@ -46,7 +46,7 @@ class UpdateUserDataSerializerValidationTestCase(TestCase):
         serializer = UpdateUserDataSerializer(instance=self.user, data=self.data)
         self.assertTrue(serializer.is_valid())
         serializer.save()
-        self.assertEquals(UpdateUserDataSerializer(instance=self.user).data, serializer.data)
+        self.assertEqual(UpdateUserDataSerializer(instance=self.user).data, serializer.data)
 
 
 class UpdateEmailSerializerValidationTestCase(TestCase):
@@ -61,7 +61,7 @@ class UpdateEmailSerializerValidationTestCase(TestCase):
 
     def test_it_contains_all_expected_fields(self):
         data = self.serializer.data
-        self.assertEquals(set(data.keys()), {'email', 'password'})
+        self.assertEqual(set(data.keys()), {'email', 'password'})
 
     def test_it_returns_error_when_no_data(self):
         serializer = UpdateEmailSerializer(data={})
@@ -78,7 +78,7 @@ class UpdateEmailSerializerValidationTestCase(TestCase):
         self.data.pop('password')
         serializer = UpdateEmailSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(serializer.errors.keys(), {'password'})
+        self.assertEqual(serializer.errors.keys(), {'password'})
 
     def test_it_creates_page(self):
         serializer = UpdateEmailSerializer(data=self.data, user=self.user)
@@ -88,7 +88,7 @@ class UpdateEmailSerializerValidationTestCase(TestCase):
         serializer = UpdateEmailSerializer(instance=self.user, data=self.data, user=self.user)
         self.assertTrue(serializer.is_valid())
         serializer.save()
-        self.assertEquals(UpdateEmailSerializer(instance=self.user, user=self.user).data, serializer.data)
+        self.assertEqual(UpdateEmailSerializer(instance=self.user, user=self.user).data, serializer.data)
 
     def test_it_updates_email_with_one_exists_data(self):
         data = {
@@ -111,7 +111,7 @@ class UpdatePhoneNumberSerializerValidationTestCase(TestCase):
 
     def test_it_contains_all_expected_fields(self):
         data = self.serializer.data
-        self.assertEquals(set(data.keys()), {'phone', 'password'})
+        self.assertEqual(set(data.keys()), {'phone', 'password'})
 
     def test_it_returns_error_when_no_data(self):
         serializer = UpdatePhoneNumberSerializer(data={})
@@ -123,13 +123,13 @@ class UpdatePhoneNumberSerializerValidationTestCase(TestCase):
         self.data.pop('phone')
         serializer = UpdatePhoneNumberSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(serializer.errors.keys(), {'phone'})
+        self.assertEqual(serializer.errors.keys(), {'phone'})
 
     def test_password_is_required(self):
         self.data.pop('password')
         serializer = UpdatePhoneNumberSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(serializer.errors.keys(), {'password'})
+        self.assertEqual(serializer.errors.keys(), {'password'})
 
     def test_it_creates_page(self):
         serializer = UpdatePhoneNumberSerializer(data=self.data, user=self.user)
@@ -139,7 +139,7 @@ class UpdatePhoneNumberSerializerValidationTestCase(TestCase):
         serializer = UpdatePhoneNumberSerializer(instance=self.user, data=self.data, user=self.user)
         self.assertTrue(serializer.is_valid())
         serializer.save()
-        self.assertEquals(UpdatePhoneNumberSerializer(instance=self.user, user=self.user).data, serializer.data)
+        self.assertEqual(UpdatePhoneNumberSerializer(instance=self.user, user=self.user).data, serializer.data)
 
     def test_it_updates_email_with_one_exists_data(self):
         data = {
@@ -165,7 +165,7 @@ class ChangePasswordSerializerValidationTestCase(TestCase):
              result : returning the correct fields for the serializer
         """
         data = self.serializer.data
-        self.assertEquals(set(data.keys()), {'password'})
+        self.assertEqual(set(data.keys()), {'password'})
 
     def test_it_returns_error_when_no_data(self):
         serializer = ChangePasswordSerializer(data={})
@@ -177,13 +177,13 @@ class ChangePasswordSerializerValidationTestCase(TestCase):
         self.data.pop('password')
         serializer = ChangePasswordSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(serializer.errors.keys(), {'password'})
+        self.assertEqual(serializer.errors.keys(), {'password'})
 
     def test_password_is_required(self):
         self.data.pop('new_password')
         serializer = ChangePasswordSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(serializer.errors.keys(), {'new_password'})
+        self.assertEqual(serializer.errors.keys(), {'new_password'})
 
     def test_it_creates_page(self):
         serializer = ChangePasswordSerializer(data=self.data)
@@ -193,4 +193,4 @@ class ChangePasswordSerializerValidationTestCase(TestCase):
         serializer = ChangePasswordSerializer(instance=self.user, data=self.data)
         self.assertTrue(serializer.is_valid())
         serializer.save()
-        self.assertEquals(ChangePasswordSerializer(instance=self.user).data, serializer.data)
+        self.assertEqual(ChangePasswordSerializer(instance=self.user).data, serializer.data)

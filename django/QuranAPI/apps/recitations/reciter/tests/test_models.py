@@ -16,10 +16,10 @@ class ReciterModelTestCase(TestCase):
         self.assertIn('_meta', Reciter.__dict__)
 
     def test_Reciter_model_verbose_field_value_is_reciter(self):
-        self.assertEquals(Reciter._meta.verbose_name, _('Reciter'))
+        self.assertEqual(Reciter._meta.verbose_name, _('Reciter'))
 
     def test_Reciter_model_verbose_name_plural_field_value_is_Reciters(self):
-        self.assertEquals(Reciter._meta.verbose_name_plural, _('Reciters'))
+        self.assertEqual(Reciter._meta.verbose_name_plural, _('Reciters'))
 
     def test_it_contains_translatable_attribute(self):
         self.assertTrue(hasattr(Reciter(), 'translatable'))
@@ -31,7 +31,7 @@ class ReciterModelTestCase(TestCase):
         self.assertIn('field', Reciter.translatable['name'])
 
     def test_translatable_name_field_value_is_forms_char_field(self):
-        self.assertEquals(Reciter.translatable['name']['field'], forms.CharField)
+        self.assertEqual(Reciter.translatable['name']['field'], forms.CharField)
 
     def test_it_contains_id_attribute(self):
         self.assertTrue(hasattr(Reciter, 'id'))
@@ -61,7 +61,7 @@ class ReciterModelTestCase(TestCase):
 
     def test_name_field_verbose_name(self):
         field = Reciter._meta.get_field('name')
-        self.assertEquals(field.verbose_name, _('Name'))
+        self.assertEqual(field.verbose_name, _('Name'))
 
     def test_model_has___str___method(self):
         self.assertTrue(hasattr(Reciter(), '__str__'))

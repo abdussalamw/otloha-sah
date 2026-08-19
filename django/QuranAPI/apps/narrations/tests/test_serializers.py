@@ -43,10 +43,10 @@ class NarrationSerializerResponseTestCase(TestCase):
         self.assertEqual(set(self.data.keys()), {'id', 'name', 'description'})
 
     def test_id_has_correct_value(self):
-        self.assertEquals(self.data['id'], self.narration.pk)
+        self.assertEqual(self.data['id'], self.narration.pk)
 
     def test_name_has_correct_value(self):
-        self.assertEquals(self.data['name'], self.narration.translated_name)
+        self.assertEqual(self.data['name'], self.narration.translated_name)
 
     def test_description_has_correct_value(self):
-        self.assertEquals(self.data['description'], self.narration.translated_description)
+        self.assertEqual(self.data['description'], self.narration.translated_description)

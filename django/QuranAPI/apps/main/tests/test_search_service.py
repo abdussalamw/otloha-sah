@@ -2,8 +2,9 @@ import inspect
 
 from django.test import TestCase, override_settings
 
+from apps.chapters.factories import ChapterFactory
+from apps.chapters.models import Chapter
 from apps.main.services.service_search.search import SearchAbstract, SearchProvider
-from apps.main.tests.models import TestModel
 
 
 class MockSearchProvider(SearchAbstract):
@@ -11,6 +12,9 @@ class MockSearchProvider(SearchAbstract):
         if columns is None:
             columns = []
         return queryset.filter(name='name')
+
+    def ranked_search(self, queryset, columns, value):
+        return self.search(queryset=queryset, columns=columns, value=value)
 
 
 class SearchAbstractStructureClassTestCase(TestCase):
@@ -23,7 +27,7 @@ class SearchAbstractStructureClassTestCase(TestCase):
     def test_search_method_signature(self):
         expected_signature = ['self', 'queryset', 'columns', 'value']
         actual_signature = inspect.getfullargspec(SearchAbstract.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class SearchProviderStructureClassTestCase(TestCase):
@@ -38,16 +42,23 @@ class SearchProviderTestCase(TestCase):
     def setUp(self):
         for _ in range(10):
             if _ % 2:
-                TestModel.objects.create(name='name', description='name description')
+                ChapterFactory(name='name')
             else:
-                TestModel.objects.create(name='x', description='x')
-        self.queryset = TestModel.objects.all()
+                ChapterFactory(name='x')
+        self.queryset = Chapter.objects.all()
 
     @override_settings(SEARCH_SERVICE_PROVIDER="apps.main.tests.test_search_service.MockSearchProvider")
     def test_it_calls_the_select_service_send(self):
-        self.assertEquals(self.queryset.filter(name='name'),
-                          SearchProvider().search(queryset=self.queryset, columns=['name', 'description'],
-                                                  value='name'))
+        expected_ids = list(self.queryset.filter(name='name').values_list('pk', flat=True))
+        actual_ids = list(
+            SearchProvider().search(
+                queryset=self.queryset,
+                columns=['name'],
+                value='name',
+            ).values_list('pk', flat=True)
+        )
+
+        self.assertEqual(expected_ids, actual_ids)
 
     def test_it_returns_subclass_of_search_provider_abstract(self):
         class_ = SearchProvider().get_service_class()

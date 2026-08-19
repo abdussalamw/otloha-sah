@@ -45,7 +45,7 @@ class BookModelStructureTestCase(TestCase):
         self.assertIn('field', Book.translatable['name'].keys())
 
     def test_if_field_key_in_name_key_of_translatable_extends_forms_CharField(self):
-        self.assertEquals(Book.translatable['name']['field'], forms.CharField)
+        self.assertEqual(Book.translatable['name']['field'], forms.CharField)
 
     def test_it_has_name_attribute(self):
         self.assertTrue(hasattr(Book, 'name'))
@@ -81,7 +81,7 @@ class BookModelStructureTestCase(TestCase):
 
     def test_narration_field_is_related_to_narration_model(self):
         field = Book._meta.get_field("narration")
-        self.assertEquals(field.__dict__['related_model'], Narration)
+        self.assertEqual(field.__dict__['related_model'], Narration)
 
     def test_narration_field_has_on_delete_attribute(self):
         field = Book._meta.get_field("narration")
@@ -89,7 +89,7 @@ class BookModelStructureTestCase(TestCase):
 
     def test_narration_field_on_delete_attribute_is_set_null(self):
         field = Book._meta.get_field("narration")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
 
     def test_narration_field_has_null_value(self):
         field = Book._meta.get_field("narration")
@@ -116,7 +116,7 @@ class BookModelStructureTestCase(TestCase):
         self.assertIn('field', Book.translatable['author'].keys())
 
     def test_if_field_key_in_author_key_of_translatable_extends_forms_CharField(self):
-        self.assertEquals(Book.translatable['author']['field'], forms.CharField)
+        self.assertEqual(Book.translatable['author']['field'], forms.CharField)
 
     def test_it_has_author_attribute(self):
         self.assertTrue(hasattr(Book, 'author'))
@@ -179,13 +179,13 @@ class BookModelStructureTestCase(TestCase):
     def test__str__signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(Book.__str__)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class BookModelTestCase(TestCase):
     def test___str___returns_name_if_available(self):
         book = TajweedBookFactory()
-        self.assertEquals(str(book), _("{book} Book").format(book=book.translated_name))
+        self.assertEqual(str(book), _("{book} Book").format(book=book.translated_name))
 
 
 class RuleModelStructureTestCase(TestCase):
@@ -256,7 +256,7 @@ class RuleModelStructureTestCase(TestCase):
         self.assertIn('field', Rule.translatable['name'].keys())
 
     def test_if_field_key_in_name_key_of_translatable_extends_forms_CharField(self):
-        self.assertEquals(Rule.translatable['name']['field'], forms.CharField)
+        self.assertEqual(Rule.translatable['name']['field'], forms.CharField)
 
     def test_it_has_name_attribute(self):
         self.assertTrue(hasattr(Rule, 'name'))
@@ -282,13 +282,13 @@ class RuleModelStructureTestCase(TestCase):
         self.assertIn('field', Rule.translatable['description'].keys())
 
     def test_if_field_key_in_description_key_of_translatable_extends_forms_CharField(self):
-        self.assertEquals(Rule.translatable['description']['field'], forms.CharField)
+        self.assertEqual(Rule.translatable['description']['field'], forms.CharField)
 
     def test_if_widget_key_in_description_key_of_translatable(self):
         self.assertIn('widget', Rule.translatable['description'].keys())
 
     def test_if_widget_key_in_description_key_of_translatable_extends_forms_Textarea(self):
-        self.assertEquals(Rule.translatable['description']['widget'], forms.Textarea)
+        self.assertEqual(Rule.translatable['description']['widget'], forms.Textarea)
 
     def test_rule_model_has_description_field(self):
         self.assertTrue(hasattr(Rule, 'description'))
@@ -431,7 +431,7 @@ class RuleModelStructureTestCase(TestCase):
 
     def test_colors_attribute_max_length_value_is_50(self):
         field = Rule._meta.get_field("color")
-        self.assertEquals(field.max_length, 50)
+        self.assertEqual(field.max_length, 50)
 
     def test_colors_attribute_has_colors_choices(self):
         field = Rule._meta.get_field("color")
@@ -439,7 +439,7 @@ class RuleModelStructureTestCase(TestCase):
 
     def test_colors_attribute_value_is_colors_choices_variable(self):
         field = Rule._meta.get_field("color")
-        self.assertEquals(Rule.COLORS, field.choices)
+        self.assertEqual(Rule.COLORS, field.choices)
 
     # Test Tajweed_book
 
@@ -452,7 +452,7 @@ class RuleModelStructureTestCase(TestCase):
 
     def test_tajweed_book_field_is_related_to_tajweed_book_model(self):
         field = Rule._meta.get_field("tajweed_book")
-        self.assertEquals(field.__dict__['related_model'], Book)
+        self.assertEqual(field.__dict__['related_model'], Book)
 
     def test_tajweed_book_field_has_on_delete_attribute(self):
         field = Rule._meta.get_field("tajweed_book")
@@ -460,7 +460,7 @@ class RuleModelStructureTestCase(TestCase):
 
     def test_tajweed_book_field_on_delete_attribute_is_cascade(self):
         field = Rule._meta.get_field("tajweed_book")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.CASCADE)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.CASCADE)
 
     # Test __str__
 
@@ -473,14 +473,14 @@ class RuleModelStructureTestCase(TestCase):
     def test__str__signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(Rule.__str__)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class RuleModelTestCase(TestCase):
 
     def test___str___returns_name_tajweed_book_if_available(self):
         rule = RuleFactory(tajweed_book=TajweedBookFactory())
-        self.assertEquals(str(rule), _("Rule: {rule}, Rule Number: {rule_number}").format(
+        self.assertEqual(str(rule), _("Rule: {rule}, Rule Number: {rule_number}").format(
             rule=rule.translated_name,
             rule_number=rule.rule_number,
         ))
@@ -521,7 +521,7 @@ class CharacterModelStructureTestCase(TestCase):
 
     def test_character_text_attribute_max_length_value_is_5000(self):
         field = Character._meta.get_field("character_text")
-        self.assertEquals(field.max_length, 5000)
+        self.assertEqual(field.max_length, 5000)
 
     def test_character_text_field_has_verbose_name(self):
         field = Character._meta.get_field("character_text")
@@ -579,7 +579,7 @@ class CharacterModelStructureTestCase(TestCase):
 
     def test_word_text_attribute_max_length_value_is_1000(self):
         field = Character._meta.get_field("word_text")
-        self.assertEquals(field.max_length, 1000)
+        self.assertEqual(field.max_length, 1000)
 
     def test_word_text_field_has_verbose_name(self):
         field = Character._meta.get_field("word_text")
@@ -730,7 +730,7 @@ class CharacterModelStructureTestCase(TestCase):
 
     def test_book_field_is_related_to_book_model(self):
         field = Character._meta.get_field("book")
-        self.assertEquals(field.__dict__['related_model'], Book)
+        self.assertEqual(field.__dict__['related_model'], Book)
 
     def test_book_field_has_blank_value(self):
         field = Character._meta.get_field("book")
@@ -754,7 +754,7 @@ class CharacterModelStructureTestCase(TestCase):
 
     def test_book_field_on_delete_attribute_is_set_null(self):
         field = Character._meta.get_field("book")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
 
     def test_book_attribute_has_verbose_name(self):
         field = Character._meta.get_field('book')
@@ -775,7 +775,7 @@ class CharacterModelStructureTestCase(TestCase):
 
     def test_rule_field_is_related_to_rule_model(self):
         field = Character._meta.get_field("rule")
-        self.assertEquals(field.__dict__['related_model'], Rule)
+        self.assertEqual(field.__dict__['related_model'], Rule)
 
     def test_rule_field_has_blank_value(self):
         field = Character._meta.get_field("rule")
@@ -807,7 +807,7 @@ class CharacterModelStructureTestCase(TestCase):
 
     def test_rule_field_on_delete_attribute_is_set_null(self):
         field = Character._meta.get_field("rule")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
 
     # Test Tajweed_verse
 
@@ -820,7 +820,7 @@ class CharacterModelStructureTestCase(TestCase):
 
     def test_verse_field_is_related_to_verse_model(self):
         field = Character._meta.get_field("verse")
-        self.assertEquals(field.__dict__['related_model'], Verse)
+        self.assertEqual(field.__dict__['related_model'], Verse)
 
     def test_verse_field_has_blank_value(self):
         field = Character._meta.get_field("verse")
@@ -852,7 +852,7 @@ class CharacterModelStructureTestCase(TestCase):
 
     def test_verse_field_on_delete_attribute_is_set_null(self):
         field = Character._meta.get_field("verse")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
 
     # Test __str__
 
@@ -865,11 +865,11 @@ class CharacterModelStructureTestCase(TestCase):
     def test__str__signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(Character.__str__)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class CharacterModelTestCase(TestCase):
 
     def test___str___returns_name_word_if_available(self):
         character = CharacterFactory(word_number=1)
-        self.assertEquals(str(character), _("Character {character}").format(character=character.character_text))
+        self.assertEqual(str(character), _("Character {character}").format(character=character.character_text))

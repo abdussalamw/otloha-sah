@@ -44,7 +44,7 @@ class UpdateProfileInfoGetViewTestCase(TestCase):
 
     def test_context_page_title_is_instance_of_Update_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['page_title'], _("Update User Info"))
+        self.assertEqual(response.context['page_title'], _("Update User Info"))
 
 
 class UpdateProfileInfoPostViewTestCase(TestCase):
@@ -114,7 +114,7 @@ class UpdateEmailViewGetTestCase(TestCase):
 
     def test_context_page_title_is_instance_of_Update_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['page_title'], _("Update Email"))
+        self.assertEqual(response.context['page_title'], _("Update Email"))
 
 
 class UpdateEmailViewPostTestCase(TestCase):
@@ -180,7 +180,7 @@ class UpdatePhoneViewGETTestCase(TestCase):
 
     def test_context_page_title_is_instance_of_Update_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['page_title'], _("Update Phone Number"))
+        self.assertEqual(response.context['page_title'], _("Update Phone Number"))
 
 
 class UpdatePhoneViewTestCase(TestCase):
@@ -205,12 +205,12 @@ class UpdatePhoneViewTestCase(TestCase):
     def test_get_signature(self):
         expected_signature = ['self', 'request', ]
         actual_signature = inspect.getfullargspec(PhoneUpdateView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_post_signature(self):
         expected_signature = ['self', 'request', ]
         actual_signature = inspect.getfullargspec(PhoneUpdateView.post)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class UpdatePhoneViewPOSTTestCase(TestCase):
@@ -270,13 +270,13 @@ class ChangePasswordViewTestCase(TestCase):
 
     def test_it_returns_200_when_updated_successfully(self):
         response = self.client.post(self.url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_it_returns_the_right_success_message(self):
-        self.assertEquals(self.change_password.success_message, "Successfully Changed Your Password")
+        self.assertEqual(self.change_password.success_message, "Successfully Changed Your Password")
 
     def test_it_redirect_to_success_url(self):
-        self.assertEquals(self.change_password.success_url, reverse('site:profile:index'))
+        self.assertEqual(self.change_password.success_url, reverse('site:profile:index'))
 
     def test_it_the_form_used(self):
-        self.assertEquals(self.change_password.form_class, PasswordChangeForm)
+        self.assertEqual(self.change_password.form_class, PasswordChangeForm)

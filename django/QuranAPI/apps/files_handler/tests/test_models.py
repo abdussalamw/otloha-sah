@@ -9,7 +9,8 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.files_handler.custom_model_fields import GenericFileField
 from apps.files_handler.models import File
-from apps.quran.factories import BookFactory, NarrationFactory
+from apps.narrations.factories import NarrationFactory
+from apps.quran.factories import BookFactory
 from apps.quran.models import Book
 
 TEST_DIR = 'test_data'
@@ -18,15 +19,18 @@ TEST_DIR = 'test_data'
 class FileModelTestCase(TestCase):
     @override_settings(MEDIA_ROOT=(TEST_DIR + '/media'))
     def setUp(self):
-        base_path = os.path.dirname(os.path.realpath(__file__))
-
         book = BookFactory(narration=NarrationFactory())
-        file = open(base_path + '/files/recitations.zip', 'rb')
-        self.file_upload = File.objects.create(content_type=ContentType.objects.get_for_model(Book)
-                                               , object_id=book.pk,
-                                               file=SimpleUploadedFile(content=file.read(), name=file.name,
-                                                                       content_type='multipart/form-data'),
-                                               file_name='file')
+        uploaded_file = SimpleUploadedFile(
+            name='recitations.zip',
+            content=b'PK\x03\x04',
+            content_type='application/zip',
+        )
+        self.file_upload = File.objects.create(
+            content_type=ContentType.objects.get_for_model(Book),
+            object_id=book.pk,
+            file=uploaded_file,
+            file_name='recitations.zip',
+        )
 
     def tearDown(self):
         try:
@@ -46,15 +50,15 @@ class FileModelTestCase(TestCase):
 
     def test_meta_verbose_name_of_file_field(self):
         field = File._meta.get_field('file')
-        self.assertEquals(field.verbose_name, _('file'))
+        self.assertEqual(field.verbose_name, _('file'))
 
     def test_value_of_the_max_upload_size(self):
         field = File._meta.get_field('file')
-        self.assertEquals(field.max_upload_size, 429916160)
+        self.assertEqual(field.max_upload_size, 429916160)
 
     def test_value_of_the_content_types(self):
         field = File._meta.get_field('file')
-        self.assertEquals(field.content_types,
+        self.assertEqual(field.content_types,
                           ['application/vnd.ms-excel', 'text/csv', 'application/zip',
                            'application/x-7z-compressed', 'application/vnd.rar'])
 
@@ -67,11 +71,11 @@ class FileModelTestCase(TestCase):
 
     def test_meta_verbose_name_of_file_name_field(self):
         field = File._meta.get_field('file_name')
-        self.assertEquals(field.verbose_name, _('File Name'))
+        self.assertEqual(field.verbose_name, _('File Name'))
 
     def test_value_of_the_max_length_in_file_name_field(self):
         field = File._meta.get_field('file_name')
-        self.assertEquals(field.max_length, 200)
+        self.assertEqual(field.max_length, 200)
 
     def test_file_name_field_set_to_null_equal_true(self):
         field = File._meta.get_field('file_name')
@@ -90,7 +94,7 @@ class FileModelTestCase(TestCase):
 
     def test_meta_verbose_name_of_is_processed_field(self):
         field = File._meta.get_field('is_processed')
-        self.assertEquals(field.verbose_name, _('Is Processed'))
+        self.assertEqual(field.verbose_name, _('Is Processed'))
 
     def test_value_of_the_default_in_is_processed_field(self):
         field = File._meta.get_field('is_processed')
@@ -134,4 +138,4 @@ class FileModelTestCase(TestCase):
         self.assertTrue(callable(getattr(File, '__str__')))
 
     def test__str__returns_field_if_available(self):
-        self.assertEqual('file', str(self.file_upload))
+        self.assertEqual('recitations.zip', str(self.file_upload))

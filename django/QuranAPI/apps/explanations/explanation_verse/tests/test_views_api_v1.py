@@ -1,7 +1,7 @@
 import inspect
 
 from django.test import TestCase
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
@@ -12,7 +12,7 @@ from apps.explanations.factories import ExplanationVerseFactory, ExplanationFact
 from apps.explanations.models import ExplanationVerse
 from apps.explanations.serializers import ExplanationVerseSerializer
 from apps.main.helpers import create_token, create_authorization_header
-from apps.quran.factories import UserFactory
+from apps.users.factories import UserFactory
 
 
 class ExplanationVersesListingAPIViewStructureTestCase(TestCase):
@@ -26,7 +26,7 @@ class ExplanationVersesListingAPIViewStructureTestCase(TestCase):
         self.assertIsInstance(ExplanationVerseListingView.permission_classes, list)
 
     def test_permission_classes_has_token_read_write_scope(self):
-        self.assertIn(TokenHasReadWriteScope, ExplanationVerseListingView.permission_classes)
+        self.assertIn(AllowAny, ExplanationVerseListingView.permission_classes)
 
     def test_view_has_method_get(self):
         self.assertTrue(hasattr(ExplanationVerseListingView, 'get'))
@@ -37,7 +37,7 @@ class ExplanationVersesListingAPIViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(ExplanationVerseListingView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ExplanationVersesListingAPIViewGETTestCase(TestCase):
@@ -53,16 +53,16 @@ class ExplanationVersesListingAPIViewGETTestCase(TestCase):
 
     def test_it_raises_exception_if_user_is_not_authenticated(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_returns_200_status_code(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_returns_all_available_explanation_verses(self):
         explanation_verses = ExplanationVerseSerializer(ExplanationVerse.objects.all(), many=True).data
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(explanation_verses, response.data)
+        self.assertEqual(explanation_verses, response.data)
 
 
 class ExplanationVersesDetailsAPIViewStructureTestCase(TestCase):
@@ -76,7 +76,7 @@ class ExplanationVersesDetailsAPIViewStructureTestCase(TestCase):
         self.assertIsInstance(ExplanationVerseDetailsView.permission_classes, list)
 
     def test_permission_classes_has_token_read_write_scope(self):
-        self.assertIn(TokenHasReadWriteScope, ExplanationVerseDetailsView.permission_classes)
+        self.assertIn(AllowAny, ExplanationVerseDetailsView.permission_classes)
 
     def test_view_has_method_get(self):
         self.assertTrue(hasattr(ExplanationVerseDetailsView, 'get'))
@@ -87,7 +87,7 @@ class ExplanationVersesDetailsAPIViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'explanation_verse_id']
         actual_signature = inspect.getfullargspec(ExplanationVerseDetailsView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ExplanationVersesDetailsGETAPIViewTestCase(TestCase):
@@ -100,17 +100,17 @@ class ExplanationVersesDetailsGETAPIViewTestCase(TestCase):
 
     def test_it_return_401_if_user_is_not_authorized(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_return_404_if_the_explanation_verse_not_exists(self):
         response = self.client.get(reverse("api-v1:translations:verses:details", args=[100000]),
                                    HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_it_returns_200_status_code(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_returns_correct_data_in_response(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.data, ExplanationVerseSerializer(self.explanation_verse).data)
+        self.assertEqual(response.data, ExplanationVerseSerializer(self.explanation_verse).data)

@@ -15,7 +15,7 @@ class RecitationSerializerStructureTestCase(TestCase):
         self.assertIn('Meta', RecitationSerializer.__dict__)
 
     def test_the_model_used_in_the_meta_is_Recitation_Model(self):
-        self.assertEquals(Recitation, RecitationSerializer.Meta.model)
+        self.assertEqual(Recitation, RecitationSerializer.Meta.model)
 
     def test_id_exists_in_serializer_fields(self):
         self.assertIn('id', RecitationSerializer.Meta.fields)
@@ -41,20 +41,20 @@ class RecitationSerializerResponseTestCase(TestCase):
 
     def test_it_returns_expected_fields(self):
         data = self.serializer.data
-        self.assertEquals(set(data.keys()), {'id', 'narration', 'reciter', 'name'})
+        self.assertEqual(set(data.keys()), {'id', 'narration', 'reciter', 'name'})
 
     def test_id_has_correct_value(self):
         data = self.serializer.data
-        self.assertEquals(data['id'], self.recitation.pk)
+        self.assertEqual(data['id'], self.recitation.pk)
 
     def test_narration_has_correct_value(self):
         data = self.serializer.data
-        self.assertEquals(data['narration'], self.recitation.narration.pk)
+        self.assertEqual(data['narration'], self.recitation.narration.pk)
 
     def test_reciter_has_correct_value(self):
         data = self.serializer.data
-        self.assertEquals(data['reciter'], self.recitation.reciter.pk)
+        self.assertEqual(data['reciter'], self.recitation.reciter.pk)
 
     def test_name_has_correct_value(self):
         data = self.serializer.data
-        self.assertEquals(data['name'], self.recitation.name)
+        self.assertEqual(data['name'], self.recitation.name)

@@ -51,13 +51,13 @@ class ReciterAdminListViewStructureTestCase(TestCase):
         self.assertTrue(hasattr(ReciterListAdminView, 'title'))
 
     def test_list_view_title_value(self):
-        self.assertEquals(ReciterListAdminView.title, _('All Reciters'))
+        self.assertEqual(ReciterListAdminView.title, _('All Reciters'))
 
     def test_list_view_has_list_display(self):
         self.assertTrue(hasattr(ReciterListAdminView, 'list_display'))
 
     def test_list_display_value(self):
-        self.assertEquals(ReciterListAdminView.list_display, (
+        self.assertEqual(ReciterListAdminView.list_display, (
             ('id', _('ID')),
             ('name', _('name')),
             ('created_at', _('created at')),
@@ -73,7 +73,7 @@ class ReciterAdminListViewStructureTestCase(TestCase):
     def test_load_name_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(ReciterListAdminView.load_name)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_queryset(self):
         self.assertTrue(hasattr(ReciterListAdminView, 'get_queryset'))
@@ -84,7 +84,7 @@ class ReciterAdminListViewStructureTestCase(TestCase):
     def test_get_queryset_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(ReciterListAdminView.get_queryset)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_actions(self):
         self.assertTrue(hasattr(ReciterListAdminView, 'get_actions'))
@@ -95,7 +95,7 @@ class ReciterAdminListViewStructureTestCase(TestCase):
     def test_get_actions_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(ReciterListAdminView.get_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_reciter_has_load_created_at(self):
         self.assertTrue(hasattr(ReciterListAdminView, 'load_created_at'))
@@ -106,7 +106,7 @@ class ReciterAdminListViewStructureTestCase(TestCase):
     def test_load_created_at_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(ReciterListAdminView.load_created_at)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_reciter_has_load_updated_at(self):
         self.assertTrue(hasattr(ReciterListAdminView, 'load_updated_at'))
@@ -117,7 +117,7 @@ class ReciterAdminListViewStructureTestCase(TestCase):
     def test_load_updated_at_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(ReciterListAdminView.load_updated_at)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ReciterAdminListViewTestCase(TestCase):
@@ -142,7 +142,7 @@ class ReciterAdminListViewTestCase(TestCase):
     #
     # def test_it_return_the_correct_data(self):
     #     response = self.client.get(self.url)
-    #     self.assertQuerysetEqual(Reciter.objects.all(), response.context['object_list'], ordered=False)
+    #     self.assertQuerySetEqual(Reciter.objects.all(), response.context['object_list'], ordered=False)
 
 
 class ReciterDetailsViewStructureTestCase(TestCase):
@@ -170,7 +170,7 @@ class ReciterDetailsViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'reciter_id']
         actual_signature = inspect.getfullargspec(ReciterDetailsView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ReciterDetailsViewGETTestCase(TestCase):
@@ -202,7 +202,7 @@ class ReciterDetailsViewGETTestCase(TestCase):
 
     def test_context_reciter_is_correct(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['reciter'], self.reciter)
+        self.assertEqual(response.context['reciter'], self.reciter)
 
     def test_title_exists_in_the_context(self):
         response = self.client.get(self.url)
@@ -242,7 +242,7 @@ class ReciterCreateOrUpdateViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(ReciterCreateOrUpdateView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_view_has_method_post(self):
         self.assertTrue(hasattr(ReciterCreateOrUpdateView(), 'post'))
@@ -253,7 +253,7 @@ class ReciterCreateOrUpdateViewStructureTestCase(TestCase):
     def test_post_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(ReciterCreateOrUpdateView.post)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ReciterCreateOrUpdateViewGetPermissionRequiredTestCase(TestCase):
@@ -269,13 +269,13 @@ class ReciterCreateOrUpdateViewGetPermissionRequiredTestCase(TestCase):
     def test_it_has_returns_add_permission_if_reciter_id_is_not_available(self):
         request = self.factory.get(reverse('admin:recitations:reciters:create'))
         view = self.setup_view(ReciterCreateOrUpdateView(), request)
-        self.assertEquals(view.get_permission_required(), ("recitations.add_reciter",))
+        self.assertEqual(view.get_permission_required(), ("recitations.add_reciter",))
 
     def test_it_has_returns_change_permission_if_reciter_id_is_available(self):
         reciter = ReciterFactory()
         request = self.factory.get(reverse('admin:recitations:reciters:update', kwargs={"reciter_id": reciter.id}))
         view = self.setup_view(ReciterCreateOrUpdateView(), request, reciter_id=reciter.id)
-        self.assertEquals(view.get_permission_required(), ("recitations.change_reciter",))
+        self.assertEqual(view.get_permission_required(), ("recitations.change_reciter",))
 
 
 class ReciterCreateViewGETTestCase(TestCase):
@@ -318,7 +318,7 @@ class ReciterCreateViewGETTestCase(TestCase):
 
     def test_context_form_is_new_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance.pk, None)
+        self.assertEqual(response.context['form'].instance.pk, None)
 
 
 class ReciterUpdateViewGETTestCase(TestCase):
@@ -362,7 +362,7 @@ class ReciterUpdateViewGETTestCase(TestCase):
 
     def test_context_form_instance_is_equal_to_reciter(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance, self.reciter)
+        self.assertEqual(response.context['form'].instance, self.reciter)
 
 
 class ReciterCreateViewPOSTTestCase(TestCase):
@@ -417,12 +417,12 @@ class ReciterCreateViewPOSTTestCase(TestCase):
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Reciter Created Successfully"))
+        self.assertEqual(str(msgs[0]), _("Reciter Created Successfully"))
 
 
 class ReciterUpdateViewPOSTTestCase(TestCase):
@@ -473,14 +473,14 @@ class ReciterUpdateViewPOSTTestCase(TestCase):
     def test_it_updates_reciter_instance(self):
         self.client.post(self.url, data=self.data)
         self.reciter.refresh_from_db()
-        self.assertEquals(self.reciter.name[settings.LANGUAGE_CODE], self.data['name'])
+        self.assertEqual(self.reciter.name[settings.LANGUAGE_CODE], self.data['name'])
 
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Reciter Updated Successfully"))
+        self.assertEqual(str(msgs[0]), _("Reciter Updated Successfully"))

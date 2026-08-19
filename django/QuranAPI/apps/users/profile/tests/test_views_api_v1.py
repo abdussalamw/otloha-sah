@@ -28,11 +28,11 @@ class UpdateProfileDataApiViewTestCase(APITestCase):
     def test_it_through_exception_if_user_is_not_authenticated(self):
         self.client.logout()
         response = self.client.put(self.url)
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_it_returns_201_when_user_created_successfully(self):
         response = self.client.put(self.url, data=self.data)
-        self.assertEquals(response.status_code, 201)
+        self.assertEqual(response.status_code, 201)
 
 
 class UpdateEmailApiViewTestCase(APITestCase):
@@ -53,15 +53,15 @@ class UpdateEmailApiViewTestCase(APITestCase):
     def test_it_through_exception_if_user_is_not_authenticated(self):
         self.client.logout()
         response = self.client.put(self.url)
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_it_returns_422_when_data_is_invalid(self):
         response = self.client.put(self.url, data={})
-        self.assertEquals(response.status_code, 422)
+        self.assertEqual(response.status_code, 422)
 
     def test_it_returns_201_when_user_created_successfully(self):
         response = self.client.put(self.url, data=self.data)
-        self.assertEquals(response.status_code, 201)
+        self.assertEqual(response.status_code, 201)
 
     def test_it_returns_201_when_user_created_not_successfully(self):
         data = {
@@ -69,7 +69,7 @@ class UpdateEmailApiViewTestCase(APITestCase):
             "password": "secret",
         }
         response = self.client.put(self.url, data=data)
-        self.assertEquals(response.status_code, 422)
+        self.assertEqual(response.status_code, 422)
 
 
 class UpdatePhoneApiViewTestCase(APITestCase):
@@ -90,15 +90,15 @@ class UpdatePhoneApiViewTestCase(APITestCase):
     def test_it_through_exception_if_user_is_not_authenticated(self):
         self.client.logout()
         response = self.client.put(self.url)
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_it_returns_422_when_data_is_invalid(self):
         response = self.client.put(self.url, data={})
-        self.assertEquals(response.status_code, 422)
+        self.assertEqual(response.status_code, 422)
 
     def test_it_returns_201_when_user_created_successfully(self):
         response = self.client.put(self.url, data=self.data)
-        self.assertEquals(response.status_code, 201)
+        self.assertEqual(response.status_code, 201)
 
     def test_it_returns_201_when_user_created_not_successfully(self):
         data = {
@@ -106,7 +106,7 @@ class UpdatePhoneApiViewTestCase(APITestCase):
             "password": "secret",
         }
         response = self.client.put(self.url, data=data)
-        self.assertEquals(response.status_code, 422)
+        self.assertEqual(response.status_code, 422)
 
 
 class UpdatePasswordApiViewTestCase(APITestCase):
@@ -127,15 +127,15 @@ class UpdatePasswordApiViewTestCase(APITestCase):
     def test_it_through_exception_if_user_is_not_authenticated(self):
         self.client.logout()
         response = self.client.put(self.url)
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_it_returns_422_when_data_is_invalid(self):
         response = self.client.put(self.url, data={})
-        self.assertEquals(response.status_code, 422)
+        self.assertEqual(response.status_code, 422)
 
     def test_it_returns_201_when_user_created_successfully(self):
         response = self.client.put(self.url, data=self.data)
-        self.assertEquals(response.status_code, 201)
+        self.assertEqual(response.status_code, 201)
 
     def test_it_returns_201_when_user_created_not_successfully(self):
         data = {
@@ -143,4 +143,4 @@ class UpdatePasswordApiViewTestCase(APITestCase):
             "new_password": "AZ_test_456",
         }
         response = self.client.put(self.url, data=data)
-        self.assertEquals(response.status_code, 400)
+        self.assertEqual(response.status_code, 400)

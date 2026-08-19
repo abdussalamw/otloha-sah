@@ -72,7 +72,7 @@ class ChapterAdminListingStructureViewTestCase(TestCase):
     def test_get_breadcrumb_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(ChapterListingAdminView.get_breadcrumb)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test load_name function
     def test_chapter_has_load_name(self):
@@ -84,7 +84,7 @@ class ChapterAdminListingStructureViewTestCase(TestCase):
     def test_load_name_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(ChapterListingAdminView.load_name)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test load_origin function
     def test_it_has_load_origin(self):
@@ -96,7 +96,7 @@ class ChapterAdminListingStructureViewTestCase(TestCase):
     def test_load_origin_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(ChapterListingAdminView.load_origin)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test load_actions function
     def test_it_has_load_actions(self):
@@ -108,7 +108,7 @@ class ChapterAdminListingStructureViewTestCase(TestCase):
     def test_load_actions_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(ChapterListingAdminView.load_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test get_actions function
     def test_chapter_has_get_actions(self):
@@ -120,7 +120,7 @@ class ChapterAdminListingStructureViewTestCase(TestCase):
     def test_get_actions_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(ChapterListingAdminView.get_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ChapterAdminListingViewTestCase(TestCase):
@@ -164,7 +164,7 @@ class ChapterAdminListingViewTestCase(TestCase):
 
     # Test get_actions function
     def test_get_actions_returns_correct_html_template_for_creating_new_narration(self):
-        self.assertEquals(ChapterListingAdminView().get_actions(),
+        self.assertEqual(ChapterListingAdminView().get_actions(),
                           mark_safe(
                               '<a href="{}" class="btn btn-primary btn-sm">'
                               '<i class="fas fa-plus"></i>{}</a>'.format(
@@ -206,7 +206,7 @@ class ChapterAdminListingViewTestCase(TestCase):
         def test_get_permission_required_signature(self):
             expected_signature = ['self']
             actual_signature = inspect.getfullargspec(ChapterCreateAndUpdateAdminView.get_permission_required)[0]
-            self.assertEquals(actual_signature, expected_signature)
+            self.assertEqual(actual_signature, expected_signature)
 
         def test_view_has_method_get(self):
             self.assertTrue(hasattr(ChapterCreateAndUpdateAdminView, 'get'))
@@ -217,7 +217,7 @@ class ChapterAdminListingViewTestCase(TestCase):
         def test_get_method_signature(self):
             expected_signature = ['self', 'request']
             actual_signature = inspect.getfullargspec(ChapterCreateAndUpdateAdminView.get)[0]
-            self.assertEquals(actual_signature, expected_signature)
+            self.assertEqual(actual_signature, expected_signature)
 
         def test_view_has_method_post(self):
             self.assertTrue(hasattr(ChapterCreateAndUpdateAdminView(), 'post'))
@@ -228,7 +228,7 @@ class ChapterAdminListingViewTestCase(TestCase):
         def test_post_method_signature(self):
             expected_signature = ['self', 'request']
             actual_signature = inspect.getfullargspec(ChapterCreateAndUpdateAdminView.post)[0]
-            self.assertEquals(actual_signature, expected_signature)
+            self.assertEqual(actual_signature, expected_signature)
 
     class ChapterCreateOrUpdateViewGetPermissionRequiredTestCase(TestCase):
         def setup_view(self, view, request, *args, **kwargs):
@@ -243,13 +243,13 @@ class ChapterAdminListingViewTestCase(TestCase):
         def test_it_has_returns_add_permission_if_chapter_id_is_not_available(self):
             request = self.factory.get(reverse('admin:chapters:create'))
             view = self.setup_view(ChapterCreateAndUpdateAdminView(), request)
-            self.assertEquals(view.get_permission_required(), ("chapters.add_chapter",))
+            self.assertEqual(view.get_permission_required(), ("chapters.add_chapter",))
 
         def test_it_has_returns_change_permission_if_chapter_id_is_available(self):
             chapter = ChapterFactory()
             request = self.factory.get(reverse('admin:chapters:update', kwargs={"chapter_id": chapter.id}))
             view = self.setup_view(ChapterCreateAndUpdateAdminView(), request, chapter_id=chapter.id)
-            self.assertEquals(view.get_permission_required(), ("chapters.change_chapter",))
+            self.assertEqual(view.get_permission_required(), ("chapters.change_chapter",))
 
     class ChapterCreateViewGETTestCase(TestCase):
         def setUp(self):
@@ -288,7 +288,7 @@ class ChapterAdminListingViewTestCase(TestCase):
 
         def test_if_the_form_of_context_is_new_form(self):
             response = self.client.get(self.url)
-            self.assertEquals(response.context['form'].instance.pk, None)
+            self.assertEqual(response.context['form'].instance.pk, None)
 
     class ChapterCreateViewPOSTTestCase(TestCase):
         def setUp(self):
@@ -426,7 +426,7 @@ class ChapterAdminListingViewTestCase(TestCase):
         def test_it_update_the_instance_the_data_in_database(self):
             response = self.client.post(self.url, data={'name': 'hafs', 'chapter_number': 6, 'origin': "makkiah"})
             self.chapter.refresh_from_db()
-            self.assertEquals(self.chapter.name['ar'], 'hafs')
+            self.assertEqual(self.chapter.name['ar'], 'hafs')
 
         def test_it_redirect_to_filtered_listing_after_saving(self):
             response = self.client.post(self.url, data={'name': 'hafs', 'chapter_number': 6, 'origin': "makkiah"})

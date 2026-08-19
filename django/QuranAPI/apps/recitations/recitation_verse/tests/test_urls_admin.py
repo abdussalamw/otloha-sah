@@ -7,4 +7,4 @@ from apps.recitations.recitation_verse.views_admin import RecitationVerseListAdm
 class RecitationVerseAdminUrlsTestCase(TestCase):
     def test_recitation_verse_admin_listing(self):
         url = reverse('admin:recitations:recitation-verses:list')
-        self.assertEquals(resolve(url).func.view_class, RecitationVerseListAdminView)
+        self.assertEqual(resolve(url).func.view_class, RecitationVerseListAdminView)

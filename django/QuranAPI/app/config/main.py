@@ -36,15 +36,14 @@ ALLOWED_HOSTS.extend(filter(None, os.environ.get('ALLOWED_HOSTS', '').split(',')
 CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS]
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-print("=" *100)
-print("CSRF_TRUSTED_ORIGINS", CSRF_TRUSTED_ORIGINS)
-print("=" *100)
-CORS_ALLOWED_ORIGINS = []
-CORS_ALLOWED_ORIGINS.extend(filter(None, os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')))
-CORS_ALLOW_HEADERS = "*"
-print("=" *100)
-print("CORS_ALLOWED_ORIGINS", CORS_ALLOWED_ORIGINS)
-print("=" *100)
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')
+    if origin.strip()
+]
+CORS_ALLOW_CREDENTIALS = env_bool(
+    os.environ.get('CORS_ALLOW_CREDENTIALS', 'false')
+)
 SITE_ID = 1
 ROOT_URLCONF = 'app.urls'
 

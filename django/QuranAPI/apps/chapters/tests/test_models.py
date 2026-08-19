@@ -95,7 +95,7 @@ class ChapterStructureTestCase(TestCase):
 
     def test_origin_has_choices_of_origins(self):
         field = Chapter._meta.get_field('origin')
-        self.assertEqual(field.choices, Chapter.ORIGINS)
+        self.assertEqual(field.choices, list(Chapter.ORIGINS))
 
     def test_if_origins_has_maka_value(self):
         self.assertEqual(Chapter.ORIGINS[0][1], _('in Makkah'))

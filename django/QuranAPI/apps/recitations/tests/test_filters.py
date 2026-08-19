@@ -15,7 +15,7 @@ class RecitationFilterStructureTestCase(TestCase):
         self.assertIn('model', RecitationFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_recitation_Model(self):
-        self.assertEquals(Recitation, RecitationFilter.Meta.model)
+        self.assertEqual(Recitation, RecitationFilter.Meta.model)
 
     def test_it_has_fields_in_class_meta(self):
         self.assertIn('fields', RecitationFilter.Meta.__dict__)
@@ -32,7 +32,7 @@ class RecitationFilterStructureTestCase(TestCase):
 
     def test_narration_query_set_is_all_narration(self):
         field = RecitationFilter.get_filters()['narration']
-        self.assertQuerysetEqual(field.queryset, Narration.objects.all())
+        self.assertQuerySetEqual(field.queryset, Narration.objects.all())
 
     def test_reciter_is_instance_of_model_choice_filter(self):
         field = RecitationFilter.get_filters()['reciter']
@@ -40,4 +40,4 @@ class RecitationFilterStructureTestCase(TestCase):
 
     def test_reciter_query_set_is_all_reciter(self):
         field = RecitationFilter.get_filters()['reciter']
-        self.assertQuerysetEqual(field.queryset, Narration.objects.all())
+        self.assertQuerySetEqual(field.queryset, Narration.objects.all())

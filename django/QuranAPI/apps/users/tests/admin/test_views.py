@@ -18,7 +18,7 @@ class UserAccountsListingViewTestCase(TestCase):
 
     def test_it_returns_with_200_status_code(self):
         """ test status is 200 """
-        self.assertEquals(self.response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
 
     def test_users_queryset_returned(self):
         """ test course queryset is returned in context """
@@ -26,12 +26,12 @@ class UserAccountsListingViewTestCase(TestCase):
 
     def test_user_list_queryset_is_correct(self):
         """ test course_list queryset matches the following queryset """
-        self.assertQuerysetEqual(User.objects.all(), self.response.context['object_list'])
+        self.assertQuerySetEqual(User.objects.all(), self.response.context['object_list'])
 
     def test_it_returns_columns_in_context(self):
         """ test if columns returned in the context and columns is the same columns in test """
         self.assertIn('columns', self.response.context)
-        self.assertEquals((
+        self.assertEqual((
             ('id', _('id')),
             ('username', _('username')),
             ('email', _('email')),
@@ -61,7 +61,7 @@ class UserStaffListingViewTestCase(TestCase):
 
     def test_it_returns_with_200_status_code(self):
         """ test status is 200 """
-        self.assertEquals(self.response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
 
     def test_template_used(self):
         """ test template used is admin/courses/course_list.html """
@@ -87,7 +87,7 @@ class GroupListingViewTestCase(TestCase):
 
     def test_it_returns_with_200_status_code(self):
         """ test status is 200 """
-        self.assertEquals(self.response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
 
     def test_template_used(self):
         """ test template used is admin/courses/course_list.html """
@@ -99,12 +99,12 @@ class GroupListingViewTestCase(TestCase):
 
     def test_group_list_queryset_is_correct(self):
         """ test course_list queryset matches the following queryset """
-        self.assertQuerysetEqual(Group.objects.all()[:10], self.response.context['group_list'], ordered=False)
+        self.assertQuerySetEqual(Group.objects.all()[:10], self.response.context['group_list'], ordered=False)
 
     def test_it_returns_columns_in_context(self):
         """ test if columns returned in the context and columns is the same columns in test """
         self.assertIn('columns', self.response.context)
-        self.assertEquals((
+        self.assertEqual((
             ('id', _('id')),
             ('name', _('name')),
             ('actions', _('actions')),
@@ -125,7 +125,7 @@ class GroupCreateAndUpdateViewTestCase(TestCase):
     def test_it_returns_with_200_status_code(self):
         """ test status is 200 """
         self.response = self.client.get(reverse('admin:groups:create'))
-        self.assertEquals(self.response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
 
     def test_template_used(self):
         """ test template used is admin/courses/form.html """
@@ -147,7 +147,7 @@ class GroupCreateAndUpdateViewTestCase(TestCase):
 #     def test_it_returns_with_200_status_code(self):
 #         """ test status is 200 """
 #         response = self.client.get(self.url)
-#         self.assertEquals(response.status_code, 200)
+#         self.assertEqual(response.status_code, 200)
 #
 #     def test_template_used(self):
 #         """ test template used is admin/collections/form.html """
@@ -164,7 +164,7 @@ class GroupCreateAndUpdateViewTestCase(TestCase):
 #
 #     def test_context_form_is_new_form(self):
 #         response = self.client.get(self.url)
-#         self.assertEquals(response.context['form'].instance.pk, None)
+#         self.assertEqual(response.context['form'].instance.pk, None)
 #
 #
 # class AdminUserUpdateViewGET(TestCase):
@@ -184,7 +184,7 @@ class GroupCreateAndUpdateViewTestCase(TestCase):
 #     def test_it_returns_with_200_status_code(self):
 #         """ test status is 200 """
 #         response = self.client.get(self.url)
-#         self.assertEquals(response.status_code, 200)
+#         self.assertEqual(response.status_code, 200)
 #
 #     def test_template_used(self):
 #         """ test template used is admin/collections/form.html """
@@ -197,7 +197,7 @@ class GroupCreateAndUpdateViewTestCase(TestCase):
 #
 #     def test_context_form_instance_is_equal_to_user(self):
 #         response = self.client.get(self.url)
-#         self.assertEquals(response.context['form'].instance, self.user)
+#         self.assertEqual(response.context['form'].instance, self.user)
 #
 #
 # class AdminUserUpdateViewPOST(TestCase):
@@ -219,7 +219,7 @@ class GroupCreateAndUpdateViewTestCase(TestCase):
 #
 #     def test_return_422_status_code_for_invalid_data(self):
 #         response = self.client.post(self.url, {})
-#         self.assertEquals(response.status_code, 422)
+#         self.assertEqual(response.status_code, 422)
 #
 #     def test_it_return_the_correct_context_on_error(self):
 #         response = self.client.post(self.url, {})
@@ -231,7 +231,7 @@ class GroupCreateAndUpdateViewTestCase(TestCase):
 #
 #     def test_the_return_form_is_equal_to_admin_user_form_instance(self):
 #         response = self.client.post(self.url, {})
-#         self.assertEquals(response.context['form'].instance, self.user)
+#         self.assertEqual(response.context['form'].instance, self.user)
 #
 #     def test_it_saves_request_data_on_success(self):
 #         response = self.client.post(self.url, {'username': 'new username'})

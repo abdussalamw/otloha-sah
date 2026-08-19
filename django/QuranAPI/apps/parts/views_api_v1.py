@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from apps.parts.serializers import PartSerializer
 
 
 class PartsListAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         part = PartAPISearch(request.GET, Part.objects.filter(is_active=True)).qs
@@ -19,7 +19,7 @@ class PartsListAPIView(APIView):
 
 
 class PartDetailAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, part_id):
         part = get_object_or_404(Part, pk=part_id)

@@ -27,7 +27,7 @@ class UserSignupAPITestCase(TestCase):
             result : returning response 422 the data you posted not valid
         """
         response = self.client.post(self.url, {})
-        self.assertEquals(response.status_code, 422)
+        self.assertEqual(response.status_code, 422)
 
     def test_it_returns_201_when_user_created_successfully(self):
         """
@@ -37,7 +37,7 @@ class UserSignupAPITestCase(TestCase):
         """
 
         response = self.client.post(self.url, self.data)
-        self.assertEquals(response.status_code, 201)
+        self.assertEqual(response.status_code, 201)
 
     def test_it_returns_user_data_after_created(self):
         """

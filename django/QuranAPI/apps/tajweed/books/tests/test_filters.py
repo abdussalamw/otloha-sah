@@ -22,13 +22,13 @@ class BookFilterStructureTestCase(TestCase):
         self.assertIn('model', BookFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_Book_model(self):
-        self.assertEquals(Book, BookFilter.Meta.model)
+        self.assertEqual(Book, BookFilter.Meta.model)
 
     def test_filter_class_meta_has_fields_on_it(self):
         self.assertIn('fields', BookFilter.Meta.__dict__)
 
     def test_filter_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(BookFilter.Meta.fields), list)
+        self.assertEqual(type(BookFilter.Meta.fields), list)
 
     def test_class_meta_fields_has_narration(self):
         self.assertIn('narration', BookFilter.Meta.fields)
@@ -45,8 +45,8 @@ class BookFilterTestCase(TestCase):
         for i in range(2):
             TajweedBookFactory(narration=self.narration_2)
         result = BookFilter({'narration': self.narration_1}, Book.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(self.narration_1, result[0].narration)
+        self.assertEqual(5, len(result))
+        self.assertEqual(self.narration_1, result[0].narration)
 
 
 class BookAdminSearchStructureTestCase(TestCase):
@@ -79,7 +79,7 @@ class BookAdminSearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(BookAdminSearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class BookAdminSearchTestCase(TestCase):
@@ -89,7 +89,7 @@ class BookAdminSearchTestCase(TestCase):
         TajweedBookFactory(name='test')
         queryset = Book.objects.all()
         result = BookAdminSearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'author'],
             value="test"), ordered=False)
@@ -100,7 +100,7 @@ class BookAdminSearchTestCase(TestCase):
         TajweedBookFactory(author='test')
         queryset = Book.objects.all()
         result = BookAdminSearch({'q': 'test'}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'author'],
             value='test'), ordered=False)
@@ -146,7 +146,7 @@ class BookAPISearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(BookAPISearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class BookAPISearchTestCase(TestCase):
@@ -156,7 +156,7 @@ class BookAPISearchTestCase(TestCase):
             TajweedBookFactory(narration=narration)
         queryset = Book.objects.all()
         result = BookAPISearch({'narrations': narration.pk}, queryset).qs
-        self.assertEquals(5, len(result))
+        self.assertEqual(5, len(result))
 
     def test_it_filters_queryset_by_name_column(self):
         for _ in range(5):
@@ -164,7 +164,7 @@ class BookAPISearchTestCase(TestCase):
         TajweedBookFactory(name='test')
         queryset = Book.objects.all()
         result = BookAPISearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'author'],
             value="test"), ordered=False)
@@ -175,7 +175,7 @@ class BookAPISearchTestCase(TestCase):
         TajweedBookFactory(author='test')
         queryset = Book.objects.all()
         result = BookAPISearch({'q': 'test'}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'author'],
             value='test'), ordered=False)

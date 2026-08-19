@@ -19,13 +19,13 @@ class TranslationSerializerStructureTestCase(TestCase):
         self.assertIn('model', TranslationSerializer.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_Translation_model(self):
-        self.assertEquals(Translation, TranslationSerializer.Meta.model)
+        self.assertEqual(Translation, TranslationSerializer.Meta.model)
 
     def test_serializer_class_meta_has_fields_on_it(self):
         self.assertIn('fields', TranslationSerializer.Meta.__dict__)
 
     def test_serializer_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(TranslationSerializer.Meta.fields), list)
+        self.assertEqual(type(TranslationSerializer.Meta.fields), list)
 
     def test_class_meta_fields_has_name(self):
         self.assertIn('name', TranslationSerializer.Meta.fields)
@@ -44,7 +44,7 @@ class TranslationSerializerStructureTestCase(TestCase):
         }
         serializer = TranslationSerializer(data=data)
         self.assertTrue(serializer.is_valid())
-        self.assertEquals(data, serializer.initial_data)
+        self.assertEqual(data, serializer.initial_data)
 
 
 class TranslationVerseSerializerStructureTestCase(TestCase):
@@ -58,13 +58,13 @@ class TranslationVerseSerializerStructureTestCase(TestCase):
         self.assertIn('model', TranslationVerseSerializer.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_TranslationVerse_model(self):
-        self.assertEquals(TranslationVerse, TranslationVerseSerializer.Meta.model)
+        self.assertEqual(TranslationVerse, TranslationVerseSerializer.Meta.model)
 
     def test_serializer_class_meta_has_fields_on_it(self):
         self.assertIn('fields', TranslationVerseSerializer.Meta.__dict__)
 
     def test_serializer_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(TranslationVerseSerializer.Meta.fields), list)
+        self.assertEqual(type(TranslationVerseSerializer.Meta.fields), list)
 
     def test_class_meta_fields_has_text(self):
         self.assertIn('text', TranslationVerseSerializer.Meta.fields)
@@ -91,4 +91,4 @@ class TranslationVerseSerializerStructureTestCase(TestCase):
         }
         serializer = TranslationVerseSerializer(data=data)
         self.assertTrue(serializer.is_valid())
-        self.assertEquals(data, serializer.initial_data)
+        self.assertEqual(data, serializer.initial_data)

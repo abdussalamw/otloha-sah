@@ -5,7 +5,8 @@ from django.db import models
 from django.test import TestCase
 from django.utils.translation import gettext_lazy as _
 
-from apps.quran.factories import NarrationFactory, BookFactory, PageFactory
+from apps.narrations.factories import NarrationFactory
+from apps.quran.factories import BookFactory, PageFactory
 from apps.quran.models import Page, Narration, Book, Part, ChapterModel
 
 
@@ -41,7 +42,7 @@ class PagesModelTestCase(TestCase):
 
     def test_image_field_will_upload_images_to_get_upload_to_function(self):
         field = Page._meta.get_field('image')
-        self.assertEquals(field.upload_to, Page.get_upload_to)
+        self.assertEqual(field.upload_to, Page.get_upload_to)
 
     def test_if_field_page_number_in_Page_model(self):
         self.assertTrue(hasattr(Page, 'page_number'))
@@ -52,7 +53,7 @@ class PagesModelTestCase(TestCase):
 
     def test_page_number_verbose_field_value_is_page_number(self):
         field = Page._meta.get_field('page_number')
-        self.assertEquals(field.verbose_name, _('Page_Number'))
+        self.assertEqual(field.verbose_name, _('Page_Number'))
 
     def test_if_field_sub_part_in_Page_model(self):
         self.assertTrue(hasattr(Page, 'sub_part'))
@@ -63,7 +64,7 @@ class PagesModelTestCase(TestCase):
 
     def test_sub_part_verbose_field_value_is_sub_part(self):
         field = Page._meta.get_field('sub_part')
-        self.assertEquals(field.verbose_name, _('Sub_Part'))
+        self.assertEqual(field.verbose_name, _('Sub_Part'))
 
     def test_sub_part_field_null_is_true(self):
         field = Page._meta.get_field('sub_part')
@@ -86,15 +87,15 @@ class PagesModelTestCase(TestCase):
 
     def test_narration_field_is_related_to_narration_model(self):
         field = Page._meta.get_field('narrations')
-        self.assertEquals(field.remote_field.model, Narration)
+        self.assertEqual(field.remote_field.model, Narration)
 
     def test_narration_attribute_related_name_value(self):
         field = Page._meta.get_field('narrations')
-        self.assertEquals(field.remote_field.related_name, "page_narration")
+        self.assertEqual(field.remote_field.related_name, "page_narration")
 
     def test_narration_attribute_on_delete_value(self):
         field = Page._meta.get_field('narrations')
-        self.assertEquals(field.remote_field.on_delete, models.SET_NULL)
+        self.assertEqual(field.remote_field.on_delete, models.SET_NULL)
 
     def test_narration_field_null_is_true(self):
         field = Page._meta.get_field('narrations')
@@ -113,7 +114,7 @@ class PagesModelTestCase(TestCase):
 
     def test_book_field_is_related_to_book_model(self):
         field = Page._meta.get_field('book')
-        self.assertEquals(field.remote_field.model, Book)
+        self.assertEqual(field.remote_field.model, Book)
 
     def test_book_attribute_model_value_has_relation_many_to_one(self):
         field = Page._meta.get_field('book')
@@ -121,11 +122,11 @@ class PagesModelTestCase(TestCase):
 
     def test_book_attribute_related_name_value(self):
         field = Page._meta.get_field('book')
-        self.assertEquals(field.remote_field.related_name, "book_page")
+        self.assertEqual(field.remote_field.related_name, "book_page")
 
     def test_book_attribute_on_delete_value(self):
         field = Page._meta.get_field('book')
-        self.assertEquals(field.remote_field.on_delete, models.CASCADE)
+        self.assertEqual(field.remote_field.on_delete, models.CASCADE)
 
     def test_book_field_null_is_true(self):
         field = Page._meta.get_field('book')
@@ -144,7 +145,7 @@ class PagesModelTestCase(TestCase):
 
     def test_chapter_field_is_related_to_chapter_model(self):
         field = Page._meta.get_field('chapters')
-        self.assertEquals(field.related_model, ChapterModel)
+        self.assertEqual(field.related_model, ChapterModel)
 
     def test_if_field_part_in_Page_model(self):
         self.assertTrue(hasattr(Page, 'part'))
@@ -155,7 +156,7 @@ class PagesModelTestCase(TestCase):
 
     def test_part_field_is_related_to_part_model(self):
         field = Page._meta.get_field('part')
-        self.assertEquals(field.remote_field.model, Part)
+        self.assertEqual(field.remote_field.model, Part)
 
     def test_part_attribute_model_value_has_relation_many_to_one(self):
         field = Page._meta.get_field('part')
@@ -163,11 +164,11 @@ class PagesModelTestCase(TestCase):
 
     def test_part_attribute_related_name_value(self):
         field = Page._meta.get_field('part')
-        self.assertEquals(field.remote_field.related_name, "part_page")
+        self.assertEqual(field.remote_field.related_name, "part_page")
 
     def test_part_attribute_on_delete_value(self):
         field = Page._meta.get_field('part')
-        self.assertEquals(field.remote_field.on_delete, models.SET_NULL)
+        self.assertEqual(field.remote_field.on_delete, models.SET_NULL)
 
     def test_part_field_null_is_true(self):
         field = Page._meta.get_field('part')
@@ -178,13 +179,13 @@ class PagesModelTestCase(TestCase):
         self.assertTrue(field.blank)
 
     def test_meta_verbose_name_is_page(self):
-        self.assertEquals(Page._meta.verbose_name, _('Page'))
+        self.assertEqual(Page._meta.verbose_name, _('Page'))
 
     def test_meta_verbose_name_plural_is_pages(self):
-        self.assertEquals(Page._meta.verbose_name_plural, _('Pages'))
+        self.assertEqual(Page._meta.verbose_name_plural, _('Pages'))
 
     def test_meta_order_field_is_page_number(self):
-        self.assertEquals(Page._meta.ordering, ('book_id', 'page_number',))
+        self.assertEqual(Page._meta.ordering, ('book_id', 'page_number',))
 
     def test_page_model_has__str__attribute(self):
         self.assertTrue(hasattr(Page, '__str__'))
@@ -208,4 +209,4 @@ class PagesModelTestCase(TestCase):
             sub_part=3,
             book=BookFactory(narration=NarrationFactory()))
         model_upload_function = Page.get_upload_to(page, "test")
-        self.assertEquals(model_upload_function, 'pages/1/{}-test'.format(date.today().strftime("/%Y/%d/%m/")))
+        self.assertEqual(model_upload_function, 'pages/1/{}-test'.format(date.today().strftime("/%Y/%d/%m/")))

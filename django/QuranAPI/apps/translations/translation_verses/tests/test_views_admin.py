@@ -32,13 +32,13 @@ class TranslationVersesListAdminViewStructureTestCase(TestCase):
         self.assertTrue(hasattr(TranslationVersesListAdminView, 'title'))
 
     def test_list_view_title_value(self):
-        self.assertEquals(TranslationVersesListAdminView.title, _('All Translation Verses'))
+        self.assertEqual(TranslationVersesListAdminView.title, _('All Translation Verses'))
 
     def test_list_view_has_list_display(self):
         self.assertTrue(hasattr(TranslationVersesListAdminView, 'list_display'))
 
     def test_list_display_value(self):
-        self.assertEquals(TranslationVersesListAdminView.list_display, (
+        self.assertEqual(TranslationVersesListAdminView.list_display, (
             ('id', _('ID')),
             ('text', _('Text')),
             ('verse_number', _('Verse Number')),
@@ -54,7 +54,7 @@ class TranslationVersesListAdminViewStructureTestCase(TestCase):
     def test_get_breadcrumb_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(TranslationVersesListAdminView.get_breadcrumb)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_query_set(self):
         self.assertTrue(hasattr(TranslationVersesListAdminView, 'get_queryset'))
@@ -62,7 +62,7 @@ class TranslationVersesListAdminViewStructureTestCase(TestCase):
     def test_get_queryset_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(TranslationVersesListAdminView.get_queryset)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_actions(self):
         self.assertTrue(hasattr(TranslationVersesListAdminView, 'get_actions'))
@@ -70,4 +70,4 @@ class TranslationVersesListAdminViewStructureTestCase(TestCase):
     def test_get_actions_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(TranslationVersesListAdminView.get_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)

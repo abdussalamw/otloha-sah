@@ -40,13 +40,13 @@ class TranslationListAdminViewStructureTestCase(TestCase):
         self.assertTrue(hasattr(TranslationListAdminView, 'title'))
 
     def test_list_view_title_value(self):
-        self.assertEquals(TranslationListAdminView.title, _('All Translations'))
+        self.assertEqual(TranslationListAdminView.title, _('All Translations'))
 
     def test_list_view_has_list_display(self):
         self.assertTrue(hasattr(TranslationListAdminView, 'list_display'))
 
     def test_list_display_value(self):
-        self.assertEquals(TranslationListAdminView.list_display, (
+        self.assertEqual(TranslationListAdminView.list_display, (
             ('id', _('ID')),
             ('name', _('name')),
             ('language', _('language')),
@@ -60,7 +60,7 @@ class TranslationListAdminViewStructureTestCase(TestCase):
     def test_get_breadcrumb_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(TranslationListAdminView.get_breadcrumb)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_name(self):
         self.assertTrue(hasattr(TranslationListAdminView, 'load_name'))
@@ -68,7 +68,7 @@ class TranslationListAdminViewStructureTestCase(TestCase):
     def test_load_name_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(TranslationListAdminView.load_name)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_language(self):
         self.assertTrue(hasattr(TranslationListAdminView, 'load_language'))
@@ -76,7 +76,7 @@ class TranslationListAdminViewStructureTestCase(TestCase):
     def test_load_language_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(TranslationListAdminView.load_language)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_author(self):
         self.assertTrue(hasattr(TranslationListAdminView, 'load_author'))
@@ -84,7 +84,7 @@ class TranslationListAdminViewStructureTestCase(TestCase):
     def test_load_author_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(TranslationListAdminView.load_author)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_actions(self):
         self.assertTrue(hasattr(TranslationListAdminView, 'load_actions'))
@@ -92,7 +92,7 @@ class TranslationListAdminViewStructureTestCase(TestCase):
     def test_load_actions_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(TranslationListAdminView.load_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_actions(self):
         self.assertTrue(hasattr(TranslationListAdminView, 'get_actions'))
@@ -100,7 +100,7 @@ class TranslationListAdminViewStructureTestCase(TestCase):
     def test_get_actions_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(TranslationListAdminView.get_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class TranslationListAdminViewTestCase(TestCase):
@@ -142,7 +142,7 @@ class TranslationDetailAdminViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'translation_id']
         actual_signature = inspect.getfullargspec(TranslationDetailAdminView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class TranslationDetailAdminViewTestCase(TestCase):
@@ -179,7 +179,7 @@ class TranslationDetailAdminViewTestCase(TestCase):
 
     def test_object_in_context_is_correct_one(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['translation'], self.translation)
+        self.assertEqual(response.context['translation'], self.translation)
 
     def test_template_used(self):
         response = self.client.get(self.url)
@@ -202,7 +202,7 @@ class TranslationCreateAndUpdateViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(TranslationCreateAndUpdateView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_post(self):
         self.assertTrue(hasattr(TranslationCreateAndUpdateView, 'post'))
@@ -213,7 +213,7 @@ class TranslationCreateAndUpdateViewStructureTestCase(TestCase):
     def test_post_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(TranslationCreateAndUpdateView.post)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class TranslationCreateViewGETTestCase(TestCase):
@@ -250,7 +250,7 @@ class TranslationCreateViewGETTestCase(TestCase):
 
     def test_context_form_is_new_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance.pk, None)
+        self.assertEqual(response.context['form'].instance.pk, None)
 
 
 class TranslationUpdateViewGETTestCase(TestCase):
@@ -288,7 +288,7 @@ class TranslationUpdateViewGETTestCase(TestCase):
 
     def test_context_form_instance_is_equal_to_translation(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance, self.translation)
+        self.assertEqual(response.context['form'].instance, self.translation)
 
 
 class TranslationCreateViewPOSTTestCase(TestCase):
@@ -342,12 +342,12 @@ class TranslationCreateViewPOSTTestCase(TestCase):
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Translation Created Successfully"))
+        self.assertEqual(str(msgs[0]), _("Translation Created Successfully"))
 
 
 class TranslationUpdateViewPOSTTestCase(TestCase):
@@ -395,14 +395,14 @@ class TranslationUpdateViewPOSTTestCase(TestCase):
     def test_it_saves_updated_translation_into_database(self):
         response = self.client.post(self.url, data=self.data)
         self.translation.refresh_from_db()
-        self.assertEquals("new translation name", self.translation.name['ar'])
+        self.assertEqual("new translation name", self.translation.name['ar'])
 
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_updated_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Translation Updated Successfully"))
+        self.assertEqual(str(msgs[0]), _("Translation Updated Successfully"))

@@ -2,11 +2,13 @@ from django import forms
 from django.test import TestCase
 
 from apps.files_handler.forms import FilesForm
+from apps.narrations.factories import NarrationFactory
+from apps.quran.factories import BookFactory
 
 
 class FileFormStructureTestCase(TestCase):
     def test_it_subclass_of_ModelForm(self):
-        self.assertTrue(issubclass(FilesForm, forms.Form))
+        self.assertTrue(issubclass(FilesForm, forms.ModelForm))
 
     def test_it_has_file_field(self):
-        self.assertIn('file', FilesForm().fields)
+        self.assertIn('file', FilesForm(model=BookFactory(narration=NarrationFactory()), processor='pages').fields)

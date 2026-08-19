@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from apps.tajweed.models import Book, Character
 
 
 class CharactersListingAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, book_id, *args, **kwargs):
         book = get_object_or_404(Book, pk=book_id)
@@ -29,7 +29,7 @@ class CharactersListingAPIView(APIView):
 
 
 class CharactersDetailsAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, book_id, character_id, *args, **kwargs):
         book = get_object_or_404(Book, pk=book_id)

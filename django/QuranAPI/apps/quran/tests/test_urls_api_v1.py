@@ -11,4 +11,4 @@ class BookUrlsTestCase(TestCase):
 
     def test_book_details_api_url_resolves(self):
         url = reverse('api-v1:books:details', args=[1])
-        self.assertEquals(resolve(url).func.view_class, BookDetailsAPIView)
+        self.assertEqual(resolve(url).func.view_class, BookDetailsAPIView)

@@ -29,14 +29,14 @@ class ProductTestFactory(factory.django.DjangoModelFactory):
 
     id = factory.Faker('random_number')
     name = factory.Faker('job')
-    uui = factory.Faker('')
+    uuid = factory.Faker('uuid4')
     price = factory.Faker('random_number')
     color = factory.Faker('sentence')
     date_of_production = factory.Faker("date")
     time_of_production = factory.Faker("time")
     updated_at = factory.Faker("date_time")
     category = factory.SubFactory(CategoryTestFactory)
-    is_active = factory.lazy_attribute(random.randint(0, 1))
+    is_active = factory.LazyFunction(lambda: random.choice([True, False]))
 
 
 class ProductTestFilters(FilterSet):
@@ -54,7 +54,7 @@ class ProductTestFilters(FilterSet):
     date_of_production = django_filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains')
     time_of_production = django_filters.IsoDateTimeFilter(lookup_expr='gte')
     is_published = django_filters.IsoDateTimeFromToRangeFilter(exclude=True)
-    category = django_filters.ChoiceFilter(choices=ProductTestFactory())
+    category = django_filters.ModelChoiceFilter(queryset=CategoryTestModel.objects.all())
     created_at = django_filters.RangeFilter()
     is_published_typed = django_filters.TypedChoiceFilter(choices=BOOLEAN_CHOICES,
                                                           coerce=strtobool)

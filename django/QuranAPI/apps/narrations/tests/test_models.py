@@ -83,7 +83,7 @@ class NarrationModelStructureTestCase(TestCase):
 
     def test_name_verbose_name_is_narration(self):
         field = Narration._meta.get_field('name')
-        self.assertEquals(field.verbose_name, _('Name'))
+        self.assertEqual(field.verbose_name, _('Name'))
 
     # test description attribute
     def test_narration_model_has_description_attribute(self):
@@ -103,7 +103,7 @@ class NarrationModelStructureTestCase(TestCase):
 
     def test_description_field_verbose_name_is_description(self):
         field = Narration._meta.get_field('description')
-        self.assertEquals(field.verbose_name, _('Description'))
+        self.assertEqual(field.verbose_name, _('Description'))
 
     # Test created_at attribute
     def test_narration_model_has_created_at_attribute(self):
@@ -170,7 +170,7 @@ class NarrationModelStructureTestCase(TestCase):
     def test__str__signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(Narration.__str__)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class NarrationModelStrTestCase(TestCase):

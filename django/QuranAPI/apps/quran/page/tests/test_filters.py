@@ -23,7 +23,7 @@ class PageAPIFilterStructureTestCase(TestCase):
         self.assertIn('model', PageAPIFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_reciter_Model(self):
-        self.assertEquals(Page, PageAPIFilter.Meta.model)
+        self.assertEqual(Page, PageAPIFilter.Meta.model)
 
     def test_it_has_fields_in_class_meta(self):
         self.assertIn('fields', PageAPIFilter.Meta.__dict__)
@@ -62,11 +62,11 @@ class PageAPIFilterStructureTestCase(TestCase):
     def test_search_method_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(PageAPIFilter.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_q_field_uses_search_method(self):
         field = self.fields.get('q')
-        self.assertEquals('search', field.method)
+        self.assertEqual('search', field.method)
 
     def test_it_has_chapters_field(self):
         self.assertIn('chapters', self.fields)
@@ -77,11 +77,11 @@ class PageAPIFilterStructureTestCase(TestCase):
 
     def test_chapters_field_uses_queryset(self):
         field = self.fields.get('chapters')
-        self.assertQuerysetEqual(Chapter.objects.all(), field.queryset)
+        self.assertQuerySetEqual(Chapter.objects.all(), field.queryset)
 
     def test_chapters_field_uses_field_name(self):
         field = self.fields.get('chapters')
-        self.assertQuerysetEqual("chapter__id", field.field_name)
+        self.assertQuerySetEqual("chapter__id", field.field_name)
 
 
 class PageAPIFilterResultTestCase(TestCase):
@@ -123,28 +123,28 @@ class PageAPIFilterResultTestCase(TestCase):
 
     def test_searched_queryset_is_correct(self):
         result = PageAPIFilter(queryset=self.qs, data={"q": "tes"})
-        self.assertQuerysetEqual(result.qs, Page.objects.filter(verse__text__icontains="tes"))
+        self.assertQuerySetEqual(result.qs, Page.objects.filter(verse__text__icontains="tes"))
 
     def test_part_filtered_queryset_is_correct(self):
         result = PageAPIFilter(queryset=self.qs, data={"part": 1})
-        self.assertQuerysetEqual(result.qs, Page.objects.filter(part_id=1))
+        self.assertQuerySetEqual(result.qs, Page.objects.filter(part_id=1))
 
     def test_book_filtered_queryset_is_correct(self):
         result = PageAPIFilter(queryset=self.qs, data={"book": 1})
-        self.assertQuerysetEqual(result.qs, Page.objects.filter(book_id=1))
+        self.assertQuerySetEqual(result.qs, Page.objects.filter(book_id=1))
 
     def test_filtered_narration_queryset_is_correct(self):
         result = PageAPIFilter(queryset=self.qs, data={"narration": 1})
-        self.assertQuerysetEqual(result.qs, Page.objects.filter(narration_id=1))
+        self.assertQuerySetEqual(result.qs, Page.objects.filter(narration_id=1))
 
     def test_page_number_filtered_queryset_is_correct(self):
         result = PageAPIFilter(queryset=self.qs, data={"page_number": 1})
         print(Page.objects.filter(page_number=1))
-        self.assertQuerysetEqual(result.qs, Page.objects.filter(page_number=1))
+        self.assertQuerySetEqual(result.qs, Page.objects.filter(page_number=1))
 
     def test_sub_part_filtered_queryset_is_correct(self):
         result = PageAPIFilter(queryset=self.qs, data={"sub_part": 1})
-        self.assertQuerysetEqual(result.qs, Page.objects.filter(sub_part=1))
+        self.assertQuerySetEqual(result.qs, Page.objects.filter(sub_part=1))
 
 
 class PageAPIFilterSearchTestCase(TestCase):
@@ -160,7 +160,7 @@ class PageAPIFilterSearchTestCase(TestCase):
             queryset=queryset,
             value="te",
             name="q")
-        self.assertQuerysetEqual(result, SearchProvider().search(
+        self.assertQuerySetEqual(result, SearchProvider().search(
             queryset=queryset,
             columns=['verse__text'],
             value="te"), ordered=False)

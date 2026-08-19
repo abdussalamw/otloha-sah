@@ -1,7 +1,8 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from apps.quran.factories import NarrationFactory, BookFactory
+from apps.narrations.factories import NarrationFactory
+from apps.quran.factories import BookFactory
 from apps.users.factories import UserFactory
 
 

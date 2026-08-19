@@ -62,7 +62,7 @@ class RegisterViewPOSTTestCase(TestCase):
     def test_it_log_the_created_user_in(self):
         self.client.post(self.url, self.data)
         self.assertIn('_auth_user_id', self.client.session)
-        self.assertEquals(self.client.session['_auth_user_id'],
+        self.assertEqual(self.client.session['_auth_user_id'],
                           str(get_user_model().objects.get(email="test@test.test").id))
 
     def test_it_redirect_to_next_if_next_in_request(self):
@@ -228,7 +228,7 @@ class LoginViewPOSTTestCase(TestCase):
 #     def test_it_updates_user_phone_verified_at(self):
 #         self.client.post(reverse("auth:verify-phone"), {"code": "777777"})
 #         self.user.refresh_from_db()
-#         self.assertEquals(self.user.phone_verified_at, now())
+#         self.assertEqual(self.user.phone_verified_at, now())
 #
 #     def test_it_returns_verify_phone_template_on_failure(self):
 #         response = self.client.get(reverse("auth:verify-phone"))

@@ -26,13 +26,13 @@ class ExplanationFormStructureTestCase(TestCase):
         self.assertIn('model', ExplanationForm.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_Explanation_model(self):
-        self.assertEquals(Explanation, ExplanationForm.Meta.model)
+        self.assertEqual(Explanation, ExplanationForm.Meta.model)
 
     def test_form_class_meta_has_fields_on_it(self):
         self.assertIn('fields', ExplanationForm.Meta.__dict__)
 
     def test_form_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(ExplanationForm.Meta.fields), list)
+        self.assertEqual(type(ExplanationForm.Meta.fields), list)
 
     def test_class_meta_fields_has_name(self):
         self.assertIn('name', ExplanationForm.Meta.fields)
@@ -52,8 +52,8 @@ class ExplanationFormValidationTestCase(TestCase):
         self.data.pop('name')
         form = ExplanationForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['name'][0].code, 'required')
-        self.assertEquals(form.errors.as_data()['name'][0].message, _('This field is required.'))
+        self.assertEqual(form.errors.as_data()['name'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['name'][0].message, _('This field is required.'))
 
 
 class ExplanationCSVFormStructureTestCase(TestCase):
@@ -72,7 +72,7 @@ class ExplanationCSVFormStructureTestCase(TestCase):
         self.assertIsNotNone(ExplanationCSVForm.base_fields['verse_number'].label)
 
     def test_verse_number_field_label_variable_is_Verse_Number(self):
-        self.assertEquals(_('Verse Number'), ExplanationCSVForm.base_fields['verse_number'].label)
+        self.assertEqual(_('Verse Number'), ExplanationCSVForm.base_fields['verse_number'].label)
 
     # Test Chapter_number
 
@@ -86,7 +86,7 @@ class ExplanationCSVFormStructureTestCase(TestCase):
         self.assertIsNotNone(ExplanationCSVForm.base_fields['chapter_number'].label)
 
     def test_chapter_number_field_label_variable_is_Chapter_Number(self):
-        self.assertEquals(_('Chapter Number'), ExplanationCSVForm.base_fields['chapter_number'].label)
+        self.assertEqual(_('Chapter Number'), ExplanationCSVForm.base_fields['chapter_number'].label)
 
     # Test Page_number
 
@@ -100,7 +100,7 @@ class ExplanationCSVFormStructureTestCase(TestCase):
         self.assertIsNotNone(ExplanationCSVForm.base_fields['page_number'].label)
 
     def test_page_number_field_label_variable_is_Page_Number(self):
-        self.assertEquals(_('Page Number'), ExplanationCSVForm.base_fields['page_number'].label)
+        self.assertEqual(_('Page Number'), ExplanationCSVForm.base_fields['page_number'].label)
 
     # Test text
 
@@ -114,7 +114,7 @@ class ExplanationCSVFormStructureTestCase(TestCase):
         self.assertIsNotNone(ExplanationCSVForm.base_fields['text'].label)
 
     def test_text_field_label_variable_is_explanation_text(self):
-        self.assertEquals(_('Explanation Text'), ExplanationCSVForm.base_fields['text'].label)
+        self.assertEqual(_('Explanation Text'), ExplanationCSVForm.base_fields['text'].label)
 
 
 class ExplanationCSVFormSaveTestCase(TestCase):
@@ -198,8 +198,8 @@ class ValidationExplanationCSVFormStructureTestCase(TestCase):
     def test_chapter_number_field_has_max_value(self):
         self.assertIsNotNone(ValidationExplanationCSVForm.base_fields['chapter_number'].max_value)
 
-    def test_chapter_number_field_max_value_is_20(self):
-        self.assertEqual(20, ValidationExplanationCSVForm.base_fields['chapter_number'].max_value)
+    def test_chapter_number_field_max_value_is_114(self):
+        self.assertEqual(114, ValidationExplanationCSVForm.base_fields['chapter_number'].max_value)
 
     def test_chapter_number_field_has_min_value(self):
         self.assertIsNotNone(ValidationExplanationCSVForm.base_fields['chapter_number'].min_value)
@@ -258,46 +258,46 @@ class ValidationExplanationCSVFormValidationTestCase(TestCase):
         self.data.pop('verse_number')
         form = ValidationExplanationCSVForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['verse_number'][0].code, 'required')
-        self.assertEquals(form.errors.as_data()['verse_number'][0].message, _('This field is required.'))
+        self.assertEqual(form.errors.as_data()['verse_number'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['verse_number'][0].message, _('This field is required.'))
 
     def test_it_throws_error_if_verse_number_value_is_less_than_minimum(self):
         self.data.update({'verse_number': 0})
         form = ValidationExplanationCSVForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['verse_number'][0].code, 'min_value')
-        self.assertEquals(form.errors.as_data()['verse_number'][0].message,
+        self.assertEqual(form.errors.as_data()['verse_number'][0].code, 'min_value')
+        self.assertEqual(form.errors.as_data()['verse_number'][0].message,
                           _('Ensure this value is greater than or equal to %(limit_value)s.'))
 
     def test_it_throws_error_if_verse_number_value_is_greater_than_maximum(self):
         self.data.update({'verse_number': 310})
         form = ValidationExplanationCSVForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['verse_number'][0].code, 'max_value')
-        self.assertEquals(form.errors.as_data()['verse_number'][0].message,
+        self.assertEqual(form.errors.as_data()['verse_number'][0].code, 'max_value')
+        self.assertEqual(form.errors.as_data()['verse_number'][0].message,
                           _('Ensure this value is less than or equal to %(limit_value)s.'))
 
     def test_it_throws_error_if_chapter_number_has_no_value(self):
         self.data.pop('chapter_number')
         form = ValidationExplanationCSVForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['chapter_number'][0].code, 'required')
-        self.assertEquals(form.errors.as_data()['chapter_number'][0].message, _('This field is required.'))
+        self.assertEqual(form.errors.as_data()['chapter_number'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['chapter_number'][0].message, _('This field is required.'))
 
     def test_it_throws_error_if_chapter_number_value_is_less_than_minimum(self):
         self.data.update({'chapter_number': 0})
         form = ValidationExplanationCSVForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['chapter_number'][0].code, 'min_value')
-        self.assertEquals(form.errors.as_data()['chapter_number'][0].message,
+        self.assertEqual(form.errors.as_data()['chapter_number'][0].code, 'min_value')
+        self.assertEqual(form.errors.as_data()['chapter_number'][0].message,
                           _('Ensure this value is greater than or equal to %(limit_value)s.'))
 
     def test_it_throws_error_if_chapter_number_value_is_greater_than_maximum(self):
-        self.data.update({'chapter_number': 30})
+        self.data.update({'chapter_number': 115})
         form = ValidationExplanationCSVForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['chapter_number'][0].code, 'max_value')
-        self.assertEquals(form.errors.as_data()['chapter_number'][0].message,
+        self.assertEqual(form.errors.as_data()['chapter_number'][0].code, 'max_value')
+        self.assertEqual(form.errors.as_data()['chapter_number'][0].message,
                           _('Ensure this value is less than or equal to %(limit_value)s.'))
 
     # Test Page_number
@@ -306,20 +306,20 @@ class ValidationExplanationCSVFormValidationTestCase(TestCase):
         self.data.pop('page_number')
         form = ValidationExplanationCSVForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['page_number'][0].code, 'required')
-        self.assertEquals(form.errors.as_data()['page_number'][0].message, _('This field is required.'))
+        self.assertEqual(form.errors.as_data()['page_number'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['page_number'][0].message, _('This field is required.'))
 
     def test_it_throws_error_if_page_number_value_is_less_than_minimum(self):
         self.data.update({'page_number': 0})
         form = ValidationExplanationCSVForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['page_number'][0].code, 'min_value')
-        self.assertEquals(form.errors.as_data()['page_number'][0].message,
+        self.assertEqual(form.errors.as_data()['page_number'][0].code, 'min_value')
+        self.assertEqual(form.errors.as_data()['page_number'][0].message,
                           _('Ensure this value is greater than or equal to %(limit_value)s.'))
 
     def test_it_throws_error_if_text_has_no_value(self):
         self.data.pop('text')
         form = ValidationExplanationCSVForm(data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['text'][0].code, 'required')
-        self.assertEquals(form.errors.as_data()['text'][0].message, _('This field is required.'))
+        self.assertEqual(form.errors.as_data()['text'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['text'][0].message, _('This field is required.'))

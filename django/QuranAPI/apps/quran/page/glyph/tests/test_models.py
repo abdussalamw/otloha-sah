@@ -33,15 +33,15 @@ class GlyphModelTestCase(TestCase):
 
     def test_chapter_field_is_related_to_chapter_model(self):
         field = Glyph._meta.get_field('chapter')
-        self.assertEquals(field.remote_field.model, Chapter)
+        self.assertEqual(field.remote_field.model, Chapter)
 
     def test_chapter_attribute_related_name_value(self):
         field = Glyph._meta.get_field('chapter')
-        self.assertEquals(field.remote_field.related_name, "chapter_glyphs")
+        self.assertEqual(field.remote_field.related_name, "chapter_glyphs")
 
     def test_chapter_attribute_on_delete_value(self):
         field = Glyph._meta.get_field('chapter')
-        self.assertEquals(field.remote_field.on_delete, models.SET_NULL)
+        self.assertEqual(field.remote_field.on_delete, models.SET_NULL)
 
     def test_chapter_field_null_is_true(self):
         field = Glyph._meta.get_field('chapter')
@@ -64,11 +64,11 @@ class GlyphModelTestCase(TestCase):
 
     def test_page_attribute_related_name_value(self):
         field = Glyph._meta.get_field('page')
-        self.assertEquals(field.remote_field.related_name, "page_glyphs")
+        self.assertEqual(field.remote_field.related_name, "page_glyphs")
 
     def test_page_attribute_on_delete_value(self):
         field = Glyph._meta.get_field('page')
-        self.assertEquals(field.remote_field.on_delete, models.SET_NULL)
+        self.assertEqual(field.remote_field.on_delete, models.SET_NULL)
 
     def test_page_field_null_is_true(self):
         field = Glyph._meta.get_field('page')
@@ -91,15 +91,15 @@ class GlyphModelTestCase(TestCase):
 
     def test_verse_field_is_related_to_chapter_model(self):
         field = Glyph._meta.get_field('verse')
-        self.assertEquals(field.remote_field.model, Verse)
+        self.assertEqual(field.remote_field.model, Verse)
 
     def test_verse_attribute_related_name_value(self):
         field = Glyph._meta.get_field('verse')
-        self.assertEquals(field.remote_field.related_name, "glyph_verses")
+        self.assertEqual(field.remote_field.related_name, "glyph_verses")
 
     def test_verse_attribute_on_delete_value(self):
         field = Glyph._meta.get_field('verse')
-        self.assertEquals(field.remote_field.on_delete, models.SET_NULL)
+        self.assertEqual(field.remote_field.on_delete, models.SET_NULL)
 
     def test_verse_field_null_is_true(self):
         field = Glyph._meta.get_field('verse')
@@ -118,7 +118,7 @@ class GlyphModelTestCase(TestCase):
 
     def test_line_number_verbose_field_value_is_Line_Number(self):
         field = Glyph._meta.get_field('line_number')
-        self.assertEquals(field.verbose_name, _('Line_Number'))
+        self.assertEqual(field.verbose_name, _('Line_Number'))
 
     def test_if_field_position_in_Glyph_model(self):
         self.assertTrue(hasattr(Glyph, 'position'))
@@ -129,7 +129,7 @@ class GlyphModelTestCase(TestCase):
 
     def test_position_verbose_field_value_is_position(self):
         field = Glyph._meta.get_field('position')
-        self.assertEquals(field.verbose_name, _('Position'))
+        self.assertEqual(field.verbose_name, _('Position'))
 
     def test_position_field_null_is_true(self):
         field = Glyph._meta.get_field('position')
@@ -148,7 +148,7 @@ class GlyphModelTestCase(TestCase):
 
     def test_min_x_verbose_field_value_is_min_x(self):
         field = Glyph._meta.get_field('min_x')
-        self.assertEquals(field.verbose_name, _('Min_x'))
+        self.assertEqual(field.verbose_name, _('Min_x'))
 
     def test_if_field_max_x_in_Glyph_model(self):
         self.assertTrue(hasattr(Glyph, 'max_x'))
@@ -159,7 +159,7 @@ class GlyphModelTestCase(TestCase):
 
     def test_max_x_verbose_field_value_is_max_x(self):
         field = Glyph._meta.get_field('max_x')
-        self.assertEquals(field.verbose_name, _('Max_x'))
+        self.assertEqual(field.verbose_name, _('Max_x'))
 
     def test_if_field_min_y_in_Glyph_model(self):
         self.assertTrue(hasattr(Glyph, 'min_y'))
@@ -170,7 +170,7 @@ class GlyphModelTestCase(TestCase):
 
     def test_min_y_verbose_field_value_is_min_y(self):
         field = Glyph._meta.get_field('min_y')
-        self.assertEquals(field.verbose_name, _('Min_y'))
+        self.assertEqual(field.verbose_name, _('Min_y'))
 
     def test_if_field_max_y_in_Glyph_model(self):
         self.assertTrue(hasattr(Glyph, 'max_y'))
@@ -181,4 +181,4 @@ class GlyphModelTestCase(TestCase):
 
     def test_max_y_verbose_field_value_is_max_y(self):
         field = Glyph._meta.get_field('max_y')
-        self.assertEquals(field.verbose_name, _('Max_y'))
+        self.assertEqual(field.verbose_name, _('Max_y'))

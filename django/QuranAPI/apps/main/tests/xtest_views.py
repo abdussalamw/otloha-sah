@@ -78,13 +78,13 @@ class AdminListViewTestCase(TestCase):
     def test_it_returns_title_in_context(self):
         """ test response has columns attribute """
         self.assertIn('title', self.context)
-        self.assertEquals('Test Data', self.context['title'])
+        self.assertEqual('Test Data', self.context['title'])
 
     # def test_it_returns_create_link_in_context(self):
     #     """ test response has create_link attribute """
     #     self.assertIn('create_link', self.context)
     #     self.view.create_link = 'test/create/'
-    #     self.assertEquals('test/create/', self.context['create_link'])
+    #     self.assertEqual('test/create/', self.context['create_link'])
     #
     # def test_get_create_link_method_overrides_create_link(self):
     #     """ get_create_link method overrides default create link """
@@ -93,7 +93,7 @@ class AdminListViewTestCase(TestCase):
     #     v.setup(request)
     #     v.object_list = self.view.get_queryset()
     #     c = v.get_context_data()
-    #     self.assertEquals('test/create/122', c['create_link'])
+    #     self.assertEqual('test/create/122', c['create_link'])
     #
     # def test_query_search_filter(self):
     #     request = RequestFactory().get('/test/')

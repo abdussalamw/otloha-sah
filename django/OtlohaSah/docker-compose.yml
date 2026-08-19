@@ -62,9 +62,14 @@ services:
       - redis-data:/data
     deploy:
       replicas: 1
-    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
-    ports:
-      - "6379:6379"
+    env_file:
+      - ./.env
+    command:
+      - sh
+      - -c
+      - |
+        test -n "$$REDIS_PASSWORD" &&
+        exec redis-server /usr/local/etc/redis/redis.conf --requirepass "$$REDIS_PASSWORD"
 
   celery:
     container_name: 'celery'

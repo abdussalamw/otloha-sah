@@ -2,7 +2,7 @@ import inspect
 
 from django.test import TestCase
 from django.urls import reverse
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.test import APIClient
 from rest_framework.views import APIView
@@ -26,7 +26,7 @@ class BooksAPIListingStructureView(TestCase):
         self.assertIsInstance(BooksListAPIView.permission_classes, list)
 
     def test_permission_classes_has_token_read_write_scope(self):
-        self.assertIn(TokenHasReadWriteScope, BooksListAPIView.permission_classes)
+        self.assertIn(AllowAny, BooksListAPIView.permission_classes)
 
     def test_view_has_method_get(self):
         self.assertTrue(hasattr(BooksListAPIView, 'get'))
@@ -37,7 +37,7 @@ class BooksAPIListingStructureView(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(BooksListAPIView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class APIBookListingViewTestCase(TestCase):
@@ -61,11 +61,11 @@ class APIBookListingViewTestCase(TestCase):
     def test_it_through_exception_if_user_is_not_authenticated(self):
         self.client.logout()
         response = self.client.get(self.url)
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_returns_200_status_code(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_return_200_status_code_when_title_is_not_available(self):
         url = reverse("api-v1:books:list") + '?name=my name'
@@ -95,12 +95,12 @@ class BookDetailAPIViewTestCase(TestCase):
     def test_it_through_exception_if_user_is_not_authenticated(self):
         self.client.logout()
         response = self.client.get(self.url, HTTP_AUTHORIZATION='')
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_returns_200_status_code(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_return_404_if_the_book_not_exists(self):
         response = self.client.get(reverse('api-v1:books:details', args=[15]), HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

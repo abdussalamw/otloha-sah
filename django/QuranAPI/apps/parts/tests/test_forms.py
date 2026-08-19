@@ -16,7 +16,7 @@ class PartFormTest(TestCase):
         self.assertIn('Meta', PartForm.__dict__)
 
     def test_it_use_part_model(self):
-        self.assertEquals(PartForm._meta.model, Part)
+        self.assertEqual(PartForm._meta.model, Part)
 
     # Test Meta Name field
     def test_meta_fields_has_name(self):
@@ -77,7 +77,7 @@ class PartFormValidationTest(TestCase):
     def test_alias_field_is_required(self):
         self.data.pop('alias')
         form = PartForm(data=self.data)
-        self.assertEquals(form.errors.as_data()['alias'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['alias'][0].code, 'required')
 
     def test_it_raise_error_if_alias_field_is_required(self):
         self.data.pop('alias')
@@ -93,7 +93,7 @@ class PartFormValidationTest(TestCase):
     def test_part_number_field_is_required(self):
         self.data.pop('part_number')
         form = PartForm(data=self.data)
-        self.assertEquals(form.errors.as_data()['part_number'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['part_number'][0].code, 'required')
 
     def test_it_raise_error_if_part_number_field_is_required(self):
         self.data.pop('part_number')

@@ -28,7 +28,7 @@ class RecitationFormTestCase(TestCase):
 
     # todo:solve the error
     def test_name_has_label_Name(self):
-        self.assertEquals(self.form.fields['name'].label, _('Name'))
+        self.assertEqual(self.form.fields['name'].label, _('Name'))
 
     def test_name_field_is_required(self):
         self.assertTrue(self.form.fields['name'].required)
@@ -45,7 +45,7 @@ class RecitationFormTestCase(TestCase):
         self.assertIsInstance(self.form.fields['narration'].widget, forms.Select)
 
     def test_narration_has_label_Narration(self):
-        self.assertEquals(self.form.fields['narration'].label, _("Narration"))
+        self.assertEqual(self.form.fields['narration'].label, _("Narration"))
 
     def test_narration_field_is_not_required(self):
         self.assertFalse(self.form.fields['narration'].required)
@@ -62,7 +62,7 @@ class RecitationFormTestCase(TestCase):
         self.assertIsInstance(self.form.fields['reciter'].widget, forms.Select)
 
     def test_reciter_has_label_Reciter(self):
-        self.assertEquals(self.form.fields['reciter'].label, _("Reciter"))
+        self.assertEqual(self.form.fields['reciter'].label, _("Reciter"))
 
     def test_reciter_field_is_required(self):
         self.assertTrue(self.form.fields['reciter'].required)
@@ -84,12 +84,12 @@ class RecitationFormValidationTestCase(TestCase):
     def test_error_code_is_required_if_name_has_no_value(self):
         self.data.pop('name')
         form = RecitationForm(data=self.data)
-        self.assertEquals(form.errors.as_data()['name'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['name'][0].code, 'required')
 
     def test_error_message_is_required_if_name_has_no_value(self):
         self.data.pop('name')
         form = RecitationForm(data=self.data)
-        self.assertEquals(form.errors.as_data()['name'][0].message, _('This field is required.'))
+        self.assertEqual(form.errors.as_data()['name'][0].message, _('This field is required.'))
 
     def test_it_throws_error_if_reciter_has_no_value(self):
         self.data.pop('reciter')
@@ -99,10 +99,10 @@ class RecitationFormValidationTestCase(TestCase):
     def test_error_code_is_required_if_reciter_has_no_value(self):
         self.data.pop('reciter')
         form = RecitationForm(data=self.data)
-        self.assertEquals(form.errors.as_data()['reciter'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['reciter'][0].code, 'required')
 
     def test_error_message_is_required_if_reciter_has_no_value(self):
         self.data.pop('reciter')
         form = RecitationForm(data=self.data)
-        self.assertEquals(form.errors.as_data()['reciter'][0].message, _('This field is required.'))
+        self.assertEqual(form.errors.as_data()['reciter'][0].message, _('This field is required.'))
 

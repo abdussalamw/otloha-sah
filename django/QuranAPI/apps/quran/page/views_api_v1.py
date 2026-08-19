@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -11,7 +11,7 @@ from .filters import PageAPIFilter
 
 
 class PagesListOrDownloadAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         pages = PageAPIFilter(request.GET, Page.objects.all())
@@ -29,7 +29,7 @@ class PagesListOrDownloadAPIView(APIView):
 
 
 class PagesDetailAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, page_id):
         page = get_object_or_404(Page, pk=page_id)

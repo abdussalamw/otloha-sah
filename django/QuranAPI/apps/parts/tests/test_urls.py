@@ -23,11 +23,11 @@ class PartApiUrlsStructureTestCase(TestCase):
 class PartApiUrlsTestCase(TestCase):
     def test_listing_all_parts_api_url_resolves(self):
         url = reverse('api-v1:parts:listing')
-        self.assertEquals(resolve(url).func.view_class, PartsListAPIView)
+        self.assertEqual(resolve(url).func.view_class, PartsListAPIView)
 
     def test_detail_chapter_api_url_resolves(self):
         url = reverse('api-v1:parts:details', args=[1])
-        self.assertEquals(resolve(url).func.view_class, PartDetailAPIView)
+        self.assertEqual(resolve(url).func.view_class, PartDetailAPIView)
 
 class PartsAdminUrlsStructureTestCase(TestCase):
     def test_it_has_app_name(self):
@@ -45,12 +45,12 @@ class PartsAdminUrlsStructureTestCase(TestCase):
 class PartsAdminUrlsTestCase(TestCase):
     def test_admin_listing_url_resolves(self):
         url = reverse('admin:parts:listing')
-        self.assertEquals(resolve(url).func.view_class, PartListingAdminView)
+        self.assertEqual(resolve(url).func.view_class, PartListingAdminView)
 
     def test_admin_create_url_resolves(self):
         url = reverse('admin:parts:create')
-        self.assertEquals(resolve(url).func.view_class, PartCreateAndUpdateAdminView)
+        self.assertEqual(resolve(url).func.view_class, PartCreateAndUpdateAdminView)
 
     def test_admin_update_url_resolves(self):
         url = reverse('admin:parts:update', args=[1])
-        self.assertEquals(resolve(url).func.view_class, PartCreateAndUpdateAdminView)
+        self.assertEqual(resolve(url).func.view_class, PartCreateAndUpdateAdminView)

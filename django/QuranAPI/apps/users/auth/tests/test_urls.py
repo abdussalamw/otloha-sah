@@ -9,26 +9,26 @@ from apps.users.auth.views_site import AuthenticateView, RegisterView, PhoneVeri
 class SiteUrlsTestCase(TestCase):
     def test_login_url_resolves(self):
         url = reverse('auth:login')
-        self.assertEquals(resolve(url).func.view_class, AuthenticateView)
+        self.assertEqual(resolve(url).func.view_class, AuthenticateView)
 
     def test_register_url_resolves(self):
         url = reverse('auth:register')
-        self.assertEquals(resolve(url).func.view_class, RegisterView)
+        self.assertEqual(resolve(url).func.view_class, RegisterView)
 
     def test_logout_url_resolves(self):
         url = reverse('auth:logout')
-        self.assertEquals(resolve(url).func.view_class, views.LogoutView)
+        self.assertEqual(resolve(url).func.view_class, views.LogoutView)
 
     def test_phone_verify_url_resolves(self):
         url = reverse("auth:verify-phone")
-        self.assertEquals(resolve(url).func.view_class, PhoneVerify)
+        self.assertEqual(resolve(url).func.view_class, PhoneVerify)
 
 
 class APIV1UrlsTestCase(TestCase):
     def test_api_v1_login_url_resolves(self):
         url = reverse('api-v1:users:auth:login')
-        self.assertEquals(resolve(url).func.view_class, UserLoginAPIView)
+        self.assertEqual(resolve(url).func.view_class, UserLoginAPIView)
 
     def test_api_v1_register_url_resolves(self):
         url = reverse('api-v1:users:auth:signup')
-        self.assertEquals(resolve(url).func.view_class, UserSignupAPIView)
+        self.assertEqual(resolve(url).func.view_class, UserSignupAPIView)

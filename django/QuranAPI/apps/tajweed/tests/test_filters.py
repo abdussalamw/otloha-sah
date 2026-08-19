@@ -7,8 +7,14 @@ from django_filters import FilterSet
 from apps.main.services.service_search.search import SearchProvider
 from apps.narrations.factories import NarrationFactory
 from apps.tajweed.factories import TajweedBookFactory, RuleFactory, CharacterFactory
-from apps.tajweed.filters import RuleFilter, CharacterFilter, RuleAdminSearch, RuleAPISearch, VerseAdminSearch, \
-    CharacterAdminSearch, CharacterAPISearch
+from apps.tajweed.filters import (
+    CharacterAdminSearch,
+    CharacterAPISearch,
+    CharacterFilter,
+    RuleAdminSearch,
+    RuleAPISearch,
+    RuleFilter,
+)
 from apps.tajweed.models import Book, Rule, Character
 
 
@@ -25,13 +31,13 @@ class RuleFilterStructureTestCase(TestCase):
         self.assertIn('model', RuleFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_Rule_model(self):
-        self.assertEquals(Rule, RuleFilter.Meta.model)
+        self.assertEqual(Rule, RuleFilter.Meta.model)
 
     def test_filter_class_meta_has_fields_on_it(self):
         self.assertIn('fields', RuleFilter.Meta.__dict__)
 
     def test_filter_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(RuleFilter.Meta.fields), list)
+        self.assertEqual(type(RuleFilter.Meta.fields), list)
 
     def test_class_meta_fields_has_rule_number(self):
         self.assertIn('rule_number', RuleFilter.Meta.fields)
@@ -54,8 +60,8 @@ class RuleFilterTestCase(TestCase):
         for i in range(2):
             RuleFactory(rule_number=2, tajweed_book=self.tajweed_book_1)
         result = RuleFilter({'rule_number': 1}, Rule.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(1, result[0].rule_number)
+        self.assertEqual(5, len(result))
+        self.assertEqual(1, result[0].rule_number)
 
     def test_it_filters_based_on_tajweed_book_correctly(self):
         for i in range(5):
@@ -63,8 +69,8 @@ class RuleFilterTestCase(TestCase):
         for i in range(2):
             RuleFactory(tajweed_book=self.tajweed_book_2)
         result = RuleFilter({'tajweed_book': self.tajweed_book_1}, Rule.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(self.tajweed_book_1, result[0].tajweed_book)
+        self.assertEqual(5, len(result))
+        self.assertEqual(self.tajweed_book_1, result[0].tajweed_book)
 
     def test_it_filters_based_on_color_correctly(self):
         for i in range(5):
@@ -72,8 +78,8 @@ class RuleFilterTestCase(TestCase):
         for i in range(2):
             RuleFactory(color='org', tajweed_book=self.tajweed_book_2)
         result = RuleFilter({'color': 'red'}, Rule.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals('red', result[0].color)
+        self.assertEqual(5, len(result))
+        self.assertEqual('red', result[0].color)
 
 
 class RuleAdminSearchStructureTestCase(TestCase):
@@ -106,7 +112,7 @@ class RuleAdminSearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(RuleAdminSearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class RuleAdminSearchTestCase(TestCase):
@@ -116,7 +122,7 @@ class RuleAdminSearchTestCase(TestCase):
         RuleFactory(name='test', tajweed_book=TajweedBookFactory())
         queryset = Rule.objects.all()
         result = RuleAdminSearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'description'],
             value="test"), ordered=False)
@@ -127,7 +133,7 @@ class RuleAdminSearchTestCase(TestCase):
         RuleFactory(description='test', tajweed_book=TajweedBookFactory())
         queryset = Rule.objects.all()
         result = RuleAdminSearch({'q': 'test'}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'description'],
             value='test'), ordered=False)
@@ -173,7 +179,7 @@ class RuleAPISearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(RuleAPISearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class RuleAPISearchTestCase(TestCase):
@@ -188,7 +194,7 @@ class RuleAPISearchTestCase(TestCase):
             RuleFactory(rule_number=2, tajweed_book=self.tajweed_book_1)
         queryset = Rule.objects.all()
         result = RuleAPISearch({'rule_number': 1}, queryset).qs
-        self.assertEquals(5, len(result))
+        self.assertEqual(5, len(result))
 
     def test_it_filter_queryset_by_tajweed_book_correctly(self):
         for i in range(5):
@@ -197,7 +203,7 @@ class RuleAPISearchTestCase(TestCase):
             RuleFactory(tajweed_book=self.tajweed_book_2)
         queryset = Rule.objects.all()
         result = RuleAPISearch({'tajweed_book': self.tajweed_book_1}, queryset).qs
-        self.assertEquals(5, len(result))
+        self.assertEqual(5, len(result))
 
     def test_it_filter_queryset_by_color_correctly(self):
         for i in range(5):
@@ -206,7 +212,7 @@ class RuleAPISearchTestCase(TestCase):
             RuleFactory(color='org', tajweed_book=self.tajweed_book_2)
         queryset = Rule.objects.all()
         result = RuleAPISearch({'color': 'red'}, queryset).qs
-        self.assertEquals(len(result), 5)
+        self.assertEqual(len(result), 5)
 
     def test_it_filters_queryset_by_name_column(self):
         for _ in range(5):
@@ -214,7 +220,7 @@ class RuleAPISearchTestCase(TestCase):
         RuleFactory(name='test', tajweed_book=self.tajweed_book_1)
         queryset = Rule.objects.all()
         result = RuleAPISearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'description'],
             value="test"), ordered=False)
@@ -225,7 +231,7 @@ class RuleAPISearchTestCase(TestCase):
         RuleFactory(description='test', tajweed_book=self.tajweed_book_1)
         queryset = Rule.objects.all()
         result = RuleAPISearch({'q': 'test'}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'description'],
             value='test'), ordered=False)
@@ -243,13 +249,13 @@ class RuleAPISearchTestCase(TestCase):
 #         self.assertIn('model', VerseFilter.Meta.__dict__)
 #
 #     def test_the_model_used_in_the_meta_is_Verse_model(self):
-#         self.assertEquals(Verse, VerseFilter.Meta.model)
+#         self.assertEqual(Verse, VerseFilter.Meta.model)
 #
 #     def test_filter_class_meta_has_fields_on_it(self):
 #         self.assertIn('fields', VerseFilter.Meta.__dict__)
 #
 #     def test_filter_class_meta_fields_is_a_list(self):
-#         self.assertEquals(type(VerseFilter.Meta.fields), list)
+#         self.assertEqual(type(VerseFilter.Meta.fields), list)
 #
 #     def test_class_meta_fields_has_verse_number(self):
 #         self.assertIn('verse_number', VerseFilter.Meta.fields)
@@ -277,8 +283,8 @@ class RuleAPISearchTestCase(TestCase):
 #         for i in range(2):
 #             VerseFactory(verse_number=2)
 #         result = VerseFilter({'verse_number': 1}, Verse.objects.all()).qs
-#         self.assertEquals(5, len(result))
-#         self.assertEquals(1, result[0].verse_number)
+#         self.assertEqual(5, len(result))
+#         self.assertEqual(1, result[0].verse_number)
 #
 #     def test_it_filters_based_on_chapter_number_correctly(self):
 #         for i in range(5):
@@ -286,8 +292,8 @@ class RuleAPISearchTestCase(TestCase):
 #         for i in range(2):
 #             VerseFactory(chapter_number=2)
 #         result = VerseFilter({'chapter_number': 1}, Verse.objects.all()).qs
-#         self.assertEquals(5, len(result))
-#         self.assertEquals(1, result[0].chapter_number)
+#         self.assertEqual(5, len(result))
+#         self.assertEqual(1, result[0].chapter_number)
 #
 #     def test_it_filters_based_on_chapter_correctly(self):
 #         for i in range(5):
@@ -295,8 +301,8 @@ class RuleAPISearchTestCase(TestCase):
 #         for i in range(2):
 #             VerseFactory(chapter=self.chapter_2)
 #         result = VerseFilter({'chapter': self.chapter_1}, Verse.objects.all()).qs
-#         self.assertEquals(5, len(result))
-#         self.assertEquals(self.chapter_1, result[0].chapter)
+#         self.assertEqual(5, len(result))
+#         self.assertEqual(self.chapter_1, result[0].chapter)
 #
 #     def test_it_filters_based_on_tajweed_book_correctly(self):
 #         for i in range(5):
@@ -304,42 +310,9 @@ class RuleAPISearchTestCase(TestCase):
 #         for i in range(2):
 #             VerseFactory(tajweed_book=self.tajweed_book_2)
 #         result = VerseFilter({'tajweed_book': self.tajweed_book_1}, Verse.objects.all()).qs
-#         self.assertEquals(5, len(result))
-#         self.assertEquals(self.tajweed_book_1, result[0].tajweed_book)
+#         self.assertEqual(5, len(result))
+#         self.assertEqual(self.tajweed_book_1, result[0].tajweed_book)
 #
-
-class VerseAdminSearchStructureTestCase(TestCase):
-    def setUp(self):
-        self.fields = VerseAdminSearch.get_filters()
-
-    # Test q field
-    def test_it_has_q_field(self):
-        self.assertIn('q', self.fields)
-
-    def test_q_field_uses_filter_char_field(self):
-        field = self.fields.get('q')
-        self.assertIsInstance(field, django_filters.CharFilter)
-
-    def test_q_has_method(self):
-        field = self.fields.get('q')
-        self.assertTrue(hasattr(field, 'method'))
-
-    def test_q_method_is_search(self):
-        field = self.fields.get('q')
-        self.assertEqual(field.method, 'search')
-
-    # Test search function
-    def test_it_has_search_function(self):
-        self.assertTrue(hasattr(VerseAdminSearch, 'search'))
-
-    def test_view_has_method_search_is_callable(self):
-        self.assertTrue(callable(VerseAdminSearch.search))
-
-    def test_search_signature(self):
-        expected_signature = ['self', 'queryset', 'name', 'value']
-        actual_signature = inspect.getfullargspec(VerseAdminSearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
-
 
 # class VerseAdminSearchTestCase(TestCase):
 #     def test_it_filters_queryset_by_name_column(self):
@@ -348,7 +321,7 @@ class VerseAdminSearchStructureTestCase(TestCase):
 #         VerseFactory(verse_text='test')
 #         queryset = Verse.objects.all()
 #         result = VerseAdminSearch({'q': "test"}, queryset)
-#         self.assertQuerysetEqual(result.qs, SearchProvider().search(
+#         self.assertQuerySetEqual(result.qs, SearchProvider().search(
 #             queryset=queryset,
 #             columns=['verse_text'],
 #             value="test"), ordered=False)
@@ -399,7 +372,7 @@ class VerseAdminSearchStructureTestCase(TestCase):
 #     def test_search_signature(self):
 #         expected_signature = ['self', 'queryset', 'name', 'value']
 #         actual_signature = inspect.getfullargspec(VerseAPISearch.search)[0]
-#         self.assertEquals(actual_signature, expected_signature)
+#         self.assertEqual(actual_signature, expected_signature)
 
 #
 # class VerseAPISearchTestCase(TestCase):
@@ -410,7 +383,7 @@ class VerseAdminSearchStructureTestCase(TestCase):
 #         for i in range(2):
 #             VerseFactory(verse_number=2)
 #         result = VerseAPISearch({'verse_number': 1}, Verse.objects.all()).qs
-#         self.assertEquals(5, len(result))
+#         self.assertEqual(5, len(result))
 #
 #     def test_it_filters_based_on_chapter_number_correctly(self):
 #         for i in range(5):
@@ -418,7 +391,7 @@ class VerseAdminSearchStructureTestCase(TestCase):
 #         for i in range(2):
 #             VerseFactory(chapter_number=2)
 #         result = VerseAPISearch({'chapter_number': 1}, Verse.objects.all()).qs
-#         self.assertEquals(5, len(result))
+#         self.assertEqual(5, len(result))
 #
 #     def test_it_filters_based_on_chapter_correctly(self):
 #         chapter_1 = ChapterFactory()
@@ -427,7 +400,7 @@ class VerseAdminSearchStructureTestCase(TestCase):
 #         for i in range(2):
 #             VerseFactory(chapter=ChapterFactory())
 #         result = VerseAPISearch({'chapter': chapter_1}, Verse.objects.all()).qs
-#         self.assertEquals(5, len(result))
+#         self.assertEqual(5, len(result))
 #
 #     def test_it_filters_based_on_tajweed_book_correctly(self):
 #         tajweed_book_1 = TajweedBookFactory()
@@ -436,7 +409,7 @@ class VerseAdminSearchStructureTestCase(TestCase):
 #         for i in range(2):
 #             VerseFactory(tajweed_book=TajweedBookFactory())
 #         result = VerseAPISearch({'tajweed_book': tajweed_book_1}, Verse.objects.all()).qs
-#         self.assertEquals(5, len(result))
+#         self.assertEqual(5, len(result))
 #
 #     def test_it_filters_queryset_by_verse_text_column(self):
 #         for _ in range(5):
@@ -444,7 +417,7 @@ class VerseAdminSearchStructureTestCase(TestCase):
 #         VerseFactory(verse_text='test')
 #         queryset = Verse.objects.all()
 #         result = VerseAPISearch({'q': "test"}, queryset)
-#         self.assertQuerysetEqual(result.qs, SearchProvider().search(
+#         self.assertQuerySetEqual(result.qs, SearchProvider().search(
 #             queryset=queryset,
 #             columns=['verse_text'],
 #             value="test"), ordered=False)
@@ -461,13 +434,13 @@ class CharacterFilterStructureTestCase(TestCase):
         self.assertIn('model', CharacterFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_Character_model(self):
-        self.assertEquals(Character, CharacterFilter.Meta.model)
+        self.assertEqual(Character, CharacterFilter.Meta.model)
 
     def test_filter_class_meta_has_fields_on_it(self):
         self.assertIn('fields', CharacterFilter.Meta.__dict__)
 
     def test_filter_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(CharacterFilter.Meta.fields), list)
+        self.assertEqual(type(CharacterFilter.Meta.fields), list)
 
     def test_class_meta_fields_has_character_number(self):
         self.assertIn('character_number', CharacterFilter.Meta.fields)
@@ -506,8 +479,8 @@ class CharacterFilterTestCase(TestCase):
         for i in range(2):
             CharacterFactory(character_number=2)
         result = CharacterFilter({'character_number': 1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(1, result[0].character_number)
+        self.assertEqual(5, len(result))
+        self.assertEqual(1, result[0].character_number)
 
     def test_it_filters_based_on_word_number_correctly(self):
         for i in range(5):
@@ -515,8 +488,8 @@ class CharacterFilterTestCase(TestCase):
         for i in range(2):
             CharacterFactory(word_number=2)
         result = CharacterFilter({'word_number': 1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(1, result[0].word_number)
+        self.assertEqual(5, len(result))
+        self.assertEqual(1, result[0].word_number)
 
     def test_it_filters_based_on_verse_number_correctly(self):
         for i in range(5):
@@ -524,8 +497,8 @@ class CharacterFilterTestCase(TestCase):
         for i in range(2):
             CharacterFactory(verse_number=2)
         result = CharacterFilter({'verse_number': 1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(1, result[0].verse_number)
+        self.assertEqual(5, len(result))
+        self.assertEqual(1, result[0].verse_number)
 
     def test_it_filters_based_on_chapter_number_correctly(self):
         for i in range(5):
@@ -533,8 +506,8 @@ class CharacterFilterTestCase(TestCase):
         for i in range(2):
             CharacterFactory(chapter_number=2, tajweed_book=self.tajweed_book_2)
         result = CharacterFilter({'chapter_number': 1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(1, result[0].chapter_number)
+        self.assertEqual(5, len(result))
+        self.assertEqual(1, result[0].chapter_number)
 
     def test_it_filters_based_on_tajweed_book_correctly(self):
         for i in range(5):
@@ -542,8 +515,8 @@ class CharacterFilterTestCase(TestCase):
         for i in range(2):
             CharacterFactory(tajweed_book=self.tajweed_book_2)
         result = CharacterFilter({'tajweed_book': self.tajweed_book_1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(self.tajweed_book_1, result[0].tajweed_book)
+        self.assertEqual(5, len(result))
+        self.assertEqual(self.tajweed_book_1, result[0].tajweed_book)
 
     def test_it_filters_based_on_tajweed_rule_correctly(self):
         for i in range(5):
@@ -551,8 +524,8 @@ class CharacterFilterTestCase(TestCase):
         for i in range(2):
             CharacterFactory(tajweed_rule=self.tajweed_rule_2)
         result = CharacterFilter({'tajweed_rule': self.tajweed_rule_1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(self.tajweed_rule_1, result[0].tajweed_rule)
+        self.assertEqual(5, len(result))
+        self.assertEqual(self.tajweed_rule_1, result[0].tajweed_rule)
 
     def test_it_filters_based_on_tajweed_verse_correctly(self):
         for i in range(5):
@@ -560,8 +533,8 @@ class CharacterFilterTestCase(TestCase):
         for i in range(2):
             CharacterFactory(tajweed_verse=self.tajweed_verse_2)
         result = CharacterFilter({'tajweed_verse': self.tajweed_verse_1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(self.tajweed_verse_1, result[0].tajweed_verse)
+        self.assertEqual(5, len(result))
+        self.assertEqual(self.tajweed_verse_1, result[0].tajweed_verse)
 
 
 class CharacterAdminSearchStructureTestCase(TestCase):
@@ -594,7 +567,7 @@ class CharacterAdminSearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(CharacterAdminSearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class CharacterAdminSearchTestCase(TestCase):
@@ -604,7 +577,7 @@ class CharacterAdminSearchTestCase(TestCase):
         CharacterFactory(character_text='test')
         queryset = Character.objects.all()
         result = CharacterAdminSearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['character_text', 'word_text', 'rule'],
             value="test"), ordered=False)
@@ -615,7 +588,7 @@ class CharacterAdminSearchTestCase(TestCase):
         CharacterFactory(word_text='test')
         queryset = Character.objects.all()
         result = CharacterAdminSearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['character_text', 'word_text', 'rule'],
             value="test"), ordered=False)
@@ -626,7 +599,7 @@ class CharacterAdminSearchTestCase(TestCase):
         CharacterFactory(rule='test')
         queryset = Character.objects.all()
         result = CharacterAdminSearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['character_text', 'word_text', 'rule'],
             value="test"), ordered=False)
@@ -680,7 +653,7 @@ class CharacterAPISearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(CharacterAPISearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class CharacterAPISearchTestCase(TestCase):
@@ -691,7 +664,7 @@ class CharacterAPISearchTestCase(TestCase):
         for i in range(2):
             CharacterFactory(character_number=2)
         result = CharacterAPISearch({'character_number': 1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
+        self.assertEqual(5, len(result))
 
     def test_it_filters_based_on_word_number_correctly(self):
         for i in range(5):
@@ -699,7 +672,7 @@ class CharacterAPISearchTestCase(TestCase):
         for i in range(2):
             CharacterFactory(word_number=2)
         result = CharacterAPISearch({'word_number': 1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
+        self.assertEqual(5, len(result))
 
     def test_it_filters_based_on_verse_number_correctly(self):
         for i in range(5):
@@ -707,7 +680,7 @@ class CharacterAPISearchTestCase(TestCase):
         for i in range(2):
             CharacterFactory(verse_number=2)
         result = CharacterAPISearch({'verse_number': 1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
+        self.assertEqual(5, len(result))
 
     def test_it_filters_based_on_chapter_number_correctly(self):
         for i in range(5):
@@ -715,7 +688,7 @@ class CharacterAPISearchTestCase(TestCase):
         for i in range(2):
             CharacterFactory(chapter_number=2, tajweed_book=TajweedBookFactory())
         result = CharacterAPISearch({'chapter_number': 1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
+        self.assertEqual(5, len(result))
 
     def test_it_filters_based_on_tajweed_book_correctly(self):
         tajweed_book_1 = TajweedBookFactory()
@@ -724,7 +697,7 @@ class CharacterAPISearchTestCase(TestCase):
         for i in range(2):
             CharacterFactory(tajweed_book=TajweedBookFactory())
         result = CharacterAPISearch({'tajweed_book': tajweed_book_1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
+        self.assertEqual(5, len(result))
 
     def test_it_filters_based_on_tajweed_rule_correctly(self):
         tajweed_rule_1 = RuleFactory(tajweed_book=TajweedBookFactory())
@@ -733,7 +706,7 @@ class CharacterAPISearchTestCase(TestCase):
         for i in range(2):
             CharacterFactory(tajweed_rule=RuleFactory(tajweed_book=TajweedBookFactory()))
         result = CharacterAPISearch({'tajweed_rule': tajweed_rule_1}, Character.objects.all()).qs
-        self.assertEquals(5, len(result))
+        self.assertEqual(5, len(result))
 
     # def test_it_filters_based_on_tajweed_verse_correctly(self):
     #     tajweed_verse_1 = VerseFactory()
@@ -742,7 +715,7 @@ class CharacterAPISearchTestCase(TestCase):
     #     for i in range(2):
     #         CharacterFactory(tajweed_verse=VerseFactory())
     #     result = CharacterAPISearch({'tajweed_verse': tajweed_verse_1}, Character.objects.all()).qs
-    #     self.assertEquals(5, len(result))
+    #     self.assertEqual(5, len(result))
 
     def test_it_filters_queryset_by_character_text_column(self):
         for _ in range(5):
@@ -750,7 +723,7 @@ class CharacterAPISearchTestCase(TestCase):
         CharacterFactory(character_text='test')
         queryset = Character.objects.all()
         result = CharacterAPISearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['character_text', 'word_text', 'rule'],
             value="test"), ordered=False)
@@ -761,7 +734,7 @@ class CharacterAPISearchTestCase(TestCase):
         CharacterFactory(word_text='test')
         queryset = Character.objects.all()
         result = CharacterAPISearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['character_text', 'word_text', 'rule'],
             value="test"), ordered=False)
@@ -772,7 +745,7 @@ class CharacterAPISearchTestCase(TestCase):
         CharacterFactory(rule='test')
         queryset = Character.objects.all()
         result = CharacterAPISearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['character_text', 'word_text', 'rule'],
             value="test"), ordered=False)

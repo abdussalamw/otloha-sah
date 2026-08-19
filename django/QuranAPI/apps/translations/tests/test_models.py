@@ -46,10 +46,10 @@ class TranslationModelStructureTestCase(TestCase):
         self.assertIn('_meta', Translation.__dict__)
 
     def test_translation_model_verbose_meta_value_is_translation(self):
-        self.assertEquals(Translation._meta.verbose_name, _('Translation'))
+        self.assertEqual(Translation._meta.verbose_name, _('Translation'))
 
     def test_translation_model_verbose_name_plural_meta_value_is_translations(self):
-        self.assertEquals(Translation._meta.verbose_name_plural, _('Translations'))
+        self.assertEqual(Translation._meta.verbose_name_plural, _('Translations'))
 
     # Test Id
 
@@ -79,7 +79,7 @@ class TranslationModelStructureTestCase(TestCase):
         self.assertIn('field', Translation.translatable['name'].keys())
 
     def test_if_field_key_in_name_key_of_translatable_extends_forms_CharField(self):
-        self.assertEquals(Translation.translatable['name']['field'], forms.CharField)
+        self.assertEqual(Translation.translatable['name']['field'], forms.CharField)
 
     def test_it_has_name_attribute(self):
         self.assertTrue(hasattr(Translation, 'name'))
@@ -140,7 +140,7 @@ class TranslationModelStructureTestCase(TestCase):
 
     def test_language_attribute_max_length_value_is_50(self):
         field = Translation._meta.get_field("language")
-        self.assertEquals(field.max_length, 50)
+        self.assertEqual(field.max_length, 50)
 
     def test_language_attribute_has_languages_choices(self):
         field = Translation._meta.get_field("language")
@@ -148,7 +148,7 @@ class TranslationModelStructureTestCase(TestCase):
 
     def test_language_attribute_value_is_languages_choices_variable(self):
         field = Translation._meta.get_field("language")
-        self.assertEquals(settings.LANGUAGES, field.choices)
+        self.assertEqual(settings.LANGUAGES, field.choices)
 
     # Test Author
 
@@ -156,7 +156,7 @@ class TranslationModelStructureTestCase(TestCase):
         self.assertIn('author', Translation.translatable.keys())
 
     def test_if_field_key_in_author_key_of_translatable_extends_forms_CharField(self):
-        self.assertEquals(Translation.translatable['author']['field'], forms.CharField)
+        self.assertEqual(Translation.translatable['author']['field'], forms.CharField)
 
     def test_it_has_author_attribute(self):
         self.assertTrue(hasattr(Translation, 'author'))
@@ -184,7 +184,7 @@ class TranslationModelStructureTestCase(TestCase):
 
     def test_narration_field_is_related_to_narration_model(self):
         field = Translation._meta.get_field("narration")
-        self.assertEquals(field.__dict__['related_model'], Narration)
+        self.assertEqual(field.__dict__['related_model'], Narration)
 
     def test_narration_field_has_related_name_attribute(self):
         field = Translation._meta.get_field("narration")
@@ -196,7 +196,7 @@ class TranslationModelStructureTestCase(TestCase):
 
     def test_narration_field_on_delete_attribute_is_set_null(self):
         field = Translation._meta.get_field("narration")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
 
     def test_narration_field_has_null_value(self):
         field = Translation._meta.get_field("narration")
@@ -295,7 +295,7 @@ class TranslationVerseModelStructureTestCase(TestCase):
 
     def test_translation_field_is_related_to_translation_model(self):
         field = TranslationVerse._meta.get_field("translation")
-        self.assertEquals(field.__dict__['related_model'], Translation)
+        self.assertEqual(field.__dict__['related_model'], Translation)
 
     def test_translation_field_has_on_delete_attribute(self):
         field = TranslationVerse._meta.get_field("translation")
@@ -303,7 +303,7 @@ class TranslationVerseModelStructureTestCase(TestCase):
 
     def test_translation_field_on_delete_attribute_is_cascade(self):
         field = TranslationVerse._meta.get_field("translation")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.CASCADE)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.CASCADE)
 
     # Test Chapter
 
@@ -316,7 +316,7 @@ class TranslationVerseModelStructureTestCase(TestCase):
 
     def test_chapter_field_is_related_to_chapter_model(self):
         field = TranslationVerse._meta.get_field("chapter")
-        self.assertEquals(field.__dict__['related_model'], Chapter)
+        self.assertEqual(field.__dict__['related_model'], Chapter)
 
     def test_chapter_field_has_related_name_attribute(self):
         field = TranslationVerse._meta.get_field("chapter")
@@ -324,7 +324,7 @@ class TranslationVerseModelStructureTestCase(TestCase):
 
     def test_chapter_field_related_name_attribute_is_chapter_translation_verse(self):
         field = TranslationVerse._meta.get_field("chapter")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['related_name'], 'chapter_translation_verse')
+        self.assertEqual(field.__dict__['remote_field'].__dict__['related_name'], 'chapter_translation_verse')
 
     def test_chapter_field_has_on_delete_attribute(self):
         field = TranslationVerse._meta.get_field("chapter")
@@ -332,7 +332,7 @@ class TranslationVerseModelStructureTestCase(TestCase):
 
     def test_chapter_field_on_delete_attribute_is_set_null(self):
         field = TranslationVerse._meta.get_field("chapter")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
 
     def test_chapter_field_has_null_value(self):
         field = TranslationVerse._meta.get_field("chapter")

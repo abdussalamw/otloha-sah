@@ -6,13 +6,13 @@ from apps.files_handler.views import FileListingView, CreateFileView, ProcessFil
 
 class FilesUrlsTestCase(TestCase):
     def test_files_listing_view_urls_resolves(self):
-        url = reverse('admin:files:listing', args=['app', 'model', 1])
+        url = reverse('admin:files:listing', args=['app', 'model', 1, 'pages'])
         self.assertEqual(resolve(url).func.view_class, FileListingView)
 
     def test_files_upload_view_urls(self):
-        url = reverse('admin:files:upload', args=['app', 'model', 1])
+        url = reverse('admin:files:create', args=['app', 'model', 1, 'pages'])
         self.assertEqual(resolve(url).func.view_class, CreateFileView)
 
     def test_files_process_view_urls(self):
-        url = reverse('admin:files:process', args=['app', 'model', 1, 1])
+        url = reverse('admin:files:process', args=['app', 'model', 1, 'pages', 1])
         self.assertEqual(resolve(url).func.view_class, ProcessFileView)

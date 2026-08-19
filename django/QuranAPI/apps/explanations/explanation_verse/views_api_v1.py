@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from apps.explanations.serializers import ExplanationVerseSerializer
 
 
 class ExplanationVerseListingView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, explanation_id, *args, **kwargs):
         explanation = get_object_or_404(Explanation, id=explanation_id)
@@ -20,7 +20,7 @@ class ExplanationVerseListingView(APIView):
 
 
 class ExplanationVerseDetailsView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, explanation_id, explanation_verse_id):
         get_object_or_404(Explanation, id=explanation_id)

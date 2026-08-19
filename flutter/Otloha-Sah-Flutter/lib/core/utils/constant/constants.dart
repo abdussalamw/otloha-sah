@@ -47,9 +47,6 @@ class Constants {
   static const String languagesSelectedName = 'LanguagesSelectedName';
   static const String languagesSelectedId = 'LanguagesSelectedId';
 
-  static const String clientId = '9XwEYsdKAVyYt8WylztWULk7oS1N5qkK7iPWjzOU';
-  static const String clientSecret =
-      'tYoDdM4JA0HTWn6L8t6dtbX00ObcfkWGsVzbEjbdaS70fpx7qaw7PCMLVkYCRyFtD5txBQSE3QkBORisvrJ3YKH2i7gm58kfahvGuhz6fAiChWLfcgMkSyz2yTMcqvyy';
   static const bool kReleaseMode = true;
 
   static const String profileImagePath = '/profile/image/user/';

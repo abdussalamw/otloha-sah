@@ -14,7 +14,7 @@ class RecitersSerializerStructureTestCase(TestCase):
         self.assertIn('Meta', RecitersSerializer.__dict__)
 
     def test_the_model_used_in_the_meta_is_Reciter_Model(self):
-        self.assertEquals(Reciter, RecitersSerializer.Meta.model)
+        self.assertEqual(Reciter, RecitersSerializer.Meta.model)
 
     def test_id_exists_in_serializer_fields(self):
         self.assertIn('id', RecitersSerializer.Meta.fields)
@@ -30,4 +30,4 @@ class RecitersSerializerResponseTestCase(TestCase):
 
     def test_it_returns_expected_fields(self):
         data = self.serializer.data
-        self.assertEquals(set(data.keys()), {'id', 'name'})
+        self.assertEqual(set(data.keys()), {'id', 'name'})

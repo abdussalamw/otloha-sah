@@ -31,7 +31,7 @@ def check_required(cls, key):
     data.pop(key, None)
     instance = cls.Form(data=data)
     cls.assertFalse(instance.is_valid())
-    cls.assertEquals(instance.errors.as_data()[key][0].code, 'required')
+    cls.assertEqual(instance.errors.as_data()[key][0].code, 'required')
 
 
 def check_unique(cls, key, value):
@@ -39,7 +39,7 @@ def check_unique(cls, key, value):
     data.update({key: value})
     instance = cls.Form(data=data)
     cls.assertFalse(instance.is_valid())
-    cls.assertEquals(instance.errors.as_data()[key][0].code, 'unique')
+    cls.assertEqual(instance.errors.as_data()[key][0].code, 'unique')
 
 
 class RegisterFormValidationTest(TestCase):
@@ -85,7 +85,7 @@ class RegisterFormValidationTest(TestCase):
         })
         form = RegisterForm(data=data)
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()["password2"][0].code, 'password_mismatch')
+        self.assertEqual(form.errors.as_data()["password2"][0].code, 'password_mismatch')
 
 
 class RegistrationFormTestCase(TestCase):
@@ -106,10 +106,10 @@ class RegistrationFormTestCase(TestCase):
         self.assertTrue(self.form.fields['first_name'].required)
 
     def test_first_name_field_max_length_is_100(self):
-        self.assertEquals(self.form.fields['first_name'].max_length, 100)
+        self.assertEqual(self.form.fields['first_name'].max_length, 100)
 
     def test_first_name_field_max_help_text(self):
-        self.assertEquals(self.form.fields['first_name'].help_text, "Required, please provide your first name")
+        self.assertEqual(self.form.fields['first_name'].help_text, "Required, please provide your first name")
 
     def test_it_has_last_name_field(self):
         self.assertIn('last_name', self.form.fields)
@@ -121,10 +121,10 @@ class RegistrationFormTestCase(TestCase):
         self.assertTrue(self.form.fields['last_name'].required)
 
     def test_last_name_field_max_length_is_100(self):
-        self.assertEquals(self.form.fields['last_name'].max_length, 100)
+        self.assertEqual(self.form.fields['last_name'].max_length, 100)
 
     def test_last_name_field_max_help_text(self):
-        self.assertEquals(self.form.fields['last_name'].help_text, "Required, please provide your last name")
+        self.assertEqual(self.form.fields['last_name'].help_text, "Required, please provide your last name")
 
     def test_it_has_email_field(self):
         self.assertIn('email', self.form.fields)
@@ -142,10 +142,10 @@ class RegistrationFormTestCase(TestCase):
         self.assertTrue(self.form.fields['username'].required)
 
     def test_user_name_field_max_length_is_100(self):
-        self.assertEquals(self.form.fields['username'].max_length, 100)
+        self.assertEqual(self.form.fields['username'].max_length, 100)
 
     def test_user_name_field_max_help_text(self):
-        self.assertEquals(self.form.fields['username'].help_text, "Required, please provide your username")
+        self.assertEqual(self.form.fields['username'].help_text, "Required, please provide your username")
 
     def test_it_has_phone_field(self):
         self.assertIn('phone', self.form.fields)
@@ -157,10 +157,10 @@ class RegistrationFormTestCase(TestCase):
         self.assertTrue(self.form.fields['phone'].required)
 
     def test_phone_field_max_length_is_100(self):
-        self.assertEquals(self.form.fields['phone'].max_length, 100)
+        self.assertEqual(self.form.fields['phone'].max_length, 100)
 
     def test_phone_field_max_help_text(self):
-        self.assertEquals(self.form.fields['phone'].help_text, "Required, please provide your phone number")
+        self.assertEqual(self.form.fields['phone'].help_text, "Required, please provide your phone number")
 
 
 class AuthenticationFormTestCase(TestCase):
@@ -178,7 +178,7 @@ class AuthenticationFormTestCase(TestCase):
         self.assertTrue(hasattr(self.form, 'get_user') and callable(self.form.get_user))
 
     def test_get_user_method_returns_cache_user_value(self):
-        self.assertEquals(self.form.user_cache, self.form.get_user())
+        self.assertEqual(self.form.user_cache, self.form.get_user())
 
     def test_it_has_username_field(self):
         self.assertIn('username', self.form.fields)
@@ -199,7 +199,7 @@ class AuthenticationFormTestCase(TestCase):
         self.assertIsInstance(self.form.fields['password'], forms.CharField)
 
     def test_password_has_label_Password(self):
-        self.assertEquals(self.form.fields['password'].label, _('Password'))
+        self.assertEqual(self.form.fields['password'].label, _('Password'))
 
     def test_password_field_not_striping_its_value(self):
         form = AuthenticationForm()
@@ -215,10 +215,10 @@ class AuthenticationFormTestCase(TestCase):
         self.assertIsInstance(self.form.fields['remember_me'], forms.BooleanField)
 
     def test_remember_me_field_has_label_Remember_Me(self):
-        self.assertEquals(self.form.fields['remember_me'].label, _('Remember Me'))
+        self.assertEqual(self.form.fields['remember_me'].label, _('Remember Me'))
 
     def test_remember_me_initial_value_is_false(self):
-        self.assertEquals(self.form.fields['remember_me'].initial, False)
+        self.assertEqual(self.form.fields['remember_me'].initial, False)
 
 
 class AuthenticationFormValidationTestCase(TestCase):
@@ -241,8 +241,8 @@ class AuthenticationFormValidationTestCase(TestCase):
         self.DEFAULT_DATA.pop('username')
         form = self.Form(request=self.request, data=self.DEFAULT_DATA)
         self.assertFalse(form.is_valid())
-        self.assertEquals('phone_or_username_are_required', form.errors.as_data()['__all__'][0].code)
-        self.assertEquals(_("Please enter a correct phone or username"), form.errors.as_data()['__all__'][0].message)
+        self.assertEqual('phone_or_username_are_required', form.errors.as_data()['__all__'][0].code)
+        self.assertEqual(_("Please enter a correct phone or username"), form.errors.as_data()['__all__'][0].message)
 
     def test_password_is_required(self):
         check_required(self, 'password')
@@ -251,8 +251,8 @@ class AuthenticationFormValidationTestCase(TestCase):
         self.DEFAULT_DATA.update({"password": "12345"})
         form = self.Form(request=self.request, data=self.DEFAULT_DATA)
         self.assertFalse(form.is_valid())
-        self.assertEquals('invalid_login', form.errors.as_data()['__all__'][0].code)
-        self.assertEquals(_(
+        self.assertEqual('invalid_login', form.errors.as_data()['__all__'][0].code)
+        self.assertEqual(_(
             "Please enter a correct phone and password. Note that both "
             "fields may be case-sensitive."
         ), form.errors.as_data()['__all__'][0].message)
@@ -262,8 +262,8 @@ class AuthenticationFormValidationTestCase(TestCase):
         self.DEFAULT_DATA.update({"username": "aaa@lll.ccc"})
         form = self.Form(request=self.request, data=self.DEFAULT_DATA)
         self.assertFalse(form.is_valid())
-        self.assertEquals('invalid_login', form.errors.as_data()['__all__'][0].code)
-        self.assertEquals(_(
+        self.assertEqual('invalid_login', form.errors.as_data()['__all__'][0].code)
+        self.assertEqual(_(
             "Please enter a correct phone and password. Note that both "
             "fields may be case-sensitive."
         ), form.errors.as_data()['__all__'][0].message)
@@ -273,8 +273,8 @@ class AuthenticationFormValidationTestCase(TestCase):
         self.DEFAULT_DATA.update({"phone": "56415615"})
         form = self.Form(request=self.request, data=self.DEFAULT_DATA)
         self.assertFalse(form.is_valid())
-        self.assertEquals('invalid_login', form.errors.as_data()['__all__'][0].code)
-        self.assertEquals(_(
+        self.assertEqual('invalid_login', form.errors.as_data()['__all__'][0].code)
+        self.assertEqual(_(
             "Please enter a correct phone and password. Note that both "
             "fields may be case-sensitive."
         ), form.errors.as_data()['__all__'][0].message)
@@ -293,20 +293,20 @@ class AuthenticationFormValidationTestCase(TestCase):
         self.DEFAULT_DATA.pop('username')
         form = self.Form(request=self.request, data=self.DEFAULT_DATA)
         form.is_valid()
-        self.assertEquals(form.user_cache, self.user)
+        self.assertEqual(form.user_cache, self.user)
 
     def test_get_user_method_returns_authenticated_user(self):
         self.DEFAULT_DATA.pop('username')
         form = self.Form(request=self.request, data=self.DEFAULT_DATA)
         form.is_valid()
-        self.assertEquals(form.get_user(), self.user)
+        self.assertEqual(form.get_user(), self.user)
 
     def test_it_sets_session_expiry_to_zero_if_remember_me_is_false(self):
         self.DEFAULT_DATA.update({"remember_me": False})
         form = self.Form(request=self.request, data=self.DEFAULT_DATA)
         self.assertTrue(form.is_valid())
         self.assertIn('_session_expiry', self.request.session)
-        self.assertEquals(0, self.request.session['_session_expiry'])
+        self.assertEqual(0, self.request.session['_session_expiry'])
 
 
 class VerifyPhoneFormTestCase(TestCase):
@@ -321,13 +321,13 @@ class VerifyPhoneFormTestCase(TestCase):
         self.assertIn('code', self.form.fields)
 
     def test_code_label_is_correct(self):
-        self.assertEquals(self.form.fields['code'].label, _("message sent to phone number: {}".format(self.user.phone)))
+        self.assertEqual(self.form.fields['code'].label, _("message sent to phone number: {}".format(self.user.phone)))
 
     def test_code_min_length_is_six_characters(self):
-        self.assertEquals(self.form.fields['code'].min_length, 6)
+        self.assertEqual(self.form.fields['code'].min_length, 6)
 
     def test_code_max_length_is_six_characters(self):
-        self.assertEquals(self.form.fields['code'].max_length, 6)
+        self.assertEqual(self.form.fields['code'].max_length, 6)
 
 
 class VerifyPhoneFormValidationTestCase(TestCase):
@@ -340,8 +340,8 @@ class VerifyPhoneFormValidationTestCase(TestCase):
         self.data.update({"code": "888888"})
         form = VerifyPhoneForm(user=self.user, data=self.data)
         self.assertFalse(form.is_valid())
-        self.assertEquals('invalid_code', form.errors.as_data()['__all__'][0].code)
-        self.assertEquals(_("The Provided code is Properly invalid"), form.errors.as_data()['__all__'][0].message)
+        self.assertEqual('invalid_code', form.errors.as_data()['__all__'][0].code)
+        self.assertEqual(_("The Provided code is Properly invalid"), form.errors.as_data()['__all__'][0].message)
 
     @override_settings(PHONE_VERIFY_SERVICE="apps.users.auth.tests.mocks.MockVerifyService")
     def test_it_passes_if_phone_verification_is_successful(self):

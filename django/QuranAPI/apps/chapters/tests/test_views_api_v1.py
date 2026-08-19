@@ -1,7 +1,7 @@
 import inspect
 
 from django.test import TestCase, override_settings
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
@@ -23,8 +23,8 @@ class ChapterListAPIViewStructureTestCase(TestCase):
     def test_it_has_permission_classes(self):
         self.assertTrue(hasattr(ChaptersListAPIView(), 'permission_classes'))
 
-    def test_permission_classes_is_equal_to_TokenHasReadWriteScope(self):
-        self.assertIn(TokenHasReadWriteScope, ChaptersListAPIView.permission_classes)
+    def test_permission_classes_is_equal_to_AllowAny(self):
+        self.assertIn(AllowAny, ChaptersListAPIView.permission_classes)
 
     def test_view_has_method_get(self):
         self.assertTrue(hasattr(ChaptersListAPIView(), 'get'))
@@ -35,7 +35,7 @@ class ChapterListAPIViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(ChaptersListAPIView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 class ChapterListAPIViewTestCase(TestCase):
     @override_settings(SEARCH_SERVICE_PROVIDER="apps.main.services.service_search.providers.SQLSearchProvider")
@@ -53,11 +53,11 @@ class ChapterListAPIViewTestCase(TestCase):
 
     def test_it_through_exception_if_user_is_not_authenticated(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION='')
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_returns_200_status_code(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_it_return_200_status_code_when_name_is_not_available(self):
         response = self.client.get(self.url + '?q=test', HTTP_AUTHORIZATION=self.token)
@@ -65,7 +65,7 @@ class ChapterListAPIViewTestCase(TestCase):
 
     def test_test_it_return_all_the_data(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(len(response.data), 10)
+        self.assertEqual(len(response.data), 10)
 
     def test_it_return_no_data_with_unavailable_filter_value(self):
         response = self.client.get(self.url + '?q="dummyName"', HTTP_AUTHORIZATION=self.token)
@@ -85,8 +85,8 @@ class ChapterDetailAPIViewStructureTestCase(TestCase):
     def test_it_has_permission_classes(self):
         self.assertTrue(hasattr(ChaptersDetailAPIView, 'permission_classes'))
 
-    def test_permission_classes_is_equal_to_TokenHasReadWriteScope(self):
-        self.assertIn(TokenHasReadWriteScope, ChaptersDetailAPIView.permission_classes)
+    def test_permission_classes_is_equal_to_AllowAny(self):
+        self.assertIn(AllowAny, ChaptersDetailAPIView.permission_classes)
     
     def test_view_has_method_get(self):
         self.assertTrue(hasattr(ChaptersDetailAPIView, 'get'))
@@ -97,7 +97,7 @@ class ChapterDetailAPIViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'chapter_id']
         actual_signature = inspect.getfullargspec(ChaptersDetailAPIView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ChapterDetailAPIViewTestCase(TestCase):
@@ -110,16 +110,16 @@ class ChapterDetailAPIViewTestCase(TestCase):
 
     def test_it_through_exception_if_user_is_not_authenticated(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION='')
-        self.assertEquals(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_200_status_code_is_returned(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_404_is_returned_if_the_chapter_not_exists(self):
         response = self.client.get('api-v1:chapters:details', args=[15])
-        self.assertEquals(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_it_return_the_correct_chapter(self):
         response = self.client.get(self.url, HTTP_AUTHORIZATION=self.token)
-        self.assertEquals(response.data['id'], self.chapter.id)
+        self.assertEqual(response.data['id'], self.chapter.id)

@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -9,7 +9,7 @@ from apps.narrations.verses.serializers import VerseSerializer
 
 
 class VersesListAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, narration_id, *args, **kwargs):
         verses = VerseAPIFilter(request.GET, Verse.objects.filter(narration_id=narration_id))

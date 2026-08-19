@@ -27,7 +27,7 @@ class NarrationAPIUrlsTestCase(TestCase):
 
     def test_detail_narration_api_url_resolves(self):
         url = reverse('api-v1:narrations:details', args=[1])
-        self.assertEquals(resolve(url).func.view_class, NarrationsDetailView)
+        self.assertEqual(resolve(url).func.view_class, NarrationsDetailView)
 
 class NarrationAdminUrlsStructureTestCase(TestCase):
     def test_it_has_app_name(self):

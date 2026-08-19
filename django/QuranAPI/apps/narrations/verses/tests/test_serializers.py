@@ -26,7 +26,7 @@ class VerseSerializerStructureTestCase(TestCase):
         self.assertIn('Meta', VerseSerializer.__dict__)
 
     def test_the_model_used_in_the_meta_is_verse_model(self):
-        self.assertEquals(Verse, VerseSerializer.Meta.model)
+        self.assertEqual(Verse, VerseSerializer.Meta.model)
 
     def test_id_exists_in_serializer_fields(self):
         self.assertIn('id', VerseSerializer.Meta.fields)
@@ -59,7 +59,7 @@ class VerseSerializerStructureTestCase(TestCase):
         self.assertIsInstance(self.serializer.fields['image'], serializers.ImageField)
 
     def test_image_attribute_of_image_field(self):
-        self.assertEquals(self.serializer.fields['image'].use_url, True)
+        self.assertEqual(self.serializer.fields['image'].use_url, True)
 
 
 class VerseSerializerResponseTestCase(TestCase):
@@ -75,7 +75,7 @@ class VerseSerializerResponseTestCase(TestCase):
 
     def test_it_returns_expected_fields(self):
         data = self.serializer.data
-        self.assertEquals(set(data.keys()), {
+        self.assertEqual(set(data.keys()), {
             'id',
             'uuid',
             'text',
@@ -92,28 +92,28 @@ class VerseSerializerResponseTestCase(TestCase):
         })
 
     def test_id_value_is_correct(self):
-        self.assertEquals(self.serializer.data['id'], self.verse.id)
+        self.assertEqual(self.serializer.data['id'], self.verse.id)
 
     def test_text_value_is_correct(self):
-        self.assertEquals(self.serializer.data['text'], self.verse.text)
+        self.assertEqual(self.serializer.data['text'], self.verse.text)
 
     def test_line_start_value_is_correct(self):
-        self.assertEquals(self.serializer.data['line_start'], self.verse.line_start)
+        self.assertEqual(self.serializer.data['line_start'], self.verse.line_start)
 
     def test_line_end_value_is_correct(self):
-        self.assertEquals(self.serializer.data['line_end'], self.verse.line_end)
+        self.assertEqual(self.serializer.data['line_end'], self.verse.line_end)
 
     def test_image_value_is_correct(self):
-        self.assertEquals(self.serializer.data['image'], self.verse.image.url)
+        self.assertEqual(self.serializer.data['image'], self.verse.image.url)
 
     def test_part_value_is_correct(self):
-        self.assertEquals(self.serializer.data['part'], self.verse.part_id)
+        self.assertEqual(self.serializer.data['part'], self.verse.part_id)
 
     def test_narration_value_is_correct(self):
-        self.assertEquals(self.serializer.data['narration'], self.verse.narration_id)
+        self.assertEqual(self.serializer.data['narration'], self.verse.narration_id)
 
     def test_chapter_value_is_correct(self):
-        self.assertEquals(self.serializer.data['chapter'], self.verse.chapter_id)
+        self.assertEqual(self.serializer.data['chapter'], self.verse.chapter_id)
 
     def test_verse_number_value_is_correct(self):
-        self.assertEquals(self.serializer.data['verse_number'], self.verse.verse_number)
+        self.assertEqual(self.serializer.data['verse_number'], self.verse.verse_number)

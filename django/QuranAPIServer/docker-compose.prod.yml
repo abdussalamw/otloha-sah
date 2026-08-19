@@ -55,6 +55,14 @@ services:
     container_name: 'redis'
     image: redis:alpine
     restart: always
+    env_file:
+      - ./.env
+    command:
+      - sh
+      - -c
+      - |
+        test -n "$$REDIS_PASSWORD" &&
+        exec redis-server --requirepass "$$REDIS_PASSWORD"
 
   celery:
     container_name: 'celery'

@@ -51,7 +51,7 @@ class NarrationListingViewStructureTestCase(TestCase):
     def test_get_breadcrumb_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(NarrationListingView.get_breadcrumb)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test load_name function
     def test_it_has_load_name_attribute(self):
@@ -63,7 +63,7 @@ class NarrationListingViewStructureTestCase(TestCase):
     def test_load_name_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(NarrationListingView.load_name)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_is_active_attribute(self):
         self.assertTrue(hasattr(NarrationListingView, 'load_is_active'))
@@ -74,7 +74,7 @@ class NarrationListingViewStructureTestCase(TestCase):
     def test_load_is_active_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(NarrationListingView.load_is_active)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test load_created_at function
     def test_it_has_load_created_at_attribute(self):
@@ -86,7 +86,7 @@ class NarrationListingViewStructureTestCase(TestCase):
     def test_load_created_at_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(NarrationListingView.load_created_at)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test load_updated_at function
     def test_it_has_load_updated_at_attribute(self):
@@ -98,7 +98,7 @@ class NarrationListingViewStructureTestCase(TestCase):
     def test_load_updated_at_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(NarrationListingView.load_updated_at)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test get_actions function
     def test_it_has_get_actions_attribute(self):
@@ -110,7 +110,7 @@ class NarrationListingViewStructureTestCase(TestCase):
     def test_get_actions_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(NarrationListingView.get_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test load_actions function
     def test_it_has_load_actions_attribute(self):
@@ -122,7 +122,7 @@ class NarrationListingViewStructureTestCase(TestCase):
     def test_load_actions_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(NarrationListingView.load_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class NarrationListingViewTestCase(TestCase):
@@ -139,31 +139,31 @@ class NarrationListingViewTestCase(TestCase):
         self.url = reverse('admin:narrations:listing')
 
     def test_load_name_returns_correct_html_template_for_narration_name(self):
-        self.assertEquals(NarrationListingView().load_name(self.narration),
+        self.assertEqual(NarrationListingView().load_name(self.narration),
                           '<td class="main-cell"><a href="{}">{}</a></td>'.format(
                               reverse('admin:narrations:details', args=[self.narration.pk]),
                               self.narration.translated_name))
 
     def test_created_at_returns_correct_html_template_for_narration_created_at(self):
-        self.assertEquals(NarrationListingView().load_created_at(self.narration),
+        self.assertEqual(NarrationListingView().load_created_at(self.narration),
                           mark_safe('<td>{}</td>'.format(humanize.datetime.date(self.narration.created_at))))
 
     def test_updated_at_returns_correct_html_template_for_narration_updated_at(self):
         obj = self.narration
-        self.assertEquals(NarrationListingView().load_updated_at(self.narration),
+        self.assertEqual(NarrationListingView().load_updated_at(self.narration),
                           mark_safe('<td>{}</td>'.format(humanize.datetime.date(self.narration.updated_at))))
 
     def test_get_actions_returns_correct_html_template_for_creating_new_narration(self):
         obj = self.narration
         details = reverse('admin:narrations:create')
-        self.assertEquals(NarrationListingView().get_actions(),
+        self.assertEqual(NarrationListingView().get_actions(),
                           '<a href="{}" class="btn btn-primary btn-sm">'
                           '<i class="fas fa-plus"></i>{}</a>'.format(reverse("admin:narrations:create"),
                                                                      _("Add New Narration")))
 
     def test_load_actions_returns_correct_html_template_for_translation(self):
         obj = self.narration
-        self.assertEquals(
+        self.assertEqual(
             NarrationListingView().load_actions(obj),
             mark_safe(
                 '<td class="td--nowrap">' +
@@ -189,7 +189,7 @@ class NarrationListingViewTestCase(TestCase):
         for _ in range(10):
             NarrationFactory()
         response = self.client.get(self.url)
-        self.assertEquals(len(response.context_data['object_list']), 10)
+        self.assertEqual(len(response.context_data['object_list']), 10)
 
 
 class NarrationCreateOrUpdateViewStructureTestCase(TestCase):
@@ -213,7 +213,7 @@ class NarrationCreateOrUpdateViewStructureTestCase(TestCase):
     def test_get_permission_required_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(NarrationCreateAndUpdateAdminView.get_permission_required)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test get method
     def test_it_has_method_get(self):
@@ -225,7 +225,7 @@ class NarrationCreateOrUpdateViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(NarrationCreateAndUpdateAdminView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     # Test post method
     def test_view_has_method_post(self):
@@ -237,7 +237,7 @@ class NarrationCreateOrUpdateViewStructureTestCase(TestCase):
     def test_post_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(NarrationCreateAndUpdateAdminView.post)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class NarrationCreateAndUpdateAdminViewGetPermissionRequiredTestCase(TestCase):
@@ -253,13 +253,13 @@ class NarrationCreateAndUpdateAdminViewGetPermissionRequiredTestCase(TestCase):
     def test_it_returns_add_permission_if_narration_id_is_not_available(self):
         request = self.factory.get(reverse('admin:narrations:create'))
         view = self.setup_view(NarrationCreateAndUpdateAdminView(), request)
-        self.assertEquals(view.get_permission_required(), ("narrations.add_narration",))
+        self.assertEqual(view.get_permission_required(), ("narrations.add_narration",))
 
     def test_it_returns_change_permission_if_narration_id_is_available(self):
         narration = NarrationFactory()
         request = self.factory.get(reverse('admin:narrations:update', args=[narration.id]))
         view = self.setup_view(NarrationCreateAndUpdateAdminView(), request, narration_id=narration.pk)
-        self.assertEquals(view.get_permission_required(), ("narrations.change_narration",))
+        self.assertEqual(view.get_permission_required(), ("narrations.change_narration",))
 
 
 class NarrationCreateViewGETTestCase(TestCase):
@@ -295,7 +295,7 @@ class NarrationCreateViewGETTestCase(TestCase):
 
     def test_context_title_is_create_new_narration(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['title'], _("Add New Narration"))
+        self.assertEqual(response.context['title'], _("Add New Narration"))
 
     def test_context_form_is_instance_of_NarrationForm(self):
         response = self.client.get(self.url)
@@ -303,7 +303,7 @@ class NarrationCreateViewGETTestCase(TestCase):
 
     def test_if_the_form_of_context_is_new_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance.pk, None)
+        self.assertEqual(response.context['form'].instance.pk, None)
 
 
 class NarrationCreateViewPOSTTestCase(TestCase):
@@ -339,7 +339,7 @@ class NarrationCreateViewPOSTTestCase(TestCase):
 
     def test_context_title_is_create_new_narration_on_errors(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['title'], _("Add New Narration"))
+        self.assertEqual(response.context['title'], _("Add New Narration"))
 
     def test_form_is_included_in_the_context_on_errors(self):
         response = self.client.post(self.url, data={})
@@ -365,12 +365,12 @@ class NarrationCreateViewPOSTTestCase(TestCase):
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Narration Created Successfully"))
+        self.assertEqual(str(msgs[0]), _("Narration Created Successfully"))
 
 
 class NarrationUpdateViewGETTestCase(TestCase):
@@ -411,7 +411,7 @@ class NarrationUpdateViewGETTestCase(TestCase):
 
     def test_context_title_is_create_new_narration(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['title'], "{} {}".format(_("Edit"), self.narration.translated_name))
+        self.assertEqual(response.context['title'], "{} {}".format(_("Edit"), self.narration.translated_name))
 
     def test_context_form_is_instance_of_NarrationForm(self):
         response = self.client.get(self.url)
@@ -465,7 +465,7 @@ class NarrationUpdateViewPOSTTestCase(TestCase):
 
     def test_context_title_is_create_new_narration(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['title'], "{} {}".format(_("Edit"), self.narration.translated_name))
+        self.assertEqual(response.context['title'], "{} {}".format(_("Edit"), self.narration.translated_name))
 
     def test_form_has_errors(self):
         response = self.client.post(self.url, data={})
@@ -474,7 +474,7 @@ class NarrationUpdateViewPOSTTestCase(TestCase):
     def test_it_create_save_the_data_in_database(self):
         self.client.post(self.url, data=self.data)
         self.narration.refresh_from_db()
-        self.assertEquals(self.narration.name['ar'], 'hafs')
+        self.assertEqual(self.narration.name['ar'], 'hafs')
 
     def test_it_redirect_to_details_after_saving(self):
         response = self.client.post(self.url, data=self.data)
@@ -485,9 +485,9 @@ class NarrationUpdateViewPOSTTestCase(TestCase):
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Narration Updated Successfully"))
+        self.assertEqual(str(msgs[0]), _("Narration Updated Successfully"))

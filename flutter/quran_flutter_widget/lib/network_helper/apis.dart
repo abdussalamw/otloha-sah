@@ -10,8 +10,6 @@ class Apis extends Object {
   static int codeERROR = 500;
 
   static String authorization = '';
-  static String clientId = '';
-  static String clientSecret = '';
 
   static String baseUrl = 'https://api.otlohasah.org';
 

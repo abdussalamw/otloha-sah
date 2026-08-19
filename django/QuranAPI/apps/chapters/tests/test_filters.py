@@ -69,7 +69,7 @@ class ChapterAdminSearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(ChapterAdminSearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ChapterAdminSearchTestCase(TestCase):
@@ -79,7 +79,7 @@ class ChapterAdminSearchTestCase(TestCase):
         ChapterFactory(name='test')
         queryset = Chapter.objects.all()
         result = ChapterAdminSearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'chapter_number'],
             value="test"), ordered=False)
@@ -90,7 +90,7 @@ class ChapterAdminSearchTestCase(TestCase):
         ChapterFactory(chapter_number=1)
         queryset = Chapter.objects.all()
         result = ChapterAdminSearch({'q': 1}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'chapter_number'],
             value=1), ordered=False)
@@ -136,7 +136,7 @@ class ChapterAPISearchStructureTestCase(TestCase):
     def test_search_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(ChapterAPISearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ChapterAPISearchTestCase(TestCase):
@@ -153,7 +153,7 @@ class ChapterAPISearchTestCase(TestCase):
         ChapterFactory(name='test')
         queryset = Chapter.objects.all()
         result = ChapterAPISearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'chapter_number'],
             value="test"), ordered=False)
@@ -164,7 +164,7 @@ class ChapterAPISearchTestCase(TestCase):
         ChapterFactory(chapter_number=1)
         queryset = Chapter.objects.all()
         result = ChapterAPISearch({'q': 1}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'chapter_number'],
             value=1), ordered=False)

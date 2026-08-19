@@ -9,8 +9,8 @@ class TranslationsAPIUrlsTestCase(TestCase):
 
     def test_detail_translations_api_url_resolves(self):
         url = reverse('api-v1:translations:verses:details', args=[1])
-        self.assertEquals(resolve(url).func.view_class, TranslationVersesDetailsAPIView)
+        self.assertEqual(resolve(url).func.view_class, TranslationVersesDetailsAPIView)
 
     def test_translations_listing_view_url_resolves(self):
         url = reverse('api-v1:translations:verses:listing')
-        self.assertEquals(resolve(url).func.view_class, TranslationVersesListAPIView)
+        self.assertEqual(resolve(url).func.view_class, TranslationVersesListAPIView)

@@ -17,7 +17,7 @@ class RecitationVerseFilterStructureTestCase(TestCase):
         self.assertIn('model', RecitationVerseFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_reciter_Model(self):
-        self.assertEquals(RecitationVerse, RecitationVerseFilter.Meta.model)
+        self.assertEqual(RecitationVerse, RecitationVerseFilter.Meta.model)
 
     def test_it_has_fields_in_class_meta(self):
         self.assertIn('fields', RecitationVerseFilter.Meta.__dict__)
@@ -37,7 +37,7 @@ class RecitationVerseFilterStructureTestCase(TestCase):
 
     def test_chapter_query_set_is_all_chapter(self):
         field = RecitationVerseFilter.get_filters()['chapter']
-        self.assertQuerysetEqual(field.queryset, Chapter.objects.all())
+        self.assertQuerySetEqual(field.queryset, Chapter.objects.all())
 
     def test_recitation_is_instance_of_model_choice_filter(self):
         field = RecitationVerseFilter.get_filters()['recitation']
@@ -45,4 +45,4 @@ class RecitationVerseFilterStructureTestCase(TestCase):
 
     def test_recitation_query_set_is_all_recitation(self):
         field = RecitationVerseFilter.get_filters()['recitation']
-        self.assertQuerysetEqual(field.queryset, Recitation.objects.all())
+        self.assertQuerySetEqual(field.queryset, Recitation.objects.all())

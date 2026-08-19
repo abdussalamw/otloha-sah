@@ -23,11 +23,11 @@ class ChaptersAPIUrlsStructureTestCase(TestCase):
 class ChaptersAPIUrlsTestCase(TestCase):
     def test_listing_all_chapter_api_url_resolves(self):
         url = reverse('api-v1:chapters:listing')
-        self.assertEquals(resolve(url).func.view_class, ChaptersListAPIView)
+        self.assertEqual(resolve(url).func.view_class, ChaptersListAPIView)
 
     def test_detail_chapter_api_url_resolves(self):
         url = reverse('api-v1:chapters:details', args=[1])
-        self.assertEquals(resolve(url).func.view_class, ChaptersDetailAPIView)
+        self.assertEqual(resolve(url).func.view_class, ChaptersDetailAPIView)
 
 class ChaptersAdminUrlsStructureTestCase(TestCase):
     def test_it_has_app_name(self):
@@ -45,12 +45,12 @@ class ChaptersAdminUrlsStructureTestCase(TestCase):
 class ChaptersAdminUrlsTestCase(TestCase):
     def test_listing_view_url_resolves(self):
         url = reverse('admin:chapters:listing')
-        self.assertEquals(resolve(url).func.view_class, ChapterListingAdminView)
+        self.assertEqual(resolve(url).func.view_class, ChapterListingAdminView)
 
     def test_create_view_resolves(self):
         url = reverse('admin:chapters:create')
-        self.assertEquals(resolve(url).func.view_class, ChapterCreateAndUpdateAdminView)
+        self.assertEqual(resolve(url).func.view_class, ChapterCreateAndUpdateAdminView)
 
     def test_update_view_resolves(self):
         url = reverse('admin:chapters:update', args=[1])
-        self.assertEquals(resolve(url).func.view_class, ChapterCreateAndUpdateAdminView)
+        self.assertEqual(resolve(url).func.view_class, ChapterCreateAndUpdateAdminView)

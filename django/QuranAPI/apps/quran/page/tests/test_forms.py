@@ -2,20 +2,21 @@ from django.test import TestCase
 
 from app.form_checkers import check_required
 from apps.quran.page.admin_form import UpdateVerseForm, UpdatePageForm
-from apps.quran.factories import VerseFactory, PageFactory
+from apps.narrations.factories import NarrationFactory, VerseFactory
+from apps.quran.factories import PageFactory
 
 
 class UpdateVerseFormValidationTest(TestCase):
     def setUp(self):
-        self.verse = VerseFactory()
+        self.verse = VerseFactory(narration=NarrationFactory())
         self.Form = UpdateVerseForm
 
         self.DEFAULT_DATA = {
             "text": "page test",
-            "uthmanic_text": "test verses serializer",
             "image": "/media/verse_pictures/example.jpg",
             'verse_number': 2,
             'page_number': 3,
+            'narration': self.verse.narration_id,
         }
 
     def test_verse_number_is_required(self):
@@ -59,8 +60,6 @@ class UpdatePageFormValidationTest(TestCase):
 
     def test_verse_form_is_valid(self):
         form = UpdatePageForm(data=self.DEFAULT_DATA)
-        x = form.is_valid()
-        print(form.errors)
         self.assertTrue(form.is_valid())
 
     def test_verse_from_throw_error_if_provides_incomplete_data(self):

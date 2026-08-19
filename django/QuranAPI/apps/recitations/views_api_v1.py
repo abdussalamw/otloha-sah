@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status, filters
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -9,7 +9,7 @@ from apps.recitations.serializers_v1 import RecitationSerializer
 
 
 class RecitationListAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
     serializer_class = RecitationSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['reciter__name', 'narration__name']
@@ -29,7 +29,7 @@ class RecitationListAPIView(APIView):
 
 
 class RecitationDetailsView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, recitation_id):
         recitation = get_object_or_404(Recitation, pk=recitation_id)

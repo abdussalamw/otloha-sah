@@ -46,13 +46,13 @@ class PartSerializerResponseTestCase(TestCase):
         self.assertEqual(set(self.data.keys()), {'id', 'name', 'alias', 'part_number'})
 
     def test_id_has_correct_value(self):
-        self.assertEquals(self.data['id'], self.part.pk)
+        self.assertEqual(self.data['id'], self.part.pk)
 
     def test_name_has_correct_value(self):
-        self.assertEquals(self.data['name'], self.part.translated_name)
+        self.assertEqual(self.data['name'], self.part.translated_name)
 
     def test_alias_has_correct_value(self):
-        self.assertEquals(self.data['alias'], self.part.translated_alias)
+        self.assertEqual(self.data['alias'], self.part.translated_alias)
 
     def test_part_number_has_correct_value(self):
-        self.assertEquals(self.data['part_number'], self.part.part_number)
+        self.assertEqual(self.data['part_number'], self.part.part_number)

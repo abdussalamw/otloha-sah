@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from apps.recitations.recitation_verse.serializers_v1 import RecitationVerseSeri
 
 
 class RecitationVerseListingView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         queryset = RecitationVerseFilter(request.GET, RecitationVerse.objects.all()).qs
@@ -19,7 +19,7 @@ class RecitationVerseListingView(APIView):
 
 
 class RecitationVerseDetailsView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, recitation_verse_id):
         recitation_verse = get_object_or_404(RecitationVerse, pk=recitation_verse_id)

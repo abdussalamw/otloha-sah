@@ -7,10 +7,10 @@ from apps.recitations.recitation_verse.views_api_v1 import RecitationVerseListin
 class RecitationVerseAPIUrlsTestCase(TestCase):
     def test_recitation_verse_api_listing(self):
         url = reverse('api-v1:recitations:recitation-verses:listing')
-        self.assertEquals(resolve(url).func.view_class, RecitationVerseListingView)
+        self.assertEqual(resolve(url).func.view_class, RecitationVerseListingView)
 
     def test_recitation_verse_api_details(self):
         url = reverse('api-v1:recitations:recitation-verses:details')
-        self.assertEquals(resolve(url).func.view_class, RecitationVerseDetailsView)
+        self.assertEqual(resolve(url).func.view_class, RecitationVerseDetailsView)
 
 

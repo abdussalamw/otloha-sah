@@ -41,13 +41,13 @@ class BookListingViewStructureTestCase(TestCase):
         self.assertTrue(hasattr(BookListingView, 'title'))
 
     def test_list_view_title_value(self):
-        self.assertEquals(BookListingView.title, _('All Tajweed Books'))
+        self.assertEqual(BookListingView.title, _('All Tajweed Books'))
 
     def test_list_view_has_list_display(self):
         self.assertTrue(hasattr(BookListingView, 'list_display'))
 
     def test_list_display_value(self):
-        self.assertEquals(BookListingView.list_display, (
+        self.assertEqual(BookListingView.list_display, (
             ('id', _('ID')),
             ('name', _('Name')),
             ('narration', _('Narration')),
@@ -61,7 +61,7 @@ class BookListingViewStructureTestCase(TestCase):
     def test_get_breadcrumb_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(BookListingView.get_breadcrumb)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_name(self):
         self.assertTrue(hasattr(BookListingView, 'load_name'))
@@ -69,7 +69,7 @@ class BookListingViewStructureTestCase(TestCase):
     def test_load_name_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(BookListingView.load_name)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_author(self):
         self.assertTrue(hasattr(BookListingView, 'load_author'))
@@ -77,7 +77,7 @@ class BookListingViewStructureTestCase(TestCase):
     def test_load_author_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(BookListingView.load_author)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_actions(self):
         self.assertTrue(hasattr(BookListingView, 'load_actions'))
@@ -85,7 +85,7 @@ class BookListingViewStructureTestCase(TestCase):
     def test_load_actions_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(BookListingView.load_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_actions(self):
         self.assertTrue(hasattr(BookListingView, 'get_actions'))
@@ -93,7 +93,7 @@ class BookListingViewStructureTestCase(TestCase):
     def test_get_actions_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(BookListingView.get_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class BookListingViewTestCase(TestCase):
@@ -135,7 +135,7 @@ class BookDetailsViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'book_id']
         actual_signature = inspect.getfullargspec(BookDetailsView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class BookDetailsViewTestCase(TestCase):
@@ -171,7 +171,7 @@ class BookDetailsViewTestCase(TestCase):
 
     def test_object_in_context_is_correct_one(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['book'], self.book)
+        self.assertEqual(response.context['book'], self.book)
 
     def test_template_used(self):
         response = self.client.get(self.url)
@@ -194,7 +194,7 @@ class BookCreateAndUpdateViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(BookCreateAndUpdateView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_post(self):
         self.assertTrue(hasattr(BookCreateAndUpdateView, 'post'))
@@ -205,7 +205,7 @@ class BookCreateAndUpdateViewStructureTestCase(TestCase):
     def test_post_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(BookCreateAndUpdateView.post)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class BookCreateViewGETTestCase(TestCase):
@@ -242,7 +242,7 @@ class BookCreateViewGETTestCase(TestCase):
 
     def test_context_form_is_new_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance.pk, None)
+        self.assertEqual(response.context['form'].instance.pk, None)
 
 
 class BookUpdateViewGETTestCase(TestCase):
@@ -280,7 +280,7 @@ class BookUpdateViewGETTestCase(TestCase):
 
     def test_context_form_instance_is_equal_to_book(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance, self.book)
+        self.assertEqual(response.context['form'].instance, self.book)
 
 
 class BookCreateViewPOSTTestCase(TestCase):
@@ -334,12 +334,12 @@ class BookCreateViewPOSTTestCase(TestCase):
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Book Created Successfully"))
+        self.assertEqual(str(msgs[0]), _("Book Created Successfully"))
 
 
 class BookUpdateViewPOSTTestCase(TestCase):
@@ -387,14 +387,14 @@ class BookUpdateViewPOSTTestCase(TestCase):
     def test_it_saves_updated_book_into_database(self):
         self.client.post(self.url, data=self.data)
         self.book.refresh_from_db()
-        self.assertEquals('new book name', self.book.name['ar'])
+        self.assertEqual('new book name', self.book.name['ar'])
 
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_updated_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Book Updated Successfully"))
+        self.assertEqual(str(msgs[0]), _("Book Updated Successfully"))

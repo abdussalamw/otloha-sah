@@ -21,7 +21,7 @@ class NarrationFilterStructureTestCase(TestCase):
         self.assertIn('model', NarrationFilter.Meta.__dict__)
 
     def test_meta_model_is_narration_model(self):
-        self.assertEquals(Narration, NarrationFilter.Meta.model)
+        self.assertEqual(Narration, NarrationFilter.Meta.model)
 
     def test_it_has_fields_in_class_meta(self):
         self.assertIn('fields', NarrationFilter.Meta.__dict__)
@@ -49,7 +49,7 @@ class NarrationFilterStructureTestCase(TestCase):
     def test_name_filter_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(NarrationFilter.name_filter)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class NarrationFilterTestCase(TestCase):
@@ -93,7 +93,7 @@ class NarrationAdminSearchStructureTestCase(TestCase):
     def test_search_method_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(NarrationAdminSearch.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class NarrationAdminSearchTestCase(TestCase):
@@ -103,7 +103,7 @@ class NarrationAdminSearchTestCase(TestCase):
         NarrationFactory(name='test')
         queryset = Narration.objects.all()
         result = NarrationAdminSearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'description'],
             value="test"), ordered=False)
@@ -114,7 +114,7 @@ class NarrationAdminSearchTestCase(TestCase):
         NarrationFactory(description='test')
         queryset = Narration.objects.all()
         result = NarrationAdminSearch({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'description'],
             value="test"), ordered=False)
@@ -132,7 +132,7 @@ class NarrationAPISearchStructureTestCase(TestCase):
         self.assertIn('model', NarrationAPIFilter.Meta.__dict__)
 
     def test_meta_model_is_narration_model(self):
-        self.assertEquals(Narration, NarrationAPIFilter.Meta.model)
+        self.assertEqual(Narration, NarrationAPIFilter.Meta.model)
 
     def test_it_has_fields_in_class_meta(self):
         self.assertIn('fields', NarrationAPIFilter.Meta.__dict__)
@@ -162,7 +162,7 @@ class NarrationAPISearchStructureTestCase(TestCase):
     def test_search_method_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(NarrationAPIFilter.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class NarrationAPISearchTestCase(TestCase):
@@ -173,7 +173,7 @@ class NarrationAPISearchTestCase(TestCase):
         NarrationFactory(name='te')
         queryset = Narration.objects.all()
         result = NarrationAPIFilter({'q': "te"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'description'],
             value="te"), ordered=False)
@@ -184,7 +184,7 @@ class NarrationAPISearchTestCase(TestCase):
         NarrationFactory(description='test')
         queryset = Narration.objects.all()
         result = NarrationAPIFilter({'q': "test"}, queryset)
-        self.assertQuerysetEqual(result.qs, SearchProvider().search(
+        self.assertQuerySetEqual(result.qs, SearchProvider().search(
             queryset=queryset,
             columns=['name', 'description'],
             value="test"), ordered=False)

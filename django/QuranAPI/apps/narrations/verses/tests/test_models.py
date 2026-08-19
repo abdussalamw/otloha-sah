@@ -41,7 +41,7 @@ class VerseModelTestCase(TestCase):
 
     def test_image_field_will_upload_images_to_get_upload_to_function(self):
         field = Verse._meta.get_field('image')
-        self.assertEquals(field.upload_to, Verse.get_upload_to)
+        self.assertEqual(field.upload_to, Verse.get_upload_to)
 
     def test_if_field_line_start_in_verse_model(self):
         self.assertTrue(hasattr(Verse, 'line_start'))
@@ -52,7 +52,7 @@ class VerseModelTestCase(TestCase):
 
     def test_line_start_verbose_field_value_is_Line_Start(self):
         field = Verse._meta.get_field('line_start')
-        self.assertEquals(field.verbose_name, _('Line Start'))
+        self.assertEqual(field.verbose_name, _('Line Start'))
 
     def test_if_field_line_end_in_Verse_model(self):
         self.assertTrue(hasattr(Verse, 'line_end'))
@@ -63,7 +63,7 @@ class VerseModelTestCase(TestCase):
 
     def test_line_end_verbose_field_value_is_Line_End(self):
         field = Verse._meta.get_field('line_end')
-        self.assertEquals(field.verbose_name, _('Line End'))
+        self.assertEqual(field.verbose_name, _('Line End'))
 
     def test_if_field_verse_number_in_Verse_model(self):
         self.assertTrue(hasattr(Verse, 'verse_number'))
@@ -78,7 +78,7 @@ class VerseModelTestCase(TestCase):
 
     def test_verse_number_verbose_field_value_is_verse_number(self):
         field = Verse._meta.get_field('verse_number')
-        self.assertEquals(field.verbose_name, _('Verse Number'))
+        self.assertEqual(field.verbose_name, _('Verse Number'))
 
     def test_if_field_text_in_verse_model(self):
         self.assertTrue(hasattr(Verse, 'text'))
@@ -89,7 +89,7 @@ class VerseModelTestCase(TestCase):
 
     def test_text_verbose_field_value_is_text(self):
         field = Verse._meta.get_field('text')
-        self.assertEquals(field.verbose_name, _('Text'))
+        self.assertEqual(field.verbose_name, _('Text'))
 
     def test_text_field_null_is_true(self):
         field = Verse._meta.get_field('text')
@@ -112,15 +112,15 @@ class VerseModelTestCase(TestCase):
 
     def test_chapter_field_is_related_to_chapter_model(self):
         field = Verse._meta.get_field('chapter')
-        self.assertEquals(field.remote_field.model, Chapter)
+        self.assertEqual(field.remote_field.model, Chapter)
 
     def test_chapter_attribute_related_name_value(self):
         field = Verse._meta.get_field('chapter')
-        self.assertEquals(field.remote_field.related_name, "chapter_verses")
+        self.assertEqual(field.remote_field.related_name, "chapter_verses")
 
     def test_chapter_attribute_on_delete_value(self):
         field = Verse._meta.get_field('chapter')
-        self.assertEquals(field.remote_field.on_delete, models.SET_NULL)
+        self.assertEqual(field.remote_field.on_delete, models.SET_NULL)
 
     def test_chapter_field_null_is_true(self):
         field = Verse._meta.get_field('chapter')
@@ -143,15 +143,15 @@ class VerseModelTestCase(TestCase):
 
     def test_part_field_is_related_to_part_model(self):
         field = Verse._meta.get_field('part')
-        self.assertEquals(field.remote_field.model, Part)
+        self.assertEqual(field.remote_field.model, Part)
 
     def test_part_attribute_related_name_value(self):
         field = Verse._meta.get_field('part')
-        self.assertEquals(field.remote_field.related_name, "part_verses")
+        self.assertEqual(field.remote_field.related_name, "part_verses")
 
     def test_part_attribute_on_delete_value(self):
         field = Verse._meta.get_field('part')
-        self.assertEquals(field.remote_field.on_delete, models.SET_NULL)
+        self.assertEqual(field.remote_field.on_delete, models.SET_NULL)
 
     def test_part_field_null_is_true(self):
         field = Verse._meta.get_field('part')
@@ -176,10 +176,10 @@ class VerseModelTestCase(TestCase):
         self.assertTrue(callable(getattr(Verse, '__str__')))
 
     def test_meta_verbose_name_is_verse(self):
-        self.assertEquals(Verse._meta.verbose_name, _('Verse'))
+        self.assertEqual(Verse._meta.verbose_name, _('Verse'))
 
     def test_meta_verbose_name_plural_is_verses(self):
-        self.assertEquals(Verse._meta.verbose_name_plural, _('Verses'))
+        self.assertEqual(Verse._meta.verbose_name_plural, _('Verses'))
 
     def test___str___value_is_correct(self):
         verse = VerseFactory(
@@ -208,4 +208,4 @@ class VerseModelTestCase(TestCase):
 
             filename = "test"
             model_upload_function = Verse.get_upload_to(verse, filename)
-            self.assertEquals(model_upload_function, 'narrations/verses/{}/{}'.format(verse.uuid, filename))
+            self.assertEqual(model_upload_function, 'narrations/verses/{}/{}'.format(verse.uuid, filename))

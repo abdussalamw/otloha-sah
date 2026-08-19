@@ -39,13 +39,13 @@ class RulesListingViewStructureTestCase(TestCase):
         self.assertTrue(hasattr(RulesListingView, 'title'))
 
     def test_list_view_title_value(self):
-        self.assertEquals(RulesListingView.title, _('All Rules'))
+        self.assertEqual(RulesListingView.title, _('All Rules'))
 
     def test_list_view_has_list_display(self):
         self.assertTrue(hasattr(RulesListingView, 'list_display'))
 
     def test_list_display_value(self):
-        self.assertEquals(RulesListingView.list_display, (
+        self.assertEqual(RulesListingView.list_display, (
             ('id', _('ID')),
             ('name', _('Name')),
             ('rule_number', _('Rule Number')),
@@ -59,7 +59,7 @@ class RulesListingViewStructureTestCase(TestCase):
     def test_get_breadcrumb_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(RulesListingView.get_breadcrumb)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_name(self):
         self.assertTrue(hasattr(RulesListingView, 'load_name'))
@@ -67,7 +67,7 @@ class RulesListingViewStructureTestCase(TestCase):
     def test_load_name_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(RulesListingView.load_name)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_load_actions(self):
         self.assertTrue(hasattr(RulesListingView, 'load_actions'))
@@ -75,7 +75,7 @@ class RulesListingViewStructureTestCase(TestCase):
     def test_load_actions_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(RulesListingView.load_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_actions(self):
         self.assertTrue(hasattr(RulesListingView, 'get_actions'))
@@ -83,7 +83,7 @@ class RulesListingViewStructureTestCase(TestCase):
     def test_get_actions_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(RulesListingView.get_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class RulesListingViewTestCase(TestCase):
@@ -125,7 +125,7 @@ class RuleDetailsViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request', 'rule_id']
         actual_signature = inspect.getfullargspec(RuleDetailsView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class RuleDetailsViewTestCase(TestCase):
@@ -161,7 +161,7 @@ class RuleDetailsViewTestCase(TestCase):
 
     def test_object_in_context_is_correct_one(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['rule'], self.rule)
+        self.assertEqual(response.context['rule'], self.rule)
 
     def test_template_used(self):
         response = self.client.get(self.url)
@@ -184,7 +184,7 @@ class RuleCreateAndUpdateViewStructureTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(RuleCreateAndUpdateView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_post(self):
         self.assertTrue(hasattr(RuleCreateAndUpdateView, 'post'))
@@ -195,7 +195,7 @@ class RuleCreateAndUpdateViewStructureTestCase(TestCase):
     def test_post_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(RuleCreateAndUpdateView.post)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class RuleCreateViewGETTestCase(TestCase):
@@ -232,7 +232,7 @@ class RuleCreateViewGETTestCase(TestCase):
 
     def test_context_form_is_new_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance.pk, None)
+        self.assertEqual(response.context['form'].instance.pk, None)
 
 
 class RuleUpdateViewGETTestCase(TestCase):
@@ -271,7 +271,7 @@ class RuleUpdateViewGETTestCase(TestCase):
 
     def test_context_form_instance_is_equal_to_rule(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance, self.rule)
+        self.assertEqual(response.context['form'].instance, self.rule)
 
 
 class RuleCreateViewPOSTTestCase(TestCase):
@@ -327,12 +327,12 @@ class RuleCreateViewPOSTTestCase(TestCase):
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Rule Created Successfully"))
+        self.assertEqual(str(msgs[0]), _("Rule Created Successfully"))
 
 
 class RuleUpdateViewPOSTTestCase(TestCase):
@@ -382,14 +382,14 @@ class RuleUpdateViewPOSTTestCase(TestCase):
     def test_it_saves_updated_rule_into_database(self):
         self.client.post(self.url, data=self.data)
         self.rule.refresh_from_db()
-        self.assertEquals('new rule name', self.rule.name['ar'])
+        self.assertEqual('new rule name', self.rule.name['ar'])
 
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_updated_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Rule Updated Successfully"))
+        self.assertEqual(str(msgs[0]), _("Rule Updated Successfully"))

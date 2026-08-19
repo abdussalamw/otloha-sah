@@ -19,13 +19,13 @@ class TranslationFilterStructureTestCase(TestCase):
         self.assertIn('model', TranslationFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_Translation_model(self):
-        self.assertEquals(Translation, TranslationFilter.Meta.model)
+        self.assertEqual(Translation, TranslationFilter.Meta.model)
 
     def test_filter_class_meta_has_fields_on_it(self):
         self.assertIn('fields', TranslationFilter.Meta.__dict__)
 
     def test_filter_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(TranslationFilter.Meta.fields), list)
+        self.assertEqual(type(TranslationFilter.Meta.fields), list)
 
     def test_class_meta_fields_has_language(self):
         self.assertIn('language', TranslationFilter.Meta.fields)
@@ -41,8 +41,8 @@ class TranslationFilterTestCase(TestCase):
         for i in range(2):
             TranslationFactory(language='ar')
         result = TranslationFilter({'language': 'en'}, Translation.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals('en', result[0].language)
+        self.assertEqual(5, len(result))
+        self.assertEqual('en', result[0].language)
 
 
 class TranslationVerseFilterStructureTestCase(TestCase):
@@ -56,13 +56,13 @@ class TranslationVerseFilterStructureTestCase(TestCase):
         self.assertIn('model', TranslationVerseFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_TranslationVerse_model(self):
-        self.assertEquals(TranslationVerse, TranslationVerseFilter.Meta.model)
+        self.assertEqual(TranslationVerse, TranslationVerseFilter.Meta.model)
 
     def test_filter_class_meta_has_fields_on_it(self):
         self.assertIn('fields', TranslationVerseFilter.Meta.__dict__)
 
     def test_filter_class_meta_fields_is_a_list(self):
-        self.assertEquals(type(TranslationVerseFilter.Meta.fields), list)
+        self.assertEqual(type(TranslationVerseFilter.Meta.fields), list)
 
     def test_class_meta_fields_has_translation(self):
         self.assertIn('translation', TranslationVerseFilter.Meta.fields)
@@ -93,8 +93,8 @@ class TranslationVerseFilterTestCase(TestCase):
         for i in range(2):
             TranslationVerseFactory(translation=self.translation_2)
         result = TranslationVerseFilter({'translation': self.translation_1}, TranslationVerse.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(self.translation_1, result[0].translation)
+        self.assertEqual(5, len(result))
+        self.assertEqual(self.translation_1, result[0].translation)
 
     def test_it_filters_based_on_chapter_correctly(self):
         for i in range(5):
@@ -102,8 +102,8 @@ class TranslationVerseFilterTestCase(TestCase):
         for i in range(2):
             TranslationVerseFactory(chapter=self.chapter_2, translation=self.translation_1)
         result = TranslationVerseFilter({'chapter': self.chapter_1}, TranslationVerse.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(self.chapter_1, result[0].chapter)
+        self.assertEqual(5, len(result))
+        self.assertEqual(self.chapter_1, result[0].chapter)
 
     def test_it_filters_based_on_chapter_number_correctly(self):
         for i in range(5):
@@ -111,8 +111,8 @@ class TranslationVerseFilterTestCase(TestCase):
         for i in range(2):
             TranslationVerseFactory(chapter_number=2, translation=self.translation_1)
         result = TranslationVerseFilter({'chapter_number': 1}, TranslationVerse.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(1, result[0].chapter_number)
+        self.assertEqual(5, len(result))
+        self.assertEqual(1, result[0].chapter_number)
 
     def test_it_filters_based_on_verse_number_correctly(self):
         for i in range(5):
@@ -120,5 +120,5 @@ class TranslationVerseFilterTestCase(TestCase):
         for i in range(2):
             TranslationVerseFactory(verse_number=2, translation=self.translation_1)
         result = TranslationVerseFilter({'verse_number': 1}, TranslationVerse.objects.all()).qs
-        self.assertEquals(5, len(result))
-        self.assertEquals(1, result[0].verse_number)
+        self.assertEqual(5, len(result))
+        self.assertEqual(1, result[0].verse_number)

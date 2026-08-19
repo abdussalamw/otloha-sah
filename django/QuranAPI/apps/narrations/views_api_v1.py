@@ -1,6 +1,6 @@
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -12,7 +12,7 @@ from apps.narrations.serializers import NarrationSerializer
 
 
 class NarrationsListView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         narrations = NarrationAPIFilter(request.GET, Narration.objects.filter(is_active=True))
@@ -21,7 +21,7 @@ class NarrationsListView(APIView):
 
 
 class NarrationsDetailView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, narration_pk, *args, **kwargs):
         narration = get_object_or_404(Narration, pk=narration_pk)
@@ -30,7 +30,7 @@ class NarrationsDetailView(APIView):
 
 
 class DownloadNarrationView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, narration_pk, *args, **kwargs):
         narration = get_object_or_404(Narration, pk=narration_pk)

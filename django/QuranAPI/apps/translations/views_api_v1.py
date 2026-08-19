@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from apps.translations.serializers import TranslationSerializer
 
 
 class TranslationsListAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         translation = TranslationAPISearch(request.GET, Translation.objects.all())
@@ -19,7 +19,7 @@ class TranslationsListAPIView(APIView):
 
 
 class TranslationsDetailsAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, translation_id):
         translation = get_object_or_404(Translation, pk=translation_id)

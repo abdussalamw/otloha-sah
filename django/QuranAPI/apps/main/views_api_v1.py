@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from pyarabic import araby
 from pyarabic.normalize import normalize_searchtext
 from rest_framework.pagination import PageNumberPagination
@@ -17,7 +17,7 @@ class Paginator(PageNumberPagination):
 
 
 class SearchAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get_searchable(self, narration_id):
         return [

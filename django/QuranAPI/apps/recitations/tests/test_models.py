@@ -34,10 +34,10 @@ class ReciterModelStructureTestCase(TestCase):
         self.assertIn('_meta', Reciter.__dict__)
 
     def test_meta_verbose_name_is_reciter(self):
-        self.assertEquals(Reciter._meta.verbose_name, _('Reciter'))
+        self.assertEqual(Reciter._meta.verbose_name, _('Reciter'))
 
     def test_meta_verbose_name_plural_is_reciters(self):
-        self.assertEquals(Reciter._meta.verbose_name_plural, _('Reciters'))
+        self.assertEqual(Reciter._meta.verbose_name_plural, _('Reciters'))
 
     # Test ID
 
@@ -64,7 +64,7 @@ class ReciterModelStructureTestCase(TestCase):
         self.assertIn('field', Reciter.translatable['name'])
 
     def test_translatable_name_field_value_is_forms_char_field(self):
-        self.assertEquals(Reciter.translatable['name']['field'], forms.CharField)
+        self.assertEqual(Reciter.translatable['name']['field'], forms.CharField)
 
     # Test name
 
@@ -85,7 +85,7 @@ class ReciterModelStructureTestCase(TestCase):
 
     def test_name_verbose_name_value_is_Name(self):
         name = Reciter._meta.get_field('name')
-        self.assertEquals(name.verbose_name, _('Name'))
+        self.assertEqual(name.verbose_name, _('Name'))
 
     # Test created_at
 
@@ -106,7 +106,7 @@ class ReciterModelStructureTestCase(TestCase):
 
     def test_created_at_verbose_created_at_value_is_Created_At(self):
         created_at = Reciter._meta.get_field('created_at')
-        self.assertEquals(created_at.verbose_name, _('Created At'))
+        self.assertEqual(created_at.verbose_name, _('Created At'))
 
     # Test updated_at
 
@@ -127,7 +127,7 @@ class ReciterModelStructureTestCase(TestCase):
 
     def test_updated_at_verbose_updated_at_value_is_Updated_At(self):
         updated_at = Reciter._meta.get_field('updated_at')
-        self.assertEquals(updated_at.verbose_name, _('Updated At'))
+        self.assertEqual(updated_at.verbose_name, _('Updated At'))
 
     # Test __str__
 
@@ -140,13 +140,13 @@ class ReciterModelStructureTestCase(TestCase):
     def test__str__signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(Reciter.__str__)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ReciterStrTestCase(TestCase):
     def test__str__returns_name_if_available(self):
         reciter = ReciterFactory()
-        self.assertEquals(str(reciter), reciter.translated_name)
+        self.assertEqual(str(reciter), reciter.translated_name)
 
 
 class RecitationModelStructureTestCase(TestCase):
@@ -170,10 +170,10 @@ class RecitationModelStructureTestCase(TestCase):
         self.assertIn('_meta', Recitation.__dict__)
 
     def test_meta_verbose_name_is_recitation(self):
-        self.assertEquals(Recitation._meta.verbose_name, _('Recitation'))
+        self.assertEqual(Recitation._meta.verbose_name, _('Recitation'))
 
     def test_meta_verbose_name_plural_is_recitations(self):
-        self.assertEquals(Recitation._meta.verbose_name_plural, _('Recitations'))
+        self.assertEqual(Recitation._meta.verbose_name_plural, _('Recitations'))
 
     # Test ID
 
@@ -200,7 +200,7 @@ class RecitationModelStructureTestCase(TestCase):
         self.assertIn('field', Recitation.translatable['name'])
 
     def test_translatable_name_field_value_is_forms_char_field(self):
-        self.assertEquals(Recitation.translatable['name']['field'], forms.CharField)
+        self.assertEqual(Recitation.translatable['name']['field'], forms.CharField)
 
     # Test name
 
@@ -221,7 +221,7 @@ class RecitationModelStructureTestCase(TestCase):
 
     def test_name_verbose_name_value_is_Name(self):
         name = Recitation._meta.get_field('name')
-        self.assertEquals(name.verbose_name, _('Name'))
+        self.assertEqual(name.verbose_name, _('Name'))
 
     # Test Narration
 
@@ -242,11 +242,11 @@ class RecitationModelStructureTestCase(TestCase):
 
     def test_narration_field_is_related_to_narration_model(self):
         field = Recitation._meta.get_field('narration')
-        self.assertEquals(field.remote_field.model, Narration)
+        self.assertEqual(field.remote_field.model, Narration)
 
     def test_narration_field_on_delete_attribute(self):
         field = Recitation._meta.get_field('narration')
-        self.assertEquals(field.remote_field.on_delete, models.SET_NULL)
+        self.assertEqual(field.remote_field.on_delete, models.SET_NULL)
 
     # Test Reciter
 
@@ -259,11 +259,11 @@ class RecitationModelStructureTestCase(TestCase):
 
     def test_reciter_field_is_related_to_reciter_model(self):
         field = Recitation._meta.get_field('reciter')
-        self.assertEquals(field.remote_field.model, Reciter)
+        self.assertEqual(field.remote_field.model, Reciter)
 
     def test_reciter_field_on_delete_attribute(self):
         field = Recitation._meta.get_field('reciter')
-        self.assertEquals(field.remote_field.on_delete, models.CASCADE)
+        self.assertEqual(field.remote_field.on_delete, models.CASCADE)
 
     # Test __str__
 
@@ -276,7 +276,7 @@ class RecitationModelStructureTestCase(TestCase):
     def test__str__signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(Recitation.__str__)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class RecitationStrTestCase(TestCase):
@@ -284,13 +284,13 @@ class RecitationStrTestCase(TestCase):
         reciter = ReciterFactory()
         narration = NarrationFactory()
         recitation = RecitationFactory(narration=narration, reciter=reciter)
-        self.assertEquals(str(recitation),
+        self.assertEqual(str(recitation),
                           "{} {} {} {}".format(_("recitation"), narration.translated_name, _('by shaikh'),
                                                reciter.translated_name))
 
     def test_it_returns_parent_name_does_not_exist(self):
         recitation = RecitationFactory(narration=NarrationFactory(), reciter=ReciterFactory(), name=None)
-        self.assertEquals(str(recitation), super(Recitation, recitation).__str__())
+        self.assertEqual(str(recitation), super(Recitation, recitation).__str__())
 
 
 class RecitationVerseModelStructureTestCase(TestCase):
@@ -332,11 +332,11 @@ class RecitationVerseModelStructureTestCase(TestCase):
 
     def test_recitation_field_is_related_to_recitation_model(self):
         field = RecitationVerse._meta.get_field('recitation')
-        self.assertEquals(field.remote_field.model, Recitation)
+        self.assertEqual(field.remote_field.model, Recitation)
 
     def test_recitation_field_on_delete_attribute(self):
         field = RecitationVerse._meta.get_field('recitation')
-        self.assertEquals(field.remote_field.on_delete, models.CASCADE)
+        self.assertEqual(field.remote_field.on_delete, models.CASCADE)
 
     # Test Record
 
@@ -349,7 +349,7 @@ class RecitationVerseModelStructureTestCase(TestCase):
 
     def test_record_field_upload_to_function_is_get_upload_to(self):
         field = RecitationVerse._meta.get_field('record')
-        self.assertEquals(field.upload_to, RecitationVerse.get_upload_to)
+        self.assertEqual(field.upload_to, RecitationVerse.get_upload_to)
 
     def test_record_field_is_set_blank_to_true(self):
         field = RecitationVerse._meta.get_field('record')
@@ -387,11 +387,11 @@ class RecitationVerseModelStructureTestCase(TestCase):
 
     def test_chapter_field_is_related_to_chapter_model(self):
         field = RecitationVerse._meta.get_field('chapter')
-        self.assertEquals(field.remote_field.model, Chapter)
+        self.assertEqual(field.remote_field.model, Chapter)
 
     def test_chapter_field_on_delete_attribute(self):
         field = RecitationVerse._meta.get_field('chapter')
-        self.assertEquals(field.remote_field.on_delete, models.CASCADE)
+        self.assertEqual(field.remote_field.on_delete, models.CASCADE)
 
     # Test get_upload_to
 
@@ -404,7 +404,7 @@ class RecitationVerseModelStructureTestCase(TestCase):
     def test_get_upload_to_signature(self):
         expected_signature = ['self', 'filename']
         actual_signature = inspect.getfullargspec(RecitationVerse.get_upload_to)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class RecitationVerseModelTestCase(TestCase):
@@ -414,5 +414,5 @@ class RecitationVerseModelTestCase(TestCase):
         chapter = ChapterFactory()
         filename = 'file'
         recitation_verse = RecitationVerseFactory(chapter=chapter, recitation=recitation)
-        self.assertEquals(recitation_verse.get_upload_to(filename=filename),
+        self.assertEqual(recitation_verse.get_upload_to(filename=filename),
                           'recitations/{}/recitation_verses/{}'.format(recitation_verse.recitation.pk, filename))

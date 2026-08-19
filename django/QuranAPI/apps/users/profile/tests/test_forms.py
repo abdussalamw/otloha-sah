@@ -29,7 +29,7 @@ def check_required(cls, key):
     data.pop(key, None)
     instance = cls.Form(data=data)
     cls.assertFalse(instance.is_valid())
-    cls.assertEquals(instance.errors.as_data()[key][0].code, 'required')
+    cls.assertEqual(instance.errors.as_data()[key][0].code, 'required')
 
 
 def check_unique(cls, key, value):
@@ -37,7 +37,7 @@ def check_unique(cls, key, value):
     data.update({key: value})
     instance = cls.Form(data=data)
     cls.assertFalse(instance.is_valid())
-    cls.assertEquals(instance.errors.as_data()[key][0].code, 'unique')
+    cls.assertEqual(instance.errors.as_data()[key][0].code, 'unique')
 
 
 class UpdateUserFormValidationTest(TestCase):
@@ -95,7 +95,7 @@ class UpdateEmailFormTestCase(TestCase):
         self.assertTrue(self.form.fields['new_email'].required)
 
     def test_new_email_field_label(self):
-        self.assertEquals(self.form.fields['new_email'].label, _("New Email"))
+        self.assertEqual(self.form.fields['new_email'].label, _("New Email"))
 
     def test_it_has_password_field(self):
         self.assertIn('password', self.form.fields)
@@ -104,7 +104,7 @@ class UpdateEmailFormTestCase(TestCase):
         self.assertIsInstance(self.form.fields['password'], forms.CharField)
 
     def test_password_has_label_Password(self):
-        self.assertEquals(self.form.fields['password'].label, _("Password"))
+        self.assertEqual(self.form.fields['password'].label, _("Password"))
 
     def test_password_field_not_striping_its_value(self):
         form = UpdateEmailForm()
@@ -138,7 +138,7 @@ class UpdatePhoneFormTestCase(TestCase):
         self.assertIsInstance(self.form.fields['password'], forms.CharField)
 
     def test_password_has_label_Password(self):
-        self.assertEquals(self.form.fields['password'].label, _("Your Password"))
+        self.assertEqual(self.form.fields['password'].label, _("Your Password"))
 
     def test_password_field_not_striping_its_value(self):
         form = UpdateEmailForm()

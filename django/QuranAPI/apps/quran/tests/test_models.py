@@ -16,10 +16,10 @@
 #         self.assertTrue(callable(getattr(Book, '__str__')))
 #
 #     def test_meta_verbose_name_is_book(self):
-#         self.assertEquals(Book._meta.verbose_name, _('Book'))
+#         self.assertEqual(Book._meta.verbose_name, _('Book'))
 #
 #     def test_meta_verbose_name_plural_is_book(self):
-#         self.assertEquals(Book._meta.verbose_name_plural, _('Books'))
+#         self.assertEqual(Book._meta.verbose_name_plural, _('Books'))
 #
 #     def test_if_it_has_id_field(self):
 #         self.assertTrue(hasattr(Book, 'id'))
@@ -41,7 +41,7 @@
 #
 #     def test_name_verbose_name_value_is_Name(self):
 #         name = Book._meta.get_field('name')
-#         self.assertEquals(name.verbose_name, _('Name'))
+#         self.assertEqual(name.verbose_name, _('Name'))
 #
 #     def test_if_it_has_narration_field(self):
 #         self.assertTrue(hasattr(Book, 'narration'))
@@ -90,10 +90,10 @@
 #         self.assertIsInstance(BookCSVUpload(), models.Model)
 #
 #     def test_meta_verbose_name(self):
-#         self.assertEquals(BookCSVUpload._meta.verbose_name, _('Book CSV Uploads'))
+#         self.assertEqual(BookCSVUpload._meta.verbose_name, _('Book CSV Uploads'))
 #
 #     def test_meta_verbose_name_plural(self):
-#         self.assertEquals(BookCSVUpload._meta.verbose_name_plural, _('Book CSV Uploads'))
+#         self.assertEqual(BookCSVUpload._meta.verbose_name_plural, _('Book CSV Uploads'))
 #
 #     def test_if_it_has_file_field(self):
 #         self.assertTrue(hasattr(BookCSVUpload, 'file'))
@@ -172,10 +172,10 @@
 #         self.assertIsInstance(BookImageUpload(), models.Model)
 #
 #     def test_meta_verbose_name(self):
-#         self.assertEquals(BookImageUpload._meta.verbose_name, _('Book Images Upload'))
+#         self.assertEqual(BookImageUpload._meta.verbose_name, _('Book Images Upload'))
 #
 #     def test_meta_verbose_name_plural(self):
-#         self.assertEquals(BookImageUpload._meta.verbose_name_plural, _('Book Images Uploads'))
+#         self.assertEqual(BookImageUpload._meta.verbose_name_plural, _('Book Images Uploads'))
 #
 #     def test_if_it_has_file_field(self):
 #         self.assertTrue(hasattr(BookImageUpload, 'file'))

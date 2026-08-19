@@ -38,13 +38,13 @@ class RecitationVerseAdminListViewStructureTestCase(TestCase):
         self.assertTrue(hasattr(RecitationVerseListAdminView, 'title'))
 
     def test_list_view_title_value(self):
-        self.assertEquals(RecitationVerseListAdminView.title, _('All Recitation Verses'))
+        self.assertEqual(RecitationVerseListAdminView.title, _('All Recitation Verses'))
 
     def test_list_view_has_list_display(self):
         self.assertTrue(hasattr(RecitationVerseListAdminView, 'list_display'))
 
     def test_list_display_value(self):
-        self.assertEquals(RecitationVerseListAdminView.list_display, (
+        self.assertEqual(RecitationVerseListAdminView.list_display, (
             ('id', _('ID')),
             ('recitation', _('recitation')),
             ('chapter', _('chapter')),
@@ -61,7 +61,7 @@ class RecitationVerseAdminListViewStructureTestCase(TestCase):
     def test_load_play_method_signature(self):
         expected_signature = ['self', 'obj']
         actual_signature = inspect.getfullargspec(RecitationVerseListAdminView.load_play)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class RecitationVerseAdminListViewTestCase(TestCase):
@@ -86,4 +86,4 @@ class RecitationVerseAdminListViewTestCase(TestCase):
 
     def test_it_return_the_correct_data(self):
         response = self.client.get(self.url)
-        self.assertQuerysetEqual(RecitationVerse.objects.all(), response.context['object_list'], ordered=False)
+        self.assertQuerySetEqual(RecitationVerse.objects.all(), response.context['object_list'], ordered=False)

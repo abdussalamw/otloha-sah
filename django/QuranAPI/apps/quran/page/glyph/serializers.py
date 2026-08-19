@@ -10,7 +10,7 @@ class GlyphSerializer(serializers.ModelSerializer):
             'id',
             'chapter',
             'page',
-            'verses',
+            'verse',
             'line_number',
             'min_x',
             'max_x',

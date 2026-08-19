@@ -1,4 +1,4 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from apps.tajweed.serializers import RuleSerializer
 
 
 class RulesListingAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         rules = RuleFilter(request.GET, Rule.objects.all())
@@ -19,7 +19,7 @@ class RulesListingAPIView(APIView):
 
 
 class RuleDetailsAPIView(APIView):
-    permission_classes = [TokenHasReadWriteScope]
+    permission_classes = [AllowAny]
 
     def get(self, request, rule_id):
         rule = get_object_or_404(Rule, pk=rule_id)

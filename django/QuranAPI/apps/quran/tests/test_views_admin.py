@@ -77,7 +77,7 @@ class BookDetailsViewTestCase(TestCase):
 
     def test_context_book_is_correct(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['book'], self.book)
+        self.assertEqual(response.context['book'], self.book)
 
     def test_title_exists_in_the_context(self):
         response = self.client.get(self.url)
@@ -85,7 +85,7 @@ class BookDetailsViewTestCase(TestCase):
 
     def test_context_title_is_correct(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['title'], "{} {}".format(self.book.translated_name, _("Book Details")))
+        self.assertEqual(response.context['title'], "{} {}".format(self.book.translated_name, _("Book Details")))
 
     def test_template_used(self):
         response = self.client.get(self.url)
@@ -108,7 +108,7 @@ class BookCreateAndUpdateViewTestCase(TestCase):
     def test_get_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(BookCreateAndUpdateView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_view_has_method_post(self):
         self.assertTrue(hasattr(BookCreateAndUpdateView(), 'post'))
@@ -119,7 +119,7 @@ class BookCreateAndUpdateViewTestCase(TestCase):
     def test_post_method_signature(self):
         expected_signature = ['self', 'request']
         actual_signature = inspect.getfullargspec(BookCreateAndUpdateView.get)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class BookCreateViewGETTestCase(TestCase):
@@ -156,7 +156,7 @@ class BookCreateViewGETTestCase(TestCase):
 
     def test_context_form_is_new_form(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance.pk, None)
+        self.assertEqual(response.context['form'].instance.pk, None)
 
 
 class BookUpdateViewGETTestCase(TestCase):
@@ -195,7 +195,7 @@ class BookUpdateViewGETTestCase(TestCase):
 
     def test_context_form_instance_is_equal_to_book(self):
         response = self.client.get(self.url)
-        self.assertEquals(response.context['form'].instance, self.book)
+        self.assertEqual(response.context['form'].instance, self.book)
 
 
 class BookCreateViewPOSTTestCase(TestCase):
@@ -234,7 +234,7 @@ class BookCreateViewPOSTTestCase(TestCase):
 
     def test_context_is_title_on_failure(self):
         response = self.client.post(self.url)
-        self.assertEquals(response.context['title'], _("Add New Book"))
+        self.assertEqual(response.context['title'], _("Add New Book"))
 
     def test_context_form_contains_errors_on_failure(self):
         response = self.client.post(self.url)
@@ -252,12 +252,12 @@ class BookCreateViewPOSTTestCase(TestCase):
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Book Created Successfully"))
+        self.assertEqual(str(msgs[0]), _("Book Created Successfully"))
 
 
 class BookUpdateViewPostTestCase(TestCase):
@@ -297,7 +297,7 @@ class BookUpdateViewPostTestCase(TestCase):
 
     def test_context_is_title_on_failure(self):
         response = self.client.post(self.url)
-        self.assertEquals(response.context['title'], "{} {}".format(_("Edit"), self.book.translated_name))
+        self.assertEqual(response.context['title'], "{} {}".format(_("Edit"), self.book.translated_name))
 
     def test_context_form_contains_errors_on_failure(self):
         response = self.client.post(self.url)
@@ -305,7 +305,7 @@ class BookUpdateViewPostTestCase(TestCase):
 
     def test_form_instance_is_equal_to_book_instance(self):
         response = self.client.post(self.url)
-        self.assertEquals(response.context['form'].instance, self.book)
+        self.assertEqual(response.context['form'].instance, self.book)
 
     def test_it_redirects_to_details_on_success(self):
         response = self.client.post(self.url, data=self.data)
@@ -317,14 +317,14 @@ class BookUpdateViewPostTestCase(TestCase):
             "narration": self.narration.pk
         })
         self.book.refresh_from_db()
-        self.assertEquals(self.book.name['ar'], "this is book name")
+        self.assertEqual(self.book.name['ar'], "this is book name")
 
     def test_response_contains_success_message(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = messages.get_messages(response.wsgi_request)
-        self.assertEquals(len(msgs), 1)
+        self.assertEqual(len(msgs), 1)
 
     def test_response_message_is_equal_to_created_successfully(self):
         response = self.client.post(self.url, data=self.data, follow=True)
         msgs = list(messages.get_messages(response.wsgi_request))
-        self.assertEquals(str(msgs[0]), _("Book Updated Successfully"))
+        self.assertEqual(str(msgs[0]), _("Book Updated Successfully"))

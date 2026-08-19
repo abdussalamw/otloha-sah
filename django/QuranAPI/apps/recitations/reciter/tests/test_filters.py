@@ -20,7 +20,7 @@ class ReciterAPIFilterStructureTestCase(TestCase):
         self.assertIn('model', ReciterAPIFilter.Meta.__dict__)
 
     def test_the_model_used_in_the_meta_is_reciter_Model(self):
-        self.assertEquals(Reciter, ReciterAPIFilter.Meta.model)
+        self.assertEqual(Reciter, ReciterAPIFilter.Meta.model)
 
     def test_it_has_fields_in_class_meta(self):
         self.assertIn('fields', ReciterAPIFilter.Meta.__dict__)
@@ -41,11 +41,11 @@ class ReciterAPIFilterStructureTestCase(TestCase):
     def test_search_method_signature(self):
         expected_signature = ['self', 'queryset', 'name', 'value']
         actual_signature = inspect.getfullargspec(ReciterAPIFilter.search)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_q_field_uses_search_method(self):
         field = self.fields.get('q')
-        self.assertEquals('search', field.method)
+        self.assertEqual('search', field.method)
 
 
 class ReciterAPIFilterSearchTestCase(TestCase):
@@ -59,7 +59,7 @@ class ReciterAPIFilterSearchTestCase(TestCase):
             value="te",
             name="q"
         )
-        self.assertQuerysetEqual(result, SearchProvider().search(
+        self.assertQuerySetEqual(result, SearchProvider().search(
             queryset=queryset,
             columns=['name'],
             value="te"), ordered=False)

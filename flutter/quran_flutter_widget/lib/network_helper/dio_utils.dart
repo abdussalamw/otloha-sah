@@ -199,24 +199,6 @@ class DioUtils {
 
     // printResponse(url, response);
 
-    if (response != null && response.statusCode == 401) {
-      await QuranWidgetInit.init(
-          clientId: Apis.clientId, clientSecret: Apis.clientSecret);
-      return request(
-        requestType,
-        url,
-        contentType: contentType,
-        queryParameters: queryParameters,
-        headers: headers,
-        body: body,
-        requestOption: requestOption,
-        isToCache: isToCache,
-        forceRefresh: forceRefresh,
-        daysToCache: daysToCache,
-        hoursToCache: hoursToCache,
-      );
-    }
-
     print('uri of api ${response?.realUri}');
 
     return response;

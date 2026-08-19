@@ -40,12 +40,12 @@ class BookFormTestCase(TestCase):
     def test_name_field_is_required(self):
         form = BookForm(data={'name': '', 'narration': self.narration})
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['name'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['name'][0].code, 'required')
 
     def test_narration_field_is_required(self):
         form = BookForm(data={'name': 'name', 'narration': ''})
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors.as_data()['narration'][0].code, 'required')
+        self.assertEqual(form.errors.as_data()['narration'][0].code, 'required')
 
     def test_it_raise_error_message_for_name_field(self):
         form = BookForm(data={'name': '', 'narration': self.narration})

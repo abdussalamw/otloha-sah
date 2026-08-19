@@ -28,10 +28,10 @@ class ExplanationModelStructureTestCase(TestCase):
         self.assertTrue(issubclass(Explanation, TranslatableModel))
 
     def test_meta_verbose_name_is_explanation(self):
-        self.assertEquals(Explanation._meta.verbose_name, _('Explanation'))
+        self.assertEqual(Explanation._meta.verbose_name, _('Explanation'))
 
     def test_meta_verbose_name_plural_is_explanations(self):
-        self.assertEquals(Explanation._meta.verbose_name_plural, _('Explanations'))
+        self.assertEqual(Explanation._meta.verbose_name_plural, _('Explanations'))
 
     # Test ID
 
@@ -61,7 +61,7 @@ class ExplanationModelStructureTestCase(TestCase):
         self.assertIn('field', Explanation.translatable['name'].keys())
 
     def test_if_field_key_in_name_key_of_translatable_extends_forms_CharField(self):
-        self.assertEquals(Explanation.translatable['name']['field'], forms.CharField)
+        self.assertEqual(Explanation.translatable['name']['field'], forms.CharField)
 
     # Test Name
 
@@ -82,7 +82,7 @@ class ExplanationModelStructureTestCase(TestCase):
 
     def test_name_verbose_name_value_is_Explanation_Name(self):
         name = Explanation._meta.get_field('name')
-        self.assertEquals(name.verbose_name, _('Explanation Name'))
+        self.assertEqual(name.verbose_name, _('Explanation Name'))
 
     # Test Narration
 
@@ -95,11 +95,11 @@ class ExplanationModelStructureTestCase(TestCase):
 
     def test_narration_field_is_related_to_narration_model(self):
         field = Explanation._meta.get_field("narration")
-        self.assertEquals(field.__dict__['related_model'], Narration)
+        self.assertEqual(field.__dict__['related_model'], Narration)
 
     def test_narration_field_on_delete_attribute_is_set_null(self):
         field = Explanation._meta.get_field("narration")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.SET_NULL)
 
     def test_if_narration_foreign_key_has_on_null_parameter_set_to_true(self):
         narration = Explanation._meta.get_field('narration')
@@ -163,17 +163,17 @@ class ExplanationModelStructureTestCase(TestCase):
     def test__str__signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(Explanation.__str__)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ExplanationStrTestCase(TestCase):
     def test__str__returns_name_if_available(self):
         explanation = ExplanationFactory()
-        self.assertEquals(str(explanation), explanation.translated_name)
+        self.assertEqual(str(explanation), explanation.translated_name)
 
     def test_it_returns_parent_name_does_not_exist(self):
         explanation = ExplanationFactory(name=None)
-        self.assertEquals(str(explanation), super(Explanation, explanation).__str__())
+        self.assertEqual(str(explanation), super(Explanation, explanation).__str__())
 
 
 class ExplanationVerseModelStructureTestCase(TestCase):
@@ -220,7 +220,7 @@ class ExplanationVerseModelStructureTestCase(TestCase):
         self.assertIn('field', ExplanationVerse.translatable['text'].keys())
 
     def test_if_field_key_in_text_key_of_translatable_extends_forms_CharField(self):
-        self.assertEquals(ExplanationVerse.translatable['text']['field'], forms.CharField)
+        self.assertEqual(ExplanationVerse.translatable['text']['field'], forms.CharField)
 
     # Test Explanation
 
@@ -233,11 +233,11 @@ class ExplanationVerseModelStructureTestCase(TestCase):
 
     def test_explanation_field_is_related_to_explanation_model(self):
         field = ExplanationVerse._meta.get_field("explanation")
-        self.assertEquals(field.__dict__['related_model'], Explanation)
+        self.assertEqual(field.__dict__['related_model'], Explanation)
 
     def test_explanation_field_on_delete_attribute_is_cascade(self):
         field = ExplanationVerse._meta.get_field("explanation")
-        self.assertEquals(field.__dict__['remote_field'].__dict__['on_delete'], models.CASCADE)
+        self.assertEqual(field.__dict__['remote_field'].__dict__['on_delete'], models.CASCADE)
 
     def test_explanation_field_null_value_is_equal_to_false(self):
         field = ExplanationVerse._meta.get_field('explanation')
@@ -321,7 +321,7 @@ class ExplanationVerseModelStructureTestCase(TestCase):
 
     def test_text_field_verbose_name_attribute_is_text(self):
         field = ExplanationVerse._meta.get_field('text')
-        self.assertEquals(field.verbose_name, _('Tafseer Text'))
+        self.assertEqual(field.verbose_name, _('Tafseer Text'))
 
     def test_page_number_field_is_set_null_to_true(self):
         field = ExplanationVerse._meta.get_field('text')

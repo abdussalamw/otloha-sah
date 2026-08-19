@@ -1,4 +1,3 @@
-from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from translation.serializers import TranslatableModelSerializer
 
@@ -54,15 +53,17 @@ class CharacterSerializer(ModelSerializer):
         fields = [
             'id',
             'character_text',
-            'character_number',
+            'rule_text',
             'word_text',
+            'character_number',
             'word_number',
-            'rule',
             'verse_number',
             'chapter_number',
-            'tajweed_book',
-            'tajweed_rule',
-            'tajweed_verse',
+            'word',
+            'verse',
+            'chapter',
+            'book',
+            'rule',
         ]
 
 

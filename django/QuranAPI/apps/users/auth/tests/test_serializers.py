@@ -25,7 +25,7 @@ class RegisterSerializerTestCase(TestCase):
              result : returning the correct fields for the serializer
         """
         data = self.serializer.data
-        self.assertEquals(set(data.keys()),
+        self.assertEqual(set(data.keys()),
                           {'username', 'email', 'phone'})
 
     def test_email_is_required(self):
@@ -37,7 +37,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data.pop('email')
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(serializer.errors.keys(), {'email'})
+        self.assertEqual(serializer.errors.keys(), {'email'})
 
     def test_it_return_validation_error_when_email_does_not_correct(self):
         """
@@ -48,7 +48,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data['email'] = 'bad email'
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(serializer.errors.keys(), {'email'})
+        self.assertEqual(serializer.errors.keys(), {'email'})
 
     def test_username_is_required(self):
         """
@@ -59,7 +59,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data.pop('username')
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(set(serializer.errors.keys()), {'username'})
+        self.assertEqual(set(serializer.errors.keys()), {'username'})
 
     def test_it_returns_validation_error_when_password_does_not_provided(self):
         """
@@ -70,7 +70,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data.pop('password')
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(set(serializer.errors.keys()), {'password'})
+        self.assertEqual(set(serializer.errors.keys()), {'password'})
 
     def test_it_returns_validation_error_when_phone_does_not_provided(self):
         """
@@ -81,7 +81,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data.pop('phone')
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(set(serializer.errors.keys()), {'phone'})
+        self.assertEqual(set(serializer.errors.keys()), {'phone'})
 
     def test_it_returns_validation_error_when_first_name_does_not_provided(self):
         """
@@ -92,7 +92,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data.pop('first_name')
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(set(serializer.errors.keys()), {'first_name'})
+        self.assertEqual(set(serializer.errors.keys()), {'first_name'})
 
     def test_it_returns_validation_error_when_last_name_does_not_provided(self):
         """
@@ -103,7 +103,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data.pop('last_name')
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(set(serializer.errors.keys()), {'last_name'})
+        self.assertEqual(set(serializer.errors.keys()), {'last_name'})
 
     def test_confirm_password_is_required(self):
         """
@@ -114,7 +114,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data.pop('confirm_password')
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(set(serializer.errors.keys()), {'confirm_password'})
+        self.assertEqual(set(serializer.errors.keys()), {'confirm_password'})
 
     def test_it_returns_validation_error_when_confirm_password_does_not_match_password(self):
         """
@@ -125,7 +125,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data['confirm_password'] = 'no matching'
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(set(serializer.errors.keys()), {'confirm_password'})
+        self.assertEqual(set(serializer.errors.keys()), {'confirm_password'})
 
     def test_it_returns_validation_errors_when_password_and_confirm_password_does_not_exist_on_create(self):
         """
@@ -137,7 +137,7 @@ class RegisterSerializerTestCase(TestCase):
         self.data.pop('confirm_password')
         serializer = RegisterSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(set(serializer.errors.keys()), {'password', 'confirm_password'})
+        self.assertEqual(set(serializer.errors.keys()), {'password', 'confirm_password'})
 
     def test_it_remove_confirm_password_from_validated_data_when_update(self):
         """
@@ -149,7 +149,7 @@ class RegisterSerializerTestCase(TestCase):
         serializer = RegisterSerializer(data=self.data, instance=user)
         serializer.is_valid()
         instance = serializer.save()
-        self.assertEquals(serializer.data['username'], instance.username)
+        self.assertEqual(serializer.data['username'], instance.username)
 
     def test_username_field_equals_user_in_user_object(self):
         data = self.serializer.data
@@ -182,7 +182,7 @@ class LoginSerializerTestCase(TestCase):
              result : returning the correct fields for the serializer
         """
         data = self.serializer.data
-        self.assertEquals(set(data.keys()), {'password'})
+        self.assertEqual(set(data.keys()), {'password'})
 
     def test_it_returns_error_when_no_data(self):
         serializer = LoginSerializer(data={})
@@ -219,7 +219,7 @@ class LoginSerializerTestCase(TestCase):
         self.data.pop('password')
         serializer = LoginSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
-        self.assertEquals(serializer.errors.keys(), {'password'})
+        self.assertEqual(serializer.errors.keys(), {'password'})
 
     def test_if_phone_and_username_is_removed_will_raise_error(self):
         """

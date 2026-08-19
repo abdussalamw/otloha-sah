@@ -36,13 +36,13 @@ class ExplanationVerseListingAdminViewStructureTestCase(TestCase):
         self.assertTrue(hasattr(ExplanationVerseListingView, 'title'))
 
     def test_list_view_title_value(self):
-        self.assertEquals(ExplanationVerseListingView.title, _('All Explanation Verses'))
+        self.assertEqual(ExplanationVerseListingView.title, _('All Explanation Verses'))
 
     def test_list_view_has_list_display(self):
         self.assertTrue(hasattr(ExplanationVerseListingView, 'list_display'))
 
     def test_list_display_value(self):
-        self.assertEquals(ExplanationVerseListingView.list_display, (
+        self.assertEqual(ExplanationVerseListingView.list_display, (
             ('id', _('ID')),
             ('explanations', _('Explanation')),
             ('verse_number', _('Verse Number')),
@@ -57,7 +57,7 @@ class ExplanationVerseListingAdminViewStructureTestCase(TestCase):
     def test_get_breadcrumb_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(ExplanationVerseListingView.get_breadcrumb)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_query_set(self):
         self.assertTrue(hasattr(ExplanationVerseListingView, 'get_queryset'))
@@ -65,7 +65,7 @@ class ExplanationVerseListingAdminViewStructureTestCase(TestCase):
     def test_get_queryset_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(ExplanationVerseListingView.get_queryset)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
     def test_it_has_get_actions(self):
         self.assertTrue(hasattr(ExplanationVerseListingView, 'get_actions'))
@@ -73,7 +73,7 @@ class ExplanationVerseListingAdminViewStructureTestCase(TestCase):
     def test_get_actions_method_signature(self):
         expected_signature = ['self']
         actual_signature = inspect.getfullargspec(ExplanationVerseListingView.get_actions)[0]
-        self.assertEquals(actual_signature, expected_signature)
+        self.assertEqual(actual_signature, expected_signature)
 
 
 class ExplanationVerseListingViewTestCase(TestCase):
