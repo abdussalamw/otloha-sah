@@ -28,6 +28,14 @@ class FavoritePagesDao extends DatabaseAccessor<AppDatabase>
           ..where((tbl) => tbl.idPage.equals(id) & tbl.userId.equals(userId)))
         .getSingleOrNull();
   }
+
+  /// البحث برقم الصفحة الفعلي (1-604) وليس بـ idPage الداخلي
+  Future<FavoritePage?> findByPageNumber(int pageNumber, int userId) async {
+    return (select(favoritePages)
+          ..where(
+              (tbl) => tbl.pageNumber.equals(pageNumber) & tbl.userId.equals(userId)))
+        .getSingleOrNull();
+  }
   //   List<Map<String, dynamic>> maps = await AppDatabase._db!.query(
   //       RunQueries.pageMarkedName,
   //       where: userId == 0 ? 'idPage = ?' : 'idPage = ? and userId = ?',

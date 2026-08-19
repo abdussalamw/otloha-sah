@@ -25,7 +25,7 @@ class NotificationsService {
 
   Future<void> markAllAsRead() async {
     await ApiBaseHelper().postHTTP(
-      '/api/v1/notifications/mark_as_read/',
+      '/api/v1/notifications/mark_all_as_read/',
       {},
       DioTypes.authRequired,
     );

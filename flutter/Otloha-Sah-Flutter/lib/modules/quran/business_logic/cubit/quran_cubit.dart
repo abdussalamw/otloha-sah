@@ -144,21 +144,14 @@ class QuranViewCubit extends Cubit<QuranViewState> {
     }
 
     int uid = (await UserDataServices.instance.getUserData())?.id ?? 0;
-    like = await DatabaseRepository.favoriteVersesDao!
-        .findById(QuranCacheRepository.lastPageNumber ?? 1, uid);
-    mark = await DatabaseRepository.favoritePagesDao!
-        .findById(QuranCacheRepository.lastPageNumber ?? 1, uid);
-    if (like != null) {
-      isLiked = true;
-    } else {
-      isLiked = false;
-    }
+    int currentPage = QuranCacheRepository.lastPageNumber ?? 1;
 
-    if (mark != null) {
-      isBookmarked = true;
-    } else {
-      isBookmarked = false;
-    }
+    // البحث برقم الصفحة الفعلي (1-604) بدل المعرّف الداخلي
+    like = await DatabaseRepository.instance.findVerseLikedByPage(currentPage, uid);
+    mark = await DatabaseRepository.instance.findPageMarkedByPage(currentPage, uid);
+
+    isLiked = like != null;
+    isBookmarked = mark != null;
 
     emit(ChangeBookMarkState());
   }

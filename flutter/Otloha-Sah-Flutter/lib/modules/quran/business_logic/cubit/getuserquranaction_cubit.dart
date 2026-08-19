@@ -120,7 +120,7 @@ class GetUserQuranActionCubit extends Cubit<GetUserQuranActionState> {
   deleteVerseBookMark(int id) {
     databaseRepository.deletePageMarked(id)!.then((value) {
       findAllPageMarkeds();
-      if (value != null && value.isNotEmpty) {
+      if (value != null && value > 0) {
         emit(DeleteUserQuranActionBookMark());
       } else {
         emit(DeleteUserQuranActionBookMarkError());

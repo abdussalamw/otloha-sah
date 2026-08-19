@@ -71,6 +71,14 @@ class DatabaseRepository {
   // findPageMarkedById(int id, int userId) async =>
   //     await favoritePagesDao!.findById(id, userId);
 
+  /// البحث عن علامة مرجعية برقم الصفحة الفعلي
+  Future<FavoritePage?> findPageMarkedByPage(int pageNumber, int userId) async =>
+      await favoritePagesDao!.findByPageNumber(pageNumber, userId);
+
+  /// البحث عن آية مفضلة برقم الصفحة الفعلي
+  Future<FavoriteVerse?> findVerseLikedByPage(int pageNumber, int userId) async =>
+      await favoriteVersesDao!.findByPageNumber(pageNumber, userId);
+
   Future<FavoritePage> insertPageMarked(FavoritePage pageMarked) async {
     int id = await favoritePagesDao!.insert(pageMarked);
     return pageMarked.copyWith(id: id);

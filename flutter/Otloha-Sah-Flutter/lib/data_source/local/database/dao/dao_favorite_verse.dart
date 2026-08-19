@@ -14,6 +14,14 @@ class FavoriteVersesDao extends DatabaseAccessor<AppDatabase>
         .getSingleOrNull();
   }
 
+  /// البحث برقم الصفحة الفعلي (1-604) وليس بـ id الداخلي
+  Future<FavoriteVerse?> findByPageNumber(int pageNumber, int userId) async {
+    return (select(favoriteVerses)
+          ..where(
+              (tbl) => tbl.pageNumber.equals(pageNumber) & tbl.userId.equals(userId)))
+        .getSingleOrNull();
+  }
+
   Future<int> insert(FavoriteVerse favoriteVerse) async {
     return into(favoriteVerses).insert(favoriteVerse);
   }

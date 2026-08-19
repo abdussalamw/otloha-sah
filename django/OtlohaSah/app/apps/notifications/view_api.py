@@ -52,6 +52,12 @@ class NotificationsViewSet(ViewSet):
         return Response({})
 
     @action(detail=False, methods=['post'])
+    def mark_all_as_read(self, request):
+        """تحديد جميع إشعارات المستخدم كمقروءة دفعة واحدة"""
+        self.get_queryset(request).filter(is_read=False).update(is_read=True)
+        return Response({"message": "تم تحديد الكل كمقروء"})
+
+    @action(detail=False, methods=['post'])
     def update_settings(self, request):
         user_via = request.user.notifications_via_settings.all()
         via_options = dict(Via.VIA_CHOICES)
