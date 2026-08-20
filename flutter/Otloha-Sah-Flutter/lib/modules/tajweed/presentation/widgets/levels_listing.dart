@@ -47,7 +47,7 @@ class _LevelsListingState extends State<LevelsListing> {
       getData: (next) {
         return ApiBaseHelper().getHTTP(
           '/api/v1/tajweed/levels/',
-          dioTypes: DioTypes.authRequired,
+          dioTypes: DioTypes.noAuthRequired,
         );
       },
       scrollDirection: Axis.horizontal,

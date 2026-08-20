@@ -84,7 +84,24 @@ class DatabaseRepository {
     return pageMarked.copyWith(id: id);
   }
 
-  updatePageMarked(pageMarked) async => favoritePagesDao!.update(pageMarked);
+  updatePageMarked(pageMarked) async =>
+      favoritePagesDao!.updatePage(pageMarked);
+
+  Future<void> migrateGuestQuranData(int userId) async {
+    if (userId <= 0) {
+      return;
+    }
+
+    final guestPages = await favoritePagesDao!.findAll(0);
+    for (final page in guestPages) {
+      await favoritePagesDao!.updatePage(page.copyWith(userId: userId));
+    }
+
+    final guestVerses = await favoriteVersesDao!.findAll(0);
+    for (final verse in guestVerses) {
+      await favoriteVersesDao!.updateVerse(verse.copyWith(userId: userId));
+    }
+  }
 
   deletePageMarked(int id) async => favoritePagesDao!.deletePage(id);
 

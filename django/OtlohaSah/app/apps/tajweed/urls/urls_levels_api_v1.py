@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:pk>/lessons/', LevelLessonsListView.as_view(), name="level-lesson-stats"),
     path('stats/', LevelStatsListView.as_view(), name="stats"),
     path('<int:pk>/stats/', LevelRetrieveView.as_view(), name='level-detail'),
+    path('<int:pk>/', LevelRetrieveView.as_view(), name='details'),
 ]

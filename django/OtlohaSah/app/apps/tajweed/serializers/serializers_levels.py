@@ -23,17 +23,32 @@ class LevelDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'stats']
 
     def get_stats(self, obj):
-        user = self.context['request'].user
-        level = obj
-        total_lessons = TajweedLesson.objects.filter(lesson_level=level).count()
-        stats = TajweedLesson.objects.filter(tajweeduserprogress__level=level,
-                                             tajweeduserprogress__user=user).aggregate(
-            total_lessons=Count('id'),
-            total_lessons_read=Count('id', filter=Q(tajweeduserprogress__read__gt=0)),
-            total_lessons_completed=Count('id', filter=Q(tajweeduserprogress__completed=100)),
+        request = self.context.get('request')
+        total_lessons = TajweedLesson.objects.filter(lesson_level=obj).count()
+        stats = {
+            'total_lessons': total_lessons,
+            'total_lessons_read': 0,
+            'total_lessons_completed': 0,
+            'total_user_rate': None,
+        }
+        if request is None or not request.user.is_authenticated:
+            return stats
+
+        user_stats = TajweedLesson.objects.filter(
+            tajweeduserprogress__level=obj,
+            tajweeduserprogress__user=request.user,
+        ).aggregate(
+            total_lessons_read=Count(
+                'id',
+                filter=Q(tajweeduserprogress__read__gt=0),
+            ),
+            total_lessons_completed=Count(
+                'id',
+                filter=Q(tajweeduserprogress__completed=100),
+            ),
             total_user_rate=Avg('tajweeduserprogress__rate'),
         )
-        stats['total_lessons'] = total_lessons
+        stats.update(user_stats)
         return stats
 
 
@@ -45,10 +60,12 @@ class LevelSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'color', 'value', 'completed']
 
     def get_completed(self, obj):
-        if self.context.get('request', None):
-            avg_completion = \
-                TajweedUserProgress.objects.filter(user=self.context['request'].user, level_id=obj).aggregate(
-                    Avg('completed'))[
-                    'completed__avg']
-            return (avg_completion) * 100 if avg_completion is not None else 0
-        return 0
+        request = self.context.get('request')
+        if request is None or not request.user.is_authenticated:
+            return 0
+
+        avg_completion = TajweedUserProgress.objects.filter(
+            user=request.user,
+            level_id=obj.id,
+        ).aggregate(Avg('completed'))['completed__avg']
+        return avg_completion * 100 if avg_completion is not None else 0

@@ -35,10 +35,14 @@ class LessonDetailSerializer(serializers.ModelSerializer):
         return number_of_children
 
     def get_completed_lessons(self, obj):
-        if not self.context['request'].user.is_authenticated:
+        request = self.context.get('request')
+        if request is None or not request.user.is_authenticated:
             return 0
-        else:
-            return TajweedUserProgress.objects.filter(parent=obj.pk, completed=100).count()
+        return TajweedUserProgress.objects.filter(
+            user=request.user,
+            parent=obj.pk,
+            completed=100,
+        ).count()
 
     class Meta:
         model = TajweedLesson
@@ -61,11 +65,21 @@ class LessonSerializer(serializers.ModelSerializer):
         return number_of_children
 
     def get_completed_lessons(self, obj):
-        if not self.context['request'].user.is_authenticated:
+        request = self.context.get('request')
+        if request is None or not request.user.is_authenticated:
             return 0
-        else:
-            return TajweedUserProgress.objects.filter(parent=obj.pk, completed=100).count()
+        return TajweedUserProgress.objects.filter(
+            user=request.user,
+            parent=obj.pk,
+            completed=100,
+        ).count()
 
     def get_total_lessons_read(self, obj):
-        return TajweedUserProgress.objects.filter(user=self.context['request'].user, lesson_id=obj.pk,
-                                                  read__gt=0).count()
+        request = self.context.get('request')
+        if request is None or not request.user.is_authenticated:
+            return 0
+        return TajweedUserProgress.objects.filter(
+            user=request.user,
+            lesson_id=obj.pk,
+            read__gt=0,
+        ).count()

@@ -376,7 +376,7 @@ class DataSource {
         tafseerId: tafseetId,
         chapter: chapter,
         pageNum: pageNum,
-        verseNum: pageNum,
+        verseNum: verseNum,
         onDownloadProgress: onDownloadProgress,
       );
 

@@ -9,18 +9,13 @@ part 'language_state.dart';
 class LanguageCubit extends Cubit<LanguageState> {
   LanguageCubit() : super(LanguageInitial());
 
-  changeLan(bool isEnC, BuildContext context) {
-    context.setLocale(Locale(isEnC ? 'en' : 'ar'));
+  Future<void> changeLan(bool isEnC, BuildContext context) async {
+    final locale = Locale(isEnC ? 'en' : 'ar');
+    await context.setLocale(locale);
+
     Constants.isEn = isEnC;
-    if (Constants.isEn) {
-      EasyLocalization.of(context)!.setLocale(const Locale('en'));
-      LanguageCode.locale = 'en';
-      Get.updateLocale(const Locale('en')); //   Restart.restartApp();
-    } else {
-      EasyLocalization.of(context)!.setLocale(const Locale('ar'));
-      LanguageCode.locale = 'ar';
-      Get.updateLocale(const Locale('ar'));
-    }
+    LanguageCode.locale = locale.languageCode;
+    await Get.updateLocale(locale);
     emit(LanguageChange());
   }
 }

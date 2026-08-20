@@ -39,7 +39,7 @@ class _LessonsListingState extends State<LessonsListing> {
       getData: (next) {
         return ApiBaseHelper().getHTTP(
           '/api/v1/tajweed/levels/${widget.level.id}/lessons/',
-          dioTypes: DioTypes.authRequired,
+          dioTypes: DioTypes.noAuthRequired,
         );
       },
       drowItem: (lesson, idx) => TajweedLessonCard(

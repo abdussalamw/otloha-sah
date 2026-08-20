@@ -4,7 +4,7 @@ part of '../database/database.dart';
 class FavoriteVersesDao extends DatabaseAccessor<AppDatabase>
     with _$FavoriteVersesDaoMixin {
   FavoriteVersesDao(super.attachedDatabase);
-  Future<Future<List<FavoriteVerse>>> findAll(int userId) async {
+  Future<List<FavoriteVerse>> findAll(int userId) async {
     return (select(favoriteVerses)..where((tbl) => tbl.userId.equals(userId)))
         .get();
   }

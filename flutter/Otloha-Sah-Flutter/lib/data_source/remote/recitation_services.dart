@@ -25,7 +25,9 @@ class UserRecitationApi {
       File file = File(userRecitation.record);
       print(await file.length());
 
-      ChunkedUploader chunkedUploader = ChunkedUploader(ApiBaseHelper().dio);
+      ChunkedUploader chunkedUploader = ChunkedUploader(
+        ApiBaseHelper().baseDio(DioTypes.authRequired),
+      );
 
       Response? response = await chunkedUploader.uploadUsingFilePath(
         filePath: userRecitation.record,
@@ -50,8 +52,7 @@ class UserRecitationApi {
 
       return recitation;
     } on NetworkConnectionException catch (_) {
-      await DatabaseRepository.instance
-          .deleteUserRecitation(userRecitation.id!);
+      // احتفظ بالتسجيل المحلي حتى ينجح الرفع المؤجل فعلياً.
       map.remove('records');
       await QueueManager(apiHandler: ApiBaseHelper()).addRequest(
           '/api/v1/recitations/',

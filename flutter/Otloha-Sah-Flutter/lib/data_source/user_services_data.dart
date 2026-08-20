@@ -82,6 +82,7 @@ class UserDataServices {
     await CacheHelper.clearData(key: Constants.userDataKey);
     await CacheHelper.clearData(key: Constants.userIdKey);
     await CacheHelper.clearData(key: Constants.tokenKey);
+    await CacheHelper.clearData(key: Constants.tokenRefrechKey);
     await CacheHelper.clearData(key: Constants.teacherProfile);
 
     await QueueManager(apiHandler: ApiBaseHelper()).clear();
@@ -126,12 +127,15 @@ class UserDataServices {
     _user?.favoriteTeacher = null;
   }
 
-  insertUser(User user) async {
+  Future<void> insertUser(User user) async {
+    await DatabaseRepository.instance.initDb;
+    await DatabaseRepository.instance.migrateGuestQuranData(user.id);
+
     await CacheHelper.saveData(key: Constants.userIdKey, value: user.id);
-
     await CacheHelper.saveData(
-        key: Constants.userDataKey, value: jsonEncode(user.toJson()));
-
-    DatabaseRepository.instance.insertUser(user);
+      key: Constants.userDataKey,
+      value: jsonEncode(user.toJson()),
+    );
+    await DatabaseRepository.instance.insertUser(user);
   }
 }

@@ -10,7 +10,7 @@ class TajweedService {
   Future<Lesson?> getLesson(int id) async {
     Response? response = await _apiBaseHelper.getHTTP(
         '/api/v1/tajweed/lessons/$id/',
-        dioTypes: DioTypes.authRequired);
+        dioTypes: DioTypes.noAuthRequired);
 
     if (response == null) {
       return null;

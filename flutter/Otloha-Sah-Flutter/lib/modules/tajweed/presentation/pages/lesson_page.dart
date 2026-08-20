@@ -184,7 +184,7 @@ class _LessonPageState extends State<LessonPage> {
                     getData: (next) {
                       return ApiBaseHelper().getHTTP(
                         '/api/v1/tajweed/lessons/${widget.lesson.id}/sub-lessons/',
-                        dioTypes: DioTypes.authRequired,
+                        dioTypes: DioTypes.noAuthRequired,
                       );
                     },
                     drowItem: (lesson, idx) => TajweedLessonCard(

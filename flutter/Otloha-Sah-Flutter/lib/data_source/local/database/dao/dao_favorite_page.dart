@@ -58,6 +58,10 @@ class FavoritePagesDao extends DatabaseAccessor<AppDatabase>
   //   return pageMarked;
   // }
 
+  Future<bool> updatePage(FavoritePage favoritePage) async {
+    return update(favoritePages).replace(favoritePage);
+  }
+
   Future<int> deletePage(int id) async {
     return (delete(favoritePages)..where((tbl) => tbl.id.equals(id))).go();
   }

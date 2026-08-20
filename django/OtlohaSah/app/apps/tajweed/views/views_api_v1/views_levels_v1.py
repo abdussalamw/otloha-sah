@@ -1,7 +1,7 @@
 from django.db.models import Avg
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListAPIView, RetrieveAPIView, get_object_or_404
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.tajweed.models import TajweedLevel, TajweedLesson, TajweedUserProgress
@@ -44,7 +44,7 @@ class LevelStatsListView(ListAPIView):
 
 class LevelRetrieveView(RetrieveAPIView):
     serializer_class = LevelDetailSerializer
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [AllowAny]
 
     @swagger_auto_schema(
         operation_description="Retrieve details of a Tajweed level by ID.",
@@ -66,7 +66,7 @@ class LevelListView(ListAPIView):
         }
     )
     def list(self, request, *args, **kwargs):
-        levels = TajweedLevel.objects.all()
+        levels = TajweedLevel.objects.order_by('value')
         paginator = self.pagination_class()
         paginated_queryset = paginator.paginate_queryset(levels, request)
         serializer = self.get_serializer(paginated_queryset, many=True, context={'request': request})
@@ -75,7 +75,7 @@ class LevelListView(ListAPIView):
 
 class LevelLessonsListView(ListAPIView):
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = TajweedLesson.objects.all()
 
     @swagger_auto_schema(

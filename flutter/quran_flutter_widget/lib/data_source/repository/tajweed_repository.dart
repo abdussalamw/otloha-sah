@@ -39,7 +39,7 @@ class TajweedRepository {
   }) async {
     TajweedBook? tajweed = await _tajweedLocalDataSource.findTajweedById(id);
 
-    if (tajweed != null) {
+    if (tajweed == null) {
       final MyResponse<TajweedBook> response =
           await _tajweedApi.fetchTajweedBookById(id);
       if (response.code == Apis.codeSUCCESS) {

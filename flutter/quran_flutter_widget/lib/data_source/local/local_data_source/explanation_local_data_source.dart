@@ -61,9 +61,14 @@ class ExplanationLocalDataSource {
   Future<List<ExplanationVerse>?> findAllExplanationVerse(int explId,
       {int? chapter}) async {
     final db = await QuranDatabaseSource.instance.database;
-    return (chapter != null)
-        ? db?.explanationVerseDao.findExplanationVersesFliterChapter(chapter)
-        : db?.explanationVerseDao.findAllExplanationVerse(explId);
+    final verses = await db?.explanationVerseDao
+        .findAllExplanationVerse(explId);
+    if (chapter == null) {
+      return verses;
+    }
+    return verses
+        ?.where((verse) => verse.chapterNumber == chapter)
+        .toList();
   }
 
   Future<List<ExplanationVerse>?> getSavedChaptersByBookId(int bookId) async {

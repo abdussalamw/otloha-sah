@@ -49,9 +49,14 @@ class TranslationLocalDataSource {
       {int? chapter}) async {
     final db = await QuranDatabaseSource.instance.database;
 
-    return chapter != null
-        ? db?.translationVerseDao.findExplanationVersesFliterChapter(chapter)
-        : db?.translationVerseDao.findAllTranslationVerses(translation);
+    final verses = await db?.translationVerseDao
+        .findAllTranslationVerses(translation);
+    if (chapter == null) {
+      return verses;
+    }
+    return verses
+        ?.where((verse) => verse.chapterNumber == chapter)
+        .toList();
   }
 
   Future<TranslationVerse?> findTranslationVerseById(int id) async {
