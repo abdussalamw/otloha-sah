@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:archive/archive_io.dart';
@@ -45,6 +46,26 @@ class SetupQuranPage extends StatefulWidget {
 }
 
 class _SetupQuranPageState extends State<SetupQuranPage> {
+  static const _defaultContentReleaseBaseUrl =
+      'https://github.com/abdussalamw/otloha-sah/releases/download/v4.0-otloha-sah';
+
+  String get _contentReleaseBaseUrl {
+    final configuredUrl =
+        dotenv.env['QURAN_CONTENT_RELEASE_BASE_URL']?.trim() ?? '';
+    final parsedUrl = Uri.tryParse(configuredUrl);
+
+    // تُقبل أصول المحتوى عبر HTTPS فقط. لا يرتبط هذا الرابط بخادم الحسابات.
+    if (parsedUrl != null &&
+        parsedUrl.scheme == 'https' &&
+        parsedUrl.host.isNotEmpty) {
+      return configuredUrl.replaceFirst(RegExp(r'/+$'), '');
+    }
+    return _defaultContentReleaseBaseUrl;
+  }
+
+  String _contentAssetUrl(String assetName) =>
+      '$_contentReleaseBaseUrl/$assetName';
+
   String _selectedLanguage = 'ar'; // 'ar' or 'en'
   bool _isDarkMode = false; // false = Light, true = Dark
   int _selectedNarration = 1; // 1 = Hafs, 2 = Warsh, 3 = Qaloon
@@ -125,7 +146,7 @@ class _SetupQuranPageState extends State<SetupQuranPage> {
       // 1. Download DB
       setState(() => _statusText = 'جاري تنزيل بيانات المصحف والتفسير...');
       await dio.download(
-        'https://github.com/abdussalamw/otloha-sah/releases/download/v4.0-otloha-sah/quran_hafs_data.db',
+        _contentAssetUrl('quran_hafs_data.db'),
         dbPath,
         onReceiveProgress: (count, total) {
           if (total > 0) {
@@ -140,7 +161,7 @@ class _SetupQuranPageState extends State<SetupQuranPage> {
       setState(() =>
           _statusText = 'جاري تنزيل خطوط المصحف (قد يستغرق بعض الوقت)...');
       await dio.download(
-        'https://github.com/abdussalamw/otloha-sah/releases/download/v4.0-otloha-sah/quran_fonts_qfc4.zip',
+        _contentAssetUrl('quran_fonts_qfc4.zip'),
         fontsZipPath,
         onReceiveProgress: (count, total) {
           if (total > 0) {
