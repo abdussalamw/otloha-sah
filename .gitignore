@@ -5,6 +5,8 @@ venv_52/
 __pycache__/
 *.sqlite3
 .env
+.env.local
+*.env.local
 media/
 staticfiles/
 requirements_52.txt

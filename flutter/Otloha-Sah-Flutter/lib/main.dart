@@ -34,11 +34,13 @@ import 'package:otloha_sah_flutter/modules/users/cubit/teachers_list_cubit/teach
 import 'package:otloha_sah_flutter/modules/tajweed/presentation/pages/levels_page.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:retry_queue_manager/retry_queue_manager.dart';
+import 'package:quran_widget_flutter/network_helper/apis.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:slack_logger/slack_logger.dart';
 
 import 'app_router.dart';
 import 'core/resources/theme_manager.dart';
+import 'core/utils/constant/constants.dart';
 import 'core/utils/services/navigator_service.dart';
 import 'core/utils/themes/color.dart';
 import 'core/widgets/text_view.dart';
@@ -101,6 +103,8 @@ void main() async {
   } catch (e) {
     debugPrint('DotEnv load error: $e');
   }
+  Constants.isTesting = dotenv.env['APP_ENV'] == 'development';
+  Apis.configureBaseUrl(dotenv.env['QURAN_API_BASE_URL']);
 
   try {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

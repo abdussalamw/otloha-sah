@@ -13,6 +13,13 @@ class Apis extends Object {
 
   static String baseUrl = 'https://api.otlohasah.org';
 
+  static void configureBaseUrl(String? url) {
+    if (url == null || url.trim().isEmpty) {
+      return;
+    }
+    baseUrl = url.trim().replaceFirst(RegExp(r'/+$'), '');
+  }
+
   static String get basePath => baseUrl + '/api/v1/';
   static String get imageUrl => basePath;
 
