@@ -14,6 +14,7 @@ import '../../business_logic/quran_hafs_state.dart';
 import '../../data/quran_hafs_repository.dart';
 import '../../data/quran_hafs_metadata.dart';
 import '../widgets/quran_hafs_page_widget.dart';
+import '../../../quran/presentation/widget/quranenc_tafseer_widget.dart';
 
 class QuranHafsPage extends StatefulWidget {
   static const routeName = '/quran_hafs';
@@ -126,24 +127,18 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
                   child: TabBarView(
                     children: [
                       // Tafseer
-                      SingleChildScrollView(
-                        child: Text(
-                          tafseer.ayaTafseer,
-                          style: AppTypography.bodyMedium(color: AppColors.textSecondaryLight).copyWith(
-                            height: 1.6,
-                            fontSize: 16,
-                          ),
-                          textDirection: TextDirection.rtl,
-                        ),
+                      QuranEncTafseerWidget(
+                        sura: sura,
+                        aya: ayah,
+                        fallbackTafseer: tafseer.ayaTafseer,
+                        isTranslationMode: false,
                       ),
                       // Translation
-                      SingleChildScrollView(
-                        child: Center(
-                          child: Text(
-                            'الترجمة جاري ربطها قريباً...',
-                            style: AppTypography.bodyMedium(color: AppColors.textSecondaryLight),
-                          ),
-                        ),
+                      QuranEncTafseerWidget(
+                        sura: sura,
+                        aya: ayah,
+                        fallbackTafseer: '',
+                        isTranslationMode: true,
                       ),
                       // Tajweed
                       SingleChildScrollView(
