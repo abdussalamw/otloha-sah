@@ -50,17 +50,23 @@ class UserRecitationCubit extends Cubit<UserRecitationState> {
   Future fetchSentRecitation(int keyNext) async {
     // if (localUserRecitations.isEmpty || userRecitatios.isEmpty) {
     emit(UserRecitationLoading());
+    final currentUserId = UserDataServices.instance.getUserId();
     localUserRecitations = (await DatabaseRepository.instance
-            .fetchUserRecitations(UserDataServices.instance.getUserId()!)) ??
+            .fetchUserRecitations(currentUserId ?? 0)) ??
         [];
 
     emit(SentRecitationFetched());
+
+    if (currentUserId == null) {
+      emit(UserRecitationFetched());
+      return;
+    }
 
     List<re.Recitation>? userRec;
 
     try {
       Map<String, dynamic>? result = await AppDataSource()
-          .getUserReciataions(keyNext, UserDataServices.instance.getUserId()!);
+          .getUserReciataions(keyNext, currentUserId);
       userRec = result!['recitations'];
 
       if (userRec != null && userRec.isNotEmpty) {

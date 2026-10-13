@@ -102,6 +102,10 @@ class _QuranPageState extends State<QuranPage> {
                           cubit.onTap(verse);
                           widget.onTap(cubit.isSelected, cubit.selectedVerses);
                         },
+                        // ─── مرحلة 3: ضغطة مزدوجة موحدة ───
+                        onDoubleTap: (Verse verse) {
+                          cubit.doubleTapVerse(verse);
+                        },
                       ),
                     ),
                   ],

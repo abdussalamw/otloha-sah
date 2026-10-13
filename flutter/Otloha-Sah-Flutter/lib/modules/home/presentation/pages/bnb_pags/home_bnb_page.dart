@@ -57,153 +57,157 @@ class _HomeBNBPageState extends State<HomeBNBPage> {
       child: Scaffold(
         backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // 1. Header Card (User, Settings, & Stats)
-                _buildHeaderCard(context, isDark),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // 1. Header Card (User, Settings, & Stats)
+                        _buildHeaderCard(context, isDark),
 
-                const SizedBox(height: 4),
+                        const SizedBox(height: 6),
 
-                // 2. Group 1: Quran Tools (ملاحظاتي - الآيات المفضلة - فواصل المصحف)
-                _buildGroupCard(
-                  context,
-                  title: 'أدوات القرآن الكريم',
-                  isDark: isDark,
-                  children: [
-                    _buildIconItem(
-                      context,
-                      title: translate('Note'),
-                      icon: Icons.edit_note_rounded,
-                      color: const Color(0xFF007AFF),
-                      onTap: () => AuthNavigator.of(context)!.pushConditionally(
-                        context,
-                        NotesVersePage.routeName,
-                        arguments: 1,
-                      ),
-                    ),
-                    _buildIconItem(
-                      context,
-                      title: translate('Likes'),
-                      icon: Icons.favorite_rounded,
-                      color: const Color(0xFFFF2D55),
-                      onTap: () => AuthNavigator.of(context)!.pushConditionally(
-                        context,
-                        LikedVersesPage.routeName,
-                      ),
-                    ),
-                    _buildIconItem(
-                      context,
-                      title: translate('BookMarks'),
-                      icon: Icons.bookmark_rounded,
-                      color: const Color(0xFFFF9500),
-                      onTap: () => AuthNavigator.of(context)!.pushConditionally(
-                        context,
-                        PagesBookMarkPage.routeName,
-                        arguments: 2,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 4),
-
-                // 3. Group 2: Recitations & Community (تسجيلاتي - المحادثات - تلاوات المعلمين - المستخدمين)
-                _buildGroupCard(
-                  context,
-                  title: 'التلاوات والتواصل',
-                  isDark: isDark,
-                  children: [
-                    _buildIconItem(
-                      context,
-                      title: translate('my_records'),
-                      icon: Icons.mic_rounded,
-                      color: AppColors.primary,
-                      onTap: () => AuthNavigator.of(context)!.pushConditionally(
-                        context,
-                        RecitationsPage.routeName,
-                      ),
-                    ),
-                    _buildIconItem(
-                      context,
-                      title: translate('Conversations'),
-                      icon: Icons.forum_rounded,
-                      color: const Color(0xFF5856D6),
-                      onTap: () => AuthNavigator.of(context)!.pushConditionally(
-                        context,
-                        Routes.messages,
-                      ),
-                    ),
-                    _buildIconItem(
-                      context,
-                      title: translate('TeachersRecitation'),
-                      icon: Icons.record_voice_over_rounded,
-                      color: const Color(0xFF34C759),
-                      onTap: () => AuthNavigator.of(context)!.pushConditionally(
-                        context,
-                        Routes.messageTeacher,
-                      ),
-                    ),
-                    _buildIconItem(
-                      context,
-                      title: translate('Users'),
-                      icon: Icons.group_rounded,
-                      color: const Color(0xFF00C7BE),
-                      onTap: () => Get.to(() => const UsersListing()),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 4),
-
-                // 4. Group 3: Honor Board (لوحة الشرف)
-                _buildGroupCard(
-                  context,
-                  title: 'الإنجاز والتميز',
-                  isDark: isDark,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () => Get.to(() => const StudentsPage()),
-                        borderRadius: AppRadius.radiusMd,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFFFD700), Color(0xFFFF9500)],
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
+                        // 2. Group 1: Quran Tools (ملاحظاتي - الآيات المفضلة - فواصل المصحف)
+                        _buildGroupCard(
+                          context,
+                          title: 'أدوات القرآن الكريم',
+                          isDark: isDark,
+                          children: [
+                            _buildIconItem(
+                              context,
+                              title: translate('Note'),
+                              icon: Icons.edit_note_rounded,
+                              color: const Color(0xFF007AFF),
+                              onTap: () => Navigator.of(context).pushNamed(
+                                NotesVersePage.routeName,
+                                arguments: 1,
+                              ),
                             ),
-                            borderRadius: AppRadius.radiusMd,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.emoji_events_rounded, color: Colors.white, size: 36),
-                              const SizedBox(width: 8),
-                              Text(
-                                translate('HonorBoard'),
-                                style: AppTypography.bodyMedium(color: Colors.white).copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
+                            _buildIconItem(
+                              context,
+                              title: translate('Likes'),
+                              icon: Icons.favorite_rounded,
+                              color: const Color(0xFFFF2D55),
+                              onTap: () => Navigator.of(context).pushNamed(
+                                LikedVersesPage.routeName,
+                              ),
+                            ),
+                            _buildIconItem(
+                              context,
+                              title: translate('BookMarks'),
+                              icon: Icons.bookmark_rounded,
+                              color: const Color(0xFFFF9500),
+                              onTap: () => Navigator.of(context).pushNamed(
+                                PagesBookMarkPage.routeName,
+                                arguments: 2,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 6),
+
+                        // 3. Group 2: Recitations & Community (تسجيلاتي - المحادثات - تلاوات المعلمين - المستخدمين)
+                        _buildGroupCard(
+                          context,
+                          title: 'التلاوات والتواصل',
+                          isDark: isDark,
+                          children: [
+                            _buildIconItem(
+                              context,
+                              title: translate('my_records'),
+                              icon: Icons.mic_rounded,
+                              color: AppColors.primary,
+                              onTap: () => Navigator.of(context).pushNamed(
+                                RecitationsPage.routeName,
+                              ),
+                            ),
+                            _buildIconItem(
+                              context,
+                              title: translate('Conversations'),
+                              icon: Icons.forum_rounded,
+                              color: const Color(0xFF5856D6),
+                              onTap: () => Navigator.of(context).pushNamed(
+                                Routes.messages,
+                              ),
+                            ),
+                            _buildIconItem(
+                              context,
+                              title: translate('TeachersRecitation'),
+                              icon: Icons.record_voice_over_rounded,
+                              color: const Color(0xFF34C759),
+                              onTap: () => Navigator.of(context).pushNamed(
+                                Routes.messageTeacher,
+                              ),
+                            ),
+                            _buildIconItem(
+                              context,
+                              title: translate('Users'),
+                              icon: Icons.group_rounded,
+                              color: const Color(0xFF00C7BE),
+                              onTap: () => Get.to(() => const UsersListing()),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 6),
+
+                        // 4. Group 3: Honor Board (لوحة الشرف)
+                        _buildGroupCard(
+                          context,
+                          title: 'الإنجاز والتميز',
+                          isDark: isDark,
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () => Get.to(() => const StudentsPage()),
+                                borderRadius: AppRadius.radiusMd,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [Color(0xFFFFD700), Color(0xFFFF9500)],
+                                      begin: Alignment.topRight,
+                                      end: Alignment.bottomLeft,
+                                    ),
+                                    borderRadius: AppRadius.radiusMd,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.emoji_events_rounded, color: Colors.white, size: 36),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        translate('HonorBoard'),
+                                        style: AppTypography.bodyMedium(color: Colors.white).copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
+
+                        const SizedBox(height: 6),
+
+                        // 5. Footer Row (كيف يعمل التطبيق - التواصل والدعم - عن التطبيق)
+                        _buildFooterRow(context, isDark),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-
-                const SizedBox(height: 4),
-
-                // 5. Footer Row (كيف يعمل التطبيق - التواصل والدعم - عن التطبيق)
-                _buildFooterRow(context, isDark),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),

@@ -87,7 +87,7 @@ class RecitationAddCubit extends Cubit<RecitationAddState> {
       name: getName(),
       versesList: recordedVersesId,
       chapterId: QuranCacheRepository.selectedChapterId,
-      userId: UserDataServices.instance.getUserDataFast()!.id,
+      userId: UserDataServices.instance.getUserDataFast()?.id ?? 0,
     );
 
     var recitation =

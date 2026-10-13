@@ -243,11 +243,14 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
               Tooltip(
                 message: 'ضغطة للإضافة - ضغطة مطولة لفتح الإشارات المرجعية',
                 child: InkWell(
-                  onLongPress: () {
-                    Navigator.of(context).pushNamed(
+                  onLongPress: () async {
+                    final result = await Navigator.of(context).pushNamed(
                       PagesBookMarkPage.routeName,
                       arguments: 2,
                     );
+                    if (result != null && result is int) {
+                      _pageController.jumpToPage(result - 1);
+                    }
                   },
                   onTap: () {
                     QuranHafsCubit.get(context).toggleBookmark(_currentPage);
@@ -256,7 +259,7 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(
                       isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                      color: Colors.white,
+                      color: isBookmarked ? Colors.amber : Colors.white,
                     ),
                   ),
                 ),
@@ -273,8 +276,10 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
                 child: Row(
                   children: [
                     Text(
-                      QuranHafsMetadata.getSuraName(QuranHafsMetadata.getJuzForPage(_currentPage)), // We can improve this if needed
-                      style: AppTypography.bodyMedium(color: Colors.white),
+                      'سورة ${QuranHafsMetadata.getSuraName(QuranHafsMetadata.getSuraForPage(_currentPage))}',
+                      style: AppTypography.bodyMedium(color: Colors.white).copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(width: 4),
                     const Icon(Icons.list, color: Colors.white, size: 20),

@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_widget_flutter/quran_widget_flutter.dart';
+import 'package:quran_widget_flutter/src/plugin_src/business/quran_cubit.dart';
 
 import '../../../../core/design_system/tokens/app_colors.dart';
 import '../../../../core/design_system/tokens/app_radius.dart';
@@ -179,14 +180,25 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
 
             const Spacer(),
 
-            // Center: Juz Name (e.g. الجزء الأول)
-            Text(
-              'الجزء الأول',
-              style: AppTypography.bodyMedium(color: Colors.white).copyWith(
-                fontFamily: 'Hafs20',
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-              ),
+            // Center: Juz Name — ديناميكي من QuranCubit
+            Builder(
+              builder: (ctx) {
+                // نحاول قراءة الجزء الحالي من QuranCubit الداخلي (widget)
+                // إذا لم يكن متاحاً بعد نعرض فراغاً بدون خطأ
+                String partName = '';
+                try {
+                  final innerCubit = QuranCubit.get(ctx);
+                  partName = innerCubit.currentPart?.name ?? '';
+                } catch (_) {}
+                return Text(
+                  partName,
+                  style: AppTypography.bodyMedium(color: Colors.white).copyWith(
+                    fontFamily: 'Hafs20',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
+                );
+              },
             ),
 
             const Spacer(),
@@ -275,6 +287,11 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
   Widget _viewPageReading(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // ─── مرحلة 5: إلغاء التحديد عند الضغط خارج الآيات ───
+        final viewCubit = QuranViewCubit.get(context);
+        if (viewCubit.selectedVerses.isNotEmpty) {
+          viewCubit.hideToolBar();
+        }
         BlocProvider.of<BallViewCubit>(context).setHaveOpcity();
       },
       child: Padding(
@@ -306,21 +323,27 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
                             bookId: cubit!.bookId,
                             narrationId: cubit!.narrationId,
                             onTap: (isVerSelected, selectedVerses) {
+                              // ─── مرحلة 4: تحديث QuranViewCubit فوراً ───
+                              cubit!.setSelectedVerses(selectedVerses ?? []);
                               cubit!.isVerSelected(isVerSelected);
                               cubit!.changeIsSelectedVerse();
-                              cubit!.changeIsOnTruePressed();
-                              addCubit!.setSelectedVerses(selectedVerses!);
-                              cubit!.setSelectedVerses(selectedVerses);
+                              if (selectedVerses?.isNotEmpty == true) {
+                                cubit!.changeIsOnTruePressed();
+                              }
+                              addCubit!.setSelectedVerses(selectedVerses ?? []);
                             },
                             onPageTypeChage: (pageType) {
                               cubit!.changePageType(page: pageType);
                             },
                             onLongTap: (isVerSelected, selectedVerses) {
+                              // ─ نفس سلوك onTap بعد التوحيد
+                              cubit!.setSelectedVerses(selectedVerses ?? []);
                               cubit!.isVerSelected(isVerSelected);
                               cubit!.changeIsSelectedVerse();
-                              cubit!.changeIsOnTruePressed();
-                              addCubit!.setSelectedVerses(selectedVerses!);
-                              cubit!.setSelectedVerses(selectedVerses);
+                              if (selectedVerses?.isNotEmpty == true) {
+                                cubit!.changeIsOnTruePressed();
+                              }
+                              addCubit!.setSelectedVerses(selectedVerses ?? []);
                             },
                             onPageChange: (int pageNumber) async {
                               QuranPlayerCubit.get(context).setPageChange();

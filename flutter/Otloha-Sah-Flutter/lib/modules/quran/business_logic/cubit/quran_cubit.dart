@@ -308,10 +308,10 @@ class QuranViewCubit extends Cubit<QuranViewState> {
     mark = await DatabaseRepository.instance.insertPageMarked(
       FavoritePage(
         id: 0,
-        idPage: verses.first.pageId ?? 0,
-        idBook: verses.first.bookId ?? 0,
+        idPage: verses.isNotEmpty ? (verses.first.pageId ?? 0) : 0,
+        idBook: verses.isNotEmpty ? (verses.first.bookId ?? 0) : 0,
         pageNumber: QuranCacheRepository.lastPageNumber ?? 1,
-        textVerse: getFirstWords(verses.first.text ?? '', 5),
+        textVerse: verses.isNotEmpty ? getFirstWords(verses.first.text ?? '', 5) : 'صفحة ${QuranCacheRepository.lastPageNumber ?? 1}',
         userId: uid,
       ),
     );
@@ -330,6 +330,7 @@ class QuranViewCubit extends Cubit<QuranViewState> {
   }
 
   void hideToolBar() {
+    selectedVerses.clear();
     checkVersesValue = false;
     emit(CheckIsVerseEmptyState());
   }

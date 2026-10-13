@@ -13,14 +13,12 @@ import 'package:otloha_sah_flutter/core/design_system/tokens/app_typography.dart
 import 'package:otloha_sah_flutter/core/utils/res/icons_app.dart';
 import 'package:otloha_sah_flutter/core/widgets/password_form_field.dart';
 import 'package:otloha_sah_flutter/core/widgets/text_from_fielid.dart';
-import 'package:otloha_sah_flutter/core/widgets/text_view.dart';
 import 'package:otloha_sah_flutter/core/widgets/tool_bar_app.dart';
 import 'package:otloha_sah_flutter/core/widgets/vali_errorr_text.dart';
 import 'package:otloha_sah_flutter/data_source/remote/auth_services.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/business_logic/auth_cubit.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/forget_password_page.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/sign_up.dart';
-import 'package:otloha_sah_flutter/modules/auth_module/presentation/widget/page_head_text.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/widget/page_layout.dart';
 import 'package:otloha_sah_flutter/modules/home/business_logic/cubit/home_cubit.dart';
 import 'package:otloha_sah_flutter/modules/home/presentation/pages/home/home_page.dart';
@@ -68,17 +66,19 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             ToolBarApp(
               backIcon: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              title: tr('Login'),
+              titleWidget: Text(
+                tr('Login'),
+                style: AppTypography.h3Bold(color: Colors.white).copyWith(fontSize: 18),
+              ),
             ),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(AppSpacing.md),
                 child: Column(
                   children: [
-                    const SizedBox(height: AppSpacing.sm),
                     const SizedBox(height: AppSpacing.sm),
                     // Stitch Brand Header
                     Image.asset(
@@ -123,6 +123,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  String _getErrorMessage(dynamic err) {
+    if (err == null) return '';
+    if (err is String) return err;
+    if (err is List && err.isNotEmpty) return err.first.toString();
+    if (err is Map && err.isNotEmpty) {
+      final firstVal = err.values.first;
+      if (firstVal is List && firstVal.isNotEmpty) return firstVal.first.toString();
+      return firstVal.toString();
+    }
+    return err.toString();
+  }
+
   Widget loginForm(AuthCubit cubit, bool isDark) {
     return Form(
       key: formKey,
@@ -143,11 +155,9 @@ class _LoginPageState extends State<LoginPage> {
                       FormBuilderValidators.required(),
                     ],
                   ),
-                  if (state is LogInErrorState)
+                  if (state is LogInErrorState && state.error['identifier'] != null)
                     ValidationErrorText(
-                      error: (state.error['identifier'] != null)
-                          ? state.error['identifier'][0]
-                          : '',
+                      error: _getErrorMessage(state.error['identifier']),
                     ),
                 ],
               ),
@@ -165,23 +175,27 @@ class _LoginPageState extends State<LoginPage> {
                       FormBuilderValidators.required(),
                     ],
                   ),
-                  if (state is LogInErrorState)
+                  if (state is LogInErrorState && state.error['password'] != null)
                     ValidationErrorText(
-                      error: (state.error['password'] != null)
-                          ? state.error['password'][0]
-                          : '',
+                      error: _getErrorMessage(state.error['password']),
                     ),
                 ],
               ),
 
-              if (state is LogInErrorState)
-                ValidationErrorText(
-                  error: (state.error['non_field_errors'] != null)
-                      ? state.error['non_field_errors']
-                      : (state.error['__all__'] != null)
-                          ? state.error['__all__'][0]
-                          : '',
-                ),
+              if (state is LogInErrorState) ...[
+                if (state.error['non_field_errors'] != null)
+                  ValidationErrorText(
+                    error: _getErrorMessage(state.error['non_field_errors']),
+                  )
+                else if (state.error['detail'] != null)
+                  ValidationErrorText(
+                    error: _getErrorMessage(state.error['detail']),
+                  )
+                else if (state.error['__all__'] != null)
+                  ValidationErrorText(
+                    error: _getErrorMessage(state.error['__all__']),
+                  ),
+              ],
 
               // Forgot Password link
               Align(
@@ -223,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                                   FocusScope.of(context).unfocus();
                                   if (formKey.currentState!.validate()) {
                                     await cubit.userLogIn(
-                                      email: emailController.text,
+                                      email: emailController.text.trim(),
                                       password: passwordController.text,
                                     );
                                   }
@@ -267,21 +281,71 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
 
-              if (Platform.isAndroid) ...[
-                const SizedBox(height: AppSpacing.md),
-                const Divider(),
+              // Social Login Section
+              const SizedBox(height: AppSpacing.lg),
+              Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+                    child: Text(
+                      'أو من خلال',
+                      style: AppTypography.caption(
+                        color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.md),
+
+              // Google Sign In
+              SocialLoginButton(
+                buttonType: SocialLoginButtonType.google,
+                text: 'تسجيل الدخول عبر Google',
+                borderRadius: 12,
+                onPressed: () {
+                  cubit.loginWith(Providers.google);
+                },
+              ),
+
+              // Apple Sign In (iOS and Supported platforms)
+              if (Platform.isIOS || Platform.isMacOS) ...[
                 const SizedBox(height: AppSpacing.sm),
                 SocialLoginButton(
-                  buttonType: SocialLoginButtonType.facebook,
+                  buttonType: SocialLoginButtonType.apple,
+                  text: 'تسجيل الدخول عبر Apple',
+                  borderRadius: 12,
                   onPressed: () {
-                    cubit.loginWith(Providers.facebook);
+                    cubit.loginWith(Providers.apple);
                   },
                 ),
               ],
+
+              // Facebook Sign In
+              const SizedBox(height: AppSpacing.sm),
+              SocialLoginButton(
+                buttonType: SocialLoginButtonType.facebook,
+                text: 'تسجيل الدخول عبر Facebook',
+                borderRadius: 12,
+                onPressed: () {
+                  cubit.loginWith(Providers.facebook);
+                },
+              ),
             ],
           );
         },
       ),
     );
+
   }
 }

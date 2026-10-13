@@ -14,6 +14,7 @@ import '../../../../../core/exception_indicators/exception_indicator.dart';
 import '../../../../../core/utils/constant/utils.dart';
 import '../../../../home/presentation/pages/home/home_page.dart';
 import '../../../../settings/presentation/widgets/search_bar_app.dart';
+import '../../../../../data_source/cache_helper.dart';
 import '../../../business_logic/cubit/getuserquranaction_cubit.dart';
 import '../../../business_logic/cubit/quran_cubit.dart';
 
@@ -66,15 +67,26 @@ class LikedVersesPage extends StatelessWidget {
                 itemCount: verses.length,
                 itemBuilder: (context, index) {
                   return _itemBuild(() {
-                    QuranViewCubit.get(context)
-                        .controller
-                        .changeInitPage(verses[index].pageNumber);
+                    final selectedPage = verses[index].pageNumber;
+                    if (CacheHelper.getData(key: 'selected_narration_id') == 1) {
+                      CacheHelper.saveData(key: 'hafs_initial_page', value: selectedPage);
+                    } else {
+                      try {
+                        QuranViewCubit.get(context)
+                            .controller
+                            .changeInitPage(selectedPage);
+                      } catch (_) {}
+                    }
 
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      HomePage.routeName,
-                      ModalRoute.withName('/'),
-                      arguments: 2,
-                    );
+                    if (Navigator.canPop(context)) {
+                      Navigator.of(context).pop(selectedPage);
+                    } else {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        HomePage.routeName,
+                        ModalRoute.withName('/'),
+                        arguments: 2,
+                      );
+                    }
                   }, index, context, verses[index]);
                 },
               );

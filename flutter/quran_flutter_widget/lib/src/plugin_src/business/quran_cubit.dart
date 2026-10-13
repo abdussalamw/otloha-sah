@@ -9,11 +9,13 @@ import 'package:quran_widget_flutter/data_source/cache/chash_helper.dart';
 
 import 'package:quran_widget_flutter/data_source/local/local_data_source/verses_local_data_source.dart';
 import 'package:quran_widget_flutter/helper/q.dart';
-import 'package:quran_widget_flutter/helper/utils.dart';
+
 import 'package:quran_widget_flutter/model/word.dart';
 import 'package:quran_widget_flutter/quran_widget_flutter.dart';
 import 'package:quran_widget_flutter/src/plugin_src/data/quran_service.dart';
 import 'package:quran_widget_flutter/src/plugin_src/presentation/widgets/word_widget.dart';
+import 'package:quran_widget_flutter/src/plugin_src/presentation/widgets/page_widget.dart'
+    show kQuranFontSize;
 
 part 'quran_state.dart';
 
@@ -416,34 +418,46 @@ class QuranCubit extends Cubit<QuranState> {
     emit(FetchPreviousPageState());
   }
 
+  // ─── المرحلة 1: onTap يبدأ التحديد فوراً (موحّد للثلاث روايات) ───
   onTap(Verse verse) async {
-    if (selectedVerses.isNotEmpty) {
-      if (selectedVerses.contains(verse)) {
-        selectedVerses.clear();
+    if (selectedVerses.isEmpty) {
+      // أول ضغطة → ابدأ التحديد مباشرة
+      selectedVerses.add(verse);
+      CacheHelper.saveData(
+          key: Q.selectedVerses,
+          value: json.encode(versesListToJson(selectedVerses)));
+    } else if (selectedVerses.length == 1 && selectedVerses.contains(verse)) {
+      // نفس الآية المحددة → إلغاء التحديد
+      selectedVerses.clear();
+    } else {
+      // آية أخرى → توسيع النطاق (range select)
+      if (selectedVerses.last.pageNumber != verse.pageNumber) {
+        pageController.jumpToPage(
+            pages.keys.toList().indexOf(selectedVerses.last.pageNumber ?? 1));
+      }
+      List<Verse> range = [];
+      if (selectedVerses.last.id! < verse.id!) {
+        range = allVerses
+            .where((e) =>
+                selectedVerses.last.id! <= e.id! &&
+                e.id! <= verse.id! &&
+                selectedVerses.last.pageNumber == e.pageNumber)
+            .toList();
       } else {
-        List<Verse> verses = [];
-        if (selectedVerses.last.pageNumber != verse.pageNumber) {
-          pageController.jumpToPage(selectedVerses.last.pageNumber! - 1);
-        }
-        if (selectedVerses.last.id! < verse.id!) {
-          verses = allVerses
-              .where((element) =>
-                  selectedVerses.last.id! <= element.id! &&
-                  element.id! <= verse.id! &&
-                  selectedVerses.last.pageNumber == element.pageNumber)
-              .toList();
-        } else {
-          verses = allVerses
-              .where((element) =>
-                  selectedVerses.first.id! > element.id! &&
-                  element.id! >= verse.id! &&
-                  selectedVerses.last.pageNumber == element.pageNumber)
-              .toList();
-        }
-
-        selectedVerses.addAll(verses);
+        range = allVerses
+            .where((e) =>
+                selectedVerses.first.id! > e.id! &&
+                e.id! >= verse.id! &&
+                selectedVerses.last.pageNumber == e.pageNumber)
+            .toList();
+      }
+      if (range.isNotEmpty) {
+        selectedVerses
+          ..addAll(range)
+          ..sort((a, b) => a.id!.compareTo(b.id!));
+        // إزالة التكرار
+        selectedVerses = selectedVerses.toSet().toList();
         selectedVerses.sort((a, b) => a.id!.compareTo(b.id!));
-
         CacheHelper.saveData(
             key: Q.selectedVerses,
             value: json.encode(versesListToJson(selectedVerses)));
@@ -452,16 +466,32 @@ class QuranCubit extends Cubit<QuranState> {
     emit(OnPressState());
   }
 
+  // ─── المرحلة 2: onLongTap موحّد مع onTap ───
   onLongTap(Verse verse) async {
-    if (selectedVerses.isEmpty) {
-      selectedVerses.add(verse);
-      CacheHelper.saveData(
-          key: Q.selectedVerses,
-          value: json.encode(versesListToJson(selectedVerses)));
-    } else {
-      await onTap(verse);
-    }
+    await onTap(verse); // نفس السلوك تماماً
     emit(OnLongPressState());
+  }
+
+  // ─── المرحلة 3: doubleTapVerse مشتركة للثلاث روايات ───
+  void doubleTapVerse(Verse verse, {Word? word}) {
+    selectCurrentVerse(verse, word: word);
+    switch (QuranCacheRepository.lastPageType) {
+      case 'PageType.tafsir':
+        selectCurrentVerse(verse);
+        setPageType(PageType.tafsir);
+        break;
+      case 'PageType.tajwid':
+        selectCurrentVerse(verse, word: word);
+        setPageType(PageType.tajwid);
+        break;
+      case 'PageType.translation':
+        selectCurrentVerse(verse);
+        setPageType(PageType.translation);
+        break;
+      default:
+        selectCurrentVerse(verse, word: word);
+        setPageType(PageType.tajwid);
+    }
   }
 
   changePage(int pageNumber) {
@@ -562,12 +592,7 @@ class QuranCubit extends Cubit<QuranState> {
           if (wordLineIdx >= 0 && wordLineIdx < lines.length) {
             lines[wordLineIdx].add(
               WordWidget(
-                lineFontSize: getLineFontSize(
-                  getLineText(versesList, word.lineNumber ?? 1),
-                  verse.pageNumber ?? 1,
-                  word.lineNumber ?? 1,
-                  context,
-                ),
+                lineFontSize: kQuranFontSize,
                 playingVerse: playingVerse,
                 verseStyles: verseStyles,
                 selectedVerses: selectedVerses,
@@ -590,96 +615,11 @@ class QuranCubit extends Cubit<QuranState> {
     // emit(CreateWordsWidgets());
   }
 
-  Size calcTextSize(String text, double fontSize) {
-    final TextPainter textPainter = TextPainter(
-      text: TextSpan(
-        text: text,
-        style: TextStyle(
-          fontSize: fontSize,
-          fontFamily: 'Hafs20',
-        ),
-      ),
-      textDirection: TextDirection.rtl,
-      textScaleFactor: WidgetsBinding.instance!.window.textScaleFactor,
-    )..layout();
-    // print('$text ${textPainter.size} $fontSize');
-    return textPainter.size;
-  }
-
-  List<WordLinePage> wordLinePage = [];
-  getLineFontSize(
-      List<Word> words, int pageNumber, int lineNumber, BuildContext context) {
-    String line = '';
-    for (var word in words) {
-      line += word.text;
-    }
-    line += ' ';
-
-    double fontSize = 16;
-    if (wordLinePage
-        .where((element) =>
-            element.page == pageNumber && element.line == lineNumber)
-        .isNotEmpty) {
-      double font = wordLinePage
-          .firstWhere((element) =>
-              element.page == pageNumber && element.line == lineNumber)
-          .font;
-      // print('$lineNumber $font');
-      return font;
-    }
-    // print(Utils.deviceWidthInPixel(context));
-    while (true) {
-      if (calcTextSize(line, fontSize).width >=
-              Utils.deviceWidthInPixel(context) - 50 ||
-          fontSize >= (Utils.deviceWidthInPixel(context) > 500 ? 40 : 22)) {
-        wordLinePage.add(
-          WordLinePage(
-            line: words.first.lineNumber!,
-            page: pageNumber,
-            font: fontSize - 3,
-          ),
-        );
-        return fontSize - 3;
-      } else {
-        fontSize++;
-      }
-    }
-  }
-
   List<Word> getLineText(List<Verse> versesList, int lineNumber) {
     List<Word> words = [];
-
     for (var element in versesList) {
       if (element.words != null) words.addAll(element.words!);
     }
-
     return words.where((element) => element.lineNumber == lineNumber).toList();
-  }
-}
-
-class WordLinePage {
-  int line;
-  int page;
-  double font;
-
-  WordLinePage({
-    required this.line,
-    required this.page,
-    required this.font,
-  });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is WordLinePage &&
-        other.font == font &&
-        other.page == page &&
-        other.line == line;
-  }
-
-  @override
-  int get hashCode {
-    return line.hashCode ^ page.hashCode ^ font.hashCode;
   }
 }

@@ -44,36 +44,8 @@ class WordWidget extends StatelessWidget {
       verse = versesList.firstWhere((element) => element.id == word!.verse);
     }
     void doubleTap() {
-      if (customWords == null) {
-        QuranCubit.get(context).selectCurrentVerse(verse!, word: word);
-      }
-      switch (QuranCacheRepository.lastPageType) {
-        case 'PageType.tafsir':
-          {
-            QuranCubit.get(context).selectCurrentVerse(verse!);
-            QuranCubit.get(context).setPageType(PageType.tafsir);
-            break;
-          }
-        case 'PageType.tajwid':
-          {
-            QuranCubit.get(context).selectCurrentVerse(verse!, word: word);
-            QuranCubit.get(context).setPageType(PageType.tajwid);
-            break;
-          }
-        case 'PageType.translation':
-          {
-            QuranCubit.get(context).selectCurrentVerse(
-              verse!,
-            );
-            QuranCubit.get(context).setPageType(PageType.translation);
-            break;
-          }
-        default:
-          {
-            QuranCubit.get(context).selectCurrentVerse(verse!, word: word);
-            QuranCubit.get(context).setPageType(PageType.tajwid);
-          }
-      }
+      // ─── مرحلة 3: نستخدم الدالة المشتركة من QuranCubit ───
+      QuranCubit.get(context).doubleTapVerse(verse!, word: word);
     }
 
     Color? verseColor() {

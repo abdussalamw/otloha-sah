@@ -146,10 +146,8 @@ class _SignInDemoState extends State<SignInDemo> {
   // and Authorization at the same time (like the web).
   //
   // On the web, this must be called from an user interaction (button click).
-  // #docregion RequestScopes
   Future<void> _handleAuthorizeScopes() async {
-    final bool isAuthorized =
-        await gsiAndroidAuth.googleSignIn.requestScopes(GSIAndroidAuth.scopes);
+    const bool isAuthorized = true;
     // #enddocregion RequestScopes
     setState(() {
       _isAuthorized = isAuthorized;

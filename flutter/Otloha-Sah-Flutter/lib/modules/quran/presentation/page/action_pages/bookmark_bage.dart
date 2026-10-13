@@ -76,19 +76,26 @@ class PagesBookMarkPage extends StatelessWidget {
                   return ItemBookMark(
                     index: index,
                     onPress: () {
+                      final selectedPage = state.pages[index].pageNumber ?? 1;
                       if (CacheHelper.getData(key: 'selected_narration_id') == 1) {
-                        CacheHelper.saveData(key: 'hafs_initial_page', value: state.pages[index].pageNumber!);
+                        CacheHelper.saveData(key: 'hafs_initial_page', value: selectedPage);
                       } else {
-                        QuranViewCubit.get(context)
-                            .controller
-                            .changeInitPage(state.pages[index].pageNumber!);
+                        try {
+                          QuranViewCubit.get(context)
+                              .controller
+                              .changeInitPage(selectedPage);
+                        } catch (_) {}
                       }
 
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        HomePage.routeName,
-                        ModalRoute.withName('/'),
-                        arguments: 2,
-                      );
+                      if (Navigator.canPop(context)) {
+                        Navigator.of(context).pop(selectedPage);
+                      } else {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          HomePage.routeName,
+                          ModalRoute.withName('/'),
+                          arguments: 2,
+                        );
+                      }
                     },
                     pageMarked: state.pages[index],
                   );

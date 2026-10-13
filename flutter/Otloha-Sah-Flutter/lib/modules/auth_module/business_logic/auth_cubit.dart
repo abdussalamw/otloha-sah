@@ -118,10 +118,17 @@ class AuthCubit extends Cubit<AuthState> {
 
       SplashCubit.isLogin = true;
 
+      // مزامنة الملف الشخصي للمستخدم وحفظ userId محلياً
+      try {
+        await SplashCubit().getUsersInfo();
+      } catch (e) {
+        log('Error fetching user profile after login: $e');
+      }
+
       emit(LogInSuccessState());
     } on InvalidData catch (error) {
       emit(LogInErrorState(error.errors!));
-    } on AuthError catch (error) {
+    } on AuthError catch (_) {
       emit(LogInErrorState({'non_field_errors': translate('Invalid credentials')}));
     } on Exception catch (e, _) {
       print(e);
@@ -249,12 +256,30 @@ class AuthCubit extends Cubit<AuthState> {
 
   Map<Providers, BaseProvider> providers = {
     Providers.facebook: FacebookProvider(),
+    Providers.google: GoogleProvider(),
+    Providers.apple: AppleProvider(),
   };
 
   Future loginWith(Providers provider) async {
-    final response = await providers[provider]!.login();
+    emit(LogInLoadingState());
     try {
-      // await thenAuth(response);
+      final response = await providers[provider]!.login();
+      if (response.data != null && response.data is Map) {
+        final data = response.data as Map;
+        String? access = data['access'] ?? data['access_token'];
+        String? refresh = data['refresh'] ?? data['refresh_token'];
+        if (access != null) {
+          await UserDataServices.instance.saveToken(access, refresh);
+          SplashCubit.isLogin = true;
+          try {
+            await SplashCubit().getUsersInfo();
+          } catch (e) {
+            log('Error fetching user info after social login: $e');
+          }
+          emit(LogInSuccessState());
+          return;
+        }
+      }
       emit(LogInSuccessState());
     } on InvalidData catch (error) {
       emit(LogInErrorState(error.errors!));

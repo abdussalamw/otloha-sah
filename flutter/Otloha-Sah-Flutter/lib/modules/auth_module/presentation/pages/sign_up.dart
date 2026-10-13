@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -15,18 +15,17 @@ import 'package:otloha_sah_flutter/core/design_system/tokens/app_typography.dart
 import 'package:otloha_sah_flutter/core/utils/constant/constants.dart';
 import 'package:otloha_sah_flutter/core/utils/constant/utils.dart';
 import 'package:otloha_sah_flutter/core/utils/res/icons_app.dart';
-import 'package:otloha_sah_flutter/core/utils/themes/color.dart';
 import 'package:otloha_sah_flutter/core/widgets/password_form_field.dart';
 import 'package:otloha_sah_flutter/core/widgets/text_from_fielid.dart';
 import 'package:otloha_sah_flutter/core/widgets/tool_bar_app.dart';
 import 'package:otloha_sah_flutter/core/widgets/vali_errorr_text.dart';
-import 'package:otloha_sah_flutter/data_source/enums/roles.dart';
+import 'package:otloha_sah_flutter/data_source/remote/auth_services.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/business_logic/auth_cubit.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/check_otp_page.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/terms_conditions_page.dart';
-import 'package:otloha_sah_flutter/modules/auth_module/presentation/widget/page_head_text.dart';
 import 'package:otloha_sah_flutter/modules/auth_module/presentation/widget/page_layout.dart';
 import 'package:otloha_sah_flutter/modules/home/presentation/pages/home/home_page.dart';
+import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:otloha_sah_flutter/modules/profile/presentation/page/settings/register_as_techer.dart';
 import 'package:password_strength_checker/password_strength_checker.dart';
 
@@ -58,10 +57,13 @@ class SignUpPage extends StatelessWidget {
             children: [
               ToolBarApp(
                 backIcon: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                title: tr('Register New Account'),
+                titleWidget: Text(
+                  tr('Register New Account'),
+                  style: AppTypography.h3Bold(color: Colors.white).copyWith(fontSize: 18),
+                ),
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -472,7 +474,68 @@ class _SignFormState extends State<SignForm> {
                         );
                 },
               ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Social Registration Section
+              Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+                    child: Text(
+                      'أو التسجيل من خلال',
+                      style: AppTypography.caption(
+                        color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.md),
+
+              // Google Sign Up
+              SocialLoginButton(
+                buttonType: SocialLoginButtonType.google,
+                text: 'التسجيل عبر Google',
+                borderRadius: 12,
+                onPressed: () {
+                  widget.cubit.loginWith(Providers.google);
+                },
+              ),
+
+              // Apple Sign Up (iOS and Supported platforms)
+              if (Platform.isIOS || Platform.isMacOS) ...[
+                const SizedBox(height: AppSpacing.sm),
+                SocialLoginButton(
+                  buttonType: SocialLoginButtonType.apple,
+                  text: 'التسجيل عبر Apple',
+                  borderRadius: 12,
+                  onPressed: () {
+                    widget.cubit.loginWith(Providers.apple);
+                  },
+                ),
+              ],
+
+              // Facebook Sign Up
               const SizedBox(height: AppSpacing.sm),
+              SocialLoginButton(
+                buttonType: SocialLoginButtonType.facebook,
+                text: 'التسجيل عبر Facebook',
+                borderRadius: 12,
+                onPressed: () {
+                  widget.cubit.loginWith(Providers.facebook);
+                },
+              ),
+              const SizedBox(height: AppSpacing.md),
             ],
           );
         },

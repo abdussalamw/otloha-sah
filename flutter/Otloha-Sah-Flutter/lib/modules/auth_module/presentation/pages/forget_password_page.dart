@@ -40,14 +40,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             children: [
               ToolBarApp(
                 backIcon: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  icon: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                  ),
                   onPressed: () {
                     if (Navigator.of(context).canPop()) {
                       Navigator.of(context).pop();
                     }
                   },
                 ),
-                title: tr('استعادة كلمة المرور'),
+                titleWidget: Text(
+                  tr('استعادة كلمة المرور'),
+                  style: AppTypography.h3Bold(
+                    color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                  ).copyWith(fontSize: 18),
+                ),
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -108,7 +116,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   ),
                                   if (state is ForgotPasswordErrorState)
                                     ValidationErrorText(
-                                      error: (state.error['email'] != null) ? state.error['email'][0] : '',
+                                      error: (state.error['email'] != null)
+                                          ? (state.error['email'] is List
+                                              ? state.error['email'][0].toString()
+                                              : state.error['email'].toString())
+                                          : (state.error['detail'] != null
+                                              ? state.error['detail'].toString()
+                                              : ''),
                                     ),
                                   const SizedBox(height: AppSpacing.lg),
                                   (state is ForgotPasswordLoadingState)

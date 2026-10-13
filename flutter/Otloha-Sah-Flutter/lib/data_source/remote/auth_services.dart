@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'package:otloha_sah_flutter/core/network/api_base_helper.dart';
 import 'package:otloha_sah_flutter/core/utils/constant/constants.dart';
@@ -140,27 +140,28 @@ class SocialAuth {
 }
 
 abstract class BaseProvider {
+  String get providerKey;
   Future<Map<String, dynamic>> authenticate();
   Future<Response> login() async {
     final data = await authenticate();
     return ApiBaseHelper().postHTTP(
-      '/api/v1/social/${getProviderName().toLowerCase()}/',
+      '/api/v2/social-login/',
       data,
       DioTypes.noAuthRequired,
     );
-  }
-
-  String getProviderName() {
-    return runtimeType.toString().split('Provider')[0];
   }
 }
 
 enum Providers {
   google,
   facebook,
+  apple,
 }
 
 class FacebookProvider extends BaseProvider {
+  @override
+  String get providerKey => 'facebook';
+
   @override
   Future<Map<String, dynamic>> authenticate() async {
     final LoginResult result = await FacebookAuth.instance.login(permissions: [
@@ -170,25 +171,74 @@ class FacebookProvider extends BaseProvider {
       'user_gender',
     ]);
 
-    print(result.toString());
-    // print(result.accessToken);
-    // print(await FacebookAuth.instance
-    //     .getUserData(fields: 'name,email,birthday,gender,picture.width(400)'));
-
     if (result.status == LoginStatus.success) {
-      // you are logged
       final AccessToken accessToken = result.accessToken!;
       final userData = await FacebookAuth.instance
           .getUserData(fields: 'name,email,birthday,gender,picture.width(400)');
       return {
+        'provider': providerKey,
+        'access_token': accessToken.tokenString,
         ...accessToken.toJson(),
         ...userData,
       };
     } else {
-      print(result.status);
-      // you are not logged
-      throw Exception('Facebook login failed');
+      throw Exception('Facebook login failed: ${result.message}');
     }
+  }
+}
+
+class GoogleProvider extends BaseProvider {
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'openid',
+    ],
+  );
+
+  @override
+  String get providerKey => 'gsi';
+
+  @override
+  Future<Map<String, dynamic>> authenticate() async {
+    final GoogleSignInAccount? account = await _googleSignIn.signIn();
+    if (account == null) {
+      throw Exception('Google sign in cancelled by user');
+    }
+    final GoogleSignInAuthentication auth = await account.authentication;
+    final token = auth.idToken ?? auth.accessToken;
+    if (token == null) {
+      throw Exception('No token returned from Google');
+    }
+    return {
+      'provider': providerKey,
+      'access_token': token,
+      'email': account.email,
+      'name': account.displayName,
+    };
+  }
+}
+
+class AppleProvider extends BaseProvider {
+  @override
+  String get providerKey => 'apple';
+
+  @override
+  Future<Map<String, dynamic>> authenticate() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+    final token = credential.identityToken ?? credential.authorizationCode;
+    return {
+      'provider': providerKey,
+      'access_token': token,
+      'email': credential.email,
+      'first_name': credential.givenName,
+      'last_name': credential.familyName,
+    };
   }
 }
 
@@ -199,11 +249,6 @@ class GSIAndroidAuth {
     'openid'
   ];
   GoogleSignIn googleSignIn = GoogleSignIn(
-    // Optional clientId
-    // clientId:
-    //     '244791172888-pguue37p4nai4mvjssenvc0no52mp9j5.apps.googleusercontent.com',
-    // serverClientId:
-    // hostedDomain: 'https://5436-154-178-123-184.ngrok-free.app',
     scopes: scopes,
   );
 
@@ -216,3 +261,4 @@ class GSIAndroidAuth {
     }
   }
 }
+

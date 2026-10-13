@@ -94,10 +94,10 @@ class QuranHafsCubit extends Cubit<QuranHafsState> {
       currentBookmark = await DatabaseRepository.instance.insertPageMarked(
         FavoritePage(
           id: 0,
-          idPage: verses.first.pageId ?? 0,
-          idBook: verses.first.bookId ?? 0,
+          idPage: verses.isNotEmpty ? (verses.first.pageId ?? 0) : 0,
+          idBook: verses.isNotEmpty ? (verses.first.bookId ?? 0) : 0,
           pageNumber: pageNumber,
-          textVerse: getFirstWords(verses.first.text ?? '', 5),
+          textVerse: verses.isNotEmpty ? getFirstWords(verses.first.text ?? '', 5) : 'صفحة $pageNumber',
           userId: uid,
         ),
       );
@@ -127,15 +127,17 @@ class QuranHafsCubit extends Cubit<QuranHafsState> {
           break;
         }
       }
-      targetVerse ??= verses.first;
+      if (verses.isNotEmpty) {
+        targetVerse ??= verses.first;
+      }
 
       int uid = (await UserDataServices.instance.getUserData())?.id ?? 0;
       await DatabaseRepository.instance.insertVerseLiked(
         FavoriteVerse(
           id: 0,
-          idFromVerse: targetVerse.id ?? 0,
-          idToVerse: targetVerse.id ?? 0,
-          idPage: targetVerse.pageId ?? 0,
+          idFromVerse: targetVerse?.id ?? 0,
+          idToVerse: targetVerse?.id ?? 0,
+          idPage: targetVerse?.pageId ?? 0,
           pageNumber: pageNumber,
           textFristVerse: getFirstWords(textFristVerse, 5),
           userId: uid,

@@ -105,9 +105,13 @@ class _HomePageState extends State<HomePage> {
                           if (state is HomeChangeIndex) {
                             _index = state.index;
                           }
+                          final menuItems = HomeMenuItems().homeMenuItems;
                           return SafeArea(
-                              child:
-                                  HomeMenuItems().homeMenuItems[_index].page);
+                            child: IndexedStack(
+                              index: _index.clamp(0, menuItems.length - 1),
+                              children: menuItems.map((e) => e.page).toList(),
+                            ),
+                          );
                         },
                       ),
                       bottomNavigationBar: BlocBuilder<HomeCubit, HomeState>(

@@ -9,6 +9,8 @@ import 'package:otloha_sah_flutter/data_source/models/tajweed/tajweed_level.dart
 import 'package:otloha_sah_flutter/modules/tajweed/business_logic/level_card_cubit/level_card_cubit.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/presentation/pages/reserved_exams_listing.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/presentation/pages/time_slot_listing.dart';
+import 'package:otloha_sah_flutter/data_source/user_services_data.dart';
+import 'package:otloha_sah_flutter/modules/auth_module/presentation/pages/login_page.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ProgressCard extends StatelessWidget {
@@ -87,6 +89,23 @@ class ProgressCard extends StatelessWidget {
                           minimumSize: const Size(0, 32),
                         ),
                         onPressed: () {
+                          if (!UserDataServices.instance.isLogin) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text(
+                                  'يلزم تسجيل الدخول لحجز أو إجراء اختبار التجويد النهائي',
+                                  style: TextStyle(fontFamily: 'Cairo'),
+                                ),
+                                action: SnackBarAction(
+                                  label: 'تسجيل الدخول',
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, LoginPage.routeName);
+                                  },
+                                ),
+                              ),
+                            );
+                            return;
+                          }
                           Navigator.pushNamed(context, TimeSlotsListingPage.route);
                         },
                         child: Text(
@@ -105,6 +124,23 @@ class ProgressCard extends StatelessWidget {
                           minimumSize: const Size(0, 32),
                         ),
                         onPressed: () {
+                          if (!UserDataServices.instance.isLogin) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text(
+                                  'يلزم تسجيل الدخول لعرض اختباراتك المحجوزة',
+                                  style: TextStyle(fontFamily: 'Cairo'),
+                                ),
+                                action: SnackBarAction(
+                                  label: 'تسجيل الدخول',
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, LoginPage.routeName);
+                                  },
+                                ),
+                              ),
+                            );
+                            return;
+                          }
                           Navigator.pushNamed(context, ReservedExamsListing.route);
                         },
                         child: Text(

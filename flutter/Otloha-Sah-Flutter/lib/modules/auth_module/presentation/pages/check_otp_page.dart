@@ -32,8 +32,29 @@ class CheckOTPPageState extends State<CheckOTPPage> {
 
   @override
   void initState() {
-    AppDataSource().resendOTP();
     super.initState();
+    AppDataSource().resendOTP();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer?.cancel();
+    setState(() {
+      seconds = 30;
+    });
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (mounted) {
+          setState(() {
+            seconds--;
+            if (seconds <= 0) {
+              _timer?.cancel();
+            }
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -78,14 +99,22 @@ class CheckOTPPageState extends State<CheckOTPPage> {
             children: [
               ToolBarApp(
                 backIcon: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  icon: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                  ),
                   onPressed: () {
                     if (Navigator.of(context).canPop()) {
                       Navigator.of(context).pop();
                     }
                   },
                 ),
-                title: translate('التحقق من الهاتف'),
+                titleWidget: Text(
+                  translate('التحقق من الهاتف'),
+                  style: AppTypography.h3Bold(
+                    color: isDark ? Colors.white : AppColors.textPrimaryLight,
+                  ).copyWith(fontSize: 18),
+                ),
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -147,6 +176,16 @@ class CheckOTPPageState extends State<CheckOTPPage> {
                                   },
                                 ),
 
+                                if (state is VerifyPhoneErrorState) ...[
+                                  const SizedBox(height: AppSpacing.sm),
+                                  Text(
+                                    translate('رمز التحقق غير صحيح أو منتهي الصلاحية، يرجى المحاولة مجدداً'),
+                                    style: AppTypography.caption(color: AppColors.error).copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+
                                 const SizedBox(height: AppSpacing.lg),
 
                                 TextButton(
@@ -154,18 +193,7 @@ class CheckOTPPageState extends State<CheckOTPPage> {
                                       ? null
                                       : () {
                                           AuthCubit.get(context).resendPhoneCode();
-                                          seconds = 30;
-                                          _timer = Timer.periodic(
-                                            const Duration(seconds: 1),
-                                            (timer) {
-                                              setState(() {
-                                                seconds--;
-                                                if (seconds == 0) {
-                                                  _timer!.cancel();
-                                                }
-                                              });
-                                            },
-                                          );
+                                          _startTimer();
                                         },
                                   child: Text(
                                     seconds < 30 && seconds > 0
