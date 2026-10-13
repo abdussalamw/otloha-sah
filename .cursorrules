@@ -3,7 +3,9 @@
 
 You must strictly follow all instructions defined in skill.md:
 - Always respond to the user in Arabic.
-- Zero Breakage: Never break working features, retain all comments, perform pinpoint edits.
+- Zero Breakage: Fulfill tasks without deleting features or breaking/deleting code unless verified that no other code depends on it.
+- PROHIBITED: Do NOT run app build commands (`flutter build`) without explicit written permission from the user.
+- PROHIBITED: Do NOT run `git push` without explicit written permission from the user.
 - Offline-First: Quran, Tafseer, Translation, and Bookmarks must function offline.
 - Drift/SQLite: Auto-increment keys must use Value.absent(), never id: 0.
 - Design: Follow systemdesigne.md and AppColors tokens.
