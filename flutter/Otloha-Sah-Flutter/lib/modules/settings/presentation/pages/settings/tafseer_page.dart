@@ -100,7 +100,7 @@ class _TafseerPageState extends State<TafseerPage> {
                   : ListView.separated(
                       padding: const EdgeInsets.all(AppSpacing.md),
                       itemCount: filteredEditions.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
+                      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.xs),
                       itemBuilder: (context, index) {
                         final edition = filteredEditions[index];
                         final isSelected = edition.key == _selectedKey;
@@ -114,137 +114,108 @@ class _TafseerPageState extends State<TafseerPage> {
                               color: isSelected
                                   ? AppColors.primary
                                   : (isDark ? AppColors.borderDark : AppColors.borderLight),
-                              width: isSelected ? 2 : 1,
+                              width: isSelected ? 1.5 : 1,
                             ),
                             boxShadow: isDark ? AppShadows.softCardDark : AppShadows.softCardLight,
                           ),
-                          padding: const EdgeInsets.all(AppSpacing.md),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+                          child: InkWell(
+                            onTap: () => _onSelect(edition),
+                            borderRadius: BorderRadius.circular(AppRadius.md),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                              child: Row(
                                 children: [
                                   Radio<String>(
                                     value: edition.key,
                                     groupValue: _selectedKey,
                                     activeColor: AppColors.primary,
+                                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    visualDensity: VisualDensity.compact,
                                     onChanged: (_) => _onSelect(edition),
                                   ),
+                                  const SizedBox(width: 6),
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                    child: Row(
                                       children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
+                                        Flexible(
                                               child: Text(
-                                                edition.name,
-                                                style: AppTypography.h3Medium().copyWith(
-                                                  color: isSelected ? AppColors.primary : null,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
+                                            edition.name,
+                                            style: AppTypography.bodyMedium().copyWith(
+                                              color: isSelected ? AppColors.primary : null,
+                                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                                             ),
-                                            Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                              decoration: BoxDecoration(
-                                                color: AppColors.primary.withValues(alpha: 0.08),
-                                                borderRadius: BorderRadius.circular(AppRadius.xs),
-                                                border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-                                              ),
-                                              child: Text(
-                                                edition.languageName.isNotEmpty ? edition.languageName : 'العربية',
-                                                style: const TextStyle(
-                                                  color: AppColors.primary,
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          edition.author,
-                                          style: AppTypography.bodySmall(
-                                            color: isDark ? Colors.white60 : Colors.black54,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
+                                        const SizedBox(width: 6),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.primary.withValues(alpha: 0.08),
+                                            borderRadius: BorderRadius.circular(AppRadius.xs),
+                                          ),
+                                          child: Text(
+                                            edition.languageName.isNotEmpty ? edition.languageName : 'العربية',
+                                            style: const TextStyle(
+                                              color: AppColors.primary,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        if (isSelected) ...[
+                                          const SizedBox(width: 4),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              color: Colors.green.withValues(alpha: 0.12),
+                                              borderRadius: BorderRadius.circular(AppRadius.xs),
+                                            ),
+                                            child: const Text(
+                                              'المعتمد',
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ],
                                     ),
                                   ),
-                                  if (isSelected)
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 6.0),
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.primary.withValues(alpha: 0.12),
-                                          borderRadius: BorderRadius.circular(AppRadius.sm),
-                                        ),
-                                        child: const Text(
-                                          'المعتمد',
-                                          style: TextStyle(
-                                            color: AppColors.primary,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                  const SizedBox(width: 6),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: (isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.05)),
+                                      borderRadius: BorderRadius.circular(AppRadius.xs),
+                                    ),
+                                    child: Text(
+                                      '${edition.estimatedSizeMb.toStringAsFixed(1)} MB',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: isDark ? Colors.white70 : Colors.black87,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                ],
-                              ),
-                              const Divider(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        isDownloaded ? Icons.cloud_done_rounded : Icons.cloud_download_outlined,
-                                        size: 18,
-                                        color: isDownloaded ? Colors.green : Colors.grey,
-                                      ),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        isDownloaded
-                                            ? 'منزل بالكامل أوفلاين'
-                                            : 'متاح للتنزيل (~${edition.estimatedSizeMb.toStringAsFixed(1)} MB)',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: isDownloaded ? Colors.green : Colors.grey.shade600,
-                                          fontWeight: isDownloaded ? FontWeight.bold : FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
                                   ),
-                                  ElevatedButton.icon(
+                                  const SizedBox(width: 4),
+                                  IconButton(
                                     onPressed: () => _openDownloadDialog(edition),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: isDownloaded
-                                          ? (isDark ? Colors.grey.shade800 : Colors.grey.shade200)
-                                          : AppColors.primary,
-                                      foregroundColor: isDownloaded
-                                          ? (isDark ? Colors.white70 : Colors.black87)
-                                          : Colors.white,
-                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(AppRadius.sm),
-                                      ),
-                                      elevation: 0,
-                                    ),
                                     icon: Icon(
-                                      isDownloaded ? Icons.delete_outline_rounded : Icons.download_rounded,
-                                      size: 16,
+                                      isDownloaded ? Icons.cloud_done_rounded : Icons.cloud_download_outlined,
+                                      color: isDownloaded ? Colors.green : AppColors.primary,
+                                      size: 22,
                                     ),
-                                    label: Text(
-                                      isDownloaded ? 'إدارة التنزيل' : 'تنزيل أوفلاين',
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
+                                    padding: EdgeInsets.zero,
+                                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                                    tooltip: isDownloaded ? 'منزل (إدارة / حذف)' : 'تنزيل أوفلاين',
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         );
                       },

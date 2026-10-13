@@ -27,6 +27,8 @@ import '../../../../settings/presentation/pages/settings/how_it_works_page.dart'
 import '../../../../auth_module/presentation/pages/login_page.dart';
 import '../../../../settings/presentation/pages/settings_page.dart';
 import '../../../../splash/business_logic/cubit/splash_cubit.dart';
+import '../../../business_logic/cubit/home_cubit.dart';
+import '../../../../quran/business_logic/cubit/quran_cubit.dart';
 import '../../../../teachers/presentation/page/students_page.dart';
 import '../../../../users/presentation/pages/users_listing.dart';
 
@@ -94,19 +96,37 @@ class _HomeBNBPageState extends State<HomeBNBPage> {
                               title: translate('Likes'),
                               icon: Icons.favorite_rounded,
                               color: const Color(0xFFFF2D55),
-                              onTap: () => Navigator.of(context).pushNamed(
-                                LikedVersesPage.routeName,
-                              ),
+                              onTap: () async {
+                                final result = await Navigator.of(context).pushNamed(
+                                  LikedVersesPage.routeName,
+                                );
+                                if (result is int && context.mounted) {
+                                  try {
+                                    QuranViewCubit.get(context).controller.changePage(result);
+                                    QuranViewCubit.get(context).controller.changeInitPage(result);
+                                  } catch (_) {}
+                                  HomeCubit.get(context).changeIndex(2);
+                                }
+                              },
                             ),
                             _buildIconItem(
                               context,
                               title: translate('BookMarks'),
                               icon: Icons.bookmark_rounded,
                               color: const Color(0xFFFF9500),
-                              onTap: () => Navigator.of(context).pushNamed(
-                                PagesBookMarkPage.routeName,
-                                arguments: 2,
-                              ),
+                              onTap: () async {
+                                final result = await Navigator.of(context).pushNamed(
+                                  PagesBookMarkPage.routeName,
+                                  arguments: 2,
+                                );
+                                if (result is int && context.mounted) {
+                                  try {
+                                    QuranViewCubit.get(context).controller.changePage(result);
+                                    QuranViewCubit.get(context).controller.changeInitPage(result);
+                                  } catch (_) {}
+                                  HomeCubit.get(context).changeIndex(2);
+                                }
+                              },
                             ),
                           ],
                         ),

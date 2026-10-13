@@ -59,56 +59,22 @@ class _QuranPageState extends State<QuranPage> {
               controller: cubit.pageController,
               itemCount: cubit.pages.length,
               itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            cubit.currentPart == null
-                                ? ''
-                                : cubit.currentPart!.name!,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF3A7BD5),
-                              fontFamily: 'Hafs20',
-                            ),
-                          ),
-                          Text(
-                            cubit.currentChapter == null
-                                ? ''
-                                : cubit.currentChapter!.name!,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF3A7BD5),
-                              fontFamily: 'Hafs20',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: PageWidget(
-                        verses: cubit.pages.values.toList().elementAt(index),
-                        playingVerse: widget.playingVerse,
-                        onLongPressed: (Verse verse) {
-                          cubit.onLongTap(verse);
-                          widget.onLongTap(
-                              cubit.isSelected, cubit.selectedVerses);
-                        },
-                        onTap: (Verse verse) {
-                          cubit.onTap(verse);
-                          widget.onTap(cubit.isSelected, cubit.selectedVerses);
-                        },
-                        // ─── مرحلة 3: ضغطة مزدوجة موحدة ───
-                        onDoubleTap: (Verse verse) {
-                          cubit.doubleTapVerse(verse);
-                        },
-                      ),
-                    ),
-                  ],
+                return PageWidget(
+                  verses: cubit.pages.values.toList().elementAt(index),
+                  playingVerse: widget.playingVerse,
+                  onLongPressed: (Verse verse) {
+                    cubit.onLongTap(verse);
+                    widget.onLongTap(
+                        cubit.isSelected, cubit.selectedVerses);
+                  },
+                  onTap: (Verse verse) {
+                    cubit.onTap(verse);
+                    widget.onTap(cubit.isSelected, cubit.selectedVerses);
+                  },
+                  // ─── مرحلة 3: ضغطة مزدوجة موحدة ───
+                  onDoubleTap: (Verse verse) {
+                    cubit.doubleTapVerse(verse);
+                  },
                 );
               },
               onPageChanged: (int pageIndex) {

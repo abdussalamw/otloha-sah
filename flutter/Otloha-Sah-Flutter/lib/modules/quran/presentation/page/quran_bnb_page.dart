@@ -163,6 +163,7 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
                 final result = await Navigator.of(context).pushNamed(IndexSurahPage.routeName);
                 if (result is int && context.mounted) {
                   try {
+                    QuranViewCubit.get(context).controller.changePage(result);
                     QuranViewCubit.get(context).controller.changeInitPage(result);
                   } catch (_) {}
                 }
@@ -239,6 +240,7 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
                       );
                       if (result is int && context.mounted) {
                         try {
+                          QuranViewCubit.get(context).controller.changePage(result);
                           QuranViewCubit.get(context).controller.changeInitPage(result);
                         } catch (_) {}
                       }

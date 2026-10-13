@@ -11,6 +11,7 @@ import '../../../../../core/design_system/tokens/app_spacing.dart';
 import '../../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../../core/exception_indicators/exception_indicator.dart';
 import '../../../../../core/utils/constant/utils.dart';
+import '../../../../home/business_logic/cubit/home_cubit.dart';
 import '../../../../home/presentation/pages/home/home_page.dart';
 import '../../../../settings/presentation/widgets/search_bar_app.dart';
 import '../../../../../data_source/cache_helper.dart';
@@ -68,10 +69,14 @@ class LikedVersesPage extends StatelessWidget {
                   return _itemBuild(() {
                     final selectedPage = verses[index].pageNumber;
                     CacheHelper.saveData(key: 'hafs_initial_page', value: selectedPage);
+                    CacheHelper.saveData(key: 'hafs_current_page', value: selectedPage);
                     try {
-                      QuranViewCubit.get(context)
-                          .controller
-                          .changeInitPage(selectedPage);
+                      QuranViewCubit.get(context).controller.changePage(selectedPage);
+                      QuranViewCubit.get(context).controller.changeInitPage(selectedPage);
+                    } catch (_) {}
+
+                    try {
+                      HomeCubit.get(context).changeIndex(2);
                     } catch (_) {}
 
                     if (Navigator.canPop(context)) {

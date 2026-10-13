@@ -12,6 +12,7 @@ import 'package:otloha_sah_flutter/modules/settings/presentation/pages/settings/
 class QuranEncTafseerWidget extends StatefulWidget {
   final int sura;
   final int aya;
+  final String? verseText;
   final String fallbackTafseer;
   final bool isTranslationMode;
 
@@ -19,6 +20,7 @@ class QuranEncTafseerWidget extends StatefulWidget {
     super.key,
     required this.sura,
     required this.aya,
+    this.verseText,
     required this.fallbackTafseer,
     this.isTranslationMode = false,
   });
@@ -92,55 +94,35 @@ class _QuranEncTafseerWidgetState extends State<QuranEncTafseerWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // شريط عنوان الإصدار الافتراضي المعتمد مع زر التنزيل ورابط الإعدادات
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-            borderRadius: BorderRadius.circular(AppRadius.sm),
-            border: Border.all(
-              color: isDark ? AppColors.borderDark : AppColors.borderLight,
-            ),
-          ),
+        // شريط معلومات مدمج وخفيف جداً مع زر التنزيل والإعدادات
+        Padding(
+          padding: const EdgeInsets.only(bottom: AppSpacing.xs),
           child: Row(
             children: [
               Icon(
                 widget.isTranslationMode ? Icons.translate_rounded : Icons.menu_book_rounded,
-                size: 20,
+                size: 16,
                 color: AppColors.primary,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      currentEdition.name,
-                      style: AppTypography.caption(
-                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-                      ).copyWith(fontWeight: FontWeight.bold),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      currentEdition.author,
-                      style: AppTypography.caption(
-                        color: isDark ? Colors.white60 : Colors.black54,
-                      ).copyWith(fontSize: 10),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                child: Text(
+                  '${currentEdition.name} (${currentEdition.author})',
+                  style: AppTypography.caption(
+                    color: isDark ? Colors.white70 : Colors.black87,
+                  ).copyWith(fontWeight: FontWeight.bold, fontSize: 11),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               // أيقونة التنزيل وحالة الأوفلاين
               IconButton(
                 padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
+                constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
                 icon: Icon(
                   _isDownloaded ? Icons.cloud_done_rounded : Icons.cloud_download_outlined,
                   color: _isDownloaded ? Colors.green : AppColors.primary,
-                  size: 22,
+                  size: 20,
                 ),
                 tooltip: _isDownloaded
                     ? 'منزل أوفلاين'
@@ -153,18 +135,13 @@ class _QuranEncTafseerWidgetState extends State<QuranEncTafseerWidget> {
                   );
                 },
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
               // زر سريع لفتح الإعدادات واختيار إصدار آخر
-              TextButton.icon(
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  backgroundColor: AppColors.primary.withValues(alpha: 0.1),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.xs)),
-                ),
-                icon: const Icon(Icons.tune_rounded, size: 14, color: AppColors.primary),
-                label: const Text('الإعدادات', style: TextStyle(fontSize: 11, color: AppColors.primary, fontWeight: FontWeight.bold)),
+              IconButton(
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+                icon: const Icon(Icons.tune_rounded, size: 18, color: AppColors.primary),
+                tooltip: 'تغيير الإصدار الافتراضي من الإعدادات',
                 onPressed: () async {
                   final route = widget.isTranslationMode
                       ? QuranTranslationLanguagePage.routeName
@@ -179,9 +156,8 @@ class _QuranEncTafseerWidgetState extends State<QuranEncTafseerWidget> {
             ],
           ),
         ),
-        const SizedBox(height: AppSpacing.xs),
 
-        // عرض نص التفسير أو الترجمة
+        // عرض نص الآية أولاً ثم التفسير أو الترجمة
         Expanded(
           child: _isLoading
               ? const Center(
@@ -192,19 +168,51 @@ class _QuranEncTafseerWidgetState extends State<QuranEncTafseerWidget> {
                   ),
                 )
               : SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(
-                      _tafseerText ?? widget.fallbackTafseer,
-                      style: AppTypography.bodyMedium(
-                        color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
-                      ).copyWith(
-                        height: 1.8,
-                        fontSize: 15,
-                        fontFamily: widget.isTranslationMode ? null : 'Cairo',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // نص الآية الكريمة نصاً في الأعلى
+                      if (widget.verseText != null && widget.verseText!.isNotEmpty)
+                        Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.06),
+                            borderRadius: BorderRadius.circular(AppRadius.md),
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.15),
+                            ),
+                          ),
+                          child: Text(
+                            '﴿ ${widget.verseText!} ﴾',
+                            style: const TextStyle(
+                              fontFamily: 'Hafs20',
+                              fontSize: 18,
+                              height: 1.8,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                            textDirection: TextDirection.rtl,
+                          ),
+                        ),
+
+                      // نص التفسير أو الترجمة
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Text(
+                          _tafseerText ?? widget.fallbackTafseer,
+                          style: AppTypography.bodyMedium(
+                            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+                          ).copyWith(
+                            height: 1.8,
+                            fontSize: 15,
+                            fontFamily: widget.isTranslationMode ? null : 'Cairo',
+                          ),
+                          textDirection: widget.isTranslationMode ? TextDirection.ltr : TextDirection.rtl,
+                        ),
                       ),
-                      textDirection: widget.isTranslationMode ? TextDirection.ltr : TextDirection.rtl,
-                    ),
+                    ],
                   ),
                 ),
         ),

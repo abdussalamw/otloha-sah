@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -136,18 +137,10 @@ class _SettingsPageState extends State<SettingsPage> {
                         context,
                         icon: Icons.menu_book_rounded,
                         title: 'الرواية القرآنية',
-                        subtitle: SettingsMenusData.safeTranslate(
-                          QuranCacheRepository.narrationSelectedName,
-                        ),
+                        subtitle: _getCurrentNarrationName(),
                         actionWidget: _buildChoiceChip(
                           context,
-                          label: SettingsMenusData.safeTranslate(
-                            QuranCacheRepository.narrationSelectedName,
-                          ).isNotEmpty
-                              ? SettingsMenusData.safeTranslate(
-                                  QuranCacheRepository.narrationSelectedName,
-                                )
-                              : 'اختر الرواية',
+                          label: _getCurrentNarrationName(),
                           isSelected: true,
                           onTap: () => _showNarrationBottomSheet(context),
                         ),
@@ -278,6 +271,25 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  String _getCurrentNarrationName() {
+    final selectedId = CacheHelper.getData(key: 'selected_narration_id') ?? QuranCacheRepository.narrationSelectedId ?? 1;
+    switch (selectedId) {
+      case 1:
+        return 'رواية حفص عن عاصم';
+      case 2:
+        return 'رواية ورش عن نافع';
+      case 3:
+        return 'رواية قالون عن نافع';
+      default:
+        final raw = QuranCacheRepository.narrationSelectedName;
+        if (raw != null && raw.isNotEmpty) {
+          final translated = SettingsMenusData.safeTranslate(raw);
+          if (translated.isNotEmpty) return translated;
+        }
+        return 'رواية حفص عن عاصم';
+    }
+  }
+
   // Narration Bottom Sheet (منسدلة اختيار الرواية القرآنية)
   void _showNarrationBottomSheet(BuildContext parentContext) {
     showModalBottomSheet(
@@ -337,7 +349,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     {'id': 3, 'name': 'رواية قالون عن نافع', 'subtitle': '(نص عادي)'},
                   ];
 
-                  int selectedId = CacheHelper.getData(key: 'selected_narration_id') ?? 1;
+                  int selectedId = CacheHelper.getData(key: 'selected_narration_id') ?? QuranCacheRepository.narrationSelectedId ?? 1;
 
                   return Column(
                     mainAxisSize: MainAxisSize.min,
@@ -350,14 +362,24 @@ class _SettingsPageState extends State<SettingsPage> {
                       return AppCard(
                         onTap: () async {
                           await CacheHelper.saveData(key: 'selected_narration_id', value: id);
+                          try {
+                            await QuranCacheRepository.setNarrationSelectedId(id);
+                            await QuranCacheRepository.setNarrationSelectedName(
+                              jsonEncode({'ar': name, 'en': name}),
+                            );
+                            await DataSource.instance.changeNarration(
+                              narration: Narration(
+                                id: id,
+                                name: Translatable(ar: name, en: name),
+                                description: Translatable(ar: subtitle, en: subtitle),
+                              ),
+                            );
+                          } catch (_) {}
 
-                          Navigator.pop(context);
-
-                          if (id == 1 && CacheHelper.getData(key: 'is_setup_completed') != true) {
-                            Navigator.of(parentContext).pushNamed(SetupQuranPage.routeName);
-                          } else {
-                            parentContext.findAncestorStateOfType<_SettingsPageState>()?.setState(() {});
+                          if (context.mounted) {
+                            Navigator.pop(context);
                           }
+                          setState(() {});
                         },
                         margin: const EdgeInsets.only(bottom: AppSpacing.xs),
                         padding: const EdgeInsets.symmetric(

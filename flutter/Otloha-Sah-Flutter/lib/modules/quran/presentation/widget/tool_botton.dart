@@ -15,6 +15,8 @@ import '../../business_logic/cubit/quranplayer_cubit.dart';
 import '../../business_logic/cubit/recitation_cubit.dart';
 import '../../../../core/design_system/tokens/app_colors.dart';
 import '../../../../core/design_system/tokens/app_typography.dart';
+import '../../../../data_source/cache_helper.dart';
+import '../../../../data_source/remote/quranenc_editions_data.dart';
 import 'quranenc_tafseer_widget.dart';
 import 'verse_tajweed_widget.dart';
 import 'add_note.dart';
@@ -213,7 +215,17 @@ class _ToolBottonState extends State<ToolBotton> {
     final selectedVerse = cubit.selectedVerses.first;
     final int sura = selectedVerse.chapterId ?? selectedVerse.chapterNumber ?? cubit.chapterId;
     final int aya = selectedVerse.verseNumber ?? 1;
-    final String ayaText = selectedVerse.text ?? '';
+    final String ayaText = selectedVerse.uthmanicText ?? selectedVerse.text ?? '';
+
+    final defaultTafseerKey = CacheHelper.getData(key: 'selected_tafseer_key') ?? 'ar_muyassar';
+    final tafseerEdition = QuranEncEditionsData.getEditionByKey(defaultTafseerKey);
+    final tafseerShort = tafseerEdition?.name ?? 'الميسر';
+
+    final defaultTransKey = CacheHelper.getData(key: 'selected_translation_key') ?? 'english_saheeh';
+    final transEdition = QuranEncEditionsData.getEditionByKey(defaultTransKey);
+    final transShort = (transEdition?.languageName.isNotEmpty == true)
+        ? transEdition!.languageName
+        : (transEdition?.name ?? 'الإنجليزية');
 
     showModalBottomSheet(
       context: context,
@@ -222,7 +234,7 @@ class _ToolBottonState extends State<ToolBotton> {
       builder: (bottomSheetContext) => DefaultTabController(
         length: 3,
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.75,
+          height: MediaQuery.of(context).size.height * 0.78,
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
@@ -255,41 +267,34 @@ class _ToolBottonState extends State<ToolBotton> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              if (ayaText.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Text(
-                    ayaText,
-                    style: AppTypography.bodyLarge().copyWith(fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                    textDirection: TextDirection.rtl,
-                  ),
-                ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 6),
               TabBar(
                 labelColor: AppColors.primary,
                 unselectedLabelColor: Colors.grey,
                 indicatorColor: AppColors.primary,
-                tabs: const [
-                  Tab(text: 'التفسير'),
-                  Tab(text: 'الترجمة'),
-                  Tab(text: 'أحكام التجويد'),
+                isScrollable: true,
+                tabAlignment: TabAlignment.center,
+                tabs: [
+                  Tab(text: 'التفسير ($tafseerShort)'),
+                  Tab(text: 'الترجمة ($transShort)'),
+                  const Tab(text: 'أحكام التجويد'),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               Expanded(
                 child: TabBarView(
                   children: [
                     QuranEncTafseerWidget(
                       sura: sura,
                       aya: aya,
+                      verseText: ayaText,
                       fallbackTafseer: '',
                       isTranslationMode: false,
                     ),
                     QuranEncTafseerWidget(
                       sura: sura,
                       aya: aya,
+                      verseText: ayaText,
                       fallbackTafseer: '',
                       isTranslationMode: true,
                     ),
