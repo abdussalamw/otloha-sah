@@ -370,8 +370,8 @@ class _SettingsPageState extends State<SettingsPage> {
                             await DataSource.instance.changeNarration(
                               narration: Narration(
                                 id: id,
-                                name: Translatable(ar: name, en: name),
-                                description: Translatable(ar: subtitle, en: subtitle),
+                                name: name,
+                                description: subtitle,
                               ),
                             );
                           } catch (_) {}

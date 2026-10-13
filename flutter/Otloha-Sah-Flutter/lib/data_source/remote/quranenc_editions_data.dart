@@ -1559,4 +1559,16 @@ class QuranEncEditionsData {
       databaseUrl: 'https://quranenc.com/downloads/sqlite/zulu_adel.zip',
     ),
   ];
+
+  static TafseerEdition? getEditionByKey(String key) {
+    try {
+      return defaultTafseerEditions.firstWhere((e) => e.key == key);
+    } catch (_) {
+      try {
+        return defaultTranslationEditions.firstWhere((e) => e.key == key);
+      } catch (_) {
+        return null;
+      }
+    }
+  }
 }
