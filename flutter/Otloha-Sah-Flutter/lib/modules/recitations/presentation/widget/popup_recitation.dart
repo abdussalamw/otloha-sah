@@ -260,12 +260,14 @@ class _PopupRecitationState extends State<PopupRecitation> {
                   isTransform: true,
                 ),
               if (widget.actions.contains(PopupActions.markAsRemarkable) &&
-                  ((!widget.recitation!.isRemarkable! &&
+                  widget.recitation != null &&
+                  ((!(widget.recitation?.isRemarkable ?? false) &&
                           widget.isTeacher &&
                           !widget.isOwner) ||
-                      (widget.recitation!.isRemarkable! && widget.isOwner)))
+                      ((widget.recitation?.isRemarkable ?? false) && widget.isOwner)))
                 _itemView(
                     onTap: () async {
+                      if (widget.recitationId == null) return;
                       showLoader(context);
 
                       await cubit.markAsRemarkable(widget.recitationId!);
@@ -278,7 +280,7 @@ class _PopupRecitationState extends State<PopupRecitation> {
                         : translate('add_to_markable_list'),
                     icon: Icons.workspace_premium_outlined,
                     color: AppColor.headTextColor),
-              if (widget.actions.contains(PopupActions.rateing)) // && !isOwner
+              if (widget.actions.contains(PopupActions.rateing) && widget.recitationId != null) // && !isOwner
                 _itemView(
                   onTap: () async {
                     Get.bottomSheet(

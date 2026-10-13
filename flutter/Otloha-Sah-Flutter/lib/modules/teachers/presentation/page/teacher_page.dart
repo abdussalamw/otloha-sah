@@ -99,7 +99,7 @@ class _TeacherPageState extends State<TeacherPage> {
         TeacherviewtypeCubit teacherViewCubit =
             TeacherviewtypeCubit.get(context);
         return ItemTeacherGrid(
-          fullName: results.fullname!,
+          fullName: results.fullname ?? results.username ?? '',
           userName:
               '${results.firstName ?? tr('Add')} ${results.lastName ?? tr('Add')}',
           rate: "${results.rate ?? ''}",

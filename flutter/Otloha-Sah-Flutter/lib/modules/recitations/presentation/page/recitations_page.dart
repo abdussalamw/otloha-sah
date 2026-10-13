@@ -173,7 +173,7 @@ class _RecitationsPageState extends State<RecitationsPage>
                         PopupActions.send,
                       ],
                       recitation: cubit.userRecitatios[index],
-                      userId: UserDataServices.instance.getUserId()!,
+                      userId: UserDataServices.instance.getUserId() ?? 0,
                       isFinished: true,
                       showInGeneral: false,
                       delete: () async {
@@ -246,7 +246,7 @@ class _RecitationsPageState extends State<RecitationsPage>
                         PopupActions.send,
                       ],
                       userRecitation: cubit.localUserRecitations[index],
-                      userId: UserDataServices.instance.getUserId()!,
+                      userId: UserDataServices.instance.getUserId() ?? 0,
                       isFinished: true,
                       showInGeneral: false,
                       delete: () async {

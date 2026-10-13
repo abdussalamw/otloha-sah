@@ -103,7 +103,7 @@ class _StudentsPageState extends State<StudentsPage> {
         return type ? _itemView(index, results) : _itemViewGrid(index, results);
       },
       pagingController: pagingController,
-      initData: cubit!.teachers!,
+      initData: cubit?.teachers ?? [],
       isGrid: !type,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 200,
@@ -115,9 +115,10 @@ class _StudentsPageState extends State<StudentsPage> {
   _itemViewGrid(int index, User results) {
     return BlocBuilder<TeacherviewtypeCubit, TeacherviewtypeState>(
       builder: (context, state) {
+        final nameStr = '${results.firstName ?? ''} ${results.lastName ?? ''}'.trim();
         return ItemTeacherGrid(
-          fullName: results.fullname!,
-          userName: '${results.firstName!} ${results.lastName!}',
+          fullName: results.fullname ?? results.username ?? '',
+          userName: nameStr.isEmpty ? (results.username ?? '') : nameStr,
           rate: "${results.rate ?? ''}",
           userId: (results.level ?? '') + tr('Student'),
           userbio: results.bio,
