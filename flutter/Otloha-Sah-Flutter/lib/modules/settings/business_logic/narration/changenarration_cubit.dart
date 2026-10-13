@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_widget_flutter/data_source/data_source.dart';
 import 'package:quran_widget_flutter/model/narration.dart';
@@ -7,7 +8,7 @@ part 'changenarration_state.dart';
 class ChangenarrationCubit extends Cubit<ChangenarrationState> {
   ChangenarrationCubit() : super(ChangenarrationInitial());
 
-  static ChangenarrationCubit get(context) => BlocProvider.of(context);
+  static ChangenarrationCubit get(BuildContext context) => BlocProvider.of(context);
 
   double progress = 0;
 
@@ -18,7 +19,10 @@ class ChangenarrationCubit extends Cubit<ChangenarrationState> {
     // await DataSource.instance.fetchVersesList(onDownloadProgress: (p0, p1) {
     //   progress = p0 / p1;
     // });
-    // progress = 0;
+    emit(ChangenarrationSuccess());
+  }
+
+  void notifyNarrationChanged() {
     emit(ChangenarrationSuccess());
   }
 }

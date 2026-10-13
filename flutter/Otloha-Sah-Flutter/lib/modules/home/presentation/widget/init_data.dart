@@ -8,7 +8,7 @@ import '../../../../core/utils/res/icons_app.dart';
 import '../../../../core/utils/themes/color.dart';
 import 'bottom_bar_item.dart';
 import '../pages/bnb_pags/home_bnb_page.dart';
-import '../../../quran/presentation/page/quran_bnb_page.dart';
+import '../../../quran/presentation/page/quran_active_reader_page.dart';
 import 'sub_section_item.dart';
 import '../../../quran/presentation/page/action_pages/pages_liked_page.dart';
 import '../../../recitations/presentation/page/recitations_page.dart';
@@ -140,7 +140,7 @@ class HomeMenuItems {
       activeIconData: AppSVG.quranSelect,
       badgeColor: AppColor.bottomSaved,
       isSVG: true,
-      page: const QuranBNBPage(),
+      page: const QuranActiveReaderPage(),
     ),
     BottomBarData(
       title: translate('Tafsir'),

@@ -8,22 +8,19 @@ import 'package:quran_widget_flutter/quran_widget_flutter.dart';
 import '../../../../core/design_system/components/cards/app_card.dart';
 import '../../../../core/design_system/tokens/app_colors.dart';
 import '../../../../core/design_system/tokens/app_radius.dart';
-import '../../../../core/design_system/tokens/app_shadows.dart';
 import '../../../../core/design_system/tokens/app_spacing.dart';
 import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/widgets/tool_bar_app.dart';
 import '../../../../data_source/models/setting_model/init_data.dart';
-import '../../business_logic/narration/narration_cubit.dart';
+import '../../business_logic/narration/changenarration_cubit.dart';
 import '../../business_logic/themes/theme_cubit.dart';
-import '../widgets/change_narration.dart';
 import 'settings/about_us_page.dart';
 import 'settings/contact_us_page.dart';
 import 'settings/recitation_page.dart';
 import 'settings/tafseer_page.dart';
 import 'settings/tajweed_page.dart';
 import 'settings/quran_translation_language_page.dart';
-import '../../../splash/presentation/page/setup_quran_page.dart';
 import '../../../../data_source/cache_helper.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -282,7 +279,7 @@ class _SettingsPageState extends State<SettingsPage> {
         return 'رواية قالون عن نافع';
       default:
         final raw = QuranCacheRepository.narrationSelectedName;
-        if (raw != null && raw.isNotEmpty) {
+        if (raw.isNotEmpty) {
           final translated = SettingsMenusData.safeTranslate(raw);
           if (translated.isNotEmpty) return translated;
         }
@@ -377,6 +374,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           } catch (_) {}
 
                           if (context.mounted) {
+                            try {
+                              ChangenarrationCubit.get(context).notifyNarrationChanged();
+                            } catch (_) {}
                             Navigator.pop(context);
                           }
                           setState(() {});
@@ -464,7 +464,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Container(
             padding: const EdgeInsets.all(AppSpacing.xs + 2),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: AppRadius.radiusSm,
             ),
             child: Icon(icon, color: AppColors.primary, size: 20),

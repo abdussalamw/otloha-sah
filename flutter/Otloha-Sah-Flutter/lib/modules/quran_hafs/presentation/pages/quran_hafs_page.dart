@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import '../../../../core/design_system/tokens/app_colors.dart';
-import '../../../../core/design_system/tokens/app_typography.dart';
+import '../../../../core/design_system/tokens/app_radius.dart';
 import '../../../../core/design_system/tokens/app_shadows.dart';
-import '../../../quran/presentation/page/chapters/index_surah_page.dart';
+import '../../../../core/design_system/tokens/app_spacing.dart';
+import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../quran/presentation/page/action_pages/bookmark_bage.dart';
+import '../../../home/presentation/pages/bnb_pags/search_bnb_page.dart';
+import '../../../quran/presentation/page/chapters/index_surah_page.dart';
 import '../../../../../data_source/cache_helper.dart';
 import '../../business_logic/quran_hafs_cubit.dart';
 import '../../business_logic/quran_hafs_state.dart';
@@ -16,7 +21,7 @@ import '../../../quran/presentation/widget/quranenc_tafseer_widget.dart';
 class QuranHafsPage extends StatefulWidget {
   static const routeName = '/quran_hafs';
 
-  const QuranHafsPage({Key? key}) : super(key: key);
+  const QuranHafsPage({super.key});
 
   @override
   State<QuranHafsPage> createState() => _QuranHafsPageState();
@@ -24,6 +29,7 @@ class QuranHafsPage extends StatefulWidget {
 
 class _QuranHafsPageState extends State<QuranHafsPage> {
   late PageController _pageController;
+  late QuranHafsCubit _cubit;
   int _currentPage = 1;
 
   @override
@@ -34,10 +40,13 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
     _pageController = PageController(initialPage: initPage - 1); 
     CacheHelper.saveData(key: 'hafs_current_page', value: initPage);
     CacheHelper.saveData(key: 'hafs_current_sura', value: QuranHafsMetadata.getSuraForPage(initPage));
+    _cubit = QuranHafsCubit();
+    _cubit.loadPage(initPage);
   }
 
   @override
   void dispose() {
+    _cubit.close();
     _pageController.dispose();
     super.dispose();
   }
@@ -166,8 +175,8 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => QuranHafsCubit(),
+    return BlocProvider.value(
+      value: _cubit,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Column(
@@ -185,6 +194,7 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
                     setState(() {
                       _currentPage = page;
                     });
+                    _cubit.loadPage(page);
                     CacheHelper.saveData(key: 'hafs_initial_page', value: page);
                     CacheHelper.saveData(key: 'hafs_current_page', value: page);
                     final sura = QuranHafsMetadata.getSuraForPage(page);
@@ -212,86 +222,111 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
         bool isBookmarked = false;
         if (state is QuranHafsLoaded) {
           isBookmarked = state.isBookmarked;
+        } else {
+          isBookmarked = _cubit.isBookmarked;
         }
-        
-        // Find Sura name using a simple DB query or fallback to metadata
-        int juz = QuranHafsMetadata.getJuzForPage(_currentPage);
-        
+
+        final int surahNumber = QuranHafsMetadata.getSuraForPage(_currentPage);
+        final String surahName = QuranHafsMetadata.getSuraName(surahNumber);
+        final int juz = QuranHafsMetadata.getJuzForPage(_currentPage);
+
         return Container(
           width: double.infinity,
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top + 8,
-            bottom: 8,
-            left: 16,
-            right: 16,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
           decoration: BoxDecoration(
             gradient: AppColors.headerGradient,
             boxShadow: AppShadows.softCardLight,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Left side: Juz Index (Text only)
-              Row(
-                children: [
-                  const Icon(Icons.menu_book, color: Colors.white, size: 20),
-                  const SizedBox(width: 4),
-                  Text(
-                    'الجزء $juz',
-                    style: AppTypography.bodyMedium(color: Colors.white),
-                  ),
-                ],
-              ),
-
-              // Center: Bookmark Action
-              Tooltip(
-                message: 'ضغطة للإضافة - ضغطة مطولة لفتح الإشارات المرجعية',
-                child: InkWell(
-                  onLongPress: () async {
-                    final result = await Navigator.of(context).pushNamed(
-                      PagesBookMarkPage.routeName,
-                      arguments: 2,
-                    );
+          child: SafeArea(
+            bottom: false,
+            child: Row(
+              children: [
+                // Right: Surah Name (e.g. سورة البقرة)
+                InkWell(
+                  onTap: () async {
+                    final result = await Navigator.of(context).pushNamed(IndexSurahPage.routeName);
                     if (result != null && result is int) {
                       _pageController.jumpToPage(result - 1);
                     }
                   },
-                  onTap: () {
-                    QuranHafsCubit.get(context).toggleBookmark(_currentPage);
-                  },
+                  borderRadius: AppRadius.radiusMd,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                      color: isBookmarked ? Colors.amber : Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs, vertical: 4.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'سورة $surahName',
+                          style: AppTypography.h3Bold(color: Colors.white).copyWith(
+                            fontFamily: 'Hafs20',
+                            fontSize: 16,
+                          ),
+                        ),
+                        const Icon(Icons.arrow_drop_down_rounded, color: Colors.white70, size: 20),
+                      ],
                     ),
                   ),
                 ),
-              ),
 
-              // Right side: Surah Index
-              InkWell(
-                onTap: () async {
-                  final result = await Navigator.of(context).pushNamed(IndexSurahPage.routeName);
-                  if (result != null && result is int) {
-                    _pageController.jumpToPage(result - 1);
-                  }
-                },
-                child: Row(
+                const Spacer(),
+
+                // Center: Juz Name
+                Text(
+                  'الجزء $juz',
+                  style: AppTypography.bodyMedium(color: Colors.white).copyWith(
+                    fontFamily: 'Hafs20',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
+                ),
+
+                const Spacer(),
+
+                // Left: Bookmark & Search Icons
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'سورة ${QuranHafsMetadata.getSuraName(QuranHafsMetadata.getSuraForPage(_currentPage))}',
-                      style: AppTypography.bodyMedium(color: Colors.white).copyWith(
-                        fontWeight: FontWeight.bold,
+                    // Bookmark Icon (إشارة مرجعية: ضغطة لإضافة/حذف، ضغطة مطولة لفتح الإشارات)
+                    Tooltip(
+                      message: 'ضغطة لإضافة/حذف - ضغطة مطولة لفتح الإشارات المرجعية',
+                      child: InkWell(
+                        borderRadius: AppRadius.radiusFull,
+                        onTap: () {
+                          _cubit.toggleBookmark(_currentPage);
+                          Fluttertoast.showToast(
+                            msg: isBookmarked ? 'تمت إزالة العلامة المرجعية' : 'تمت إضافة العلامة المرجعية',
+                          );
+                        },
+                        onLongPress: () async {
+                          final result = await Navigator.of(context).pushNamed(
+                            PagesBookMarkPage.routeName,
+                            arguments: 2,
+                          );
+                          if (result != null && result is int) {
+                            _pageController.jumpToPage(result - 1);
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            isBookmarked ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
+                            color: isBookmarked ? Colors.amber : Colors.white,
+                            size: 22,
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    const Icon(Icons.list, color: Colors.white, size: 20),
+
+                    // Search Icon (البحث في النص القرآني)
+                    IconButton(
+                      icon: const Icon(Icons.search_rounded, color: Colors.white, size: 22),
+                      onPressed: () => Get.to(() => const SearchBNBPage()),
+                      tooltip: 'البحث في النص القرآني',
+                    ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

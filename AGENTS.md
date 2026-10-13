@@ -6,8 +6,8 @@
 ## Core Rules Summary
 1. **Language**: Always respond to the user in Arabic.
 2. **Execute Requirements with Zero Breakage**: Fulfill tasks without deleting any feature or breaking/deleting any code, unless strictly verified that no other code or dependency relies upon it. Never rewrite entire existing files unnecessarily.
-3. **NO App Builds Without Written Permission**: Absolutely never run build commands (`flutter build apk`, `flutter build appbundle`, etc.) unless the user gives explicit written instructions. When approved, follow version sequencing in `pubspec.yaml` and target `arm64-v8a` (`flutter build apk --target-platform android-arm64 --release`) to drastically reduce APK size.
-4. **NO Git Push Without Written Permission**: Absolutely never execute `git push` to any remote repository unless the user gives explicit written instructions. When approved, the commit and push description must be written in Arabic in full, complete detail (listing all additions, modifications, and deletions).
+3. **NO App Builds Without Written Permission**: Absolutely never run build commands (`flutter build apk`, `flutter build appbundle`, etc.) unless the user gives explicit written instructions.
+4. **NO Git Push Without Written Permission**: Absolutely never execute `git push` to any remote repository unless the user gives explicit written instructions.
 5. **Offline-First**: All Quran, Tafseer, Translation, and Bookmarks features must support offline usage with safe fallbacks.
 6. **Database Safety (Drift/SQLite)**: Never hardcode `id: 0` on insert. Always use `const Value.absent()` for auto-increment primary keys.
 7. **No Forced Login**: Guest users (`userId == 0`) must have full access to Quran reading, audio listening, bookmarks, and tafseer.
