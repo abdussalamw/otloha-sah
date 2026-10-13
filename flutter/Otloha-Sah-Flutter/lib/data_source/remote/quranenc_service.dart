@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -21,9 +19,16 @@ class TafseerEdition {
   });
 }
 
+typedef QuranEncEdition = TafseerEdition;
+
 class QuranEncService {
   QuranEncService._();
   static final QuranEncService instance = QuranEncService._();
+  static List<TafseerEdition> get tafseerEditions =>
+      availableEditions.where((e) => e.language == 'ar').toList();
+
+  static List<TafseerEdition> get translationEditions =>
+      availableEditions.where((e) => e.language != 'ar').toList();
 
   static const List<TafseerEdition> availableEditions = [
     TafseerEdition(

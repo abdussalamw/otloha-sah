@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/design_system/tokens/app_colors.dart';
-import '../../../../../core/design_system/tokens/app_radius.dart';
-import '../../../../../core/design_system/tokens/app_shadows.dart';
-import '../../../../../core/design_system/tokens/app_spacing.dart';
-import '../../../../../core/design_system/tokens/app_typography.dart';
-import '../../../../../data_source/cache_helper.dart';
-import '../../../../../data_source/remote/quranenc_service.dart';
-import '../../../quran/presentation/widget/quranenc_download_dialog.dart';
-import '../../widgets/search_bar_app.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_colors.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_radius.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_shadows.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_spacing.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_typography.dart';
+import 'package:otloha_sah_flutter/data_source/cache_helper.dart';
+import 'package:otloha_sah_flutter/data_source/remote/quranenc_service.dart';
+import 'package:otloha_sah_flutter/modules/quran/presentation/widget/quranenc_download_dialog.dart';
+import 'package:otloha_sah_flutter/modules/settings/presentation/widgets/search_bar_app.dart';
 
 class TafseerPage extends StatefulWidget {
   const TafseerPage({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class _TafseerPageState extends State<TafseerPage> {
 
     final Map<String, bool> map = {};
     for (final edition in QuranEncService.tafseerEditions) {
-      map[edition.key] = await QuranEncService.isEditionDownloaded(edition.key);
+      map[edition.key] = await QuranEncService.instance.isEditionDownloaded(edition.key);
     }
 
     if (mounted) {

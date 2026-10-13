@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../core/design_system/tokens/app_colors.dart';
-import '../../../../core/design_system/tokens/app_radius.dart';
-import '../../../../core/design_system/tokens/app_shadows.dart';
-import '../../../../core/design_system/tokens/app_spacing.dart';
-import '../../../../core/design_system/tokens/app_typography.dart';
-import '../../quran_hafs/data/quran_hafs_metadata.dart';
-import '../widget/quranenc_tafseer_widget.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_colors.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_radius.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_shadows.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_spacing.dart';
+import 'package:otloha_sah_flutter/core/design_system/tokens/app_typography.dart';
+import 'package:otloha_sah_flutter/modules/quran_hafs/data/quran_hafs_metadata.dart';
+import 'package:otloha_sah_flutter/modules/quran/presentation/widget/quranenc_tafseer_widget.dart';
 
 class TafsirBrowserPage extends StatefulWidget {
   final int initialSura;
