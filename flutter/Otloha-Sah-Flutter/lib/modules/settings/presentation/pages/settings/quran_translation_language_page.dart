@@ -10,12 +10,12 @@ import 'package:otloha_sah_flutter/modules/quran/presentation/widget/quranenc_do
 import 'package:otloha_sah_flutter/modules/settings/presentation/widgets/search_bar_app.dart';
 
 class QuranTranslationLanguagePage extends StatefulWidget {
-  const QuranTranslationLanguagePage({Key? key}) : super(key: key);
+  const QuranTranslationLanguagePage({super.key});
 
   static const routeName = '/settings/quranTranslationLanguage';
 
   @override
-  _QuranTranslationLanguagePageState createState() =>
+  State<QuranTranslationLanguagePage> createState() =>
       _QuranTranslationLanguagePageState();
 }
 
@@ -23,8 +23,24 @@ class _QuranTranslationLanguagePageState
     extends State<QuranTranslationLanguagePage> {
   String _selectedKey = 'english_saheeh';
   String _searchQuery = '';
+  String _selectedLanguageCode = 'all';
   Map<String, bool> _downloadedMap = {};
   bool _isLoading = true;
+
+  static const List<Map<String, String>> _popularLanguages = [
+    {'code': 'all', 'name': 'جميع اللغات'},
+    {'code': 'en', 'name': 'الإنجليزية'},
+    {'code': 'fr', 'name': 'الفرنسية'},
+    {'code': 'es', 'name': 'الإسبانية'},
+    {'code': 'tr', 'name': 'التركية'},
+    {'code': 'ur', 'name': 'الأردية'},
+    {'code': 'id', 'name': 'الإندونيسية'},
+    {'code': 'de', 'name': 'الألمانية'},
+    {'code': 'zh', 'name': 'الصينية'},
+    {'code': 'fa', 'name': 'الفارسية'},
+    {'code': 'ru', 'name': 'الروسية'},
+    {'code': 'sw', 'name': 'السواحيلية'},
+  ];
 
   @override
   void initState() {
@@ -38,17 +54,27 @@ class _QuranTranslationLanguagePageState
       _selectedKey = saved;
     }
 
+    // 1. عرض البيانات المحلية فوراً وبدون أي انتظار
+    await _refreshDownloadedMap();
+
+    if (mounted) {
+      setState(() => _isLoading = false);
+    }
+
+    // 2. محاولة تحديث القائمة عن بعد في الخلفية
+    try {
+      await QuranEncService.instance.fetchRemoteTranslationsList();
+      await _refreshDownloadedMap();
+      if (mounted) setState(() {});
+    } catch (_) {}
+  }
+
+  Future<void> _refreshDownloadedMap() async {
     final Map<String, bool> map = {};
     for (final edition in QuranEncService.translationEditions) {
       map[edition.key] = await QuranEncService.instance.isEditionDownloaded(edition.key);
     }
-
-    if (mounted) {
-      setState(() {
-        _downloadedMap = map;
-        _isLoading = false;
-      });
-    }
+    _downloadedMap = map;
   }
 
   void _onSelect(QuranEncEdition edition) {
@@ -69,16 +95,25 @@ class _QuranTranslationLanguagePageState
       barrierDismissible: false,
       builder: (ctx) => QuranEncDownloadDialog(edition: edition),
     );
-    _loadState();
+    await _refreshDownloadedMap();
+    if (mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final filteredEditions = QuranEncService.translationEditions.where((e) {
+    final allEditions = QuranEncService.translationEditions;
+    final filteredEditions = allEditions.where((e) {
+      if (_selectedLanguageCode != 'all' && e.language != _selectedLanguageCode) {
+        return false;
+      }
       if (_searchQuery.isEmpty) return true;
-      return e.name.contains(_searchQuery) || e.author.contains(_searchQuery);
+      final q = _searchQuery.toLowerCase();
+      return e.name.toLowerCase().contains(q) ||
+          e.author.toLowerCase().contains(q) ||
+          e.languageName.toLowerCase().contains(q) ||
+          e.language.toLowerCase().contains(q);
     }).toList();
 
     return Scaffold(
@@ -94,138 +129,231 @@ class _QuranTranslationLanguagePageState
               onSearch: (val) {
                 setState(() => _searchQuery = val.trim());
               },
-              title: 'ترجمات معاني القرآن',
+              title: 'ترجمات معاني القرآن الكريم',
             ),
+
+            // شريط فلترة اللغات الشهيرة وإجمالي الترجمات
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${filteredEditions.length} ترجمة متاحة (${allEditions.length} في 56 لغة)',
+                        style: AppTypography.caption(
+                          color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                        ),
+                      ),
+                      if (_selectedLanguageCode != 'all' || _searchQuery.isNotEmpty)
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedLanguageCode = 'all';
+                              _searchQuery = '';
+                            });
+                          },
+                          style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                          child: const Text('إعادة الضبط', style: TextStyle(fontSize: 12)),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    height: 38,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _popularLanguages.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 8),
+                      itemBuilder: (context, index) {
+                        final lang = _popularLanguages[index];
+                        final isSelected = _selectedLanguageCode == lang['code'];
+                        return FilterChip(
+                          label: Text(lang['name']!),
+                          selected: isSelected,
+                          onSelected: (_) {
+                            setState(() => _selectedLanguageCode = lang['code']!);
+                          },
+                          selectedColor: AppColors.primary,
+                          backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+                          labelStyle: TextStyle(
+                            color: isSelected ? Colors.white : (isDark ? Colors.white70 : Colors.black87),
+                            fontSize: 12,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                            side: BorderSide(
+                              color: isSelected ? AppColors.primary : Colors.grey.withOpacity(0.3),
+                            ),
+                          ),
+                          showCheckmark: false,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 8),
+
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : ListView.separated(
-                      padding: const EdgeInsets.all(AppSpacing.md),
-                      itemCount: filteredEditions.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
-                      itemBuilder: (context, index) {
-                        final edition = filteredEditions[index];
-                        final isSelected = edition.key == _selectedKey;
-                        final isDownloaded = _downloadedMap[edition.key] ?? false;
-
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-                            borderRadius: BorderRadius.circular(AppRadius.md),
-                            border: Border.all(
-                              color: isSelected
-                                  ? AppColors.primary
-                                  : (isDark ? AppColors.borderDark : AppColors.borderLight),
-                              width: isSelected ? 2 : 1,
-                            ),
-                            boxShadow: isDark ? AppShadows.softCardDark : AppShadows.softCardLight,
-                          ),
-                          padding: const EdgeInsets.all(AppSpacing.md),
+                  : filteredEditions.isEmpty
+                      ? Center(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Row(
-                                children: [
-                                  Radio<String>(
-                                    value: edition.key,
-                                    groupValue: _selectedKey,
-                                    activeColor: AppColors.primary,
-                                    onChanged: (_) => _onSelect(edition),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          edition.name,
-                                          style: AppTypography.h3Medium().copyWith(
-                                            color: isSelected ? AppColors.primary : null,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          edition.author,
-                                          style: AppTypography.bodySmall(
-                                            color: isDark ? Colors.white60 : Colors.black54,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  if (isSelected)
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.primary.withOpacity(0.12),
-                                        borderRadius: BorderRadius.circular(AppRadius.sm),
-                                      ),
-                                      child: const Text(
-                                        'المعتمد',
-                                        style: TextStyle(
-                                          color: AppColors.primary,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                ],
+                              Icon(Icons.search_off_rounded, size: 64, color: Colors.grey.shade400),
+                              const SizedBox(height: AppSpacing.sm),
+                              Text(
+                                'لا توجد نتائج مطابقة للبحث',
+                                style: AppTypography.bodyMedium(color: Colors.grey),
                               ),
-                              const Divider(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            ],
+                          ),
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.all(AppSpacing.md),
+                          itemCount: filteredEditions.length,
+                          separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
+                          itemBuilder: (context, index) {
+                            final edition = filteredEditions[index];
+                            final isSelected = edition.key == _selectedKey;
+                            final isDownloaded = _downloadedMap[edition.key] ?? false;
+
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+                                borderRadius: BorderRadius.circular(AppRadius.md),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? AppColors.primary
+                                      : (isDark ? AppColors.borderDark : AppColors.borderLight),
+                                  width: isSelected ? 2 : 1,
+                                ),
+                                boxShadow: isDark ? AppShadows.softCardDark : AppShadows.softCardLight,
+                              ),
+                              padding: const EdgeInsets.all(AppSpacing.md),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Icon(
-                                        isDownloaded ? Icons.cloud_done_rounded : Icons.cloud_download_outlined,
-                                        size: 18,
-                                        color: isDownloaded ? Colors.green : Colors.grey,
+                                      Radio<String>(
+                                        value: edition.key,
+                                        groupValue: _selectedKey,
+                                        activeColor: AppColors.primary,
+                                        onChanged: (_) => _onSelect(edition),
                                       ),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        isDownloaded
-                                            ? 'منزل بالكامل أوفلاين'
-                                            : 'متاح للتنزيل (~${edition.estimatedSizeMb.toStringAsFixed(1)} MB)',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: isDownloaded ? Colors.green : Colors.grey.shade600,
-                                          fontWeight: isDownloaded ? FontWeight.bold : FontWeight.normal,
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    edition.name,
+                                                    style: AppTypography.h3Medium().copyWith(
+                                                      color: isSelected ? AppColors.primary : null,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.primary.withValues(alpha: 0.08),
+                                                    borderRadius: BorderRadius.circular(AppRadius.xs),
+                                                    border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+                                                  ),
+                                                  child: Text(
+                                                    edition.languageName.isNotEmpty
+                                                        ? edition.languageName
+                                                        : edition.language.toUpperCase(),
+                                                    style: const TextStyle(
+                                                      color: AppColors.primary,
+                                                      fontSize: 11,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              edition.author,
+                                              style: AppTypography.bodySmall(
+                                                color: isDark ? Colors.white60 : Colors.black54,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                  ElevatedButton.icon(
-                                    onPressed: () => _openDownloadDialog(edition),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: isDownloaded
-                                          ? (isDark ? Colors.grey.shade800 : Colors.grey.shade200)
-                                          : AppColors.primary,
-                                      foregroundColor: isDownloaded
-                                          ? (isDark ? Colors.white70 : Colors.black87)
-                                          : Colors.white,
-                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(AppRadius.sm),
+                                  const Divider(height: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            isDownloaded ? Icons.cloud_done_rounded : Icons.cloud_download_outlined,
+                                            size: 18,
+                                            color: isDownloaded ? Colors.green : Colors.grey,
+                                          ),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            isDownloaded
+                                                ? 'منزل بالكامل أوفلاين'
+                                                : 'متاح للتنزيل (~${edition.estimatedSizeMb.toStringAsFixed(1)} MB)',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: isDownloaded ? Colors.green : Colors.grey.shade600,
+                                              fontWeight: isDownloaded ? FontWeight.bold : FontWeight.normal,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      elevation: 0,
-                                    ),
-                                    icon: Icon(
-                                      isDownloaded ? Icons.delete_outline_rounded : Icons.download_rounded,
-                                      size: 16,
-                                    ),
-                                    label: Text(
-                                      isDownloaded ? 'إدارة التنزيل' : 'تنزيل أوفلاين',
-                                      style: const TextStyle(fontSize: 12),
-                                    ),
+                                      ElevatedButton.icon(
+                                        onPressed: () => _openDownloadDialog(edition),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: isDownloaded
+                                              ? (isDark ? Colors.grey.shade800 : Colors.grey.shade200)
+                                              : AppColors.primary,
+                                          foregroundColor: isDownloaded
+                                              ? (isDark ? Colors.white70 : Colors.black87)
+                                              : Colors.white,
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                                          ),
+                                          elevation: 0,
+                                        ),
+                                        icon: Icon(
+                                          isDownloaded ? Icons.check_circle_outline_rounded : Icons.download_rounded,
+                                          size: 16,
+                                        ),
+                                        label: Text(
+                                          isDownloaded ? 'إدارة / حذف' : 'تنزيل أوفلاين',
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                            );
+                          },
+                        ),
             ),
           ],
         ),
