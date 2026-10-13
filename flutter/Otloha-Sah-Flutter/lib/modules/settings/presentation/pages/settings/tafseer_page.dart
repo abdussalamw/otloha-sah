@@ -10,7 +10,7 @@ import 'package:otloha_sah_flutter/modules/quran/presentation/widget/quranenc_do
 import 'package:otloha_sah_flutter/modules/settings/presentation/widgets/search_bar_app.dart';
 
 class TafseerPage extends StatefulWidget {
-  const TafseerPage({Key? key}) : super(key: key);
+  const TafseerPage({super.key});
 
   static const routeName = '/settings/tafseer';
 
@@ -134,12 +134,34 @@ class _TafseerPageState extends State<TafseerPage> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          edition.name,
-                                          style: AppTypography.h3Medium().copyWith(
-                                            color: isSelected ? AppColors.primary : null,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                edition.name,
+                                                style: AppTypography.h3Medium().copyWith(
+                                                  color: isSelected ? AppColors.primary : null,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                              decoration: BoxDecoration(
+                                                color: AppColors.primary.withValues(alpha: 0.08),
+                                                borderRadius: BorderRadius.circular(AppRadius.xs),
+                                                border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+                                              ),
+                                              child: Text(
+                                                edition.languageName.isNotEmpty ? edition.languageName : 'العربية',
+                                                style: const TextStyle(
+                                                  color: AppColors.primary,
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         const SizedBox(height: 2),
                                         Text(
@@ -152,18 +174,21 @@ class _TafseerPageState extends State<TafseerPage> {
                                     ),
                                   ),
                                   if (isSelected)
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.primary.withOpacity(0.12),
-                                        borderRadius: BorderRadius.circular(AppRadius.sm),
-                                      ),
-                                      child: const Text(
-                                        'المعتمد',
-                                        style: TextStyle(
-                                          color: AppColors.primary,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 6.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primary.withValues(alpha: 0.12),
+                                          borderRadius: BorderRadius.circular(AppRadius.sm),
+                                        ),
+                                        child: const Text(
+                                          'المعتمد',
+                                          style: TextStyle(
+                                            color: AppColors.primary,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ),
