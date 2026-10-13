@@ -1,27 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:quran_widget_flutter/quran_widget_flutter.dart';
-import 'package:otloha_sah_flutter/modules/kahtma/presentation/pages/katama_comming_soon_page.dart';
 import 'package:otloha_sah_flutter/modules/messages/presentation_v2/pages/corrected_recitations_page.dart';
 import 'package:otloha_sah_flutter/modules/tajweed/presentation/pages/levels_page.dart';
-import 'package:otloha_sah_flutter/modules/users/presentation/pages/users_listing.dart';
 import '../../../../app_router.dart';
 import '../../../../core/utils/res/svg_app.dart';
 import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/utils/res/icons_app.dart';
 import '../../../../core/utils/themes/color.dart';
-import '../../../../data_source/user_services_data.dart';
 import 'bottom_bar_item.dart';
 import '../pages/bnb_pags/home_bnb_page.dart';
-import '../../../profile/presentation/page/profile_bnb_page.dart';
 import '../../../quran/presentation/page/quran_bnb_page.dart';
-import '../pages/bnb_pags/search_bnb_page.dart';
 import 'sub_section_item.dart';
-import '../../../../data_source/cache_helper.dart';
-import '../../../quran_hafs/presentation/pages/quran_hafs_page.dart';
 import '../../../quran/presentation/page/action_pages/pages_liked_page.dart';
 import '../../../recitations/presentation/page/recitations_page.dart';
-import '../../../teachers/presentation/page/students_page.dart';
-import '../../../teachers/presentation/page/teacher_page.dart';
 
 import '../../../quran/presentation/page/action_pages/bookmark_bage.dart';
 import '../../../quran/presentation/page/action_pages/note_page.dart';
@@ -150,10 +140,7 @@ class HomeMenuItems {
       activeIconData: AppSVG.quranSelect,
       badgeColor: AppColor.bottomSaved,
       isSVG: true,
-      page: (CacheHelper.getData(key: 'selected_narration_id') == null ||
-              CacheHelper.getData(key: 'selected_narration_id') == 1)
-          ? const QuranHafsPage()
-          : const QuranBNBPage(),
+      page: const QuranBNBPage(),
     ),
     BottomBarData(
       title: translate('Tafsir'),
@@ -172,9 +159,4 @@ class HomeMenuItems {
       page: TajweedLevelsPage(),
     ),
   ];
-}
-
-String? _user() {
-  String? teacherName = UserDataServices.instance.teacherName;
-  return teacherName;
 }

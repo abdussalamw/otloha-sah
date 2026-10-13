@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_widget_flutter/quran_widget_flutter.dart';
-import 'package:quran_widget_flutter/src/plugin_src/business/quran_cubit.dart';
 
 import '../../../../core/design_system/tokens/app_colors.dart';
 import '../../../../core/design_system/tokens/app_radius.dart';
@@ -11,6 +10,8 @@ import '../../../../core/design_system/tokens/app_shadows.dart';
 import '../../../../core/design_system/tokens/app_spacing.dart';
 import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/utils/res/icons_app.dart';
+import '../../../../data_source/cache_helper.dart';
+import 'package:otloha_sah_flutter/modules/quran_hafs/data/quran_hafs_metadata.dart';
 import '../../../settings/business_logic/themes/theme_cubit.dart';
 import '../../business_logic/cubit/ballview_cubit.dart';
 import '../../business_logic/cubit/progress/progress_cubit.dart';
@@ -140,7 +141,7 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
   Widget _buildTopAppBar(BuildContext context, QuranViewCubit cubit) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final String rawName = cubit.chapterName ?? '';
+    final String rawName = cubit.chapterName;
     final String surahText = rawName.isEmpty
         ? 'سورة الفاتحة'
         : (rawName.startsWith('سورة') ? rawName : 'سورة $rawName');
@@ -158,7 +159,14 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
           children: [
             // Right: Surah Name (e.g. سورة البقرة)
             InkWell(
-              onTap: () => Navigator.of(context).pushNamed(IndexSurahPage.routeName),
+              onTap: () async {
+                final result = await Navigator.of(context).pushNamed(IndexSurahPage.routeName);
+                if (result is int && context.mounted) {
+                  try {
+                    QuranViewCubit.get(context).controller.changeInitPage(result);
+                  } catch (_) {}
+                }
+              },
               borderRadius: AppRadius.radiusMd,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs, vertical: 4.0),
@@ -180,16 +188,19 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
 
             const Spacer(),
 
-            // Center: Juz Name — ديناميكي من QuranCubit
+            // Center: Juz Name — ديناميكي من QuranCubit مع fallback تلقائي
             Builder(
               builder: (ctx) {
-                // نحاول قراءة الجزء الحالي من QuranCubit الداخلي (widget)
-                // إذا لم يكن متاحاً بعد نعرض فراغاً بدون خطأ
                 String partName = '';
                 try {
                   final innerCubit = QuranCubit.get(ctx);
                   partName = innerCubit.currentPart?.name ?? '';
                 } catch (_) {}
+                if (partName.isEmpty) {
+                  int currentPage = CacheHelper.getData(key: 'hafs_current_page') ?? 1;
+                  int juz = QuranHafsMetadata.getJuzForPage(currentPage);
+                  partName = 'الجزء $juz';
+                }
                 return Text(
                   partName,
                   style: AppTypography.bodyMedium(color: Colors.white).copyWith(
@@ -221,11 +232,16 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
                         Fluttertoast.showToast(msg: 'تمت إضافة العلامة المرجعية');
                       }
                     },
-                    onLongPress: () {
-                      Navigator.of(context).pushNamed(
+                    onLongPress: () async {
+                      final result = await Navigator.of(context).pushNamed(
                         PagesBookMarkPage.routeName,
                         arguments: 2,
                       );
+                      if (result is int && context.mounted) {
+                        try {
+                          QuranViewCubit.get(context).controller.changeInitPage(result);
+                        } catch (_) {}
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -323,12 +339,16 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
                             bookId: cubit!.bookId,
                             narrationId: cubit!.narrationId,
                             onTap: (isVerSelected, selectedVerses) {
-                              // ─── مرحلة 4: تحديث QuranViewCubit فوراً ───
                               cubit!.setSelectedVerses(selectedVerses ?? []);
                               cubit!.isVerSelected(isVerSelected);
                               cubit!.changeIsSelectedVerse();
                               if (selectedVerses?.isNotEmpty == true) {
                                 cubit!.changeIsOnTruePressed();
+                                final verse = selectedVerses!.first;
+                                final sura = verse.chapterId ?? verse.chapterNumber ?? cubit!.chapterId;
+                                final aya = verse.verseNumber ?? 1;
+                                CacheHelper.saveData(key: 'hafs_current_sura', value: sura);
+                                CacheHelper.saveData(key: 'hafs_current_aya', value: aya);
                               }
                               addCubit!.setSelectedVerses(selectedVerses ?? []);
                             },
@@ -336,23 +356,33 @@ class _QuranBNBPageState extends State<QuranBNBPage> {
                               cubit!.changePageType(page: pageType);
                             },
                             onLongTap: (isVerSelected, selectedVerses) {
-                              // ─ نفس سلوك onTap بعد التوحيد
                               cubit!.setSelectedVerses(selectedVerses ?? []);
                               cubit!.isVerSelected(isVerSelected);
                               cubit!.changeIsSelectedVerse();
                               if (selectedVerses?.isNotEmpty == true) {
                                 cubit!.changeIsOnTruePressed();
+                                final verse = selectedVerses!.first;
+                                final sura = verse.chapterId ?? verse.chapterNumber ?? cubit!.chapterId;
+                                final aya = verse.verseNumber ?? 1;
+                                CacheHelper.saveData(key: 'hafs_current_sura', value: sura);
+                                CacheHelper.saveData(key: 'hafs_current_aya', value: aya);
                               }
                               addCubit!.setSelectedVerses(selectedVerses ?? []);
                             },
                             onPageChange: (int pageNumber) async {
                               QuranPlayerCubit.get(context).setPageChange();
                               cubit?.getIsMarkorlike();
+                              CacheHelper.saveData(key: 'hafs_current_page', value: pageNumber);
+                              final sura = QuranHafsMetadata.getSuraForPage(pageNumber);
+                              CacheHelper.saveData(key: 'hafs_current_sura', value: sura);
+                              CacheHelper.saveData(key: 'hafs_current_aya', value: 1);
                             },
                             controller: QuranViewCubit.get(context).controller,
                             onChapterChange: (chapter) async {
                               await cubit!.updateChapterHeaderInfo(chapter!);
-                              await ProgressCubit.get(context).getProgress(chapter.id!);
+                              if (context.mounted) {
+                                await ProgressCubit.get(context).getProgress(chapter.id!);
+                              }
                             },
                             locale: Get.locale!,
                             verseStyles: progressState is ProgressLoaded

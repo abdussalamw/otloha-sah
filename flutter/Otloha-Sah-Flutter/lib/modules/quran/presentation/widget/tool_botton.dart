@@ -10,13 +10,13 @@ import '../../../../core/utils/constant/utils.dart';
 import '../../../../core/utils/res/svg_app.dart';
 import '../../../../core/utils/themes/color.dart';
 import '../../../../core/widgets/alert_dialog_full_screen.dart';
-import '../../../../data_source/user_services_data.dart';
 import '../../business_logic/cubit/quran_cubit.dart';
 import '../../business_logic/cubit/quranplayer_cubit.dart';
 import '../../business_logic/cubit/recitation_cubit.dart';
 import '../../../../core/design_system/tokens/app_colors.dart';
 import '../../../../core/design_system/tokens/app_typography.dart';
 import 'quranenc_tafseer_widget.dart';
+import 'verse_tajweed_widget.dart';
 import 'add_note.dart';
 
 class ToolBotton extends StatefulWidget {
@@ -132,15 +132,6 @@ class _ToolBottonState extends State<ToolBotton> {
                   // if (cubit.isSelectedVerse)
                   GestureDetector(
                     onTap: () async {
-                      var uid = (UserDataServices.instance.getUserId());
-                      // VerseNote verseNote = VerseNote(
-                      //   textFristVerse: cubit.getFirstWords(
-                      //       cubit.selectedVerses.first.text ?? '', 5),
-                      //   idFromVerse: cubit.selectedVerses.first.id!,
-                      //   idToVerse: cubit.selectedVerses.first.id!,
-                      //   pageNumber: QuranCacheRepository.lastPageNumber,
-                      //   userId: uid!,
-                      // );
                       Scaffold.of(context).showBottomSheet(
                         (context) {
                           return AddNoteWidget(
@@ -220,7 +211,7 @@ class _ToolBottonState extends State<ToolBotton> {
   void _showTafseerModal(BuildContext context, QuranViewCubit cubit) {
     if (cubit.selectedVerses.isEmpty) return;
     final selectedVerse = cubit.selectedVerses.first;
-    final int sura = selectedVerse.chapterId ?? selectedVerse.chapterNumber ?? cubit.chapterId ?? 1;
+    final int sura = selectedVerse.chapterId ?? selectedVerse.chapterNumber ?? cubit.chapterId;
     final int aya = selectedVerse.verseNumber ?? 1;
     final String ayaText = selectedVerse.text ?? '';
 
@@ -229,7 +220,7 @@ class _ToolBottonState extends State<ToolBotton> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (bottomSheetContext) => DefaultTabController(
-        length: 2,
+        length: 3,
         child: Container(
           height: MediaQuery.of(context).size.height * 0.75,
           decoration: BoxDecoration(
@@ -255,7 +246,7 @@ class _ToolBottonState extends State<ToolBotton> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'سورة ${cubit.chapterName ?? ''} - آية $aya',
+                    'سورة ${cubit.chapterName} - آية $aya',
                     style: AppTypography.h3Medium(color: AppColors.primary),
                   ),
                   IconButton(
@@ -283,6 +274,7 @@ class _ToolBottonState extends State<ToolBotton> {
                 tabs: const [
                   Tab(text: 'التفسير'),
                   Tab(text: 'الترجمة'),
+                  Tab(text: 'أحكام التجويد'),
                 ],
               ),
               const SizedBox(height: 12),
@@ -300,6 +292,10 @@ class _ToolBottonState extends State<ToolBotton> {
                       aya: aya,
                       fallbackTafseer: '',
                       isTranslationMode: true,
+                    ),
+                    VerseTajweedWidget(
+                      sura: sura,
+                      aya: aya,
                     ),
                   ],
                 ),

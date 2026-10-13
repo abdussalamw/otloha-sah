@@ -7,12 +7,10 @@ import 'package:otloha_sah_flutter/data_source/models/favorite_pages/favorite_pa
 import '../../../../../core/design_system/components/cards/app_card.dart';
 import '../../../../../core/design_system/tokens/app_colors.dart';
 import '../../../../../core/design_system/tokens/app_radius.dart';
-import '../../../../../core/design_system/tokens/app_shadows.dart';
 import '../../../../../core/design_system/tokens/app_spacing.dart';
 import '../../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../../core/exception_indicators/exception_indicator.dart';
 import '../../../../../core/utils/constant/utils.dart';
-import '../../../../../core/utils/res/icons_app.dart';
 import '../../../../home/presentation/pages/home/home_page.dart';
 import '../../../../settings/presentation/widgets/search_bar_app.dart';
 import '../../../../../data_source/cache_helper.dart';
@@ -76,16 +74,13 @@ class PagesBookMarkPage extends StatelessWidget {
                   return ItemBookMark(
                     index: index,
                     onPress: () {
-                      final selectedPage = state.pages[index].pageNumber ?? 1;
-                      if (CacheHelper.getData(key: 'selected_narration_id') == 1) {
-                        CacheHelper.saveData(key: 'hafs_initial_page', value: selectedPage);
-                      } else {
-                        try {
-                          QuranViewCubit.get(context)
-                              .controller
-                              .changeInitPage(selectedPage);
-                        } catch (_) {}
-                      }
+                      final selectedPage = state.pages[index].pageNumber;
+                      CacheHelper.saveData(key: 'hafs_initial_page', value: selectedPage);
+                      try {
+                        QuranViewCubit.get(context)
+                            .controller
+                            .changeInitPage(selectedPage);
+                      } catch (_) {}
 
                       if (Navigator.canPop(context)) {
                         Navigator.of(context).pop(selectedPage);
@@ -170,7 +165,7 @@ class ItemBookMark extends StatelessWidget {
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
-                  pageMarked.textVerse ?? '',
+                  pageMarked.textVerse,
                   style: AppTypography.bodyMedium(
                     color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
                   ).copyWith(

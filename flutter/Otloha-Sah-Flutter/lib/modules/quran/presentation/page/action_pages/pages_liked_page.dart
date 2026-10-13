@@ -7,7 +7,6 @@ import 'package:otloha_sah_flutter/data_source/local/database/database/database.
 import '../../../../../core/design_system/components/cards/app_card.dart';
 import '../../../../../core/design_system/tokens/app_colors.dart';
 import '../../../../../core/design_system/tokens/app_radius.dart';
-import '../../../../../core/design_system/tokens/app_shadows.dart';
 import '../../../../../core/design_system/tokens/app_spacing.dart';
 import '../../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../../core/exception_indicators/exception_indicator.dart';
@@ -68,15 +67,12 @@ class LikedVersesPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return _itemBuild(() {
                     final selectedPage = verses[index].pageNumber;
-                    if (CacheHelper.getData(key: 'selected_narration_id') == 1) {
-                      CacheHelper.saveData(key: 'hafs_initial_page', value: selectedPage);
-                    } else {
-                      try {
-                        QuranViewCubit.get(context)
-                            .controller
-                            .changeInitPage(selectedPage);
-                      } catch (_) {}
-                    }
+                    CacheHelper.saveData(key: 'hafs_initial_page', value: selectedPage);
+                    try {
+                      QuranViewCubit.get(context)
+                          .controller
+                          .changeInitPage(selectedPage);
+                    } catch (_) {}
 
                     if (Navigator.canPop(context)) {
                       Navigator.of(context).pop(selectedPage);
@@ -141,7 +137,7 @@ class LikedVersesPage extends StatelessWidget {
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
-                  verseLiked.textFristVerse ?? '',
+                  verseLiked.textFristVerse,
                   style: AppTypography.bodyMedium(
                     color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
                   ).copyWith(
