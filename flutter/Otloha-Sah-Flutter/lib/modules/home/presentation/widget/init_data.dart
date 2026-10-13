@@ -25,6 +25,7 @@ import '../../../teachers/presentation/page/teacher_page.dart';
 
 import '../../../quran/presentation/page/action_pages/bookmark_bage.dart';
 import '../../../quran/presentation/page/action_pages/note_page.dart';
+import '../../../quran/presentation/page/tafsir_browser_page.dart';
 
 class SubSectionDataTeacher {
   List<SubSectionItem> subSectionDataTeacher = [
@@ -149,7 +150,8 @@ class HomeMenuItems {
       activeIconData: AppSVG.quranSelect,
       badgeColor: AppColor.bottomSaved,
       isSVG: true,
-      page: (CacheHelper.getData(key: 'selected_narration_id') == 1)
+      page: (CacheHelper.getData(key: 'selected_narration_id') == null ||
+              CacheHelper.getData(key: 'selected_narration_id') == 1)
           ? const QuranHafsPage()
           : const QuranBNBPage(),
     ),
@@ -159,7 +161,7 @@ class HomeMenuItems {
       activeIconData: AppSVG.chapter,
       isSVG: true,
       badgeColor: AppColor.bottomMenu,
-      page: const QuranBNBPage(initialPageType: PageType.tafsir),
+      page: const TafsirBrowserPage(),
     ),
     BottomBarData(
       title: translate('Tajweed'),

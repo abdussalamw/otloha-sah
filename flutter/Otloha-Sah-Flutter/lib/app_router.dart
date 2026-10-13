@@ -44,6 +44,7 @@ import 'modules/teachers/presentation/page/teacher_page.dart';
 import 'data_source/local/database/database_repository.dart';
 import 'modules/quran/presentation/page/action_pages/bookmark_bage.dart';
 import 'modules/quran/presentation/page/action_pages/note_page.dart';
+import 'modules/quran/presentation/page/tafsir_browser_page.dart';
 
 class AppRouter {
   late DatabaseRepository databaseRepository;
@@ -158,6 +159,11 @@ class AppRouter {
       case TafseerPage.routeName:
         return MaterialPageRoute(
           builder: (_) => const TafseerPage(),
+          settings: settings,
+        );
+      case TafsirBrowserPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const TafsirBrowserPage(),
           settings: settings,
         );
       case ComingSoonPage.routeName:

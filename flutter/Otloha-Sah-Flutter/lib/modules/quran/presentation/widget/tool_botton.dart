@@ -14,6 +14,9 @@ import '../../../../data_source/user_services_data.dart';
 import '../../business_logic/cubit/quran_cubit.dart';
 import '../../business_logic/cubit/quranplayer_cubit.dart';
 import '../../business_logic/cubit/recitation_cubit.dart';
+import '../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../core/design_system/tokens/app_typography.dart';
+import 'quranenc_tafseer_widget.dart';
 import 'add_note.dart';
 
 class ToolBotton extends StatefulWidget {
@@ -196,7 +199,7 @@ class _ToolBottonState extends State<ToolBotton> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      cubit.changePageType(page: PageType.tafsir);
+                      _showTafseerModal(context, cubit);
                     },
                     child: SvgPicture.asset(
                       AppSVG.tafsir,
@@ -205,17 +208,105 @@ class _ToolBottonState extends State<ToolBotton> {
                       height: sizeIcon,
                     ),
                   ),
-                  /*  
-                        GestureDetector(
-                          onTap: () {},
-                          child: Image.asset(AppIcons.quran2Icon,
-                              color: AppColor.white, width: 30),
-                        ),*/
                 ],
               ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  void _showTafseerModal(BuildContext context, QuranViewCubit cubit) {
+    if (cubit.selectedVerses.isEmpty) return;
+    final selectedVerse = cubit.selectedVerses.first;
+    final int sura = selectedVerse.chapterId ?? selectedVerse.chapterNumber ?? cubit.chapterId ?? 1;
+    final int aya = selectedVerse.verseNumber ?? 1;
+    final String ayaText = selectedVerse.text ?? '';
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (bottomSheetContext) => DefaultTabController(
+        length: 2,
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.75,
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'سورة ${cubit.chapterName ?? ''} - آية $aya',
+                    style: AppTypography.h3Medium(color: AppColors.primary),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(bottomSheetContext),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              if (ayaText.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Text(
+                    ayaText,
+                    style: AppTypography.bodyLarge().copyWith(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                  ),
+                ),
+              const SizedBox(height: 8),
+              TabBar(
+                labelColor: AppColors.primary,
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: AppColors.primary,
+                tabs: const [
+                  Tab(text: 'التفسير'),
+                  Tab(text: 'الترجمة'),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    QuranEncTafseerWidget(
+                      sura: sura,
+                      aya: aya,
+                      fallbackTafseer: '',
+                      isTranslationMode: false,
+                    ),
+                    QuranEncTafseerWidget(
+                      sura: sura,
+                      aya: aya,
+                      fallbackTafseer: '',
+                      isTranslationMode: true,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

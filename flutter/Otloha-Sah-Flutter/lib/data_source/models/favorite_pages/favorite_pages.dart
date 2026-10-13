@@ -105,7 +105,7 @@ class FavoritePage implements Insertable<FavoritePage> {
   @override
   Map<String, Expression<Object>> toColumns(bool nullToAbsent) {
     return FavoritePagesCompanion(
-      id: Value(id),
+      id: id > 0 ? Value(id) : const Value.absent(),
       idPage: Value(idPage),
       idBook: Value(idBook),
       pageNumber: Value(pageNumber),

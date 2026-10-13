@@ -98,7 +98,7 @@ class LocalRecitation implements Insertable<LocalRecitation> {
 
   @override
   Map<String, Expression<Object>> toColumns(bool nullToAbsent) {
-    if (id != null) {
+    if (id != null && id! > 0) {
       return LocalRecitationsCompanion(
         id: Value(id!),
         narrationId: Value(narrationId),

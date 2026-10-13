@@ -5,27 +5,15 @@ class FavoritePagesDao extends DatabaseAccessor<AppDatabase>
     with _$FavoritePagesDaoMixin {
   FavoritePagesDao(super.attachedDatabase);
   Future<List<FavoritePage>> findAll(int userId) async {
-    return (select(favoritePages)..where((tbl) => tbl.userId.equals(userId)))
+    return (select(favoritePages)
+          ..where((tbl) => tbl.userId.equals(userId) | tbl.userId.equals(0))
+          ..orderBy([(tbl) => OrderingTerm(expression: tbl.pageNumber)]))
         .get();
   }
-  //   List<Map<String, dynamic>> maps = await AppDatabase._db!.query(
-  //       RunQueries.pageMarkedName,
-  //       where: 'userId = ?',
-  //       whereArgs: [userId]);
-  //   List<PageMarked> items = [];
-  //   if (maps.isNotEmpty) {
-  //     for (var item in maps) {
-  //       items.add(PageMarked.fromMap(item));
-  //     }
-
-  //     return items;
-  //   }
-  //   return null;
-  // }
 
   Future<FavoritePage?> findById(int id, int userId) async {
     return (select(favoritePages)
-          ..where((tbl) => tbl.idPage.equals(id) & tbl.userId.equals(userId)))
+          ..where((tbl) => tbl.idPage.equals(id) & (tbl.userId.equals(userId) | tbl.userId.equals(0))))
         .getSingleOrNull();
   }
 
@@ -33,7 +21,7 @@ class FavoritePagesDao extends DatabaseAccessor<AppDatabase>
   Future<FavoritePage?> findByPageNumber(int pageNumber, int userId) async {
     return (select(favoritePages)
           ..where(
-              (tbl) => tbl.pageNumber.equals(pageNumber) & tbl.userId.equals(userId)))
+              (tbl) => tbl.pageNumber.equals(pageNumber) & (tbl.userId.equals(userId) | tbl.userId.equals(0))))
         .getSingleOrNull();
   }
   //   List<Map<String, dynamic>> maps = await AppDatabase._db!.query(
@@ -51,7 +39,16 @@ class FavoritePagesDao extends DatabaseAccessor<AppDatabase>
   // }
 
   Future<int> insert(FavoritePage favoritePage) async {
-    return into(favoritePages).insert(favoritePage as Insertable<FavoritePage>);
+    return into(favoritePages).insert(
+      FavoritePagesCompanion.insert(
+        id: favoritePage.id > 0 ? Value(favoritePage.id) : const Value.absent(),
+        idPage: favoritePage.idPage,
+        idBook: favoritePage.idBook,
+        pageNumber: favoritePage.pageNumber,
+        userId: favoritePage.userId,
+        textVerse: favoritePage.textVerse,
+      ),
+    );
   }
   //   pageMarked.id = await AppDatabase._db!
   //       .insert(RunQueries.pageMarkedName, pageMarked.toMap());
