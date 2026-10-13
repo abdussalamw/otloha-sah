@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/design_system/tokens/app_colors.dart';
-import '../../../../core/design_system/tokens/app_spacing.dart';
 import '../../../../core/design_system/tokens/app_typography.dart';
-import '../../../../core/design_system/tokens/app_radius.dart';
 import '../../../../core/design_system/tokens/app_shadows.dart';
-import '../../../../core/utils/constant/utils.dart';
 import '../../../quran/presentation/page/chapters/index_surah_page.dart';
 import '../../../quran/presentation/page/action_pages/bookmark_bage.dart';
 import '../../../../../data_source/cache_helper.dart';
@@ -35,6 +32,8 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
     int initPage = CacheHelper.getData(key: 'hafs_initial_page') ?? 1;
     _currentPage = initPage;
     _pageController = PageController(initialPage: initPage - 1); 
+    CacheHelper.saveData(key: 'hafs_current_page', value: initPage);
+    CacheHelper.saveData(key: 'hafs_current_sura', value: QuranHafsMetadata.getSuraForPage(initPage));
   }
 
   @override
@@ -45,6 +44,11 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
 
   void _onWordTap(HafsGlyph glyph) async {
     if (glyph.ayah == 0) return; 
+
+    // Update active reading position
+    CacheHelper.saveData(key: 'hafs_current_page', value: _currentPage);
+    CacheHelper.saveData(key: 'hafs_current_sura', value: glyph.sura);
+    CacheHelper.saveData(key: 'hafs_current_aya', value: glyph.ayah);
     
     final tafseer = await QuranHafsCubit.get(context).getTafseer(glyph.sura, glyph.ayah);
     if (tafseer != null) {
@@ -177,9 +181,15 @@ class _QuranHafsPageState extends State<QuranHafsPage> {
                   itemCount: 604,
                   reverse: false,
                   onPageChanged: (index) {
+                    final page = index + 1;
                     setState(() {
-                      _currentPage = index + 1;
+                      _currentPage = page;
                     });
+                    CacheHelper.saveData(key: 'hafs_initial_page', value: page);
+                    CacheHelper.saveData(key: 'hafs_current_page', value: page);
+                    final sura = QuranHafsMetadata.getSuraForPage(page);
+                    CacheHelper.saveData(key: 'hafs_current_sura', value: sura);
+                    CacheHelper.saveData(key: 'hafs_current_aya', value: 1);
                   },
                   itemBuilder: (context, index) {
                     return QuranHafsPageWidget(

@@ -4,8 +4,10 @@ import 'package:otloha_sah_flutter/core/design_system/tokens/app_radius.dart';
 import 'package:otloha_sah_flutter/core/design_system/tokens/app_shadows.dart';
 import 'package:otloha_sah_flutter/core/design_system/tokens/app_spacing.dart';
 import 'package:otloha_sah_flutter/core/design_system/tokens/app_typography.dart';
+import 'package:otloha_sah_flutter/data_source/cache_helper.dart';
 import 'package:otloha_sah_flutter/modules/quran_hafs/data/quran_hafs_metadata.dart';
 import 'package:otloha_sah_flutter/modules/quran/presentation/widget/quranenc_tafseer_widget.dart';
+import 'package:otloha_sah_flutter/modules/quran/presentation/widget/verse_tajweed_widget.dart';
 
 class TafsirBrowserPage extends StatefulWidget {
   final int initialSura;
@@ -46,9 +48,25 @@ class _TafsirBrowserPageState extends State<TafsirBrowserPage> with SingleTicker
   @override
   void initState() {
     super.initState();
-    _selectedSura = widget.initialSura.clamp(1, 114);
-    _selectedAya = widget.initialAya.clamp(1, _maxAyasForSura(_selectedSura));
-    _tabController = TabController(length: 2, vsync: this);
+    // Synchronize with the user's current reading position in the Quran
+    int defaultSura = CacheHelper.getData(key: 'hafs_current_sura') ??
+        (CacheHelper.getData(key: 'hafs_current_page') != null
+            ? QuranHafsMetadata.getSuraForPage(CacheHelper.getData(key: 'hafs_current_page'))
+            : 1);
+    int defaultAya = CacheHelper.getData(key: 'hafs_current_aya') ?? 1;
+
+    bool hasExplicitArgs = (widget.initialSura != 1 || widget.initialAya != 1);
+    _selectedSura = hasExplicitArgs ? widget.initialSura.clamp(1, 114) : defaultSura.clamp(1, 114);
+    _selectedAya = hasExplicitArgs
+        ? widget.initialAya.clamp(1, _maxAyasForSura(_selectedSura))
+        : defaultAya.clamp(1, _maxAyasForSura(_selectedSura));
+
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  void _syncReadingPosition() {
+    CacheHelper.saveData(key: 'hafs_current_sura', value: _selectedSura);
+    CacheHelper.saveData(key: 'hafs_current_aya', value: _selectedAya);
   }
 
   @override
@@ -74,6 +92,7 @@ class _TafsirBrowserPageState extends State<TafsirBrowserPage> with SingleTicker
         _selectedAya = 1;
       });
     }
+    _syncReadingPosition();
   }
 
   void _prevAyah() {
@@ -85,6 +104,7 @@ class _TafsirBrowserPageState extends State<TafsirBrowserPage> with SingleTicker
         _selectedAya = _maxAyasForSura(_selectedSura);
       });
     }
+    _syncReadingPosition();
   }
 
   @override
@@ -114,6 +134,10 @@ class _TafsirBrowserPageState extends State<TafsirBrowserPage> with SingleTicker
                     aya: _selectedAya,
                     fallbackTafseer: '',
                     isTranslationMode: true,
+                  ),
+                  VerseTajweedWidget(
+                    sura: _selectedSura,
+                    aya: _selectedAya,
                   ),
                 ],
               ),
@@ -224,8 +248,18 @@ class _TafsirBrowserPageState extends State<TafsirBrowserPage> with SingleTicker
         indicatorColor: AppColors.primary,
         indicatorWeight: 3,
         tabs: const [
-          Tab(text: 'التفسير العربي'),
-          Tab(text: 'الترجمة الإنجليزية'),
+          Tab(
+            icon: Icon(Icons.menu_book_rounded, size: 18),
+            text: 'التفسير',
+          ),
+          Tab(
+            icon: Icon(Icons.g_translate_rounded, size: 18),
+            text: 'ترجمة المعاني',
+          ),
+          Tab(
+            icon: Icon(Icons.school_rounded, size: 18),
+            text: 'أحكام التجويد',
+          ),
         ],
       ),
     );
@@ -308,6 +342,7 @@ class _TafsirBrowserPageState extends State<TafsirBrowserPage> with SingleTicker
                               _selectedSura = suraNum;
                               _selectedAya = 1;
                             });
+                            _syncReadingPosition();
                           },
                         );
                       },
@@ -356,6 +391,7 @@ class _TafsirBrowserPageState extends State<TafsirBrowserPage> with SingleTicker
                       onTap: () {
                         Navigator.pop(ctx);
                         setState(() => _selectedAya = ayaNum);
+                        _syncReadingPosition();
                       },
                       child: Container(
                         alignment: Alignment.center,
