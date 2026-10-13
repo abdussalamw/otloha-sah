@@ -9,8 +9,8 @@ class Constants {
   static const String userDemo =
       'https://www.kindpng.com/picc/m/557-5575215_2020-profile-circle-hd-png-download.png';
 
-  static const String protocol = 'https';
-  static const String socketProtocol = 'wss';
+  static const String protocol = 'http';
+  static const String socketProtocol = 'ws';
 
   // static String baseUrl =
   //     isTesting ? '$protocol://o.itqadem.com' : '$protocol://app.otlohasah.org';

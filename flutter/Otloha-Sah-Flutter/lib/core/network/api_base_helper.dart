@@ -16,22 +16,21 @@ import '../utils/services/navigator_service.dart';
 import '../../data_source/user_services_data.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import '../error/exceptions.dart';
 import '../utils/constant/constants.dart';
 import 'network_info.dart';
 
 Future checkNetwork({RequestOptions? requestOptions}) async {
-  InternetConnectionChecker internetConnectionChecker =
-      InternetConnectionChecker();
-
-  var networkInfo = NetworkInfoImpl(internetConnectionChecker);
-  var isConetected = await networkInfo.isConnected;
-
-  if (isConetected) {
-    return isConetected;
-  } else {
-    throw NetworkConnectionException();
+  try {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      throw NetworkConnectionException();
+    }
+  } catch (e) {
+    if (e is NetworkConnectionException) rethrow;
   }
+  return true;
 }
 
 enum DioTypes { authRequired, noAuthRequired }

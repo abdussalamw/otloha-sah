@@ -78,21 +78,33 @@ class RecitationAddCubit extends Cubit<RecitationAddState> {
     // print('aslaklkasnlasn');
     List<int> recordedVersesId = [];
     for (var verse in selectedVerses) {
-      recordedVersesId.add(verse.id!);
+      if (verse.id != null) {
+        recordedVersesId.add(verse.id!);
+      }
     }
+
+    int chapId = 1;
+    if (selectedVerses.isNotEmpty) {
+      chapId = selectedVerses.first.chapterId ??
+          selectedVerses.first.chapterNumber ??
+          QuranCacheRepository.selectedChapterId;
+    } else {
+      chapId = QuranCacheRepository.selectedChapterId;
+    }
+    if (chapId <= 0) chapId = 1;
 
     var userRecitation = LocalRecitation(
       narrationId: _narrationId,
       record: filePath ?? '',
       name: getName(),
       versesList: recordedVersesId,
-      chapterId: QuranCacheRepository.selectedChapterId,
+      chapterId: chapId,
       userId: UserDataServices.instance.getUserDataFast()?.id ?? 0,
     );
 
     var recitation =
         await DatabaseRepository.instance.insertUserRecitations(userRecitation);
-    return recitation!;
+    return recitation;
   }
 
   setSelectedVerses(List<Verse> verses) {
@@ -101,8 +113,9 @@ class RecitationAddCubit extends Cubit<RecitationAddState> {
   }
 
   getName() {
+    if (selectedVerses.isEmpty) return 'تلاوة مسجلة';
     String? text = selectedVerses.first.text;
-    return getFirstWords(text ?? '', 5);
+    return getFirstWords(text ?? 'تلاوة مسجلة', 5);
   }
 
   String getFirstWords(String sentence, int wordCounts) {
@@ -114,7 +127,10 @@ class RecitationAddCubit extends Cubit<RecitationAddState> {
   }
 
   stop(Function() onStop) async {
-    await recordServiceApp.stop();
+    final finalPath = await recordServiceApp.stop();
+    if (finalPath != null && finalPath.isNotEmpty) {
+      filePath = finalPath;
+    }
     recordDuration = null;
     onStop();
   }

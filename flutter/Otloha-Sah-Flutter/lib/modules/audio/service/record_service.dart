@@ -15,47 +15,46 @@ class RecordServiceApp {
   final AudioRecorder recorder = AudioRecorder();
 
   Future<bool> isHasPermission(context) async {
-    // First check if permission is already granted
-    if (await Permission.microphone.isGranted) {
-      return true;
+    try {
+      if (await recorder.hasPermission()) {
+        return true;
+      }
+
+      final status = await Permission.microphone.status;
+      if (status.isGranted || status.isLimited) {
+        return true;
+      }
+
+      final req = await Permission.microphone.request();
+      if (req.isGranted || req.isLimited) {
+        return true;
+      }
+
+      if (req.isPermanentlyDenied && context != null) {
+        showDialog(
+          context: context,
+          builder: (BuildContext ctx) => AlertPopup(
+            alertType: AlertType.warning,
+            message:
+                'يحتاج التطبيق إذن الميكروفون لتسجيل تلاوتك الكريمة. يرجى تفعيله يدوياً من إعدادات الهاتف.'
+                    .tr(),
+            actions: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColor.warningAlertColor),
+                onPressed: () {
+                  openAppSettings();
+                  Navigator.pop(ctx);
+                },
+                child: Text(tr('Settings')),
+              )
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('isHasPermission error: $e');
     }
-
-    // Request permission
-    final status = await Permission.microphone.request();
-
-    if (status.isGranted) {
-      return true;
-    }
-
-    // Permission not granted
-    if (await Permission.microphone.isPermanentlyDenied ||
-        (Platform.isAndroid && await Permission.microphone.isDenied)) {
-      // The user has permanently denied the permission
-      // Show a message to the user explaining why the permission is needed
-      // and giving them the option to grant the permission manually through the device settings
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertPopup(
-          alertType: AlertType.warning,
-          message:
-              'The app needs permission to access your microphone to record audio. Please grant the permission manually in the device settings.'
-                  .tr(),
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColor.warningAlertColor),
-              onPressed: () {
-                openAppSettings();
-                Navigator.pop(context);
-              },
-              child: Text(tr('Settings')),
-            )
-          ],
-        ),
-      );
-      return false;
-    }
-
     return false;
   }
 
@@ -67,17 +66,14 @@ class RecordServiceApp {
     bool hasPermission = await isHasPermission(context);
 
     if (hasPermission) {
-      String customPath = '/FilesGeneratedRecord';
-      Directory appDocDirectory;
-
-      if (Platform.isIOS) {
-        appDocDirectory = await getApplicationDocumentsDirectory();
-      } else {
-        appDocDirectory = (await getApplicationDocumentsDirectory());
+      final appDocDirectory = await getApplicationDocumentsDirectory();
+      final recordsDir = Directory('${appDocDirectory.path}/FilesGeneratedRecord');
+      if (!recordsDir.existsSync()) {
+        recordsDir.createSync(recursive: true);
       }
 
-      customPath =
-          '${appDocDirectory.path}$customPath${DateTime.now().millisecondsSinceEpoch}.wav';
+      final customPath =
+          '${recordsDir.path}/rec_${DateTime.now().millisecondsSinceEpoch}.wav';
 
       await recorder.start(
         const RecordConfig(encoder: AudioEncoder.wav),
@@ -94,7 +90,7 @@ class RecordServiceApp {
         }
       });
     } else {
-      print('You must accept permissions');
+      debugPrint('Microphone permission not granted');
     }
   }
 
@@ -106,7 +102,12 @@ class RecordServiceApp {
     await recorder.stop();
   }
 
-  Future stop() async {
-    await recorder.stop();
+  Future<String?> stop() async {
+    try {
+      return await recorder.stop();
+    } catch (e) {
+      debugPrint('recorder.stop error: $e');
+      return null;
+    }
   }
 }
